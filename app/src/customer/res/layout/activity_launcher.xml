@@ -13,4 +13,8 @@
         android:text="Customer build"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <include  layout="@layout/main_button" android:id="@+id/button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
