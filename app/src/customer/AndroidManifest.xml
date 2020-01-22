@@ -3,5 +3,9 @@
 
     <application
         tools:node="merge"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning" />
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <activity android:name="it.uniba.di.sms1920.everit.customer.HomeActivity" android:theme="@style/AppTheme"/>
+
+    </application>
 </manifest>

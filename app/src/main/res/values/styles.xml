@@ -3,8 +3,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="BtnMain" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
+
+    <style name="EditTextMain" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/greyAccent</item>
+    </style>
+
 </resources>
+
