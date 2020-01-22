@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import it.uniba.di.sms1920.everit.R;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
