@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="login">Accedi</string>
+    <string name="login_incorrect">Email o password non corrette</string>
+    <string name="login_failed">Login fallito</string>
 </resources>
