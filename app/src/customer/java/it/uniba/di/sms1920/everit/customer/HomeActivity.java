@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import it.uniba.di.sms1920.everit.R;
 
-public class LauncherActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

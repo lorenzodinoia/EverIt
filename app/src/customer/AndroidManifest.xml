@@ -1,14 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <application tools:node="merge">
+    <application
+        tools:node="merge"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name="it.uniba.di.sms1920.everit.customer.LauncherActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name="it.uniba.di.sms1920.everit.customer.HomeActivity" android:theme="@style/AppTheme"/>
 
     </application>
 </manifest>

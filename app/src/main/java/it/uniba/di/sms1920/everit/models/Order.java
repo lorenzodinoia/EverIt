@@ -13,25 +13,16 @@ public class Order extends Model {
     private boolean delivered;
     private Map<Product, Integer> products;
 
-    public Order(String deliveryAddress, LocalDateTime estimatedDeliveryTime, String orderNotes, String validationCode, String deliveryNotes, LocalDateTime actualDeliveryTime, boolean delivered) {
-        this.deliveryAddress = deliveryAddress;
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
-        this.orderNotes = orderNotes;
-        this.validationCode = validationCode;
-        this.deliveryNotes = deliveryNotes;
-        this.actualDeliveryTime = actualDeliveryTime;
-        this.delivered = delivered;
-    }
-
-    public Order(long id, String deliveryAddress, LocalDateTime estimatedDeliveryTime, String orderNotes, String validationCode, String deliveryNotes, LocalDateTime actualDeliveryTime, boolean delivered) {
-        super(id);
-        this.deliveryAddress = deliveryAddress;
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
-        this.orderNotes = orderNotes;
-        this.validationCode = validationCode;
-        this.deliveryNotes = deliveryNotes;
-        this.actualDeliveryTime = actualDeliveryTime;
-        this.delivered = delivered;
+    private Order(Builder builder) {
+        super(builder.id);
+        this.deliveryAddress = builder.deliveryAddress;
+        this.estimatedDeliveryTime = builder.estimatedDeliveryTime;
+        this.orderNotes = builder.orderNotes;
+        this.validationCode = builder.validationCode;
+        this.deliveryNotes = builder.deliveryNotes;
+        this.actualDeliveryTime = builder.actualDeliveryTime;
+        this.delivered = builder.delivered;
+        this.products = builder.products;
     }
 
     public String getDeliveryAddress() {
@@ -88,5 +79,65 @@ public class Order extends Model {
 
     public void setDelivered(boolean delivered) {
         this.delivered = delivered;
+    }
+
+    public Map<Product, Integer> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Map<Product, Integer> products) {
+        this.products = products;
+    }
+
+    private static final class Builder {
+        private long id;
+        private String deliveryAddress;
+        private LocalDateTime estimatedDeliveryTime;
+        private String orderNotes;
+        private String validationCode;
+        private String deliveryNotes;
+        private LocalDateTime actualDeliveryTime;
+        private boolean delivered;
+        private Map<Product, Integer> products;
+
+        public Builder(String deliveryAddress, LocalDateTime estimatedDeliveryTime, Map<Product, Integer> products) {
+            this.deliveryAddress = deliveryAddress;
+            this.estimatedDeliveryTime = estimatedDeliveryTime;
+            this.products = products;
+        }
+
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setOrderNotes(String orderNotes) {
+            this.orderNotes = orderNotes;
+            return this;
+        }
+
+        public Builder setValidationCode(String validationCode) {
+            this.validationCode = validationCode;
+            return this;
+        }
+
+        public Builder setDeliveryNotes(String deliveryNotes) {
+            this.deliveryNotes = deliveryNotes;
+            return this;
+        }
+
+        public Builder setActualDeliveryTime(LocalDateTime actualDeliveryTime) {
+            this.actualDeliveryTime = actualDeliveryTime;
+            return this;
+        }
+
+        public Builder setDelivered(boolean delivered) {
+            this.delivered = delivered;
+            return this;
+        }
+
+        public Order build() {
+            return new Order(this);
+        }
     }
 }
