@@ -3,4 +3,9 @@
     <string name="login">Accedi</string>
     <string name="login_incorrect">Email o password non corrette</string>
     <string name="login_failed">Login fallito</string>
+    <string name="signUp">Registrati</string>
+    <string name="already_registered">Hai già un account?</string>
+    <string name="name">Nome</string>
+    <string name="surname">Cognome</string>
+    <string name="phone_number">Numero di telefono</string>
 </resources>

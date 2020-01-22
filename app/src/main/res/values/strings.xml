@@ -5,4 +5,9 @@
     <string name="password" translatable="false">Password</string>
     <string name="login_incorrect">Incorrect email or password</string>
     <string name="login_failed">Login failed</string>
+    <string name="signUp">Sign Up</string>
+    <string name="already_registered">Already a member?</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="phone_number">Phone number</string>
 </resources>
