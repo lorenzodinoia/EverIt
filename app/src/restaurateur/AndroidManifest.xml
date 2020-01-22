@@ -1,7 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        tools:node="merge"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning" />
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:node="merge">
+
+        <activity android:name="it.uniba.di.sms1920.everit.restaurateur.HomeActivity" android:theme="@style/AppTheme"/>
+
+    </application>
+
 </manifest>
