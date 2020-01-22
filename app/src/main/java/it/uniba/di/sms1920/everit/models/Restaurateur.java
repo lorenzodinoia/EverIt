@@ -18,22 +18,22 @@ public class Restaurateur extends Model {
     private City city;
     private Map<Customer, Integer> feedbacks;
 
-    //TODO Sostituire sto sorto di costruttore con il builder
-    public Restaurateur(long id, String shopName, String address, String cap, String phoneNumber, String email, String piva, String description, float deliveryCost, int minmumQuantity, int orderRangeTime, String imagePath, ShopType shopType, City city) {
-        super(id);
-        this.shopName = shopName;
-        this.address = address;
-        this.cap = cap;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.piva = piva;
-        this.description = description;
-        this.deliveryCost = deliveryCost;
-        this.minmumQuantity = minmumQuantity;
-        this.orderRangeTime = orderRangeTime;
-        this.imagePath = imagePath;
-        this.shopType = shopType;
-        this.city = city;
+    private Restaurateur(Builder builder) {
+        super(builder.id);
+        this.shopName = builder.shopName;
+        this.address = builder.address;
+        this.cap = builder.cap;
+        this.phoneNumber = builder.phoneNumber;
+        this.email = builder.email;
+        this.piva = builder.piva;
+        this.description = builder.description;
+        this.deliveryCost = builder.deliveryCost;
+        this.minmumQuantity = builder.minmumQuantity;
+        this.orderRangeTime = builder.orderRangeTime;
+        this.imagePath = builder.imagePath;
+        this.shopType = builder.shopType;
+        this.city = builder.city;
+        this.feedbacks = builder.feedbacks;
     }
 
     public String getShopName() {
@@ -146,5 +146,68 @@ public class Restaurateur extends Model {
 
     public void setFeedbacks(Map<Customer, Integer> feedbacks) {
         this.feedbacks = feedbacks;
+    }
+
+    private static final class Builder {
+        private long id;
+        private String shopName;
+        private String address;
+        private String cap;
+        private String phoneNumber;
+        private String email;
+        private String piva;
+        private String description;
+        private float deliveryCost;
+        private int minmumQuantity;
+        private int orderRangeTime;
+        private String imagePath;
+        private ShopType shopType;
+        private City city;
+        private Map<Customer, Integer> feedbacks;
+
+        public Builder(String shopName, String address, String cap, String phoneNumber, String email, String piva, ShopType shopType, City city) {
+            this.shopName = shopName;
+            this.address = address;
+            this.cap = cap;
+            this.phoneNumber = phoneNumber;
+            this.email = email;
+            this.piva = piva;
+            this.shopType = shopType;
+            this.city = city;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setDeliveryCost(float deliveryCost) {
+            this.deliveryCost = deliveryCost;
+            return this;
+        }
+
+        public Builder setMinmumQuantity(int minmumQuantity) {
+            this.minmumQuantity = minmumQuantity;
+            return this;
+        }
+
+        public Builder setOrderRangeTime(int orderRangeTime) {
+            this.orderRangeTime = orderRangeTime;
+            return this;
+        }
+
+        public Builder setImagePath(String imagePath) {
+            this.imagePath = imagePath;
+            return this;
+        }
+
+        public Builder setFeedbacks(Map<Customer, Integer> feedbacks) {
+            this.feedbacks = feedbacks;
+            return this;
+        }
+
+        public Restaurateur build() {
+            return new Restaurateur(this);
+        }
     }
 }
