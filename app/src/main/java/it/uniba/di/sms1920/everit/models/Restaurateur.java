@@ -8,6 +8,7 @@ public class Restaurateur extends Model {
     private String cap;
     private String phoneNumber;
     private String email;
+    private String password;
     private String piva;
     private String description;
     private float deliveryCost;
@@ -74,6 +75,14 @@ public class Restaurateur extends Model {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPiva() {

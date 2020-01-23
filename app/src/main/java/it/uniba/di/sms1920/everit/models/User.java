@@ -5,6 +5,7 @@ public abstract class User extends Model {
     private String surname;
     private String phoneNumber;
     private String email;
+    private String password;
 
     public User(String name, String surname, String phoneNumber, String email) {
         this.name = name;
@@ -51,5 +52,13 @@ public abstract class User extends Model {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
