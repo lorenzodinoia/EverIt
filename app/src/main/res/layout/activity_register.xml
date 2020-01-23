@@ -6,51 +6,35 @@
     android:layout_height="match_parent"
     tools:context="it.uniba.di.sms1920.everit.RegisterActivity">
 
-
         <EditText
-            android:id="@+id/editTextName"
+            android:id="@+id/ediTextName"
             style="@style/EditTextMain"
-            android:layout_width="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
+            android:layout_marginStart="48dp"
             android:background="@drawable/edit_tex_rndb"
             android:ems="10"
             android:hint="@string/name"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <EditText
-            android:id="@+id/editTextSurname"
+            android:id="@+id/ediTextSurname"
             style="@style/EditTextMain"
-            android:layout_width="312dp"
+            android:layout_marginStart="48dp"
             android:background="@drawable/edit_tex_rndb"
             android:ems="10"
             android:hint="@string/surname"
             android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+            app:layout_constraintTop_toBottomOf="@+id/ediTextName" />
+
 
         <EditText
-            android:id="@+id/editTextMail"
+            android:id="@+id/editTextPhoneNumber"
             style="@style/EditTextMain"
-            android:layout_width="312dp"
-            android:background="@drawable/edit_tex_rndb"
-            android:ems="10"
-            android:hint="@string/email"
-            android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSurname" />
-
-        <EditText
-            android:id="@+id/editTextPhone"
-            style="@style/EditTextMain"
-            android:layout_width="312dp"
+            android:layout_marginStart="48dp"
             android:background="@drawable/edit_tex_rndb"
             android:ems="10"
             android:hint="@string/phone_number"
@@ -60,16 +44,26 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextMail" />
 
         <EditText
+            android:id="@+id/editTextMail"
+            style="@style/EditTextMain"
+            android:background="@drawable/edit_tex_rndb"
+            android:ems="10"
+            android:hint="@string/email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ediTextSurname" />
+
+        <EditText
             android:id="@+id/editTextPassword"
             style="@style/EditTextMain"
-            android:layout_width="312dp"
             android:background="@drawable/edit_tex_rndb"
             android:ems="10"
             android:hint="@string/password"
             android:importantForAutofill="no"
             android:inputType="textPassword"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumber" />
 
 
         <View

@@ -10,4 +10,20 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="phone_number">Phone number</string>
+    <string name="name_activity">Activity Name</string>
+    <string name="address">Address</string>
+
+    <string-array name="planets_array">
+        <item>Pizza</item>
+        <item>Sushi</item>
+        <item>Hamburger</item>
+        <item>Thai</item>
+        <item>Chinese</item>
+    </string-array>
+    <string name="city_name">City</string>
+    <string name="continue_btn">Continue</string>
+    <string name="PIVA" translatable="false">P. IVA</string>
+    <string name="description_activity">Activity description</string>
+    <string name="finish_btn">Finish</string>
+
 </resources>

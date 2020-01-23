@@ -5,9 +5,10 @@
     <application
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:node="merge">
-
-        <activity android:name="it.uniba.di.sms1920.everit.rider.HomeActivity" android:theme="@style/AppTheme"/>
-
+        <activity android:name="it.uniba.di.sms1920.everit.rider.RegisterActivity"></activity>
+        <activity
+            android:name="it.uniba.di.sms1920.everit.rider.HomeActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
