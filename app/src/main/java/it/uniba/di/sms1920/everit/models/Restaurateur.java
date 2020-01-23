@@ -2,7 +2,7 @@ package it.uniba.di.sms1920.everit.models;
 
 import java.util.Map;
 
-public class Restaurateur extends Model {
+public class Restaurateur extends Model implements Authenticable {
     private String shopName;
     private String address;
     private String cap;

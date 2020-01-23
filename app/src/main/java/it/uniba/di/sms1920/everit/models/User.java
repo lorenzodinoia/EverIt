@@ -1,6 +1,6 @@
 package it.uniba.di.sms1920.everit.models;
 
-public abstract class User extends Model {
+public abstract class User extends Model implements Authenticable {
     private String name;
     private String surname;
     private String phoneNumber;
