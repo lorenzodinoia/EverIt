@@ -20,9 +20,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        this.editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        this.editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        this.buttonLogin = (Button) findViewById(R.id.buttonLogin);
+        this.editTextEmail = findViewById(R.id.editTextEmail);
+        this.editTextPassword =  findViewById(R.id.editTextPassword);
+        this.buttonLogin =  findViewById(R.id.buttonLogin);
         this.buttonLogin.setOnClickListener(view -> {
             String email = this.editTextEmail.getText().toString();
             String password = this.editTextPassword.getText().toString();

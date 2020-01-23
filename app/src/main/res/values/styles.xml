@@ -13,9 +13,29 @@
         <item name="android:backgroundTint">@color/colorAccent</item>
     </style>
 
+    <style name="BtnAccent" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
+
     <style name="EditTextMain" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/greyAccent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">312dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginStart">50dp</item>
+
     </style>
+
+    <style name="TextMain" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/greyAccent</item>
+    </style>
+
+    <style name="TextViewMain" parent="TextMain">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
 
 </resources>
 

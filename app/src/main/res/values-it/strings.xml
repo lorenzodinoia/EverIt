@@ -3,4 +3,15 @@
     <string name="login">Accedi</string>
     <string name="login_incorrect">Email o password non corrette</string>
     <string name="login_failed">Login fallito</string>
+    <string name="signUp">Registrati</string>
+    <string name="already_registered">Hai già un account?</string>
+    <string name="name">Nome</string>
+    <string name="surname">Cognome</string>
+    <string name="phone_number">Numero di telefono</string>
+    <string name="name_activity">Nome Attività</string>
+    <string name="address">Indirizzo</string>
+    <string name="city_name">Città</string>
+    <string name="continue_btn">Prosegui</string>
+    <string name="description_activity">Descrizione attività</string>
+    <string name="finish_btn">Termina</string>
 </resources>
