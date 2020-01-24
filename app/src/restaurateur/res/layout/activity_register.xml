@@ -20,6 +20,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMail" />
 
+
+
     <EditText
         android:id="@+id/editTextNameAct"
         style="@style/EditTextMain"

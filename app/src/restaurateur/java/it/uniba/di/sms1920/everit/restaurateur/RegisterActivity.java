@@ -25,6 +25,8 @@ public class RegisterActivity extends AppCompatActivity  implements AdapterView.
     private Button buttonFinish;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
