@@ -26,7 +26,6 @@ public class RegisterActivity extends AppCompatActivity  implements AdapterView.
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
