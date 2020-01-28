@@ -5,7 +5,7 @@
     <application
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:node="merge">
-        <activity android:name="it.uniba.di.sms1920.everit.restaurateur.RegisterActivity"></activity>
+        <activity android:name="it.uniba.di.sms1920.everit.restaurateur.RegisterActivityRestaurateur"></activity>
         <activity
             android:name="it.uniba.di.sms1920.everit.restaurateur.HomeActivity"
             android:theme="@style/AppTheme" />

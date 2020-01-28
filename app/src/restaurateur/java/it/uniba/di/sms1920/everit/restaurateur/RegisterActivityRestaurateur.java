@@ -12,7 +12,7 @@ import android.widget.Spinner;
 
 import it.uniba.di.sms1920.everit.R;
 
-public class RegisterActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
+public class RegisterActivityRestaurateur extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
 
     private EditText editTextNameAct;
     private EditText editTextAddress;
@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity  implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register_restaurateur);
         initComponents();
 
         Spinner spinner = findViewById(R.id.spinnerActivityType);
@@ -45,24 +45,24 @@ public class RegisterActivity extends AppCompatActivity  implements AdapterView.
 
 
     private void initComponents() {
-        this.editTextMail =  findViewById(R.id.editTextMail);
-        this.editTextNameAct = findViewById(R.id.editTextNameAct);
-        this.editTextAddress = findViewById(R.id.editTextAddress);
-        this.buttonContinue = findViewById(R.id.buttonContinue);
+        editTextMail =  findViewById(R.id.editTextMail);
+        editTextNameAct = findViewById(R.id.editTextNameAct);
+        editTextAddress = findViewById(R.id.editTextAddress);
+        buttonContinue = findViewById(R.id.buttonContinue);
 
-        this.buttonContinue.setOnClickListener( view -> {
-            setContentView(R.layout.activity_register_p2);
+        buttonContinue.setOnClickListener( view -> {
+            setContentView(R.layout.activity_register_restaurateur_p2);
             initComponentsP2();
         });
 
     }
 
     private void initComponentsP2(){
-        this.editTextPassword = findViewById(R.id.editTextPhone);
-        this.editTextPhone = findViewById(R.id.editTextPhone);
-        this.editTextPIVA = findViewById(R.id.editTextPIVA);
-        this.editTextActivityDescription = findViewById(R.id.editTextDescription);
-        this.buttonFinish = findViewById(R.id.buttonEnd);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextPhone = findViewById(R.id.editTextPhone);
+        editTextPIVA = findViewById(R.id.editTextPIVA);
+        editTextActivityDescription = findViewById(R.id.editTextDescription);
+        buttonFinish = findViewById(R.id.buttonEnd);
     }
 
 

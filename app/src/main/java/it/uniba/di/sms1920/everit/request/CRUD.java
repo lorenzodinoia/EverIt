@@ -11,5 +11,5 @@ public interface CRUD<T extends Model> {
 
     void update(T model, RequestListener<T> requestListener);
 
-    void delete(long id, RequestListener<T> requestListener);
+    void delete(long id, RequestListener<Boolean> requestListener);
 }

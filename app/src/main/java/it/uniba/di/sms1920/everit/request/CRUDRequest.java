@@ -109,7 +109,14 @@ abstract class CRUDRequest<T extends Model> {
         }
     }
 
-    void delete(long id, String url, RequestListener<T> requestListener, boolean needToken) {
-
+    void delete(long id, String url, RequestListener<Boolean> requestListener, boolean needToken) {
+        CustomRequest request = new CustomRequest(Request.Method.DELETE, String.format("%s/api/$s", Constants.SERVER_HOST, url), null,
+                response -> {
+                    requestListener.successResponse(true);
+                },
+                error -> {
+                    requestListener.errorResponse("Can't delete account");
+                }, ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
+        RequestManager.getInstance().addToQueue(request);
     }
 }

@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.request;
 
 import androidx.annotation.Nullable;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 

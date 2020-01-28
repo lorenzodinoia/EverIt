@@ -25,6 +25,7 @@
     <string name="PIVA" translatable="false">P. IVA</string>
     <string name="description_activity">Activity description</string>
     <string name="finish_btn">Finish</string>
+    <string name="account_created">Account created</string>
 
 
 

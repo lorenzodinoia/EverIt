@@ -2,9 +2,17 @@ package it.uniba.di.sms1920.everit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.InvalidPropertiesFormatException;
+
+import it.uniba.di.sms1920.everit.models.Customer;
+import it.uniba.di.sms1920.everit.request.CustomerRequest;
+import it.uniba.di.sms1920.everit.request.RequestListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -25,23 +33,50 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        this.editTextMail =  findViewById(R.id.editTextMail);
-        this.editTextPassword = findViewById(R.id.editTextPassword);
-        this.buttonLogin = findViewById(R.id.buttonLogin);
-
-//        this.editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
-//        this.editTextName = findViewById(R.id.ediTextName);
-//        this.editTextSurname = findViewById(R.id.ediTextSurname);
-//        this.buttonRegister = findViewById(R.id.buttonRegister);
-
-
+        editTextMail =  findViewById(R.id.editTextMail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+        editTextName = findViewById(R.id.editTextName);
+        editTextSurname = findViewById(R.id.editTextSurname);
+        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonLogin.setOnClickListener(view ->{
+            startLogin();
+        });
+        buttonRegister = findViewById(R.id.buttonRegister);
         this.buttonRegister.setOnClickListener(view -> {
-            String email = this.editTextMail.getText().toString();
-            String password = this.editTextPassword.getText().toString();
-            String name = this.editTextName.getText().toString();
-            String surname = this.editTextSurname.getText().toString();
-            String phone = this.editTextPhoneNumber.getText().toString();
+            String email = editTextMail.getText().toString();
+            String password = editTextPassword.getText().toString();
+            String name = editTextName.getText().toString();
+            String surname = editTextSurname.getText().toString();
+            String phone = editTextPhoneNumber.getText().toString();
+            try {
+                Customer newCustomer = new Customer.CustomerBuilder(name, surname, phone, email)
+                        .setPassword(password)
+                        .build();
+                CustomerRequest customerRequest = new CustomerRequest();
+                customerRequest.create(newCustomer, new RequestListener<Customer>() {
+                    @Override
+                    public void successResponse(Customer response) {
+                        Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
+                        startLogin();
+                    }
+
+                    @Override
+                    public void errorResponse(String error) {
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+                    }
+                });
+            } catch (InvalidPropertiesFormatException e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         });
     }
+
+    private void startLogin(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+
 
 }
