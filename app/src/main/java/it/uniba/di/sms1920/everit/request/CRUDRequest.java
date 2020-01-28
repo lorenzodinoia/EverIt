@@ -1,13 +1,10 @@
 package it.uniba.di.sms1920.everit.request;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
