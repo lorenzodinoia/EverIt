@@ -67,11 +67,14 @@ abstract class CRUDRequest<T extends Model> {
     void readAll(String url, RequestListener<Collection<T>> requestListener, Class<T> modelType, boolean needToken) {
         Adapter<T> adapter = AdapterProvider.getAdapterFor(modelType);
 
-        CustomRequest request = new CustomRequest(Request.Method.GET, String.format("%s/api/%s", Constants.SERVER_HOST, url), null,
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s", Constants.SERVER_HOST, url), null,
             response -> {
-                Class arrayClass = Array.newInstance(modelType, 0).getClass();
-                Log.d("ZIO", adapter.fromJSON(response, arrayClass).getClass().getCanonicalName());
-                //TODO Lo scopriremo solo vivendo
+                try {
+                    Collection<T> collection = adapter.fromJSONArray(response, modelType);
+                    requestListener.successResponse(collection);
+                } catch (JSONException e) {
+                    requestListener.errorResponse(e.getMessage());
+                }
             },
             error -> {
                 String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);

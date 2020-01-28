@@ -5,7 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
+import java.util.Collection;
+
+import it.uniba.di.sms1920.everit.models.City;
+import it.uniba.di.sms1920.everit.request.CityRequest;
+import it.uniba.di.sms1920.everit.request.RequestListener;
 import it.uniba.di.sms1920.everit.request.RequestManager;
 
 public class LauncherActivity extends AppCompatActivity {

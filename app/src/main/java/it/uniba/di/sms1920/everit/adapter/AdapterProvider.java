@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.uniba.di.sms1920.everit.models.City;
 import it.uniba.di.sms1920.everit.models.Customer;
 import it.uniba.di.sms1920.everit.models.Model;
 
@@ -11,6 +12,7 @@ public final class AdapterProvider {
 
     static {
         adapters.put(Customer.class, new Adapter<Customer>());
+        adapters.put(City.class, new Adapter<City>());
     }
 
     public static <T extends Model> Adapter<T> getAdapterFor(Class<T> modelType) {
