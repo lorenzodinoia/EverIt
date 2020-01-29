@@ -21,11 +21,9 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextMail" />
 
 
-
     <EditText
-        android:id="@+id/editTextNameAct"
+        android:id="@+id/editTextName"
         style="@style/EditTextMain"
-        android:layout_marginTop="36dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
         android:hint="@string/name_activity"
@@ -33,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <TextView
         android:id="@+id/textViewInfo"
@@ -70,12 +68,11 @@
         android:layout_marginTop="36dp"
         android:background="@drawable/edit_tex_rndb"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNameAct" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <EditText
         android:id="@+id/editTextCity"
         style="@style/EditTextMain"
-        android:layout_marginTop="36dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
         android:hint="@string/city_name"
