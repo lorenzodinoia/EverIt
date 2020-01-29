@@ -25,10 +25,18 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         this.initServices();
-        //TODO Inserire logica per scegliere activity da avviare
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            Intent intent = new Intent(LauncherActivity.this, LoginActivity.class);
+            Class destination = LoginActivity.class;
+            if (BuildConfig.FLAVOR.equals(Constants.FLAVOR_CUSTOMER)) {
+                try {
+                    destination = Class.forName("it.uniba.di.sms1920.everit.customer.HomeActivity");
+                }
+                catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            Intent intent = new Intent(LauncherActivity.this, destination);
             startActivity(intent);
             finish();
         }, ((int) DELAY * 1000));

@@ -45,7 +45,7 @@ public class RegisterActivityRestaurateur extends AppCompatActivity  implements 
 
     private void initComponents() {
         editTextMail =  findViewById(R.id.editTextMail);
-        editTextNameAct = findViewById(R.id.editTextNameAct);
+        editTextNameAct = findViewById(R.id.editTextName);
         editTextAddress = findViewById(R.id.editTextAddress);
         buttonContinue = findViewById(R.id.buttonContinue);
 

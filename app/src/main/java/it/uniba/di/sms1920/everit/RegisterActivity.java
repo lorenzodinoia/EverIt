@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void initComponents() {
         editTextMail =  findViewById(R.id.editTextMail);
         editTextPassword = findViewById(R.id.editTextPassword);
-        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+        editTextPhoneNumber = findViewById(R.id.editTextPhone);
         editTextName = findViewById(R.id.editTextName);
         editTextSurname = findViewById(R.id.editTextSurname);
         buttonLogin = findViewById(R.id.buttonLogin);
