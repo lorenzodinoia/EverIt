@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.models;
 
 public class ProductCategory extends Model {
+
     private String name;
 
     public ProductCategory(String name) {

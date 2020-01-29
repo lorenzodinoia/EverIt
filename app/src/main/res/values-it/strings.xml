@@ -14,5 +14,5 @@
     <string name="description_activity">Descrizione attività</string>
     <string name="finish_btn">Termina</string>
     <string name="name_activity">Nome attività</string>
-    <string name="info_imageActivity">Carica l\'immagine del profilo della tua attività</string>
+    <string name="account_created">Account creato</string>
 </resources>

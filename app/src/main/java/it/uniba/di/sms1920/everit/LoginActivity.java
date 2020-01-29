@@ -7,6 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+//import it.uniba.di.sms1920.everit.customer.HomeActivity;
+import it.uniba.di.sms1920.everit.request.AuthProvider;
+import it.uniba.di.sms1920.everit.request.RequestListener;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
@@ -28,13 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = this.editTextPassword.getText().toString();
 
             if(Utility.isEmailValid(email) && Utility.isPasswordValid(password)) {
-                if(this.login(email, password)) {
-                    //Go to home activity
-                }
-                else {
-                    Toast toast = Toast.makeText(this, R.string.login_failed, Toast.LENGTH_LONG);
-                    toast.show();
-                }
+                this.login(email, password);
             }
             else {
                 Toast toast = Toast.makeText(this, R.string.login_incorrect, Toast.LENGTH_LONG);
@@ -43,8 +42,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean login(String email, String password) {
-        //Login
-        return true;
+    private void login(String email, String password) {
+        AuthProvider.getInstance().login(email, password, new RequestListener<Boolean>() {
+            @Override
+            public void successResponse(Boolean response) {
+                //Intent intent = intent = new Intent(getApplicationContext(), HomeActivity.class);
+                //startActivity(intent);
+            }
+
+            @Override
+            public void errorResponse(String error) {
+                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

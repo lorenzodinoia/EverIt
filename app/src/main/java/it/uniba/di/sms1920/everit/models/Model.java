@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.models;
 
 public abstract class Model {
+
     private long id;
 
     public Model() {}

@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.models;
 
 public class Product extends Model {
+
     private String name;
     private float price;
     private String details;

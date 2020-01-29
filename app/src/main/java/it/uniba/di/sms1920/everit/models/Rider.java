@@ -1,11 +1,23 @@
 package it.uniba.di.sms1920.everit.models;
 
+import java.util.InvalidPropertiesFormatException;
+
 public class Rider extends User {
-    public Rider(String name, String surname, String phoneNumber, String email) {
-        super(name, surname, phoneNumber, email);
+
+    private Rider(Rider.RiderBuilder customerBuilder){
+        super(customerBuilder);
     }
 
-    public Rider(long id, String name, String surname, String phoneNumber, String email) {
-        super(id, name, surname, phoneNumber, email);
+    public static final class RiderBuilder extends User.UserBuilder<Rider> {
+
+        public RiderBuilder(String name, String surname, String phoneNumber, String email) {
+            super(name, surname, phoneNumber, email);
+        }
+
+        @Override
+        public Rider build() throws InvalidPropertiesFormatException {
+            super.checkFields();
+            return new Rider(this);
+        }
     }
 }
