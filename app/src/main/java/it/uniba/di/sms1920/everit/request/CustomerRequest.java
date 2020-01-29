@@ -34,3 +34,4 @@ public final class CustomerRequest extends CRUDRequest<Customer> implements CRUD
     }
 
 }
+
