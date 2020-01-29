@@ -64,24 +64,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPIVA" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="74dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
-        tools:srcCompat="@tools:sample/avatars[3]" />
-
     <EditText
         android:id="@+id/editTextDescription"
         style="@style/EditTextMain"
         android:layout_width="312dp"
         android:layout_height="69dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
         android:gravity="start|top"
@@ -92,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
 
 
     <Button
@@ -106,6 +94,27 @@
         android:text="@string/finish_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
+
+    <TextView
+        android:id="@+id/textViewInfoImg"
+        style="@style/TextMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/info_imageActivity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="82dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewInfoImg"
+        app:srcCompat="@android:drawable/ic_menu_upload" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

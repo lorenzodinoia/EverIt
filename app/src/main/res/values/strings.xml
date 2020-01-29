@@ -21,12 +21,16 @@
         <item>Thai</item>
         <item>Chinese</item>
     </string-array>
+
     <string name="city_name">City</string>
     <string name="continue_btn">Continue</string>
     <string name="PIVA" translatable="false">P. IVA</string>
     <string name="description_activity">Activity description</string>
     <string name="finish_btn">Finish</string>
     <string name="account_created">Account created</string>
+    <string name="info_imageActivity">Upload the profile image of your activity</string>
+
+
 
 
 

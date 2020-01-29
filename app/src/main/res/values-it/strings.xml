@@ -16,4 +16,5 @@
     <string name="name_activity">Nome attività</string>
     <string name="account_created">Account creato</string>
     <string name="notification_channel_name">Tutte le notifiche</string>
+    <string name="info_imageActivity">Caricare l\'immagine di profilo della tua attività</string>
 </resources>
