@@ -5,6 +5,7 @@ import java.util.InvalidPropertiesFormatException;
 import it.uniba.di.sms1920.everit.Utility;
 
 public abstract class User extends Model implements Authenticable {
+
     private String name;
     private String surname;
     private String phoneNumber;
@@ -61,7 +62,6 @@ public abstract class User extends Model implements Authenticable {
     }
 
     public static abstract class UserBuilder<T extends User> {
-
         protected long id;
         protected String name;
         protected String surname;
@@ -88,7 +88,7 @@ public abstract class User extends Model implements Authenticable {
 
         public abstract T build() throws InvalidPropertiesFormatException;
 
-        protected  void checkFields()throws InvalidPropertiesFormatException {
+        protected void checkFields()throws InvalidPropertiesFormatException {
             //Name check
             if (name == null) {
                 throw new InvalidPropertiesFormatException("Name couldn't be empty");

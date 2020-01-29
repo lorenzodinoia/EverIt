@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.models;
 
 public class City extends Model {
+
     private String name;
 
     public City(long id, String name) {

@@ -11,13 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class ArrayRequest extends JsonArrayRequest {
+
     private String authToken;
 
-    public ArrayRequest(int method, String url, @Nullable JSONArray jsonRequest, Response.Listener<JSONArray> listener, @Nullable Response.ErrorListener errorListener) {
+    ArrayRequest(int method, String url, @Nullable JSONArray jsonRequest, Response.Listener<JSONArray> listener, @Nullable Response.ErrorListener errorListener) {
         super(method, url, jsonRequest, listener, errorListener);
     }
 
-    public ArrayRequest(int method, String url, @Nullable JSONArray jsonRequest, Response.Listener<JSONArray> listener, @Nullable Response.ErrorListener errorListener, String authToken) {
+    ArrayRequest(int method, String url, @Nullable JSONArray jsonRequest, Response.Listener<JSONArray> listener, @Nullable Response.ErrorListener errorListener, String authToken) {
         super(method, url, jsonRequest, listener, errorListener);
         this.authToken = authToken;
     }

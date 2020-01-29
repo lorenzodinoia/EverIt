@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.models;
 import java.util.Map;
 
 public class Restaurateur extends Model implements Authenticable {
+
     private String shopName;
     private String address;
     private String cap;
@@ -12,7 +13,7 @@ public class Restaurateur extends Model implements Authenticable {
     private String piva;
     private String description;
     private float deliveryCost;
-    private int minmumQuantity;
+    private int minimumQuantity;
     private int orderRangeTime;
     private String imagePath;
     private ShopType shopType;
@@ -29,7 +30,7 @@ public class Restaurateur extends Model implements Authenticable {
         this.piva = builder.piva;
         this.description = builder.description;
         this.deliveryCost = builder.deliveryCost;
-        this.minmumQuantity = builder.minmumQuantity;
+        this.minimumQuantity = builder.minmumQuantity;
         this.orderRangeTime = builder.orderRangeTime;
         this.imagePath = builder.imagePath;
         this.shopType = builder.shopType;
@@ -109,12 +110,12 @@ public class Restaurateur extends Model implements Authenticable {
         this.deliveryCost = deliveryCost;
     }
 
-    public int getMinmumQuantity() {
-        return minmumQuantity;
+    public int getMinimumQuantity() {
+        return minimumQuantity;
     }
 
-    public void setMinmumQuantity(int minmumQuantity) {
-        this.minmumQuantity = minmumQuantity;
+    public void setMinimumQuantity(int minimumQuantity) {
+        this.minimumQuantity = minimumQuantity;
     }
 
     public int getOrderRangeTime() {

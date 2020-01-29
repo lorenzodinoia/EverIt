@@ -28,6 +28,7 @@ public final class AuthRequest extends JsonObjectRequest {
         this.authToken = authToken;
 
     }
+
     @Override
     public Map<String, String> getHeaders() {
         Map<String, String> map = new HashMap<>();
@@ -42,15 +43,15 @@ public final class AuthRequest extends JsonObjectRequest {
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-
         try {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
             JSONObject jsonResponse = new JSONObject(jsonString);
-            if(response.headers.containsKey("Authorization")){
+            if(response.headers.containsKey("Authorization")) {
                 jsonResponse = jsonResponse.put("token", response.headers.get("Authorization"));
             }
             return Response.success(jsonResponse, HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException | JSONException e) {
+        }
+        catch (UnsupportedEncodingException | JSONException e) {
             return Response.error(new ParseError(e));
         }
     }

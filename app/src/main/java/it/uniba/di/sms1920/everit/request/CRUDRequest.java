@@ -22,7 +22,7 @@ abstract class CRUDRequest<T extends Model> {
         try {
             JSONObject jsonObject = adapter.toJSON(model);
 
-            CustomRequest request = new CustomRequest(Request.Method.POST, String.format("%s/api/%s", Constants.SERVER_HOST, url), jsonObject,
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s", Constants.SERVER_HOST, url), jsonObject,
                 response -> {
                     T data = adapter.fromJSON(response, modelType);
                     requestListener.successResponse(data);
@@ -32,11 +32,11 @@ abstract class CRUDRequest<T extends Model> {
                     else if (model instanceof Restaurateur) {
                         ((Restaurateur) model).setPassword(null);
                     }
-            },
+                },
                 error -> {
                     String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                     requestListener.errorResponse(string);
-            }, ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
+                }, ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
 
             RequestManager.getInstance().addToQueue(request);
         }
@@ -48,7 +48,7 @@ abstract class CRUDRequest<T extends Model> {
     void read(long id, String url, RequestListener<T> requestListener, Class<T> modelType, boolean needToken) {
         Adapter<T> adapter = AdapterProvider.getAdapterFor(modelType);
 
-        CustomRequest request = new CustomRequest(Request.Method.GET, String.format("%s/api/%s/%d", Constants.SERVER_HOST, url, id), null,
+        ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s/%d", Constants.SERVER_HOST, url, id), null,
             response -> {
                 T data = adapter.fromJSON(response, modelType);
                 requestListener.successResponse(data);
@@ -83,10 +83,11 @@ abstract class CRUDRequest<T extends Model> {
 
     void update(T model, String url, RequestListener<T> requestListener, Class<T> modelType, boolean needToken) {
         Adapter<T> adapter = AdapterProvider.getAdapterFor(modelType);
+
         try {
             JSONObject jsonObject = adapter.toJSON(model);
 
-            CustomRequest request = new CustomRequest(Request.Method.PUT, String.format("%s/api/%s", Constants.SERVER_HOST, url), jsonObject,
+            ObjectRequest request = new ObjectRequest(Request.Method.PUT, String.format("%s/api/%s", Constants.SERVER_HOST, url), jsonObject,
                 response -> {
                     T data = adapter.fromJSON(response, modelType);
                     requestListener.successResponse(data);
@@ -110,13 +111,9 @@ abstract class CRUDRequest<T extends Model> {
     }
 
     void delete(long id, String url, RequestListener<Boolean> requestListener, boolean needToken) {
-        CustomRequest request = new CustomRequest(Request.Method.DELETE, String.format("%s/api/$s", Constants.SERVER_HOST, url), null,
-                response -> {
-                    requestListener.successResponse(true);
-                },
-                error -> {
-                    requestListener.errorResponse("Can't delete account");
-                }, ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
+        ObjectRequest request = new ObjectRequest(Request.Method.DELETE, String.format("%s/api/$s", Constants.SERVER_HOST, url), null,
+            response -> requestListener.successResponse(true), error -> requestListener.errorResponse("Can't delete account"),
+                ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
         RequestManager.getInstance().addToQueue(request);
     }
 }

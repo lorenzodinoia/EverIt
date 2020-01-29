@@ -2,8 +2,6 @@ package it.uniba.di.sms1920.everit.models;
 
 import java.util.InvalidPropertiesFormatException;
 
-import it.uniba.di.sms1920.everit.Utility;
-
 public class Customer extends User {
 
     private Customer(CustomerBuilder customerBuilder){

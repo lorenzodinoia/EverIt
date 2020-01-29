@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 public class Order extends Model {
+
     private String deliveryAddress;
     private LocalDateTime estimatedDeliveryTime;
     private String orderNotes;

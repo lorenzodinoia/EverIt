@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.models.Customer;
 
-public class CustomerRequest extends CRUDRequest<Customer> implements CRUD<Customer> {
+public final class CustomerRequest extends CRUDRequest<Customer> implements CRUD<Customer> {
 
     private final String URL = "customer";
 

@@ -5,6 +5,7 @@ import java.util.Collection;
 import it.uniba.di.sms1920.everit.models.Model;
 
 public interface CRUD<T extends Model> {
+
     void create(T model, RequestListener<T> requestListener);
 
     void read(long id, RequestListener<T> requestListener);

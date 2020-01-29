@@ -2,7 +2,6 @@ package it.uniba.di.sms1920.everit.request;
 
 import androidx.annotation.Nullable;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -11,14 +10,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomRequest extends JsonObjectRequest {
+public final class ObjectRequest extends JsonObjectRequest {
+
     private String authToken;
 
-    public CustomRequest(int method, String url, @Nullable JSONObject jsonRequest, Response.Listener<JSONObject> listener, @Nullable Response.ErrorListener errorListener) {
+    ObjectRequest(int method, String url, @Nullable JSONObject jsonRequest, Response.Listener<JSONObject> listener, @Nullable Response.ErrorListener errorListener) {
         super(method, url, jsonRequest, listener, errorListener);
     }
 
-    public CustomRequest(int method, String url, @Nullable JSONObject jsonRequest, Response.Listener<JSONObject> listener, @Nullable Response.ErrorListener errorListener, String authToken) {
+    ObjectRequest(int method, String url, @Nullable JSONObject jsonRequest, Response.Listener<JSONObject> listener, @Nullable Response.ErrorListener errorListener, String authToken) {
         super(method, url, jsonRequest, listener, errorListener);
         this.authToken = authToken;
     }

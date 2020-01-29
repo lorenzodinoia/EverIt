@@ -17,7 +17,7 @@ public final class AdapterProvider {
         adapters.put(Order.class, new Adapter<Order>());
     }
 
-    public static <T extends Model> Adapter<T> getAdapterFor(Class<T> modelType) {
-        return (Adapter<T>) adapters.get(modelType);
+    public static <T extends Model> Adapter<T> getAdapterFor(Class<T> modelClass) {
+        return (Adapter<T>) adapters.get(modelClass);
     }
 }
