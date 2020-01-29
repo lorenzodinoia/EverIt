@@ -12,6 +12,7 @@
     <string name="phone_number">Phone number</string>
     <string name="name_activity">Activity Name</string>
     <string name="address">Address</string>
+    <string name="notification_channel_name">All notifications</string>
 
     <string-array name="planets_array">
         <item>Pizza</item>

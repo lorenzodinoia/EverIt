@@ -31,7 +31,7 @@ public final class AuthProvider<T extends Model & Authenticable>  {
         return instance;
     }
 
-    private static void init() {
+    public static void init() {
         if(BuildConfig.FLAVOR.equals(Constants.FLAVOR_CUSTOMER)) {
             instance = new AuthProvider<Customer>();
             instance.type = Customer.class;

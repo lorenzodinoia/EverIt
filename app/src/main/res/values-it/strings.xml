@@ -15,4 +15,5 @@
     <string name="finish_btn">Termina</string>
     <string name="name_activity">Nome attività</string>
     <string name="account_created">Account creato</string>
+    <string name="notification_channel_name">Tutte le notifiche</string>
 </resources>

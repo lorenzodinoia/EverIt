@@ -6,4 +6,6 @@ public final class Constants {
     public static final String FLAVOR_CUSTOMER = "customer";
     public static final String FLAVOR_RESTAURATEUR = "restaurateur";
     public static final String FLAVOR_RIDER = "rider";
+    public static final String PREFS_FILE_NAME = "EverIt_Preferences";
+    public static final String PREFS_APP_TOKEN_KEY = "app_token";
 }
