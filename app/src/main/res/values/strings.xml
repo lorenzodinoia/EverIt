@@ -29,9 +29,7 @@
     <string name="finish_btn">Finish</string>
     <string name="account_created">Account created</string>
     <string name="info_imageActivity">Upload the profile image of your activity</string>
-
-
-
+    <string name="goto_register">Don\'t have an account?</string>
 
 
 </resources>
