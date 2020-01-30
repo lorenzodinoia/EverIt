@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonLogin;
+    private Button buttonGoToRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     private void initComponents() {
         this.editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         this.editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        this.buttonGoToRegister = (Button) findViewById(R.id.buttonGoToRegister);
+        this.buttonGoToRegister.setOnClickListener(view -> {goToRegister();});
         this.buttonLogin = (Button) findViewById(R.id.buttonLogin);
         this.buttonLogin.setOnClickListener(view -> {
             String email = this.editTextEmail.getText().toString();
@@ -79,4 +82,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         }, true);
     }
+
+    private void goToRegister(){
+        Intent goIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(goIntent);
+    }
+
+
 }
