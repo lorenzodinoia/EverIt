@@ -22,6 +22,7 @@
         <item>Chinese</item>
     </string-array>
 
+
     <string name="city_name">City</string>
     <string name="continue_btn">Continue</string>
     <string name="PIVA" translatable="false">P. IVA</string>
@@ -30,6 +31,17 @@
     <string name="account_created">Account created</string>
     <string name="info_imageActivity">Upload the profile image of your activity</string>
     <string name="goto_register">Don\'t have an account?</string>
+    <string name="title_order_list">Orders</string>
+    <string name="title_order_detail">Order Detail</string>
 
+
+    <!--Orders String-->
+    <string name="order_number">Order N°</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="total_price">Total Price</string>
+    <string name="delivery_time">Delivery Time</string>
+    <string name="products">Products</string>
+    <string name="order_notes">Order Notes</string>
+    <string name="delivery_notes">Delivery Notes</string>
 
 </resources>

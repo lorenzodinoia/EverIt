@@ -30,7 +30,8 @@ public class LauncherActivity extends AppCompatActivity {
             Class destination = LoginActivity.class;
             if (BuildConfig.FLAVOR.equals(Constants.FLAVOR_CUSTOMER)) {
                 try {
-                    destination = Class.forName("it.uniba.di.sms1920.everit.customer.HomeActivity");
+                    //destination = Class.forName("it.uniba.di.sms1920.everit.customer.HomeActivity");
+                    destination = Class.forName("it.uniba.di.sms1920.everit.masterDetailOrders.OrderListActivity");
                 }
                 catch (ClassNotFoundException e) {
                     e.printStackTrace();

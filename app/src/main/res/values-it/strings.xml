@@ -18,4 +18,16 @@
     <string name="notification_channel_name">Tutte le notifiche</string>
     <string name="info_imageActivity">Caricare l\'immagine di profilo della tua attività</string>
     <string name="goto_register">Non hai un account?</string>
+
+    <string name="title_order_list">Ordini</string>
+    <string name="title_order_detail">Dettagli Ordine</string>
+
+    <!--Orders String-->
+    <string name="order_number">Ordine N°</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="total_price">Costo Totale</string>
+    <string name="delivery_time">Orario Consegna</string>
+    <string name="products">Products</string>
+    <string name="order_notes">Note Ordine</string>
+    <string name="delivery_notes">Note Consegna</string>
 </resources>

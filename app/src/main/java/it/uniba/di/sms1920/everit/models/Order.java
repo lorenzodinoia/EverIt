@@ -1,18 +1,19 @@
 package it.uniba.di.sms1920.everit.models;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Map;
 
 public class Order extends Model {
 
     private String deliveryAddress;
-    private LocalDateTime estimatedDeliveryTime;
+    private Date estimatedDeliveryTime;
     private String orderNotes;
     private String validationCode;
     private String deliveryNotes;
-    private LocalDateTime actualDeliveryTime;
+    private Date actualDeliveryTime;
     private boolean delivered;
     private Map<Product, Integer> products;
+    private Restaurateur restaurateur;
 
     private Order(Builder builder) {
         super(builder.id);
@@ -24,6 +25,7 @@ public class Order extends Model {
         this.actualDeliveryTime = builder.actualDeliveryTime;
         this.delivered = builder.delivered;
         this.products = builder.products;
+        this.restaurateur = builder.restaurateur;
     }
 
     public String getDeliveryAddress() {
@@ -34,11 +36,11 @@ public class Order extends Model {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public LocalDateTime getEstimatedDeliveryTime() {
+    public Date getEstimatedDeliveryTime() {
         return estimatedDeliveryTime;
     }
 
-    public void setEstimatedDeliveryTime(LocalDateTime estimatedDeliveryTime) {
+    public void setEstimatedDeliveryTime(Date estimatedDeliveryTime) {
         this.estimatedDeliveryTime = estimatedDeliveryTime;
     }
 
@@ -66,11 +68,11 @@ public class Order extends Model {
         this.deliveryNotes = deliveryNotes;
     }
 
-    public LocalDateTime getActualDeliveryTime() {
+    public Date getActualDeliveryTime() {
         return actualDeliveryTime;
     }
 
-    public void setActualDeliveryTime(LocalDateTime actualDeliveryTime) {
+    public void setActualDeliveryTime(Date actualDeliveryTime) {
         this.actualDeliveryTime = actualDeliveryTime;
     }
 
@@ -90,21 +92,31 @@ public class Order extends Model {
         this.products = products;
     }
 
-    private static final class Builder {
+    public Restaurateur getRestaurateur() {
+        return restaurateur;
+    }
+
+    public void setRestaurateur(Restaurateur restaurateur) {
+        this.restaurateur = restaurateur;
+    }
+
+    public static final class Builder {
         private long id;
         private String deliveryAddress;
-        private LocalDateTime estimatedDeliveryTime;
+        private Date estimatedDeliveryTime;
         private String orderNotes;
         private String validationCode;
         private String deliveryNotes;
-        private LocalDateTime actualDeliveryTime;
+        private Date actualDeliveryTime;
         private boolean delivered;
         private Map<Product, Integer> products;
+        private Restaurateur restaurateur;
 
-        public Builder(String deliveryAddress, LocalDateTime estimatedDeliveryTime, Map<Product, Integer> products) {
+        public Builder(String deliveryAddress, Date estimatedDeliveryTime, Map<Product, Integer> products, Restaurateur restaurateur) {
             this.deliveryAddress = deliveryAddress;
             this.estimatedDeliveryTime = estimatedDeliveryTime;
             this.products = products;
+            this.restaurateur = restaurateur;
         }
 
         public Builder setId(long id) {
@@ -127,7 +139,7 @@ public class Order extends Model {
             return this;
         }
 
-        public Builder setActualDeliveryTime(LocalDateTime actualDeliveryTime) {
+        public Builder setActualDeliveryTime(Date actualDeliveryTime) {
             this.actualDeliveryTime = actualDeliveryTime;
             return this;
         }
