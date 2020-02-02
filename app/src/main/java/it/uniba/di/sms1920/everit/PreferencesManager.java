@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 
 public final class PreferencesManager {
     private static PreferencesManager instance;
+    private SharedPreferences  sharedPreferences;
     private Context context;
 
     private PreferencesManager(Context context) {
         this.context = context;
+        this.sharedPreferences = this.context.getSharedPreferences(Constants.PREFS_FILE_NAME, Context.MODE_PRIVATE);
     }
 
     public static void init(Context context) {
@@ -21,15 +23,17 @@ public final class PreferencesManager {
         return instance;
     }
 
-    public boolean saveAppToken(String appToken) {
-        SharedPreferences sharedPref = this.context.getSharedPreferences(Constants.PREFS_FILE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(Constants.PREFS_APP_TOKEN_KEY, appToken);
-        return editor.commit();
+    public final SharedPreferences getSharedPreferences() {
+        return this.sharedPreferences;
     }
 
-    public String loadAppToken() {
-        SharedPreferences sharedPref = this.context.getSharedPreferences(Constants.PREFS_FILE_NAME, Context.MODE_PRIVATE);
-        return sharedPref.getString(Constants.PREFS_APP_TOKEN_KEY, null);
+    public final void setRememberMe(boolean rememberMe) {
+        SharedPreferences.Editor editor = this.sharedPreferences.edit();
+        editor.putBoolean(Constants.SharedPreferencesKeys.REMEMBER_ME, rememberMe);
+        editor.apply();
+    }
+
+    public final boolean getRemeberMe() {
+        return this.sharedPreferences.getBoolean(Constants.SharedPreferencesKeys.REMEMBER_ME, false);
     }
 }

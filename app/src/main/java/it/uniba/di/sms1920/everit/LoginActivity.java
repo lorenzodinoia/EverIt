@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -50,15 +51,36 @@ public class LoginActivity extends AppCompatActivity {
         AuthProvider.getInstance().login(email, password, new RequestListener<Boolean>() {
             @Override
             public void successResponse(Boolean response) {
-                //Intent intent = intent = new Intent(getApplicationContext(), HomeActivity.class);
-                //startActivity(intent);
+                Class destination = null;
+
+                try {
+                    if (BuildConfig.FLAVOR.equals(Constants.Flavors.CUSTOMER)) {
+                        destination = Class.forName("it.uniba.di.sms1920.everit.customer.HomeActivity");
+
+                    }
+                    else if (BuildConfig.FLAVOR.equals(Constants.Flavors.RESTAURATEUR)) {
+                        destination = Class.forName("it.uniba.di.sms1920.everit.restaurateur.HomeActivity");
+                    }
+                    else if (BuildConfig.FLAVOR.equals(Constants.Flavors.RIDER)) {
+                        destination = Class.forName("it.uniba.di.sms1920.everit.rider.HomeActivity");
+                    }
+                }
+                catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                if (destination != null) {
+                    Intent intent = new Intent(getApplicationContext(), destination);
+                    startActivity(intent);
+                    finish();
+                }
             }
 
             @Override
             public void errorResponse(String error) {
                 Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
             }
-        });
+        }, true);
     }
 
     private void goToRegister(){

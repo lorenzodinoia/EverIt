@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
+import it.uniba.di.sms1920.everit.credentials.CredentialsManager;
 import it.uniba.di.sms1920.everit.request.AuthProvider;
 import it.uniba.di.sms1920.everit.request.RequestManager;
 
@@ -28,7 +31,7 @@ public class LauncherActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             Class destination = LoginActivity.class;
-            if (BuildConfig.FLAVOR.equals(Constants.FLAVOR_CUSTOMER)) {
+            if (BuildConfig.FLAVOR.equals(Constants.Flavors.CUSTOMER)) {
                 try {
                     //destination = Class.forName("it.uniba.di.sms1920.everit.customer.HomeActivity");
                     destination = Class.forName("it.uniba.di.sms1920.everit.masterDetailOrders.OrderListActivity");
@@ -50,17 +53,11 @@ public class LauncherActivity extends AppCompatActivity {
         AuthProvider.init();
         NotificationService.initNotificationChannel(context);
         PreferencesManager.init(getApplicationContext());
-
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        String newAppToken = FirebaseInstanceId.getInstance().getToken();
-        String savedAppToken = preferencesManager.loadAppToken();
-        if (savedAppToken == null) {
-            PreferencesManager.getInstance().saveAppToken(newAppToken);
-            //TODO Inviare token al server
+        try {
+            CredentialsManager.init(getApplicationContext());
         }
-        else if (!savedAppToken.equals(newAppToken)) {
-            PreferencesManager.getInstance().saveAppToken(newAppToken);
-            //TODO Inviare nuovo token al server
+        catch (GeneralSecurityException | IOException e) {
+            Log.e("CREDENTIALS", "Unable to initialize CredentialsManager class");
         }
     }
 }
