@@ -88,7 +88,7 @@ public class OrderDetailFragment extends Fragment {
 
             //((TextView) rootView.findViewById(R.id.constraintLayout)).setText(String.format("%s: $d",R.string.order_number, mItem.getId()));
             textViewDeliveryAddress.setText(mItem.getDeliveryAddress());
-            textViewTotalPrice.setText(String.format("€ %.2f", getTotalPrice(mItem)));
+            textViewTotalPrice.setText(String.format("€ %.2f", mItem.getTotalCost()));
             DateFormat dateFormat = new SimpleDateFormat(" dd/MM/yyyy hh:mm", Locale.getDefault());
             //String strDate = dateFormat.format(mItem.getActualDeliveryTime());
             textViewOrderTime.setText("Boh");
@@ -127,7 +127,7 @@ public class OrderDetailFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             //TODO capire come prendere la chiave della mappa
             //holder.mProductNameView.setText(mValues.get(position).getKey());
-            //holder.mPriceView.setText(String.format("€ %.2f", mValues.get(position).getPrice()));
+            //holder.textViewPrice.setText(String.format("€ %.2f", mValues.get(position).getPrice()));
 
             holder.itemView.setTag(mValues.get(position));
         }
@@ -147,14 +147,5 @@ public class OrderDetailFragment extends Fragment {
                 mPriceView = (TextView) view.findViewById(R.id.textViewPrice);
             }
         }
-    }
-
-    private double getTotalPrice(Order order){
-        double totalPrice = 0;
-        for(Map.Entry<Product, Integer> i : mItem.getProducts().entrySet()){
-            totalPrice += i.getKey().getPrice() + i.getValue();
-        }
-
-        return totalPrice;
     }
 }

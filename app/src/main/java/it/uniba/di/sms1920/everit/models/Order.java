@@ -100,6 +100,17 @@ public class Order extends Model {
         this.restaurateur = restaurateur;
     }
 
+    public float getTotalCost() {
+        float cost = 0f;
+
+        for (Map.Entry<Product, Integer> entry: this.products.entrySet()) {
+            final int quantity = entry.getValue();
+            cost += entry.getKey().getPrice() * quantity;
+        }
+
+        return cost;
+    }
+
     public static final class Builder {
         private long id;
         private String deliveryAddress;
