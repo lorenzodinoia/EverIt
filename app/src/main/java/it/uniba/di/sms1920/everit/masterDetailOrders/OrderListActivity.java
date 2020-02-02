@@ -14,13 +14,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import it.uniba.di.sms1920.everit.R;
+import it.uniba.di.sms1920.everit.adapter.Adapter;
+import it.uniba.di.sms1920.everit.adapter.AdapterProvider;
+import it.uniba.di.sms1920.everit.models.Order;
+import it.uniba.di.sms1920.everit.models.Product;
+import it.uniba.di.sms1920.everit.models.ProductCategory;
+import it.uniba.di.sms1920.everit.models.Restaurateur;
+import it.uniba.di.sms1920.everit.request.OrderRequest;
+import it.uniba.di.sms1920.everit.request.RequestListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * An activity representing a list of Orders. This activity
@@ -37,6 +51,7 @@ public class OrderListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    public static final Map<Long, Order> orderMap = new HashMap<Long, Order>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,23 +72,53 @@ public class OrderListActivity extends AppCompatActivity {
 
         View recyclerView = findViewById(R.id.order_list);
         assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+
+        //TODO decommentare per attivare richiesta
+        /*OrderRequest orderRequest = new OrderRequest();
+        orderRequest.readAll(new RequestListener<Collection<Order>>() {
+            @Override
+            public void successResponse(Collection<Order> response) {
+                for(Order i : response){
+                    orderMap.put(i.getId(), i);
+                }
+
+                Adapter adapter = AdapterProvider.getAdapterFor(Order.class);
+                setupRecyclerView((RecyclerView) recyclerView);
+            }
+
+            @Override
+            public void errorResponse(String error) {
+                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG);
+            }
+        });*/
+
+
+        //TODO Fake data but can't access to restaurateur builder
+        /*Map<Product, Integer> products = new HashMap<Product, Integer>();
+        for(int i=0; i < 25; i++){
+            products.put(new Product("product name", 20, "product details", new ProductCategory("product category"), new Restaurateur), i)
+        }
+        for(int i=0; i < 25; i++){
+            orderMap.put(i, new Order.Builder("delivery address", new Date(), products,));
+        }
+        setupRecyclerView((RecyclerView) recyclerView);*/
+
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, OrderContent.ITEMS, mTwoPane));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, orderMap, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final OrderListActivity mParentActivity;
-        private final List<OrderContent.OrderItem> mValues;
+        private final Map<Long, Order> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderContent.OrderItem item = (OrderContent.OrderItem) view.getTag();
+                Order item = (Order) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putString(OrderDetailFragment.ARG_ITEM_ID, Long.toString(item.getId()));
@@ -93,7 +138,7 @@ public class OrderListActivity extends AppCompatActivity {
         };
 
         SimpleItemRecyclerViewAdapter(OrderListActivity parent,
-                                      List<OrderContent.OrderItem> items,
+                                      Map<Long, Order> items,
                                       boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
@@ -109,9 +154,16 @@ public class OrderListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
+
+            double totalPrice = 0;
+            Map<Product, Integer> products = mValues.get(position).getProducts();
+            for(Map.Entry<Product, Integer> i : products.entrySet()){
+                totalPrice += i.getValue()*i.getKey().getPrice(); //Total Price = Quantity[i]*Price[i]
+            }
+
             holder.mIdView.setText(String.format("ID %d", mValues.get(position).getId()));
-            holder.mActivityNameView.setText(mValues.get(position).getActivityName());
-            holder.mPriceView.setText(String.format("€ %s", Double.toString(mValues.get(position).getOrderPrice())));
+            holder.mActivityNameView.setText(mValues.get(position).getRestaurateur().getShopName());
+            holder.mPriceView.setText(String.format("€ %s", Double.toString(totalPrice)));
             DateFormat dateFormat = new SimpleDateFormat(" dd/MM/yyyy hh:mm", Locale.getDefault());
             String strDate = dateFormat.format(mValues.get(position).getActualDeliveryTime());
             holder.mDeliveryDate.setText(strDate);

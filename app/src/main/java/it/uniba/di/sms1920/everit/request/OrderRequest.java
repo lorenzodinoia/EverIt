@@ -6,11 +6,11 @@ import it.uniba.di.sms1920.everit.models.Order;
 
 public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order> {
 
-    private final String URL = "order";
+    private final String URL = "customer/order";
 
     @Override
     public void create(Order model, RequestListener<Order> requestListener) {
-        //TODO implement create request for order
+        super.create(model, URL, requestListener, Order.class, true);
     }
 
     @Override

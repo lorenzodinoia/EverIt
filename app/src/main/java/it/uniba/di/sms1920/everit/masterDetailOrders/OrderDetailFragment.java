@@ -19,9 +19,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import it.uniba.di.sms1920.everit.R;
 import it.uniba.di.sms1920.everit.masterDetailOrders.productList.ProductContent;
+import it.uniba.di.sms1920.everit.models.Order;
+import it.uniba.di.sms1920.everit.models.Product;
 
 
 /**
@@ -40,7 +43,7 @@ public class OrderDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private OrderContent.OrderItem mItem;
+    private Order mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,7 +61,7 @@ public class OrderDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             long id = Long.parseLong(getArguments().getString(ARG_ITEM_ID));
-            mItem = OrderContent.ITEM_MAP.get(id);
+            mItem = OrderListActivity.orderMap.get(id);
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
@@ -73,7 +76,6 @@ public class OrderDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mItem != null) {
             //EditText editTextActivityName = (EditText) rootView.findViewById(R.id.editTextActivityName);
             TextView textViewDeliveryAddress = (TextView) rootView.findViewById(R.id.textViewDeliveryAddress);
@@ -86,7 +88,7 @@ public class OrderDetailFragment extends Fragment {
 
             //((TextView) rootView.findViewById(R.id.constraintLayout)).setText(String.format("%s: $d",R.string.order_number, mItem.getId()));
             textViewDeliveryAddress.setText(mItem.getDeliveryAddress());
-            textViewTotalPrice.setText(String.format("€ %.2f", mItem.getOrderPrice()));
+            textViewTotalPrice.setText(String.format("€ %.2f", getTotalPrice(mItem)));
             DateFormat dateFormat = new SimpleDateFormat(" dd/MM/yyyy hh:mm", Locale.getDefault());
             //String strDate = dateFormat.format(mItem.getActualDeliveryTime());
             textViewOrderTime.setText("Boh");
@@ -95,7 +97,7 @@ public class OrderDetailFragment extends Fragment {
             textViewOrderNotes.setText(mItem.getOrderNotes());
             textViewDeliveryNotes.setText(mItem.getDeliveryNotes());
 
-            recyclerView.setAdapter(new OrderDetailFragment.ProductItemRecyclerViewAdapter(ProductContent.ITEMS));
+            recyclerView.setAdapter(new OrderDetailFragment.ProductItemRecyclerViewAdapter(mItem.getProducts()));
 
         }
 
@@ -107,9 +109,9 @@ public class OrderDetailFragment extends Fragment {
     public static class ProductItemRecyclerViewAdapter
             extends RecyclerView.Adapter<OrderDetailFragment.ProductItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<ProductContent.ProductItem> mValues;
+        private final Map<Product, Integer> mValues;
 
-        ProductItemRecyclerViewAdapter(List<ProductContent.ProductItem> items) {
+        ProductItemRecyclerViewAdapter(Map<Product, Integer> items) {
             mValues = items;
         }
 
@@ -123,8 +125,9 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mProductNameView.setText(mValues.get(position).getName());
-            holder.mPriceView.setText(String.format("€ %.2f", mValues.get(position).getPrice()));
+            //TODO capire come prendere la chiave della mappa
+            //holder.mProductNameView.setText(mValues.get(position).getKey());
+            //holder.mPriceView.setText(String.format("€ %.2f", mValues.get(position).getPrice()));
 
             holder.itemView.setTag(mValues.get(position));
         }
@@ -144,5 +147,14 @@ public class OrderDetailFragment extends Fragment {
                 mPriceView = (TextView) view.findViewById(R.id.textViewPrice);
             }
         }
+    }
+
+    private double getTotalPrice(Order order){
+        double totalPrice = 0;
+        for(Map.Entry<Product, Integer> i : mItem.getProducts().entrySet()){
+            totalPrice += i.getKey().getPrice() + i.getValue();
+        }
+
+        return totalPrice;
     }
 }

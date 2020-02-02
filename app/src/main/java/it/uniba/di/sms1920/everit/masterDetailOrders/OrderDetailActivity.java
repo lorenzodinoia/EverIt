@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import android.view.MenuItem;
 
 import it.uniba.di.sms1920.everit.R;
+import it.uniba.di.sms1920.everit.models.Order;
 
 /**
  * An activity representing a single Order detail screen. This
@@ -26,8 +27,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         Long idObj = Long.parseLong(getIntent().getStringExtra(OrderDetailFragment.ARG_ITEM_ID));
-        OrderContent.OrderItem item = OrderContent.ITEM_MAP.get(idObj);
-        toolbar.setTitle(item.getActivityName());
+        Order item = OrderListActivity.orderMap.get(idObj);
+        toolbar.setTitle(item.getRestaurateur().getShopName());
 
         setSupportActionBar(toolbar);
 
