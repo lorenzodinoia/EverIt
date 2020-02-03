@@ -8,15 +8,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.models.Model;
+import it.uniba.di.sms1920.everit.models.Order;
 
 public class Adapter<T extends Model> {
-    private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    private static final Gson gson = new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapter(boolean.class, new BooleanAdapter())
+            .registerTypeAdapter(Order.class, new OrderAdapter())
+            .setDateFormat("yyyy-MM-dd H:mm")
+            .create();
 
     public JSONObject toJSON(T object) throws JSONException {
         return new JSONObject(gson.toJson(object));

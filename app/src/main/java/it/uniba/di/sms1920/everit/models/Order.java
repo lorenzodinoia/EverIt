@@ -106,6 +106,7 @@ public class Order extends Model {
         for (Map.Entry<Product, Integer> entry: this.products.entrySet()) {
             final int quantity = entry.getValue();
             cost += entry.getKey().getPrice() * quantity;
+
         }
 
         return cost;

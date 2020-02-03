@@ -26,9 +26,11 @@ public class OrderDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        Long idObj = Long.parseLong(getIntent().getStringExtra(OrderDetailFragment.ARG_ITEM_ID));
-        Order item = OrderListActivity.orderMap.get(idObj);
-        toolbar.setTitle(item.getRestaurateur().getShopName());
+        long idObj = getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0);
+        Order item = OrderListActivity.getOrderById(idObj);
+        if (item != null) {
+            toolbar.setTitle(item.getRestaurateur().getShopName());
+        }
 
         setSupportActionBar(toolbar);
 
@@ -52,8 +54,8 @@ public class OrderDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(OrderDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(OrderDetailFragment.ARG_ITEM_ID));
+            arguments.putLong(OrderDetailFragment.ARG_ITEM_ID,
+                    getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0));
             OrderDetailFragment fragment = new OrderDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

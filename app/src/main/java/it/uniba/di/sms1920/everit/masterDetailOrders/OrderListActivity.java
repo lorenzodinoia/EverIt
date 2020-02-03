@@ -10,25 +10,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import it.uniba.di.sms1920.everit.R;
+import it.uniba.di.sms1920.everit.adapter.Adapter;
+import it.uniba.di.sms1920.everit.adapter.AdapterProvider;
+import it.uniba.di.sms1920.everit.models.Customer;
 import it.uniba.di.sms1920.everit.models.Order;
+import it.uniba.di.sms1920.everit.request.AuthProvider;
+import it.uniba.di.sms1920.everit.request.OrderRequest;
+import it.uniba.di.sms1920.everit.request.RequestListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class OrderListActivity extends AppCompatActivity {
     private boolean twoPaneMode;
     @SuppressLint("UseSparseArrays")
-    public static final Map<Integer, Order> orderMap = new HashMap<>();
+    public static final List<Order> orderList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,44 +61,54 @@ public class OrderListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.order_list);
         assert recyclerView != null; //TODO Sto assert pare messo qui perchè pesava il culo mettere un if del cazzo, e meno male che lo ha scritto Google...
 
-        //TODO decommentare per attivare richiesta
-        /*OrderRequest orderRequest = new OrderRequest();
-        orderRequest.readAll(new RequestListener<Collection<Order>>() {
+        //TODO Rimuovere login. Inserito solo a scopo di test
+        AuthProvider.getInstance().login("mario.rossi@gmail.com", "password123", new RequestListener<Boolean>() {
             @Override
-            public void successResponse(Collection<Order> response) {
-                for(Order i : response){
-                    orderMap.put(i.getId(), i);
-                }
+            public void successResponse(Boolean response) {
+                OrderRequest orderRequest = new OrderRequest();
+                orderRequest.readAll(new RequestListener<Collection<Order>>() {
+                    @Override
+                    public void successResponse(Collection<Order> response) {
+                        //TODO Salvare order list in modo da non rifare la richiesta ad ogni rotazione dello schermo
+                        orderList.clear();
+                        orderList.addAll(response);
+                        setupRecyclerView((RecyclerView) recyclerView);
+                    }
 
-                Adapter adapter = AdapterProvider.getAdapterFor(Order.class);
-                setupRecyclerView((RecyclerView) recyclerView);
+                    @Override
+                    public void errorResponse(String error) {
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG);
+                    }
+                });
             }
 
             @Override
             public void errorResponse(String error) {
-                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "Niente login", Toast.LENGTH_LONG);
             }
-        });*/
-
-
-        //TODO Fake data but can't access to restaurateur builder
-        /*Map<Product, Integer> products = new HashMap<Product, Integer>();
-        for(int i=0; i < 25; i++){
-            products.put(new Product("product name", 20, "product details", new ProductCategory("product category"), new Restaurateur), i)
-        }
-        for(int i=0; i < 25; i++){
-            orderMap.put(i, new Order.Builder("delivery address", new Date(), products,));
-        }
-        setupRecyclerView((RecyclerView) recyclerView);*/
+        }, false);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new OrderRecyclerViewAdapter(this, orderMap, twoPaneMode));
+        recyclerView.setAdapter(new OrderRecyclerViewAdapter(this, orderList, twoPaneMode));
+    }
+
+    public static Order getOrderById(long id) {
+        Order order = null;
+
+        for (Order o : orderList) {
+            if (o.getId() == id) {
+                order = o;
+                break;
+            }
+        }
+
+        return order;
     }
 
     public static class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecyclerViewAdapter.ViewHolder> {
         private final OrderListActivity parentActivity;
-        private final Map<Integer, Order> items;
+        private final List<Order> items;
         private final boolean twoPaneMode;
         private final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
             @Override
@@ -95,7 +116,7 @@ public class OrderListActivity extends AppCompatActivity {
                 Order item = (Order) view.getTag();
                 if (twoPaneMode) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(OrderDetailFragment.ARG_ITEM_ID, Long.toString(item.getId()));
+                    arguments.putLong(OrderDetailFragment.ARG_ITEM_ID, item.getId());
                     OrderDetailFragment fragment = new OrderDetailFragment();
                     fragment.setArguments(arguments);
                     parentActivity.getSupportFragmentManager().beginTransaction()
@@ -105,14 +126,14 @@ public class OrderListActivity extends AppCompatActivity {
                 else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, OrderDetailActivity.class);
-                    intent.putExtra(OrderDetailFragment.ARG_ITEM_ID, Long.toString(item.getId()));
+                    intent.putExtra(OrderDetailFragment.ARG_ITEM_ID, item.getId());
 
                     context.startActivity(intent);
                 }
             }
         };
 
-        OrderRecyclerViewAdapter(OrderListActivity parent, Map<Integer, Order> items, boolean twoPane) {
+        OrderRecyclerViewAdapter(OrderListActivity parent, List<Order> items, boolean twoPane) {
             this.items = items;
             parentActivity = parent;
             twoPaneMode = twoPane;
@@ -131,10 +152,11 @@ public class OrderListActivity extends AppCompatActivity {
             if (item != null) {
                 holder.textViewId.setText(String.format("ID %d", item.getId()));
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
-                holder.textViewPrice.setText(String.format("€ %.2f", item.getTotalCost()));
+                //TODO Riabilitare date quando sistemate nell'adaptrer
+                //holder.textViewPrice.setText(String.format("€ %.2f", item.getTotalCost()));
                 DateFormat dateFormat = new SimpleDateFormat(" dd/MM/yyyy hh:mm", Locale.getDefault());
-                String stringDate = dateFormat.format(item.getActualDeliveryTime());
-                holder.textViewDeliveryDate.setText(stringDate);
+                //String stringDate = dateFormat.format(item.getActualDeliveryTime());
+                //holder.textViewDeliveryDate.setText(stringDate);
 
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);
