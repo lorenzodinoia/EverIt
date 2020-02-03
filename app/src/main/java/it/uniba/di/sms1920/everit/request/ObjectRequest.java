@@ -30,7 +30,7 @@ public final class ObjectRequest extends JsonObjectRequest {
         map.put("Accept", "application/json");
         map.put("Content-Type", "application/json");
         if(authToken != null){
-            map.put("Authorization", String.format("Bearer %s", authToken));
+            map.put("Authorization", authToken);
         }
         return map;
     }

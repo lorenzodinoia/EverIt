@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.request;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.android.volley.NetworkResponse;
@@ -36,7 +38,7 @@ public final class AuthRequest extends JsonObjectRequest {
         map.put("Accept", "application/json");
         map.put("Content-Type", "application/json");
         if(authToken != null){
-            map.put("Authorization", String.format("Bearer %s", authToken));
+            map.put("Authorization", authToken);
         }
         return map;
     }
@@ -46,6 +48,7 @@ public final class AuthRequest extends JsonObjectRequest {
         try {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
             JSONObject jsonResponse = new JSONObject(jsonString);
+            Log.d("HEAD", response.headers.toString());
             if(response.headers.containsKey("Authorization")) {
                 jsonResponse = jsonResponse.put("token", response.headers.get("Authorization"));
             }

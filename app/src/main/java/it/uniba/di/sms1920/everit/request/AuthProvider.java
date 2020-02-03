@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.request;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import org.json.JSONException;
@@ -107,7 +109,7 @@ public final class AuthProvider<T extends Model & Authenticable>  {
                     Adapter<T> adapter = AdapterProvider.getAdapterFor(type);
 
                     try {
-                        String token = response.getString("Authorization");
+                        String token = response.getString("token");
                         this.setAuthToken(token);
                         if (rememberMe) {
                             if (!CredentialsManager.getInstance().saveCredentials(new Credentials(email, password))) {
