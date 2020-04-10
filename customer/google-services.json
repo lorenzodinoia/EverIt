@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "467186122249",
+    "firebase_url": "https://everit.firebaseio.com",
+    "project_id": "everit",
+    "storage_bucket": "everit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467186122249:android:e6e942f6e33e50319682d8",
+        "android_client_info": {
+          "package_name": "it.uniba.di.sms1920.everit.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467186122249-mk2gni0k2geolc39oei9cna49pvctko7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFIKXQNAqi7NgGjuvCidXfV1em1S0qWlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467186122249-mk2gni0k2geolc39oei9cna49pvctko7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467186122249:android:901e4cf11ca124819682d8",
+        "android_client_info": {
+          "package_name": "it.uniba.di.sms1920.everit.restaurateur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467186122249-mk2gni0k2geolc39oei9cna49pvctko7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFIKXQNAqi7NgGjuvCidXfV1em1S0qWlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467186122249-mk2gni0k2geolc39oei9cna49pvctko7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467186122249:android:29637efa7579805a9682d8",
+        "android_client_info": {
+          "package_name": "it.uniba.di.sms1920.everit.rider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467186122249-mk2gni0k2geolc39oei9cna49pvctko7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFIKXQNAqi7NgGjuvCidXfV1em1S0qWlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467186122249-mk2gni0k2geolc39oei9cna49pvctko7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

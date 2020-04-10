@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EverIt Utility</string>
+    <string name="hint_register">Non hai un account?</string>
+    <string name="goto_signup">Registrati</string>
+    <string name="wrong_login">Email o password errate</string>
+</resources>

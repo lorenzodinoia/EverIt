@@ -1,0 +1,2 @@
+include ':restaurateur', ':customer', ':rider', ':utils'
+rootProject.name='EverIt'

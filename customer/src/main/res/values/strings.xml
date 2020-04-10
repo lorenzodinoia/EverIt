@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">EverIt</string>
+    <string name="goto_login" translatable="false">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="hint_login">Already a member?</string>
+    <string name="phone_number">Phone number</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="account_created">Account created successfully</string>
+</resources>

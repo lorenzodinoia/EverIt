@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="next">Prosegui</string>
+    <string name="shop_name">Nome attività</string>
+    <string name="piva" translatable="false">Partita IVA</string>
+    <string name="phone_number">Numero di telefono</string>
+    <string name="address">Indirizzo</string>
+    <string name="signup_part_1">Parte 1 di 2</string>
+    <string name="signup_part_2">Parte 2 di 2</string>
+</resources>

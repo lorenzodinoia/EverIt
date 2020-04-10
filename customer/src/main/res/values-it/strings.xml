@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EverIt</string>
+    <string name="signup">Registrati</string>
+    <string name="hint_login">Sei già iscritto?</string>
+    <string name="phone_number">Numero di telefono</string>
+    <string name="name">Nome</string>
+    <string name="surname">Cognome</string>
+    <string name="account_created">Account creato correttamente</string>
+</resources>
