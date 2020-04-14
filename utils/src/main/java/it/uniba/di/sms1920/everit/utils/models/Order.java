@@ -14,6 +14,7 @@ public class Order extends Model {
     private boolean delivered;
     private Map<Product, Integer> products;
     private Restaurateur restaurateur;
+    private Date createdAt;
 
     private Order(Builder builder) {
         super(builder.id);
@@ -98,6 +99,14 @@ public class Order extends Model {
 
     public void setRestaurateur(Restaurateur restaurateur) {
         this.restaurateur = restaurateur;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public float getTotalCost() {

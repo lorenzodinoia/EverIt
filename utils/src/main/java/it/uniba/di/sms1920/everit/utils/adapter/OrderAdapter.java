@@ -17,7 +17,6 @@ import java.util.Map;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 
-
 public class OrderAdapter implements JsonDeserializer<Order> {
     private static final String ORDER_PRODUCTS_KEY = "products";
     private static final String PRODUCT_QUANTITY_KEY = "quantity";
@@ -34,7 +33,6 @@ public class OrderAdapter implements JsonDeserializer<Order> {
         JsonArray productsArray = jsonObject.getAsJsonArray(ORDER_PRODUCTS_KEY);
         jsonObject.remove(ORDER_PRODUCTS_KEY);
         Order order = customGson.fromJson(jsonObject.toString(), Order.class);
-        //TODO Verificare funzionamento cast delle date
 
         Map<Product, Integer> products = new HashMap<>();
         for (int i = 0; i < productsArray.size(); i++) {

@@ -1,40 +1,40 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class Restaurateur extends Model implements Authenticable {
-
     private String shopName;
     private String address;
-    private String cap;
     private String phoneNumber;
     private String email;
     private String password;
-    private String piva;
+    private String vatNumber;
     private String description;
     private float deliveryCost;
-    private int minimumQuantity;
-    private int orderRangeTime;
+    private int minimumPrice;
     private String imagePath;
     private ShopType shopType;
     private City city;
+    private Collection<ProductCategory> productCategories;
+    private Collection<OpeningDay> openingDays;
     private Map<Customer, Integer> feedbacks;
 
     private Restaurateur(Builder builder) {
         super(builder.id);
         this.shopName = builder.shopName;
         this.address = builder.address;
-        this.cap = builder.cap;
         this.phoneNumber = builder.phoneNumber;
         this.email = builder.email;
-        this.piva = builder.piva;
+        this.vatNumber = builder.vatNumber;
         this.description = builder.description;
         this.deliveryCost = builder.deliveryCost;
-        this.minimumQuantity = builder.minmumQuantity;
-        this.orderRangeTime = builder.orderRangeTime;
+        this.minimumPrice = builder.minimumPrice;
         this.imagePath = builder.imagePath;
         this.shopType = builder.shopType;
         this.city = builder.city;
+        this.productCategories = builder.productCategories;
+        this.openingDays = builder.openingDays;
         this.feedbacks = builder.feedbacks;
     }
 
@@ -52,14 +52,6 @@ public class Restaurateur extends Model implements Authenticable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCap() {
-        return cap;
-    }
-
-    public void setCap(String cap) {
-        this.cap = cap;
     }
 
     public String getPhoneNumber() {
@@ -86,12 +78,12 @@ public class Restaurateur extends Model implements Authenticable {
         this.password = password;
     }
 
-    public String getPiva() {
-        return piva;
+    public String getVatNumber() {
+        return vatNumber;
     }
 
-    public void setPiva(String piva) {
-        this.piva = piva;
+    public void setVatNumber(String vatNumber) {
+        this.vatNumber = vatNumber;
     }
 
     public String getDescription() {
@@ -110,20 +102,12 @@ public class Restaurateur extends Model implements Authenticable {
         this.deliveryCost = deliveryCost;
     }
 
-    public int getMinimumQuantity() {
-        return minimumQuantity;
+    public int getMinimumPrice() {
+        return minimumPrice;
     }
 
-    public void setMinimumQuantity(int minimumQuantity) {
-        this.minimumQuantity = minimumQuantity;
-    }
-
-    public int getOrderRangeTime() {
-        return orderRangeTime;
-    }
-
-    public void setOrderRangeTime(int orderRangeTime) {
-        this.orderRangeTime = orderRangeTime;
+    public void setMinimumPrice(int minimumPrice) {
+        this.minimumPrice = minimumPrice;
     }
 
     public String getImagePath() {
@@ -150,6 +134,14 @@ public class Restaurateur extends Model implements Authenticable {
         this.city = city;
     }
 
+    public Collection<ProductCategory> getProductCategories() {
+        return productCategories;
+    }
+
+    public void setProductCategories(Collection<ProductCategory> productCategories) {
+        this.productCategories = productCategories;
+    }
+
     public Map<Customer, Integer> getFeedbacks() {
         return feedbacks;
     }
@@ -162,28 +154,33 @@ public class Restaurateur extends Model implements Authenticable {
         private long id;
         private String shopName;
         private String address;
-        private String cap;
         private String phoneNumber;
         private String email;
-        private String piva;
+        private String password;
+        private String vatNumber;
         private String description;
         private float deliveryCost;
-        private int minmumQuantity;
-        private int orderRangeTime;
+        private int minimumPrice;
         private String imagePath;
         private ShopType shopType;
         private City city;
+        private Collection<ProductCategory> productCategories;
+        private Collection<OpeningDay> openingDays;
         private Map<Customer, Integer> feedbacks;
 
-        public Builder(String shopName, String address, String cap, String phoneNumber, String email, String piva, ShopType shopType, City city) {
+        public Builder(String shopName, String address, String phoneNumber, String email, String vatNumber, ShopType shopType, City city) {
             this.shopName = shopName;
             this.address = address;
-            this.cap = cap;
             this.phoneNumber = phoneNumber;
             this.email = email;
-            this.piva = piva;
+            this.vatNumber = vatNumber;
             this.shopType = shopType;
             this.city = city;
+        }
+
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
         }
 
         public Builder setDescription(String description) {
@@ -196,13 +193,8 @@ public class Restaurateur extends Model implements Authenticable {
             return this;
         }
 
-        public Builder setMinmumQuantity(int minmumQuantity) {
-            this.minmumQuantity = minmumQuantity;
-            return this;
-        }
-
-        public Builder setOrderRangeTime(int orderRangeTime) {
-            this.orderRangeTime = orderRangeTime;
+        public Builder setMinimumPrice(int minimumPrice) {
+            this.minimumPrice = minimumPrice;
             return this;
         }
 
@@ -213,6 +205,16 @@ public class Restaurateur extends Model implements Authenticable {
 
         public Builder setFeedbacks(Map<Customer, Integer> feedbacks) {
             this.feedbacks = feedbacks;
+            return this;
+        }
+
+        public Builder setProductCategories(Collection<ProductCategory> productCategories) {
+            this.productCategories = productCategories;
+            return this;
+        }
+
+        public Builder setOpeningDays(Collection<OpeningDay> openingDays) {
+            this.openingDays = openingDays;
             return this;
         }
 
