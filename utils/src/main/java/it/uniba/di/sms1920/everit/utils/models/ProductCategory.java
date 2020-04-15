@@ -1,8 +1,11 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import java.util.Collection;
+
 public class ProductCategory extends Model {
 
     private String name;
+    private Collection<Product> products;
 
     public ProductCategory(String name) {
         this.name = name;
@@ -19,5 +22,13 @@ public class ProductCategory extends Model {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Collection<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Collection<Product> products) {
+        this.products = products;
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.AuthProvider;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
@@ -144,13 +146,22 @@ public class OrderListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             Order item = this.items.get(position);
             if (item != null) {
-                holder.textViewId.setText(String.format("ID %d", item.getId()));
+                String dateAsString = "";
+                DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
+                if (item.isDelivered()) {
+                    if (item.getActualDeliveryTime() != null) {
+                        dateAsString = dateFormat.format(item.getActualDeliveryTime());
+                    }
+                }
+                else {
+                    //TODO Aggiungere un simbolo per avvertire che l'ordine è ancora da consegnare
+                    dateAsString = dateFormat.format(item.getEstimatedDeliveryTime());
+                }
+
+                holder.textViewId.setText(String.format("# %d", item.getId()));
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
-                //TODO Riabilitare date quando sistemate nell'adaptrer
-                //holder.textViewPrice.setText(String.format("€ %.2f", item.getTotalCost()));
-                DateFormat dateFormat = new SimpleDateFormat(" dd/MM/yyyy hh:mm", Locale.getDefault());
-                //String stringDate = dateFormat.format(item.getActualDeliveryTime());
-                //holder.textViewDeliveryDate.setText(stringDate);
+                holder.textViewPrice.setText(String.format("€ %.2f", item.getTotalCost()));
+                holder.textViewDeliveryDate.setText(dateAsString);
 
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);

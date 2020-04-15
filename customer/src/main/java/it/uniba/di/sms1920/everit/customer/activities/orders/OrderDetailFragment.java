@@ -12,12 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 
@@ -43,13 +46,10 @@ public class OrderDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (mItem != null) {
-            //TODO Riabilitare date quando sistemate nell'adaptrer
-            //EditText editTextActivityName = (EditText) rootView.findViewById(R.id.editTextActivityName);
             TextView textViewDeliveryAddress = (TextView) rootView.findViewById(R.id.textViewDeliveryAddress);
             TextView textViewTotalPrice = (TextView) rootView.findViewById(R.id.textViewPrice);
             TextView textViewOrderTime = (TextView) rootView.findViewById(R.id.textViewOrderDateTime);
@@ -58,19 +58,27 @@ public class OrderDetailFragment extends Fragment {
             TextView textViewDeliveryNotes = (TextView) rootView.findViewById(R.id.textViewDeliveryNotesBox);
             RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleViewProducts);
 
-            //((TextView) rootView.findViewById(R.id.constraintLayout)).setText(String.format("%s: $d",R.string.order_number, mItem.getId()));
+            DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
+            String orderTimeAsString = dateFormat.format(mItem.getCreatedAt());
+            String deliveryTimeAsString = "";
+            if (mItem.isDelivered()) {
+                if (mItem.getActualDeliveryTime() != null) {
+                    deliveryTimeAsString = dateFormat.format(mItem.getActualDeliveryTime());
+                }
+            }
+            else {
+                //TODO Aggiungere un simbolo per avvertire che l'ordine è ancora da consegnare
+                deliveryTimeAsString = dateFormat.format(mItem.getEstimatedDeliveryTime());
+            }
+
             textViewDeliveryAddress.setText(mItem.getDeliveryAddress());
-            textViewTotalPrice.setText(String.format(Locale.getDefault(), "€ %.2f", mItem.getTotalCost()));
-            //DateFormat dateFormat = new SimpleDateFormat(" dd/MM/yyyy hh:mm", Locale.getDefault());
-            //String strDate = dateFormat.format(mItem.getActualDeliveryTime());
-            textViewOrderTime.setText("Boh");
-            //String strDate = dateFormat.format(mItem.getActualDeliveryTime());
-            //textViewDeliveryTime.setText(strDate);
+            textViewOrderTime.setText(orderTimeAsString);
+            textViewDeliveryTime.setText(deliveryTimeAsString);
             textViewOrderNotes.setText(mItem.getOrderNotes());
             textViewDeliveryNotes.setText(mItem.getDeliveryNotes());
+            textViewTotalPrice.setText(String.format(Locale.getDefault(), "€ %.2f", mItem.getTotalCost()));
 
             recyclerView.setAdapter(new ProductRecyclerViewAdapter(mItem.getProducts()));
-
         }
 
         return rootView;
