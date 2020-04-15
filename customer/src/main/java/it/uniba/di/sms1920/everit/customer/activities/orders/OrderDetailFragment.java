@@ -1,6 +1,5 @@
 package it.uniba.di.sms1920.everit.customer.activities.orders;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +8,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,23 +22,17 @@ import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 
 public class OrderDetailFragment extends Fragment {
-    public static final String ARG_ITEM_ID = "item_id";
-    private Order mItem;
+    static final String ARG_ITEM_ID = "item_id";
+    private Order order;
     public OrderDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        if ((getArguments() != null) && (getArguments().containsKey(ARG_ITEM_ID))) {
             long id = getArguments().getLong(ARG_ITEM_ID);
-            mItem = OrderListActivity.getOrderById(id);
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            /*if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getActivityName());
-            }*/
+            this.order = OrderListActivity.getOrderById(id);
         }
     }
 
@@ -49,7 +40,7 @@ public class OrderDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
-        if (mItem != null) {
+        if (order != null) {
             TextView textViewDeliveryAddress = (TextView) rootView.findViewById(R.id.textViewDeliveryAddress);
             TextView textViewTotalPrice = (TextView) rootView.findViewById(R.id.textViewPrice);
             TextView textViewOrderTime = (TextView) rootView.findViewById(R.id.textViewOrderDateTime);
@@ -59,78 +50,80 @@ public class OrderDetailFragment extends Fragment {
             RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleViewProducts);
 
             DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
-            String orderTimeAsString = dateFormat.format(mItem.getCreatedAt());
+            String orderTimeAsString = dateFormat.format(order.getCreatedAt());
             String deliveryTimeAsString = "";
-            if (mItem.isDelivered()) {
-                if (mItem.getActualDeliveryTime() != null) {
-                    deliveryTimeAsString = dateFormat.format(mItem.getActualDeliveryTime());
+            if (order.isDelivered()) {
+                if (order.getActualDeliveryTime() != null) {
+                    deliveryTimeAsString = dateFormat.format(order.getActualDeliveryTime());
                 }
             }
             else {
                 //TODO Aggiungere un simbolo per avvertire che l'ordine è ancora da consegnare
-                deliveryTimeAsString = dateFormat.format(mItem.getEstimatedDeliveryTime());
+                deliveryTimeAsString = dateFormat.format(order.getEstimatedDeliveryTime());
             }
 
-            textViewDeliveryAddress.setText(mItem.getDeliveryAddress());
+            textViewDeliveryAddress.setText(order.getDeliveryAddress());
             textViewOrderTime.setText(orderTimeAsString);
             textViewDeliveryTime.setText(deliveryTimeAsString);
-            textViewOrderNotes.setText(mItem.getOrderNotes());
-            textViewDeliveryNotes.setText(mItem.getDeliveryNotes());
-            textViewTotalPrice.setText(String.format(Locale.getDefault(), "€ %.2f", mItem.getTotalCost()));
+            textViewOrderNotes.setText(order.getOrderNotes());
+            textViewDeliveryNotes.setText(order.getDeliveryNotes());
+            textViewTotalPrice.setText(String.format(Locale.getDefault(), "€ %.2f", order.getTotalCost()));
 
-            recyclerView.setAdapter(new ProductRecyclerViewAdapter(mItem.getProducts()));
+            recyclerView.setAdapter(new ProductRecyclerViewAdapter(order.getProducts()));
         }
 
         return rootView;
     }
 
-    //Adapter for Product list
-
+    /*
+    RecyclerView class for handling products list
+     */
     public static class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder> {
+        private final List<ProductItem> productItems = new ArrayList<>();
 
-        private final List<ProductItem> items = new ArrayList<>();
-
-        ProductRecyclerViewAdapter(Map<Product, Integer> items) {
-            this.items.clear();
-            for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+        ProductRecyclerViewAdapter(Map<Product, Integer> productItems) {
+            this.productItems.clear();
+            for (Map.Entry<Product, Integer> entry : productItems.entrySet()) {
                 final ProductItem productItem = new ProductItem(entry.getKey(), entry.getValue());
-                this.items.add(productItem);
+                this.productItems.add(productItem);
             }
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.product_list_content, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_content, parent, false);
             return new ViewHolder(view);
         }
 
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mProductNameView.setText(items.get(position).getProduct().getName());
-            holder.mPriceView.setText(String.format(Locale.getDefault(),"€ %.2f", items.get(position).getProduct().getPrice()));
+            ProductItem productItem = productItems.get(position);
+            String productText = (productItem.getQuantity() > 1) ? String.format(Locale.getDefault(),"%s (x %d)", productItem.getProduct().getName(), productItem.getQuantity())
+                    : productItem.getProduct().getName();
+            holder.textViewProductName.setText(productText);
+            holder.textViewPrice.setText(String.format(Locale.getDefault(),"€ %.2f", productItem.getProduct().getPrice()));
 
-            holder.itemView.setTag(items.get(position));
+            holder.itemView.setTag(productItem);
         }
 
         @Override
         public int getItemCount() {
-            return items.size();
+            return productItems.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mProductNameView;
-            final TextView mPriceView;
+        private static class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView textViewProductName;
+            final TextView textViewPrice;
 
             ViewHolder(View view) {
                 super(view);
-                mProductNameView = (TextView) view.findViewById(R.id.textViewProductName);
-                mPriceView = (TextView) view.findViewById(R.id.textViewPrice);
+                textViewProductName = (TextView) view.findViewById(R.id.textViewProductName);
+                textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
             }
         }
 
-        private class ProductItem {
+        private static class ProductItem {
             private Product product;
             private int quantity;
 

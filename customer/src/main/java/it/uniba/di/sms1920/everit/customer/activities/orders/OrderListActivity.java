@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,7 @@ public class OrderListActivity extends AppCompatActivity {
              * Se il layout è presente vuol dire che l'app è installata su un dispositivo di grandi dimensioni
              * Pertanto si utilizza la modalità con due pannelli
              */
-            twoPaneMode = true;
+            this.twoPaneMode = true;
         }
 
         View recyclerView = findViewById(R.id.order_list);
@@ -73,14 +72,14 @@ public class OrderListActivity extends AppCompatActivity {
 
                     @Override
                     public void errorResponse(String error) {
-                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG);
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
                     }
                 });
             }
 
             @Override
             public void errorResponse(String error) {
-                Toast.makeText(getApplicationContext(), "Niente login", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "Niente login", Toast.LENGTH_LONG).show();
             }
         }, false);
     }
@@ -92,7 +91,7 @@ public class OrderListActivity extends AppCompatActivity {
     public static Order getOrderById(long id) {
         Order order = null;
 
-        for (Order o : orderList) {
+        for (Order o : OrderListActivity.orderList) {
             if (o.getId() == id) {
                 order = o;
                 break;
@@ -104,7 +103,7 @@ public class OrderListActivity extends AppCompatActivity {
 
     public static class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecyclerViewAdapter.ViewHolder> {
         private final OrderListActivity parentActivity;
-        private final List<Order> items;
+        private final List<Order> orders;
         private final boolean twoPaneMode;
         private final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
             @Override
@@ -129,10 +128,10 @@ public class OrderListActivity extends AppCompatActivity {
             }
         };
 
-        OrderRecyclerViewAdapter(OrderListActivity parent, List<Order> items, boolean twoPane) {
-            this.items = items;
-            parentActivity = parent;
-            twoPaneMode = twoPane;
+        OrderRecyclerViewAdapter(OrderListActivity parent, List<Order> orders, boolean twoPane) {
+            this.orders = orders;
+            this.parentActivity = parent;
+            this.twoPaneMode = twoPane;
         }
 
         @Override
@@ -141,10 +140,9 @@ public class OrderListActivity extends AppCompatActivity {
             return new ViewHolder(view);
         }
 
-        @SuppressLint("DefaultLocale")
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            Order item = this.items.get(position);
+            Order item = this.orders.get(position);
             if (item != null) {
                 String dateAsString = "";
                 DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
@@ -158,9 +156,9 @@ public class OrderListActivity extends AppCompatActivity {
                     dateAsString = dateFormat.format(item.getEstimatedDeliveryTime());
                 }
 
-                holder.textViewId.setText(String.format("# %d", item.getId()));
+                holder.textViewId.setText(String.format(Locale.getDefault(), "# %d", item.getId()));
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
-                holder.textViewPrice.setText(String.format("€ %.2f", item.getTotalCost()));
+                holder.textViewPrice.setText(String.format(Locale.getDefault(), "€ %.2f", item.getTotalCost()));
                 holder.textViewDeliveryDate.setText(dateAsString);
 
                 holder.itemView.setTag(item);
@@ -170,10 +168,10 @@ public class OrderListActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return items.size();
+            return orders.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+        static class ViewHolder extends RecyclerView.ViewHolder {
             final TextView textViewId;
             final TextView textViewActivityName;
             final TextView textViewPrice;
