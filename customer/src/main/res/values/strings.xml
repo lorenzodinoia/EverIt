@@ -7,4 +7,6 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="account_created">Account created successfully</string>
+    <string name="edit">Edit</string>
+    <string name="confirm">Confirm</string>
 </resources>

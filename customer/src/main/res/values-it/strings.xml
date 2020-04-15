@@ -8,4 +8,6 @@
     <string name="name">Nome</string>
     <string name="surname">Cognome</string>
     <string name="account_created">Account creato correttamente</string>
+    <string name="edit">Modifica</string>
+    <string name="confirm">Conferma</string>
 </resources>
