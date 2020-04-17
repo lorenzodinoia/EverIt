@@ -2,9 +2,9 @@ package it.uniba.di.sms1920.everit.customer.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 
 import it.uniba.di.sms1920.everit.customer.R;
 
@@ -17,7 +17,6 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText editTextPassword;
     private Button buttonEditConfirm;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initComponent(){
+
         editTextName = findViewById(R.id.editTextName);
         editTextName.setEnabled(false);
 
@@ -64,4 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }

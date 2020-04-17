@@ -7,4 +7,8 @@
     <string name="address">Indirizzo</string>
     <string name="signup_part_1">Parte 1 di 2</string>
     <string name="signup_part_2">Parte 2 di 2</string>
+    <string name="add">Aggiungi</string>
+    <string name="price">Costo</string>
+    <string name="description">Descrizione</string>
+    <string name="productName">Nome prodotto</string>
 </resources>

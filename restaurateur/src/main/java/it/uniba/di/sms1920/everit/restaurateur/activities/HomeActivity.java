@@ -1,9 +1,7 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
 public class HomeActivity extends AppCompatActivity {
