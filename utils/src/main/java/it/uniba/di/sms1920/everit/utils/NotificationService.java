@@ -11,8 +11,20 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import it.uniba.di.sms1920.everit.utils.provider.FirebaseTokenProvider;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+
 public final class NotificationService extends FirebaseMessagingService {
     private static final String CHANNEL_ID = "EverIt-All";
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        FirebaseTokenProvider firebaseTokenProvider = Providers.getFirebaseTokenProvider();
+
+        if (firebaseTokenProvider != null) {
+            firebaseTokenProvider.setFirebaseToken(s);
+        }
+    }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {

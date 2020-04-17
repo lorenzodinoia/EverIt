@@ -10,12 +10,11 @@ import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
-import it.uniba.di.sms1920.everit.utils.adapter.AdapterProvider;
+import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.models.Model;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.User;
-
-//TODO Controllare che AuthProvider sia diverso da NULL
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
 abstract class CRUDRequest<T extends Model> {
 
@@ -38,7 +37,7 @@ abstract class CRUDRequest<T extends Model> {
                 error -> {
                     String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                     RequestListener.errorResponse(string);
-                }, ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
+                }, ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
             RequestManager.getInstance().addToQueue(request);
         }
@@ -58,7 +57,7 @@ abstract class CRUDRequest<T extends Model> {
             error -> {
                 String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 RequestListener.errorResponse(string);
-            }, ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
+            }, ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
         RequestManager.getInstance().addToQueue(request);
     }
@@ -78,7 +77,7 @@ abstract class CRUDRequest<T extends Model> {
             error -> {
                 String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 RequestListener.errorResponse(string);
-            }, ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
+            }, ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
         RequestManager.getInstance().addToQueue(request);
     }
@@ -103,7 +102,7 @@ abstract class CRUDRequest<T extends Model> {
                 error -> {
                     String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                     RequestListener.errorResponse(string);
-                }, ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
+                }, ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
             RequestManager.getInstance().addToQueue(request);
         }
@@ -115,7 +114,7 @@ abstract class CRUDRequest<T extends Model> {
     void delete(long id, String url, RequestListener<Boolean> RequestListener, boolean needToken) {
         ObjectRequest request = new ObjectRequest(Request.Method.DELETE, String.format("%s/api/$s", Constants.SERVER_HOST, url), null,
             response -> RequestListener.successResponse(true), error -> RequestListener.errorResponse("Can't delete account"),
-                ((needToken) ? AuthProvider.getInstance().getAuthToken() : null));
+                ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
         RequestManager.getInstance().addToQueue(request);
     }
 }

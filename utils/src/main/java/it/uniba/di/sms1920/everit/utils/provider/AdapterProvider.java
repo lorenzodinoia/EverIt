@@ -1,8 +1,9 @@
-package it.uniba.di.sms1920.everit.utils.adapter;
+package it.uniba.di.sms1920.everit.utils.provider;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.models.City;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Model;
