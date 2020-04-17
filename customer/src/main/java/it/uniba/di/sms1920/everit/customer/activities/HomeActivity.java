@@ -24,15 +24,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mToggle;
-    private EditText editTextSearc;
-    private Button btnSearch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        this.initComponent();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -77,10 +74,5 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void initComponent(){
-        editTextSearc = findViewById(R.id.editTextSearch);
-        btnSearch = findViewById(R.id.btnSearch);
-
-    }
 
 }
