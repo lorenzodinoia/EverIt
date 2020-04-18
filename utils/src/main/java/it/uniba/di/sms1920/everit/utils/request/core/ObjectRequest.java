@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.utils.request;
+package it.uniba.di.sms1920.everit.utils.request.core;
 
 import androidx.annotation.Nullable;
 
@@ -10,8 +10,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ObjectRequest extends JsonObjectRequest {
-
+public class ObjectRequest extends JsonObjectRequest {
     private String authToken;
 
     ObjectRequest(int method, String url, @Nullable JSONObject jsonRequest, Response.Listener<JSONObject> listener, @Nullable Response.ErrorListener errorListener) {

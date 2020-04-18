@@ -17,19 +17,20 @@ import it.uniba.di.sms1920.everit.utils.models.Order;
 
 
 public class Adapter<T extends Model> {
-    private static final Gson gson = new GsonBuilder()
+    static final String JSON_DATETIME_FORMAT =  "yyyy-MM-dd H:mm";
+    private static final Gson jsonConverter = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .registerTypeAdapter(boolean.class, new BooleanAdapter())
             .registerTypeAdapter(Order.class, new OrderAdapter())
-            .setDateFormat("yyyy-MM-dd H:mm")
+            .setDateFormat(JSON_DATETIME_FORMAT)
             .create();
 
     public JSONObject toJSON(T object) throws JSONException {
-        return new JSONObject(gson.toJson(object));
+        return new JSONObject(jsonConverter.toJson(object));
     }
 
     public T fromJSON(JSONObject json, Type classType) {
-        return gson.fromJson(json.toString(), classType);
+        return jsonConverter.fromJson(json.toString(), classType);
     }
 
     public Collection<T> fromJSONArray(JSONArray json, Type classType) throws JSONException{
@@ -37,7 +38,7 @@ public class Adapter<T extends Model> {
 
         for(int i = 0; i < json.length(); i++) {
             JSONObject object = json.getJSONObject(i);
-            collection.add(gson.fromJson(object.toString(), classType));
+            collection.add(jsonConverter.fromJson(object.toString(), classType));
         }
 
         return collection;

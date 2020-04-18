@@ -3,8 +3,11 @@ package it.uniba.di.sms1920.everit.utils.request;
 import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.utils.models.City;
+import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
+import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-public final class CityRequest extends CRUDRequest<City> implements  CRUD<City>{
+public final class CityRequest extends CRUDRequest<City> implements CRUD<City> {
 
     private final String URL = "city";
 

@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">EverIt Utility</string>
-    <string name="notification_channel_name" translatable="false">All notifications</string>
+    <string name="notification_channel_name">All notifications</string>
     <string name="email" translatable="false">Email</string>
     <string name="password" translatable="false">Password</string>
     <string name="login" translatable="false">Login</string>
     <string name="hint_register">Don\'t have an account?</string>
     <string name="goto_signup">Sign Up</string>
     <string name="wrong_login">Wrong email or password</string>
+    <string name="message_404">The required item is not available</string>
+    <string name="message_500">The server has been encountered a problem</string>
+    <string name="message_401">Access denied</string>
+    <string name="message_generic_error">A problem has occurred</string>
+    <string name="message_wrong_login">Wrong email or password</string>
 </resources>

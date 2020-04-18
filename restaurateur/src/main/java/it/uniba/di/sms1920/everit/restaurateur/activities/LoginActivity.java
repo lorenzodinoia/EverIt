@@ -10,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
-import it.uniba.di.sms1920.everit.utils.request.AuthProvider;
-import it.uniba.di.sms1920.everit.utils.request.RequestListener;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.AuthProvider;
+import it.uniba.di.sms1920.everit.utils.provider.CredentialProvider;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
@@ -47,19 +51,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String email, String password) {
-        AuthProvider.getInstance().login(email, password, new RequestListener<Boolean>() {
+        AuthProvider<Restaurateur> auth = Providers.getAuthProvider();
+        auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Restaurateur>() {
             @Override
-            public void successResponse(Boolean response) {
+            public void successResponse(Restaurateur response) {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
                 finish();
             }
 
             @Override
-            public void errorResponse(String error) {
-                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+            public void errorResponse(RequestException error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
-        }, false);
+        });
     }
 
     private void launchSignUpActivity() {

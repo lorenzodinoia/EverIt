@@ -1,11 +1,10 @@
-package it.uniba.di.sms1920.everit.utils.request;
+package it.uniba.di.sms1920.everit.utils.request.core;
 
 import com.android.volley.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
@@ -16,9 +15,9 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.User;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
-abstract class CRUDRequest<T extends Model> {
+public abstract class CRUDRequest<T extends Model> {
 
-    void create(T model, String url, RequestListener<T> RequestListener, Class<T> modelType, boolean needToken) {
+    protected void create(T model, String url, RequestListener<T> requestListener, Class<T> modelType, boolean needToken) {
         Adapter<T> adapter = AdapterProvider.getAdapterFor(modelType);
         try {
             JSONObject jsonObject = adapter.toJSON(model);
@@ -26,7 +25,7 @@ abstract class CRUDRequest<T extends Model> {
             ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s", Constants.SERVER_HOST, url), jsonObject,
                 response -> {
                     T data = adapter.fromJSON(response, modelType);
-                    RequestListener.successResponse(data);
+                    requestListener.successResponse(data);
                     if (model instanceof User) {
                         ((User) model).setPassword(null);
                     }
@@ -35,54 +34,51 @@ abstract class CRUDRequest<T extends Model> {
                     }
                 },
                 error -> {
-                    String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                    RequestListener.errorResponse(string);
+                    requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
                 }, ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
-            RequestManager.getInstance().addToQueue(request);
+            Providers.getRequestProvider().addToQueue(request);
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    void read(long id, String url, RequestListener<T> RequestListener, Class<T> modelType, boolean needToken) {
+    protected void read(long id, String url, RequestListener<T> requestListener, Class<T> modelType, boolean needToken) {
         Adapter<T> adapter = AdapterProvider.getAdapterFor(modelType);
 
         ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s/%d", Constants.SERVER_HOST, url, id), null,
             response -> {
                 T data = adapter.fromJSON(response, modelType);
-                RequestListener.successResponse(data);
+                requestListener.successResponse(data);
             },
             error -> {
-                String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                RequestListener.errorResponse(string);
+                requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
             }, ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
-        RequestManager.getInstance().addToQueue(request);
+        Providers.getRequestProvider().addToQueue(request);
     }
 
-    void readAll(String url, RequestListener<Collection<T>> RequestListener, Class<T> modelType, boolean needToken) {
+    protected void readAll(String url, RequestListener<Collection<T>> requestListener, Class<T> modelType, boolean needToken) {
         Adapter<T> adapter = AdapterProvider.getAdapterFor(modelType);
 
         ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s", Constants.SERVER_HOST, url), null,
             response -> {
                 try {
                     Collection<T> collection = adapter.fromJSONArray(response, modelType);
-                    RequestListener.successResponse(collection);
-                } catch (JSONException e) {
-                    RequestListener.errorResponse(e.getMessage());
+                    requestListener.successResponse(collection);
+                }
+                catch (JSONException e) {
+                    requestListener.errorResponse(new RequestException(e.getMessage()));
                 }
             },
-            error -> {
-                String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                RequestListener.errorResponse(string);
-            }, ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
+            error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
-        RequestManager.getInstance().addToQueue(request);
+        Providers.getRequestProvider().addToQueue(request);
     }
 
-    void update(T model, String url, RequestListener<T> RequestListener, Class<T> modelType, boolean needToken) {
+    protected void update(T model, String url, RequestListener<T> requestListener, Class<T> modelType, boolean needToken) {
         Adapter<T> adapter = AdapterProvider.getAdapterFor(modelType);
 
         try {
@@ -91,7 +87,7 @@ abstract class CRUDRequest<T extends Model> {
             ObjectRequest request = new ObjectRequest(Request.Method.PUT, String.format("%s/api/%s", Constants.SERVER_HOST, url), jsonObject,
                 response -> {
                     T data = adapter.fromJSON(response, modelType);
-                    RequestListener.successResponse(data);
+                    requestListener.successResponse(data);
                     if (model instanceof User) {
                         ((User) model).setPassword(null);
                     }
@@ -99,22 +95,22 @@ abstract class CRUDRequest<T extends Model> {
                         ((Restaurateur) model).setPassword(null);
                     }
                 },
-                error -> {
-                    String string = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                    RequestListener.errorResponse(string);
-                }, ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
+                error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                    ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
-            RequestManager.getInstance().addToQueue(request);
+            Providers.getRequestProvider().addToQueue(request);
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    void delete(long id, String url, RequestListener<Boolean> RequestListener, boolean needToken) {
-        ObjectRequest request = new ObjectRequest(Request.Method.DELETE, String.format("%s/api/$s", Constants.SERVER_HOST, url), null,
-            response -> RequestListener.successResponse(true), error -> RequestListener.errorResponse("Can't delete account"),
+    protected void delete(long id, String url, RequestListener<Boolean> RequestListener, boolean needToken) {
+        ObjectRequest request = new ObjectRequest(Request.Method.DELETE, String.format("%s/api/%s", Constants.SERVER_HOST, url), null,
+            response -> RequestListener.successResponse(true),
+            error -> RequestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
                 ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
-        RequestManager.getInstance().addToQueue(request);
+
+        Providers.getRequestProvider().addToQueue(request);
     }
 }

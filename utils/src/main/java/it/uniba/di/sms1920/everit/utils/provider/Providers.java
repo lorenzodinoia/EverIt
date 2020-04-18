@@ -9,15 +9,17 @@ import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
-import it.uniba.di.sms1920.everit.utils.request.RequestManager;
 
 public final class Providers {
+    private static Context applicationContext;
     private static PreferencesProvider preferencesProvider;
     private static CredentialProvider credentialProvider;
     private static FirebaseTokenProvider firebaseTokenProvider;
     private static AuthProvider authProvider;
+    private static RequestProvider requestProvider;
 
     public static void init(Context applicationContext, Constants.Variants variant) throws Exception {
+        Providers.applicationContext = applicationContext;
         preferencesProvider = new PreferencesProvider(applicationContext);
         try {
             credentialProvider = new CredentialProvider(applicationContext);
@@ -39,7 +41,7 @@ public final class Providers {
             default:
                 throw new Exception();
         }
-        RequestManager.init(applicationContext);
+        requestProvider = new RequestProvider(applicationContext);
     }
 
     public static PreferencesProvider getPreferencesProvider() {
@@ -56,5 +58,13 @@ public final class Providers {
 
     public static AuthProvider getAuthProvider() {
         return authProvider;
+    }
+
+    public static RequestProvider getRequestProvider() {
+        return requestProvider;
+    }
+
+    public static String getStringFromApplicationContext(int stringId) {
+        return applicationContext.getString(stringId);
     }
 }

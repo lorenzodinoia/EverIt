@@ -13,7 +13,8 @@ import java.util.InvalidPropertiesFormatException;
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
-import it.uniba.di.sms1920.everit.utils.request.RequestListener;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText editTextName;
@@ -61,8 +62,8 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void errorResponse(String error) {
-                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+                    public void errorResponse(RequestException error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }

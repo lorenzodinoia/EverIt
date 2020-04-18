@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.utils.request;
+package it.uniba.di.sms1920.everit.utils.request.core;
 
 import java.util.Collection;
 

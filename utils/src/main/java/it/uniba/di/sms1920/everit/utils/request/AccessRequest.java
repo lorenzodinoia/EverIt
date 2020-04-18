@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.R;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.models.Authenticable;
@@ -11,12 +12,16 @@ import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Model;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.core.AuthRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestExceptionFactory;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
+import it.uniba.di.sms1920.everit.utils.request.core.UnauthorizedException;
 
-public final class LoginRequest<T extends Model & Authenticable> {
+public final class AccessRequest<T extends Model & Authenticable> {
     private String serverEndpoint;
     private Class<T> userType;
 
-    public LoginRequest(Class<T> userType) {
+    public AccessRequest(Class<T> userType) {
         if (userType == Customer.class) {
             this.serverEndpoint = "customer";
         }
@@ -55,16 +60,16 @@ public final class LoginRequest<T extends Model & Authenticable> {
                     RequestListener.successResponse(user);
                 },
                 error -> {
-                    //TODO Sostituire con messaggi tradotti
-                    if(error.networkResponse.statusCode != 401){
-                        RequestListener.errorResponse("Server error");
+                    if(error.networkResponse.statusCode == 401){
+                        String translatedMessage = Providers.getStringFromApplicationContext(R.string.message_wrong_login);
+                        RequestListener.errorResponse(new UnauthorizedException(translatedMessage));
                     }
-                    else{
-                        RequestListener.errorResponse("Wrong email or password");
+                    else {
+                        RequestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
                     }
                 });
 
-            RequestManager.getInstance().addToQueue(request);
+            Providers.getRequestProvider().addToQueue(request);
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -77,15 +82,9 @@ public final class LoginRequest<T extends Model & Authenticable> {
                 RequestListener.successResponse(true);
             },
             error -> {
-                //TODO Sostituire con messaggi tradotti
-                if(error.networkResponse.statusCode != 401) {
-                    RequestListener.errorResponse("Server Error");
-                }
-                else {
-                    RequestListener.errorResponse("Unauthorized");
-                }
+                RequestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
             }, Providers.getAuthProvider().getAuthToken());
 
-        RequestManager.getInstance().addToQueue(request);
+        Providers.getRequestProvider().addToQueue(request);
     }
 }

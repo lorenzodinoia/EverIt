@@ -14,10 +14,10 @@ import java.security.GeneralSecurityException;
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.NotificationService;
-import it.uniba.di.sms1920.everit.utils.PreferencesManager;
-import it.uniba.di.sms1920.everit.utils.credentials.CredentialsManager;
-import it.uniba.di.sms1920.everit.utils.request.AuthProvider;
-import it.uniba.di.sms1920.everit.utils.request.RequestManager;
+import it.uniba.di.sms1920.everit.utils.models.Rider;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.AccessRequest;
+import it.uniba.di.sms1920.everit.utils.provider.RequestProvider;
 
 public class LauncherActivity extends AppCompatActivity {
     private static final float DELAY = 1f;
@@ -42,16 +42,11 @@ public class LauncherActivity extends AppCompatActivity {
 
     private void initServices() {
         Context context = getApplicationContext();
-
-        RequestManager.init(context);
-        AuthProvider.init(Constants.Variants.RIDER);
-        NotificationService.initNotificationChannel(context);
-        PreferencesManager.init(getApplicationContext());
         try {
-            CredentialsManager.init(getApplicationContext());
+            Providers.init(context, Constants.Variants.RIDER);
         }
-        catch (GeneralSecurityException | IOException e) {
-            Log.e("CREDENTIALS", "Unable to initialize CredentialsManager class");
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
