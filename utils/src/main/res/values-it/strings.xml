@@ -4,4 +4,10 @@
     <string name="hint_register">Non hai un account?</string>
     <string name="goto_signup">Registrati</string>
     <string name="wrong_login">Email o password errate</string>
+    <string name="notification_channel_name">Tutte le notifiche</string>
+    <string name="message_404">L\'elemento richiesto non è disponibile</string>
+    <string name="message_500">Il server ha riscontrato un problema</string>
+    <string name="message_401">Accesso negato</string>
+    <string name="message_generic_error">Si è verificato un problema</string>
+    <string name="message_wrong_login">Email o password non valide</string>
 </resources>

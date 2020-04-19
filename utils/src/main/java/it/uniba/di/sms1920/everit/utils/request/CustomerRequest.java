@@ -3,6 +3,9 @@ package it.uniba.di.sms1920.everit.utils.request;
 import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.utils.models.Customer;
+import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
+import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public final class CustomerRequest extends CRUDRequest<Customer> implements CRUD<Customer> {
 

@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.utils.request;
+package it.uniba.di.sms1920.everit.utils.request.core;
 
 import androidx.annotation.Nullable;
 
@@ -10,8 +10,7 @@ import org.json.JSONArray;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ArrayRequest extends JsonArrayRequest {
-
+public class ArrayRequest extends JsonArrayRequest {
     private String authToken;
 
     ArrayRequest(int method, String url, @Nullable JSONArray jsonRequest, Response.Listener<JSONArray> listener, @Nullable Response.ErrorListener errorListener) {

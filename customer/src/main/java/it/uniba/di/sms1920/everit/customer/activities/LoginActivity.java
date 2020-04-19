@@ -10,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
-import it.uniba.di.sms1920.everit.utils.request.AuthProvider;
-import it.uniba.di.sms1920.everit.utils.request.RequestListener;
+import it.uniba.di.sms1920.everit.utils.models.Customer;
+import it.uniba.di.sms1920.everit.utils.provider.AuthProvider;
+import it.uniba.di.sms1920.everit.utils.provider.CredentialProvider;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
@@ -47,19 +51,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String email, String password) {
-        AuthProvider.getInstance().login(email, password, new RequestListener<Boolean>() {
+        AuthProvider<Customer> auth = Providers.getAuthProvider();
+        auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Customer>() {
             @Override
-            public void successResponse(Boolean response) {
-                Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
-                startActivity(intent);
-                finish();
+            public void successResponse(Customer response) {
+                Toast.makeText(getApplicationContext(), "Login completato", Toast.LENGTH_LONG ).show();
             }
 
             @Override
-            public void errorResponse(String error) {
-                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+            public void errorResponse(RequestException error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG ).show();
             }
-        }, false);
+        });
     }
 
     private void launchSignUpActivity() {

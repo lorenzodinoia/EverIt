@@ -4,20 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
-import it.uniba.di.sms1920.everit.utils.NotificationService;
-import it.uniba.di.sms1920.everit.utils.PreferencesManager;
-import it.uniba.di.sms1920.everit.utils.credentials.CredentialsManager;
-import it.uniba.di.sms1920.everit.utils.request.AuthProvider;
-import it.uniba.di.sms1920.everit.utils.request.RequestManager;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
 public class LauncherActivity extends AppCompatActivity {
     private static final float DELAY = 1f;
@@ -38,20 +30,17 @@ public class LauncherActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }, ((int) DELAY * 1000));
+
     }
 
     private void initServices() {
         Context context = getApplicationContext();
 
-        RequestManager.init(context);
-        AuthProvider.init(Constants.Variants.CUSTOMER);
-        NotificationService.initNotificationChannel(context);
-        PreferencesManager.init(getApplicationContext());
         try {
-            CredentialsManager.init(getApplicationContext());
+            Providers.init(context, Constants.Variants.CUSTOMER);
         }
-        catch (GeneralSecurityException | IOException e) {
-            Log.e("CREDENTIALS", "Unable to initialize CredentialsManager class");
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

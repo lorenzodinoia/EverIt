@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,16 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
-import it.uniba.di.sms1920.everit.utils.request.AuthProvider;
-import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
-import it.uniba.di.sms1920.everit.utils.request.RequestListener;
 
 
 public class OrderListActivity extends AppCompatActivity {
@@ -57,7 +52,8 @@ public class OrderListActivity extends AppCompatActivity {
         assert recyclerView != null; //TODO Sto assert pare messo qui perchè pesava il culo mettere un if del cazzo, e meno male che lo ha scritto Google...
 
         //TODO Rimuovere login. Inserito solo a scopo di test
-        AuthProvider.getInstance().login("mario.rossi@gmail.com", "password123", new RequestListener<Boolean>() {
+        /*
+        LoginRequest.getInstance().login("mario.rossi@gmail.com", "password123", new RequestListener<Boolean>() {
             @Override
             public void successResponse(Boolean response) {
                 OrderRequest orderRequest = new OrderRequest();
@@ -82,6 +78,8 @@ public class OrderListActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Niente login", Toast.LENGTH_LONG).show();
             }
         }, false);
+
+         */
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
