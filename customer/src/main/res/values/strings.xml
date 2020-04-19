@@ -26,4 +26,6 @@
     <string name="search">Search</string>
     <string name="open" translatable="false">OpenDrawer</string>
     <string name="close" translatable="false">CloseDrawer</string>
+    <string name="order">My orders</string>
+    <string name="home">Home</string>
 </resources>

@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         AuthProvider.getInstance().login(email, password, new RequestListener<Boolean>() {
             @Override
             public void successResponse(Boolean response) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
                 finish();
             }

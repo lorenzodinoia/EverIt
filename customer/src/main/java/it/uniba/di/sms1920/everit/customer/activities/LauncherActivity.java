@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.NotificationService;
 import it.uniba.di.sms1920.everit.utils.PreferencesManager;
@@ -35,7 +34,7 @@ public class LauncherActivity extends AppCompatActivity {
         this.initServices();
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            Intent intent = new Intent(LauncherActivity.this, HomeActivity.class);
+            Intent intent = new Intent(LauncherActivity.this, BaseActivity.class);
             startActivity(intent);
             finish();
         }, ((int) DELAY * 1000));
