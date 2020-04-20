@@ -1,6 +1,5 @@
 package it.uniba.di.sms1920.everit.customer.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -40,7 +39,7 @@ public class SignUpFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.fragment_profile, parent, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_sign_up, parent, false);
         this.initComponents(viewRoot);
         return viewRoot;
     }
@@ -51,7 +50,8 @@ public class SignUpFragment extends Fragment {
         editTextPhoneNumber = viewRoot.findViewById(R.id.editTextPhone);
         editTextName = viewRoot.findViewById(R.id.editTextName);
         editTextSurname = viewRoot.findViewById(R.id.editTextSurname);
-        Button buttonSignUp = viewRoot.findViewById(R.id.buttonSignUp); //si rompe qui per un NPE perchè non vede il cazzo di bottone
+        /*
+        Button buttonSignUp = viewRoot.findViewById(R.id.btnSign); //si rompe qui per un NPE perchè non vede il cazzo di bottone
         buttonSignUp.setOnClickListener(view -> {
             String email = editTextMail.getText().toString();
             String password = editTextPassword.getText().toString();
@@ -80,5 +80,7 @@ public class SignUpFragment extends Fragment {
                 Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+         */
     }
 }

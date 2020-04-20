@@ -89,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <Button
-        android:id="@+id/buttonSignUp"
+        android:id="@+id/btnSign"
         style="@style/BtnMain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
