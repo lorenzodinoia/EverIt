@@ -23,10 +23,10 @@
         </activity>
         <activity
             android:name=".activities.BaseActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.orders.OrderListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
