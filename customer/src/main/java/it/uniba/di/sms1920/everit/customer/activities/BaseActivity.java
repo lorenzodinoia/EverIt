@@ -28,7 +28,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-
+         //setHome qualcosa
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -52,14 +52,37 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_profile: {
-                //if(isValidDestination(R.id.fragment_profile))
-                Toast.makeText(this, "successo", Toast.LENGTH_SHORT).show();
+                if(isValidDestination(R.id.profileFragment)) {
+                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.profileFragment);
+                }
                 break;
             }
             case R.id.nav_order: {
                 if(isValidDestination(R.id.orderFragment)) {
                     Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.orderFragment);
                 }
+                break;
+            }
+            case R.id.nav_review: {
+                if(isValidDestination(R.id.reviewFragment)) {
+                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.reviewFragment);
+                }
+                break;
+            }
+            case R.id.nav_setting: {
+                if(isValidDestination(R.id.settingsFragment)) {
+                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.settingsFragment);
+                }
+                break;
+            }
+            case R.id.nav_signUp: {
+                if(isValidDestination(R.id.signUpFragment)) {
+                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.signUpFragment);
+                }
+                break;
+            }
+            case R.id.exit: {
+                //logout qui
                 break;
             }
         }

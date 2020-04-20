@@ -28,12 +28,6 @@
             android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.SignUpActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.ProfileActivity"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".activities.orders.OrderListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

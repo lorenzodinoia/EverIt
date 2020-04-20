@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         this.editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         this.editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         this.buttonGoToSignUp = (Button) findViewById(R.id.buttonGoToSignUp);
-        this.buttonGoToSignUp.setOnClickListener(view -> launchSignUpActivity());
+        //this.buttonGoToSignUp.setOnClickListener(view -> /**launchSignUpActivity()*/);
         this.buttonLogin = (Button) findViewById(R.id.buttonLogin);
         this.buttonLogin.setOnClickListener(view -> {
             String email = this.editTextEmail.getText().toString();
@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    //Authprovider.getuser  if null cazzi
 
     private void login(String email, String password) {
         AuthProvider<Customer> auth = Providers.getAuthProvider();
@@ -65,8 +67,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
     private void launchSignUpActivity() {
         Intent goIntent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(goIntent);
     }
+     */
 }

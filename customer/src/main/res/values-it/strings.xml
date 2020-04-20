@@ -15,4 +15,7 @@
     <string name="search">Search</string>
     <string name="order">I miei ordini</string>
     <string name="home">Home</string>
+    <string name="My_profile">Il mio profilo</string>
+    <string name="logout">Logout</string>
+    <string name="My_review">Le mie recensioni</string>
 </resources>

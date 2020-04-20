@@ -35,7 +35,6 @@ public class LauncherActivity extends AppCompatActivity {
 
     private void initServices() {
         Context context = getApplicationContext();
-
         try {
             Providers.init(context, Constants.Variants.CUSTOMER);
         }

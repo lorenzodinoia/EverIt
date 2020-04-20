@@ -2,13 +2,18 @@ package it.uniba.di.sms1920.everit.customer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.InvalidPropertiesFormatException;
+import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
@@ -16,33 +21,37 @@ import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpFragment extends Fragment {
+
     private EditText editTextName;
     private EditText editTextSurname;
-    private Button buttonSignUp;
     private EditText editTextPhoneNumber;
     private EditText editTextMail;
     private EditText editTextPassword;
-    private Button buttonLogin;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
-        this.initComponents();
+    public SignUpFragment() {
+        // Required empty public constructor
     }
 
-    private void initComponents() {
-        editTextMail =  findViewById(R.id.editTextMail);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        editTextPhoneNumber = findViewById(R.id.editTextPhone);
-        editTextName = findViewById(R.id.editTextName);
-        editTextSurname = findViewById(R.id.editTextSurname);
-        buttonLogin = findViewById(R.id.buttonLogin);
-        buttonLogin.setOnClickListener(view ->{
-            launchLoginActivity();
-        });
-        buttonSignUp = findViewById(R.id.buttonSignUp);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View viewRoot = inflater.inflate(R.layout.fragment_profile, parent, false);
+        this.initComponents(viewRoot);
+        return viewRoot;
+    }
+
+    private void initComponents(View viewRoot) {
+        editTextMail =  viewRoot.findViewById(R.id.editTextMail);
+        editTextPassword = viewRoot.findViewById(R.id.editTextPassword);
+        editTextPhoneNumber = viewRoot.findViewById(R.id.editTextPhone);
+        editTextName = viewRoot.findViewById(R.id.editTextName);
+        editTextSurname = viewRoot.findViewById(R.id.editTextSurname);
+        Button buttonSignUp = viewRoot.findViewById(R.id.buttonSignUp); //si rompe qui per un NPE perchè non vede il cazzo di bottone
         buttonSignUp.setOnClickListener(view -> {
             String email = editTextMail.getText().toString();
             String password = editTextPassword.getText().toString();
@@ -57,24 +66,19 @@ public class SignUpActivity extends AppCompatActivity {
                 customerRequest.create(newCustomer, new RequestListener<Customer>() {
                     @Override
                     public void successResponse(Customer response) {
-                        Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
-                        launchLoginActivity();
+                        Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
+                        //launchLoginActivity();
                     }
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }
             catch (InvalidPropertiesFormatException e) {
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void launchLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 }

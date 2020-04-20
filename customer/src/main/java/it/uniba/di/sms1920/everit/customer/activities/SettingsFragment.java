@@ -11,12 +11,11 @@ import android.widget.TextView;
 
 import it.uniba.di.sms1920.everit.customer.R;
 
-
-public class OrderFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     TextView a;
 
-    public OrderFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
@@ -27,7 +26,7 @@ public class OrderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.fragment_order, parent, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_settings, parent, false);
         this.initComponent(viewRoot);
         return viewRoot;
     }
@@ -36,5 +35,4 @@ public class OrderFragment extends Fragment {
     private void initComponent(View viewRoot){
         a = viewRoot.findViewById(R.id.textView);
     }
-
 }
