@@ -36,7 +36,4 @@
             android:title="@string/logout"/>
     </group>
 
-    <item android:id="@+id/nav_signUp"
-        android:title="@string/signup"/>
-
 </menu>

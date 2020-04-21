@@ -24,7 +24,7 @@ public class ReviewFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.fragment_profile, parent, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_review, parent, false);
         this.initComponent(viewRoot);
         return viewRoot;
     }

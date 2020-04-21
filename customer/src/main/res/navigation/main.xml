@@ -30,9 +30,11 @@
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings"/>
 
+    <!--
     <fragment android:id="@+id/signUpFragment"
         android:name="it.uniba.di.sms1920.everit.customer.activities.SignUpFragment"
         android:label="@string/signup"
         tools:layout="@layout/fragment_sign_up"/>
+        -->
 
 </navigation>

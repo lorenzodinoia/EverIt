@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.customer.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -16,6 +17,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.provider.AuthProvider;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,11 +34,20 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.inflateMenu(R.menu.drawer_view_unlogged);
+        /** l'utente risulta sempre loggato a priori, setto a mano quello che devo testare
+         * TODO: fix utente loggato dalla launcher act
+        if(Providers.getAuthProvider() == null){
+            navigationView.inflateMenu(R.menu.drawer_view_unlogged);
+        }else{
+            navigationView.inflateMenu(R.menu.drawer_view);
+        }
+        */
         init();
     }
 
     private void init() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_default);
+        Toolbar toolbar =  findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -78,9 +90,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_signUp: {
-                if(isValidDestination(R.id.signUpFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.signUpFragment);
-                }
+                Intent goIntent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(goIntent);
+                break;
+            }
+            case R.id.nav_login: {
+                Intent goIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(goIntent);
                 break;
             }
             case R.id.exit: {
