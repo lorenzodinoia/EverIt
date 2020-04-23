@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Restaurateur>() {
             @Override
             public void successResponse(Restaurateur response) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
                 finish();
             }

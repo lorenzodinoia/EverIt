@@ -24,7 +24,7 @@
             android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activities.BaseActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.SignUpActivity"

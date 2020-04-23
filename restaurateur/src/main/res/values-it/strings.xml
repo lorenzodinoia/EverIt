@@ -11,4 +11,5 @@
     <string name="price">Costo</string>
     <string name="description">Descrizione</string>
     <string name="productName">Nome prodotto</string>
+    <string name="home">home</string>
 </resources>
