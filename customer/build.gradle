@@ -5,7 +5,6 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
-
     defaultConfig {
         applicationId "it.uniba.di.sms1920.everit.customer"
         minSdkVersion 23
@@ -16,6 +15,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 
     buildTypes {
         release {
@@ -41,7 +45,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
-    implementation 'androidx.navigation:navigation-ui:2.2.1'
-    implementation 'androidx.navigation:navigation-fragment:2.2.1'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation(name:'HERE-sdk', ext:'aar')
 }

@@ -12,4 +12,7 @@
     <string name="message_401">Access denied</string>
     <string name="message_generic_error">A problem has occurred</string>
     <string name="message_wrong_login">Wrong email or password</string>
+    <string name="HERE_APP_ID" translatable="false">zo6HLimKYImFomvOL8Va</string>
+    <string name="HERE_APP_CODE" translatable="false">MepmiCAZxo6-hosH67T1IA</string>
+    <string name="HERE_LICENSE" translatable="false">Go80h5vpP+BVGu97orsmVkLLvRyFvTJnKnFPpFehiGbtoOtdRhdOR6TM94RBxhWCqEPqaZHz7RjqLtl18+qr3Kb8LuJhVm6ZSbAl7myMnsPVr3n9+YcWJ2LSGzQzNLIhUyVMbBFL25+RlvvmwvR54V2LYXffM2YYeEADc6SDjVDusshgXngLNwhX0v/y5vNizju2hjk7OWZ0e+6rwvvnl/aomHzRT04fylXATdH5PxR5M7YXJZnnsIixiK+u9JObV7Gk3oAJda7aSVrZwjkqZZHTUgPzQtBuZrV6U9Xl1Ts2qrWs+005aY9DXdjUZfif7lKO1dL5n2Xx8mmzgQOtlVqKJcMj4S7C2GSD1WFzcZ+2x2FIzkHYjyvVt/YGpg8P52k1NPjNxcKoVFz38mpX8PGZA/48YC/KdJhyK4QcZdSR+UowwlEDurAD8fPKqvsoxRcyOFOgN0QbVYuzmAnttxV0QD6wTnEQYqM7kVc19ni0jc86xGoXYI8bKS69yQ6mGd1lGLLoRyIi7qIxpamg9UN2hfly/2qDSP8nyhO5vwjWjfz//9FfB+FmAfpZij8/8jiPpMIqLj8php2MmZ+HmyXLP2H8DPieDWZXhHRDNYALLbjtu73gFFhs7Iltco2Geho2NGoMZtcGsU04APDbuG33Tox9Wq8gG9c87DNc7bU=</string>
 </resources>

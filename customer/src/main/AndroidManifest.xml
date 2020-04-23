@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".activities.SignUpActivity"></activity>
         <activity
             android:name=".activities.LauncherActivity"
@@ -36,11 +38,19 @@
             android:name=".activities.orders.OrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <meta-data android:name="com.here.android.maps.appid"
+            android:value="@string/HERE_APP_ID"/>
+        <meta-data android:name="com.here.android.maps.apptoken"
+            android:value="@string/HERE_APP_CODE"/>
+        <meta-data android:name="com.here.android.maps.license.key"
+            android:value="@string/HERE_LICENSE"/>
+
         <service android:name="it.uniba.di.sms1920.everit.utils.NotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>
