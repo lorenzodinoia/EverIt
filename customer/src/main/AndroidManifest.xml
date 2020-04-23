@@ -15,7 +15,8 @@
         android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".activities.SignUpActivity"></activity>
+        <activity android:name=".activities.SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar">

@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.rider.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -32,8 +33,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void init() {
-        //  Toolbar toolbar =  findViewById(R.id.toolbar_default);
-        //  setSupportActionBar(toolbar);
+          Toolbar toolbar =  findViewById(R.id.toolbar_default);
+          setSupportActionBar(toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
