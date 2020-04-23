@@ -30,6 +30,11 @@
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings"/>
 
+    <fragment android:id="@+id/privacySecurityFragment"
+        android:name="it.uniba.di.sms1920.everit.customer.activities.PrivacySecurityFragment"
+        android:label="@string/privacySecurity"
+        tools:layout="@layout/fragment_privacy_security"/>
+
     <!--
     <fragment android:id="@+id/signUpFragment"
         android:name="it.uniba.di.sms1920.everit.customer.activities.SignUpFragment"

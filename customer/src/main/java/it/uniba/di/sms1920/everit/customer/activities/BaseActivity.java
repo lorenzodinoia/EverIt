@@ -13,12 +13,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.navigation.NavigationView;
-
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.utils.provider.AuthProvider;
-import it.uniba.di.sms1920.everit.utils.provider.Providers;
+
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,7 +31,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.inflateMenu(R.menu.drawer_view_unlogged);
+        navigationView.inflateMenu(R.menu.drawer_view);
         /** l'utente risulta sempre loggato a priori, setto a mano quello che devo testare
          * TODO: fix utente loggato dalla launcher act
         if(Providers.getAuthProvider() == null){
@@ -42,7 +39,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }else{
             navigationView.inflateMenu(R.menu.drawer_view);
         }
-        */
+         */
         init();
     }
 
@@ -68,6 +65,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_profile: {
                 if(isValidDestination(R.id.profileFragment)) {
                     Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.profileFragment);
+                }
+                break;
+            }
+            case R.id.nav_privacyNsecurity: {
+                if(isValidDestination(R.id.privacySecurityFragment)) {
+                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.privacySecurityFragment);
                 }
                 break;
             }
@@ -137,4 +140,5 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment), drawerLayout);
     }
+
 }

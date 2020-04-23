@@ -17,7 +17,6 @@ public class ProfileFragment extends Fragment {
     private EditText editTextSurname;
     private EditText editTextPhone;
     private EditText editTextMail;
-    private EditText editTextPassword;
     private Button buttonEditConfirm;
 
     public ProfileFragment() {
@@ -46,9 +45,6 @@ public class ProfileFragment extends Fragment {
         editTextMail =  viewRoot.findViewById(R.id.editTextMail);
         editTextMail.setEnabled(false);
 
-        editTextPassword = viewRoot.findViewById(R.id.editTextPassword);
-        editTextPassword.setEnabled(false);
-
         editTextPhone= viewRoot.findViewById(R.id.editTextPhone);
         editTextPhone.setEnabled(false);
 
@@ -62,7 +58,6 @@ public class ProfileFragment extends Fragment {
                 editTextSurname.setEnabled(true);
                 editTextMail.setEnabled(true);
                 editTextPhone.setEnabled(true);
-                editTextPassword.setEnabled(true);
                 v.setTag("Confirm");
             } else {
                 buttonEditConfirm.setText("Edit");
@@ -70,7 +65,6 @@ public class ProfileFragment extends Fragment {
                 editTextSurname.setEnabled(false);
                 editTextMail.setEnabled(false);
                 editTextPhone.setEnabled(false);
-                editTextPassword.setEnabled(false);
                 v.setTag("Edit");
             }
         });

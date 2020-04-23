@@ -4,16 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.BaseActivity" >
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/section_home">
         <item android:id="@+id/nav_home"
             android:title="@string/home"/>
     </group>
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/section_account">
         <item
             android:id="@+id/nav_profile"
             android:icon="@android:drawable/ic_menu_myplaces"
             android:title="@string/My_profile" />
+
+        <item
+            android:id="@+id/nav_privacyNsecurity"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="@string/privacySecurity" />
 
         <item
             android:id="@+id/nav_order"
@@ -26,7 +33,8 @@
             android:title="@string/My_review" />
     </group>
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/section_settings">
         <item
             android:id="@+id/nav_setting"
             android:icon="@android:drawable/ic_menu_manage"

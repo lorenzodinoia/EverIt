@@ -31,4 +31,11 @@
     <string name="My_profile">My profile</string>
     <string name="logout">Logout</string>
     <string name="My_review">My reviews</string>
+    <string name="oldPassword">Old password</string>
+    <string name="newPassword">New Password</string>
+    <string name="DeleteAccount">Delete account</string>
+    <string name="newPasswordConf">Confirm new password</string>
+    <string name="changePassword">Change password</string>
+    <string name="privacySecurity">Privacy and security</string>
+
 </resources>

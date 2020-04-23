@@ -29,5 +29,9 @@ public class ReviewFragment extends Fragment {
         return viewRoot;
     }
 
-    private void initComponent(View viewRoot){ }
+    private void initComponent(View viewRoot){
+
+
+
+    }
 }
