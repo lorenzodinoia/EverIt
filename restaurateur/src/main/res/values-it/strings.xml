@@ -13,4 +13,8 @@
     <string name="productName">Nome prodotto</string>
     <string name="home">home</string>
     <string name="loadImage">Load profile image</string>
+    <string name="logout">Logout</string>
+    <string name="VATnumber">VAT number</string>
+    <string name="shopType">Shop type</string>
+    <string name="city">City</string>
 </resources>

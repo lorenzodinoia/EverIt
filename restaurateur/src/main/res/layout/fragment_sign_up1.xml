@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/toolbar_default"/>
 
     <View
         android:id="@+id/view2"
@@ -72,42 +73,38 @@
     <Button
         android:id="@+id/buttonContinue"
         style="@style/BtnMain"
-        android:layout_width="0dp"
+        android:layout_width="312dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="50dp"
         android:background="@drawable/btn_bg"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
 
-
-    <!--
     <TextView
-    android:id="@+id/textSpinner"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:text="@string/shopType"
-    app:layout_constraintBottom_toTopOf="@+id/spinnerShopType"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.147"
-    app:layout_constraintStart_toStartOf="parent" />
+        android:id="@+id/textCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/city"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerCity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.129"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
-    android:id="@+id/spinnerShopType"
-    android:layout_width="312dp"
-    android:layout_height="40dp"
-    android:layout_marginStart="50dp"
-    android:layout_marginTop="20dp"
-    android:background="@drawable/edit_tex_rndb"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/editTextAddress" />
-        -->
+        android:id="@+id/spinnerCity"
+        android:layout_width="312dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/edit_tex_rndb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextAddress" />
+
 
     <EditText
         android:id="@+id/editTextAddress"
@@ -127,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/address"
+        android:text="@string/VATnumber"
         app:layout_constraintBottom_toTopOf="@+id/editTextVAT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.147"
@@ -146,22 +143,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumber" />
 
+
     <TextView
         android:id="@+id/textPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/address"
+        android:text="@string/phone_number"
         app:layout_constraintBottom_toTopOf="@+id/editTextPhoneNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.147"
+        app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <EditText
         android:id="@+id/editTextPhoneNumber"
         style="@style/EditTextMain"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
         android:hint="@string/phone_number"
@@ -169,7 +166,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCity" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
