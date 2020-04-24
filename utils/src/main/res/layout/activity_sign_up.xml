@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/toolbar_default"/>
 
     <EditText
         android:id="@+id/editTextName"
         style="@style/EditTextMain"
         android:layout_width="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
@@ -26,7 +27,6 @@
         android:id="@+id/editTextSurname"
         style="@style/EditTextMain"
         android:layout_width="312dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
         android:hint="@string/surname"
@@ -39,7 +39,6 @@
         android:id="@+id/editTextMail"
         style="@style/EditTextMain"
         android:layout_width="312dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
         android:hint="@string/email"
@@ -48,13 +47,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextSurname" />
 
-
     <EditText
         android:id="@+id/editTextPhone"
         style="@style/EditTextMain"
         android:layout_width="312dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
         android:hint="@string/phone_number"
@@ -67,8 +63,6 @@
         android:id="@+id/editTextPassword"
         style="@style/EditTextMain"
         android:layout_width="312dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
         android:hint="@string/password"
@@ -77,11 +71,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
 
+
     <View
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="30dp"
         android:background="#c0c0c0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,12 +85,12 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <Button
-        android:id="@+id/btnSign"
+        android:id="@+id/buttonSignUp"
         style="@style/BtnMain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/btn_bg"
         android:text="@string/signup"
@@ -104,11 +99,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
+    <TextView
+        android:id="@+id/questionRegistered"
+        style="@style/TextViewMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/hint_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignUp" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        style="@style/BtnAccent"
+        android:layout_width="312dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_bg"
+        android:text="@string/goto_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/questionRegistered" />
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="148dp"
-        android:layout_height="143dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

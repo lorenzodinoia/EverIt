@@ -12,4 +12,5 @@
     <string name="description">Descrizione</string>
     <string name="productName">Nome prodotto</string>
     <string name="home">home</string>
+    <string name="loadImage">Load profile image</string>
 </resources>

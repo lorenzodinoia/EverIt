@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/toolbar_default"/>
+
+
     <EditText
         android:id="@+id/editTextEmail"
         style="@style/EditTextMain"
@@ -28,7 +31,7 @@
         style="@style/EditTextMain"
         android:layout_width="0dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/edit_tex_rndb"
         android:ems="10"
@@ -97,9 +100,9 @@
 
     <ImageView
         android:id="@+id/imageViewIcon"
-        android:layout_width="148dp"
-        android:layout_height="143dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         android:background="#00532A2A"
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"

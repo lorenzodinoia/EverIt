@@ -12,4 +12,8 @@
     <string name="description">Description</string>
     <string name="productName">Product name</string>
     <string name="home">home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="loadImage">Load profile image</string>
 </resources>

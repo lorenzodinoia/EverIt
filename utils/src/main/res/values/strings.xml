@@ -7,6 +7,12 @@
     <string name="hint_register">Don\'t have an account?</string>
     <string name="goto_signup">Sign Up</string>
     <string name="wrong_login">Wrong email or password</string>
+    <string name="phone_number">Phone number</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="goto_login" translatable="false">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="hint_login">Already a member?</string>
     <string name="message_404">The required item is not available</string>
     <string name="message_500">The server has been encountered a problem</string>
     <string name="message_401">Access denied</string>

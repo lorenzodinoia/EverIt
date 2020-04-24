@@ -33,8 +33,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void init() {
-          Toolbar toolbar =  findViewById(R.id.toolbar_default);
-          setSupportActionBar(toolbar);
+        //  Toolbar toolbar =  findViewById(R.id.toolbar_default);
+         // setSupportActionBar(toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);

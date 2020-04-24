@@ -28,21 +28,21 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(it.uniba.di.sms1920.everit.utils.R.layout.activity_sign_up);
         this.initComponents();
     }
 
     private void initComponents() {
-        editTextMail =  findViewById(R.id.editTextMail);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        editTextPhoneNumber = findViewById(R.id.editTextPhone);
-        editTextName = findViewById(R.id.editTextName);
-        editTextSurname = findViewById(R.id.editTextSurname);
-        buttonLogin = findViewById(R.id.buttonLogin);
+        editTextMail =  findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextMail);
+        editTextPassword = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPassword);
+        editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
+        editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
+        editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
+        buttonLogin = findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonLogin);
         buttonLogin.setOnClickListener(view ->{
             launchLoginActivity();
         });
-        buttonSignUp = findViewById(R.id.buttonSignUp);
+        buttonSignUp = findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonSignUp);
         buttonSignUp.setOnClickListener(view -> {
             String email = editTextMail.getText().toString();
             String password = editTextPassword.getText().toString();

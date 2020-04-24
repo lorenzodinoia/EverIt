@@ -10,4 +10,9 @@
     <string name="message_401">Accesso negato</string>
     <string name="message_generic_error">Si è verificato un problema</string>
     <string name="message_wrong_login">Email o password non valide</string>
+    <string name="signup">Registrati</string>
+    <string name="hint_login">Sei già iscritto?</string>
+    <string name="phone_number">Numero di telefono</string>
+    <string name="name">Nome</string>
+    <string name="surname">Cognome</string>
 </resources>

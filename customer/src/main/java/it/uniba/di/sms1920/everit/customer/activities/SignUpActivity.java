@@ -28,7 +28,10 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+       setContentView(it.uniba.di.sms1920.everit.utils.R.layout.activity_sign_up);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
+        setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -48,13 +51,13 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private void initComponents() {
-        editTextMail =  findViewById(R.id.editTextMail);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        editTextPhoneNumber = findViewById(R.id.editTextPhone);
-        editTextName = findViewById(R.id.editTextName);
-        editTextSurname = findViewById(R.id.editTextSurname);
+        editTextMail =  findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextMail);
+        editTextPassword = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPassword);
+        editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
+        editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
+        editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
 
-        Button buttonSignUp = findViewById(R.id.btnSign); //si rompe qui per un NPE perchè non vede il cazzo di bottone
+        Button buttonSignUp = findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonSignUp); //si rompe qui per un NPE perchè non vede il cazzo di bottone
         buttonSignUp.setOnClickListener(view -> {
             String email = editTextMail.getText().toString();
             String password = editTextPassword.getText().toString();
