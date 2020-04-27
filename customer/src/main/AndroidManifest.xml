@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="it.uniba.di.sms1920.everit.customer">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -49,6 +52,14 @@
         <service android:name="it.uniba.di.sms1920.everit.utils.NotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.here.android.mpa.service.MapService"
+            android:label="HereMapService">
+            <intent-filter>
+                <action android:name="com.here.android.mpa.service.MapService.v3" />
             </intent-filter>
         </service>
 
