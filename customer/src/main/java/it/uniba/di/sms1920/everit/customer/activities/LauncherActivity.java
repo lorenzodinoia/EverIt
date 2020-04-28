@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.here.android.mpa.common.ApplicationContext;
+import com.here.android.mpa.common.MapEngine;
+import com.here.android.mpa.common.OnEngineInitListener;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
@@ -41,5 +46,15 @@ public class LauncherActivity extends AppCompatActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        //HERE SDK MapEngine initialization
+        MapEngine mapEngine = MapEngine.getInstance();
+        ApplicationContext appContext = new ApplicationContext(context);
+        mapEngine.init(appContext, error -> {
+            if (error != OnEngineInitListener.Error.NONE) {
+                Log.e("HERE-SDK", error.getDetails());
+                //TODO Servizio HERE non avviato, fai qualcosa
+            }
+        });
     }
 }

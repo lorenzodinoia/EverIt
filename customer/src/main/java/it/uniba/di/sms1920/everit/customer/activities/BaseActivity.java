@@ -31,7 +31,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.inflateMenu(R.menu.drawer_view_unlogged);
+        navigationView.inflateMenu(R.menu.drawer_view);
         /** l'utente risulta sempre loggato a priori, setto a mano quello che devo testare
          * TODO: fix utente loggato dalla launcher act
         if(Providers.getAuthProvider() == null){
