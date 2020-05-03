@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
@@ -18,6 +19,7 @@ public class SignUp2Fragment extends Fragment {
     private EditText editTextEmail;
     private EditText editTextPassword;
     private EditText editTextdescription;
+    private ImageButton imgButtonProfileImg;
     private Button btnContinue;
 
     public SignUp2Fragment() {
@@ -41,7 +43,7 @@ public class SignUp2Fragment extends Fragment {
         editTextEmail = viewRoot.findViewById(R.id.editTextMail);
         editTextPassword = viewRoot.findViewById(R.id.editTextPassword);
         editTextdescription = viewRoot.findViewById(R.id.editTextDescription);
-
+        imgButtonProfileImg = viewRoot.findViewById(R.id.imageButton);
         btnContinue = viewRoot.findViewById(R.id.buttonContinue);
         btnContinue.setOnClickListener(view -> {
             String email = editTextEmail.getText().toString();

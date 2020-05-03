@@ -64,6 +64,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
     }
@@ -84,6 +85,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.test: {
                 Intent goIntent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(goIntent);
+                break;
+            }
+            case R.id.Menu: {
+                Intent goIntent = new Intent(getApplicationContext(), MenuActivity.class);
                 startActivity(goIntent);
                 break;
             }

@@ -1,6 +1,8 @@
 package it.uniba.di.sms1920.everit.customer.activities.results;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -10,33 +12,20 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.dummy.DummyContent;
+import it.uniba.di.sms1920.everit.customer.activities.LoginActivity;
 
-/**
- * A fragment representing a single Result detail screen.
- * This fragment is either contained in a {@link ResultListActivity}
- * in two-pane mode (on tablets) or a {@link ResultDetailActivity}
- * on handsets.
- */
+
 public class ResultDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
+
+    private Button btnInfo;
+    private Button btnReviews;
+    private Button btnMaps;
+
     public static final String ARG_ITEM_ID = "item_id";
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private DummyContent.DummyItem mItem;
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ResultDetailFragment() {
     }
 
@@ -45,29 +34,35 @@ public class ResultDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
-            }
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.result_detail, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View viewRoot = inflater.inflate(R.layout.result_detail, parent, false);
+        this.initComponent(viewRoot);
+        return viewRoot;
+    }
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.result_detail)).setText(mItem.details);
-        }
+    private void initComponent(View viewRoot) {
+        btnInfo = viewRoot.findViewById(R.id.btnInfo);
+        btnReviews = viewRoot.findViewById(R.id.btnReview);
+        btnMaps = viewRoot.findViewById(R.id.btnMaps);
 
-        return rootView;
+        btnMaps.setOnClickListener(v ->{
+            Uri location = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
+
+            String title = getResources().getString(R.string.ChooseApp);
+
+            Intent chooser = Intent.createChooser(mapIntent, title);
+
+            if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(chooser);
+            }
+
+        });
     }
 }

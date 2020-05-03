@@ -13,6 +13,7 @@ import com.here.android.mpa.common.MapEngine;
 import com.here.android.mpa.common.OnEngineInitListener;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
@@ -31,7 +32,7 @@ public class LauncherActivity extends AppCompatActivity {
         this.initServices();
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            Intent intent = new Intent(LauncherActivity.this, BaseActivity.class);
+            Intent intent = new Intent(LauncherActivity.this, ResultDetailActivity.class);
             startActivity(intent);
             finish();
         }, ((int) DELAY * 1000));

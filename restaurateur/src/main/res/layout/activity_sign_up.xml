@@ -4,7 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/signUpMain">
+    android:id="@+id/drawer_layout_SignUp">
 
+    <include layout="@layout/toolbar_default"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/containerMain">
+
+
+    </FrameLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

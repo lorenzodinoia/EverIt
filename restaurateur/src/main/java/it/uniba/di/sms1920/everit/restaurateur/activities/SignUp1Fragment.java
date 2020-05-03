@@ -24,7 +24,7 @@ public class SignUp1Fragment extends Fragment {
     private EditText editTextPhoneNumber;
     private EditText editTextVAT;
     private EditText editTextAddress;
-    private Button btnContinue;
+    private Button btnNext;
 
     public SignUp1Fragment() {
         // Required empty public constructor
@@ -55,8 +55,8 @@ public class SignUp1Fragment extends Fragment {
         editTextPhoneNumber = viewRoot.findViewById(R.id.editTextPhoneNumber);
         editTextShopName = viewRoot.findViewById(R.id.editTextShopName);
         editTextVAT = viewRoot.findViewById(R.id.editTextVAT);
-        btnContinue = viewRoot.findViewById(R.id.buttonContinue);
-        btnContinue.setOnClickListener(view -> { //TODO qualcuno sa perhcè sto bottone non prende il tap?
+        btnNext = viewRoot.findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(v -> {
             String shopName = editTextShopName.getText().toString();
             String address = editTextAddress.getText().toString();
             String VAT = editTextVAT.getText().toString();
@@ -64,14 +64,14 @@ public class SignUp1Fragment extends Fragment {
 
             //TODO Controlli
 
-            Fragment fragment_signup2 = new Fragment(R.layout.fragment_sign_up2);
-            FragmentManager fragmentManager = getChildFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.signUpMain, fragment_signup2);
-            //fragmentTransaction.addToBackStack(fragment.toString());
+            SignUp2Fragment fragment2 = new SignUp2Fragment();
+            FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.containerMain,fragment2,"tag");
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         });
-
     }
+
 
 }

@@ -17,4 +17,7 @@
     <string name="VATnumber">VAT number</string>
     <string name="shopType">Shop type</string>
     <string name="city">City</string>
+    <string name="addNewCat">Add new category</string>
+    <string name="newCategoryName">New category name</string>
+    <string name="confirm">Confirm</string>
 </resources>

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.SignUpActivity">
 
+
     <View
         android:id="@+id/view3"
         android:layout_width="0dp"
