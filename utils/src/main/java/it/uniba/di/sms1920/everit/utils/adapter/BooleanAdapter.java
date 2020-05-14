@@ -8,9 +8,15 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 
 public final class BooleanAdapter implements JsonDeserializer<Boolean> {
-    public Boolean deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
-    {
-        int value = json.getAsInt();
-        return value != 0;
+    @Override
+    public Boolean deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        try {
+            int value = json.getAsInt();
+            return value != 0;
+        }
+        catch (NumberFormatException e) {
+            String value = json.getAsString();
+            return value.equals("true");
+        }
     }
 }

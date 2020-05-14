@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -14,7 +16,7 @@ public class Order extends Model {
     private boolean delivered;
     private Map<Product, Integer> products;
     private Restaurateur restaurateur;
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     private Order(Builder builder) {
         super(builder.id);
@@ -101,11 +103,11 @@ public class Order extends Model {
         this.restaurateur = restaurateur;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

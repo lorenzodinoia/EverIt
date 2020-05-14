@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Collection;
 import java.util.Map;
 
@@ -16,7 +18,9 @@ public class Restaurateur extends Model implements Authenticable {
     private String imagePath;
     private ShopType shopType;
     private City city;
+    private boolean isOpen;
     private Collection<ProductCategory> productCategories;
+    @SerializedName("opening_times")
     private Collection<OpeningDay> openingDays;
     private Map<Customer, Integer> feedbacks;
 
@@ -134,12 +138,28 @@ public class Restaurateur extends Model implements Authenticable {
         this.city = city;
     }
 
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
     public Collection<ProductCategory> getProductCategories() {
         return productCategories;
     }
 
     public void setProductCategories(Collection<ProductCategory> productCategories) {
         this.productCategories = productCategories;
+    }
+
+    public Collection<OpeningDay> getOpeningDays() {
+        return openingDays;
+    }
+
+    public void setOpeningDays(Collection<OpeningDay> openingDays) {
+        this.openingDays = openingDays;
     }
 
     public Map<Customer, Integer> getFeedbacks() {

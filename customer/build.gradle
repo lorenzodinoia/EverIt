@@ -52,4 +52,6 @@ dependencies {
     implementation(name: 'HERE-sdk', ext: 'aar')
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 }

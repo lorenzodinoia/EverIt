@@ -1,17 +1,22 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
-import java.util.Collection;
+import androidx.annotation.Nullable;
 
-public class OpeningDay extends Model {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+public class OpeningDay extends Model implements Comparable<OpeningDay> {
     private String name;
-    private Collection<OpeningTime> openingTimes;
+    private List<OpeningTime> openingTimes = new ArrayList<>();
 
     public OpeningDay(long id, String name) {
         super(id);
         this.name = name;
     }
 
-    public OpeningDay(long id, String name, Collection<OpeningTime> openingTimes) {
+    public OpeningDay(long id, String name, List<OpeningTime> openingTimes) {
         super(id);
         this.name = name;
         this.openingTimes = openingTimes;
@@ -25,8 +30,27 @@ public class OpeningDay extends Model {
         return openingTimes;
     }
 
-    public OpeningDay setOpeningTimes(Collection<OpeningTime> openingTimes) {
+    public OpeningDay setOpeningTimes(List<OpeningTime> openingTimes) {
         this.openingTimes = openingTimes;
         return this;
+    }
+
+    public void sortOpeningTimes() {
+        Collections.sort(this.openingTimes);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof OpeningDay) {
+            OpeningDay instance = (OpeningDay) obj;
+            return this.getName().equals(instance.getName());
+        }
+
+        return false;
+    }
+
+    @Override
+    public int compareTo(OpeningDay o) {
+        return Long.compare(super.getId(), o.getId());
     }
 }

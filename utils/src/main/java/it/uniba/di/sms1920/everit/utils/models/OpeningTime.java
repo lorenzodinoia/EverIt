@@ -1,23 +1,24 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
-import java.time.LocalTime;
+import com.google.gson.annotations.SerializedName;
 
-public class OpeningTime extends Model {
+import org.threeten.bp.LocalTime;
+
+public class OpeningTime extends Model implements Comparable<OpeningTime> {
+    @SerializedName("opening_time")
     private LocalTime open;
+    @SerializedName("closing_time")
     private LocalTime close;
-    private OpeningDay openingDay;
 
-    public OpeningTime(LocalTime open, LocalTime close, OpeningDay openingDay) {
+    public OpeningTime(LocalTime open, LocalTime close) {
         this.open = open;
         this.close = close;
-        this.openingDay = openingDay;
     }
 
-    public OpeningTime(long id, LocalTime open, LocalTime close, OpeningDay openingDay) {
+    public OpeningTime(long id, LocalTime open, LocalTime close) {
         super(id);
         this.open = open;
         this.close = close;
-        this.openingDay = openingDay;
     }
 
     public LocalTime getOpen() {
@@ -38,12 +39,8 @@ public class OpeningTime extends Model {
         return this;
     }
 
-    public OpeningDay getOpeningDay() {
-        return openingDay;
-    }
-
-    public OpeningTime setOpeningDay(OpeningDay openingDay) {
-        this.openingDay = openingDay;
-        return this;
+    @Override
+    public int compareTo(OpeningTime o) {
+        return this.open.compareTo(o.getOpen());
     }
 }
