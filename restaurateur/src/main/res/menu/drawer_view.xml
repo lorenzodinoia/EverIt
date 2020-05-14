@@ -10,6 +10,24 @@
             android:id="@+id/nav_home"
             android:icon="@android:drawable/ic_menu_search"
             android:title="@string/home" />
+
+        <item
+            android:id="@+id/test"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="test" />
+
+        <item
+            android:id="@+id/Menu"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="Menu" />
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/section_out">
+        <item
+            android:id="@+id/logout"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/logout" />
     </group>
 
 </menu>

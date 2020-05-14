@@ -8,9 +8,8 @@
     android:fitsSystemWindows="true"
     android:id="@+id/drawer_layout">
 
-    <!--
     <include layout="@layout/toolbar_default"/>
-        -->
+
     <fragment
         android:layout_width="0dp"
         android:layout_height="0dp"

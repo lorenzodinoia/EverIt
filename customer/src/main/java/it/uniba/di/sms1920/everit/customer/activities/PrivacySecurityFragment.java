@@ -72,7 +72,6 @@ public class PrivacySecurityFragment extends Fragment {
 
             btnNo.setOnClickListener(PopupWindow -> popupWindow.dismiss());
 
-
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
     }

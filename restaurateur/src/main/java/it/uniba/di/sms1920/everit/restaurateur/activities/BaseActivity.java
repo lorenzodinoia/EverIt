@@ -37,8 +37,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void init() {
-     //   Toolbar toolbar =  findViewById(R.id.toolbar_default);
-       // setSupportActionBar(toolbar);
+         Toolbar toolbar =  findViewById(R.id.toolbar_default);
+         setSupportActionBar(toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -64,6 +64,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
     }
@@ -82,12 +83,21 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.homeFragment, null, navOptions);
                 break;
             }
-            /**
-            case R.id.exit: {
+            case R.id.test: {
+                Intent goIntent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(goIntent);
+                break;
+            }
+            case R.id.Menu: {
+                Intent goIntent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(goIntent);
+                break;
+            }
+            case R.id.logout: {
                 //logout qui
                 break;
             }
-             */
+
         }
         item.setChecked(true);
         drawerLayout.closeDrawer(GravityCompat.START);
