@@ -12,7 +12,7 @@ public class Restaurateur extends Model implements Authenticable {
     private String vatNumber;
     private String description;
     private float deliveryCost;
-    private int minimumPrice;
+    private int minPrice;
     private String imagePath;
     private ShopType shopType;
     private City city;
@@ -29,7 +29,7 @@ public class Restaurateur extends Model implements Authenticable {
         this.vatNumber = builder.vatNumber;
         this.description = builder.description;
         this.deliveryCost = builder.deliveryCost;
-        this.minimumPrice = builder.minimumPrice;
+        this.minPrice = builder.minPrice;
         this.imagePath = builder.imagePath;
         this.shopType = builder.shopType;
         this.city = builder.city;
@@ -102,12 +102,12 @@ public class Restaurateur extends Model implements Authenticable {
         this.deliveryCost = deliveryCost;
     }
 
-    public int getMinimumPrice() {
-        return minimumPrice;
+    public int getMinPrice() {
+        return minPrice;
     }
 
-    public void setMinimumPrice(int minimumPrice) {
-        this.minimumPrice = minimumPrice;
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
     }
 
     public String getImagePath() {
@@ -160,7 +160,7 @@ public class Restaurateur extends Model implements Authenticable {
         private String vatNumber;
         private String description;
         private float deliveryCost;
-        private int minimumPrice;
+        private int minPrice;
         private String imagePath;
         private ShopType shopType;
         private City city;
@@ -193,8 +193,8 @@ public class Restaurateur extends Model implements Authenticable {
             return this;
         }
 
-        public Builder setMinimumPrice(int minimumPrice) {
-            this.minimumPrice = minimumPrice;
+        public Builder setMinPrice(int minPrice) {
+            this.minPrice = minPrice;
             return this;
         }
 

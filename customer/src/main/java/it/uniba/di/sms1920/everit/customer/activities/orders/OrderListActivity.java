@@ -112,9 +112,7 @@ public class OrderListActivity extends AppCompatActivity {
                     arguments.putLong(OrderDetailFragment.ARG_ITEM_ID, item.getId());
                     OrderDetailFragment fragment = new OrderDetailFragment();
                     fragment.setArguments(arguments);
-                    parentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.order_detail_container, fragment)
-                            .commit();
+                    parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.order_detail_container, fragment).commit();
                 }
                 else {
                     Context context = view.getContext();

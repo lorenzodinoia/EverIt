@@ -9,198 +9,187 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Address;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
-/**
- * An activity representing a list of Results. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ResultDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 public class ResultListActivity extends AppCompatActivity {
+    public static final String PARAMETER_ADDRESS = "address";
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
+    private boolean twoPaneMode;
+    public static final List<Restaurateur> resultList = new ArrayList<>();
+    private RestaurateurRecyclerViewAdapter recyclerViewAdapter;
+    private Address searchAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_default);
+        toolbar.setTitle("Ristoranti"); //TODO Impostare stringa multi lingua
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //TODO Gestire ritorno indietro
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        resultList.clear();
 
         if (findViewById(R.id.result_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
+            /*
+             * Se il layout è presente vuol dire che l'app è installata su un dispositivo di grandi dimensioni
+             * Pertanto si utilizza la modalità con due pannelli
+             */
+            twoPaneMode = true;
         }
 
         View recyclerView = findViewById(R.id.result_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        if (recyclerView != null) {
+            setupRecyclerView((RecyclerView) recyclerView);
+        }
+
+        Intent intent = getIntent();
+        Address searchAddress;
+        if ((intent != null) && ((searchAddress = intent.getParcelableExtra(PARAMETER_ADDRESS)) != null)) {
+            this.searchAddress = searchAddress;
+            this.search();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "No data", Toast.LENGTH_LONG).show(); //TODO Impostare stringa multi lingua
+            finish();
+        }
+    }
+
+    private void search() {
+        RestaurateurRequest searchRequest = new RestaurateurRequest();
+        searchRequest.search(this.searchAddress.getLatitude(), this.searchAddress.getLongitude(), new RequestListener<Collection<Restaurateur>>() {
+            @Override
+            public void successResponse(Collection<Restaurateur> response) {
+                resultList.addAll(response);
+                if (recyclerViewAdapter != null) {
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+        this.recyclerViewAdapter = new RestaurateurRecyclerViewAdapter(this, ResultListActivity.resultList, twoPaneMode);
+        recyclerView.setAdapter(this.recyclerViewAdapter);
     }
 
-    public static class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public static Restaurateur getResultById(long id) {
+        Restaurateur restaurateur = null;
 
-        private final ResultListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
-        private final boolean mTwoPane;
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        for (Restaurateur r : ResultListActivity.resultList) {
+            if (r.getId() == id) {
+                restaurateur = r;
+                break;
+            }
+        }
+
+        return restaurateur;
+    }
+
+    public static class RestaurateurRecyclerViewAdapter extends RecyclerView.Adapter<RestaurateurRecyclerViewAdapter.ViewHolder> {
+        private final ResultListActivity parentActivity;
+        private final List<Restaurateur> results;
+        private final boolean towPaneMode;
+        private final View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
-                if (mTwoPane) {
+                Restaurateur item = (Restaurateur) view.getTag();
+                if (towPaneMode) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(ResultDetailFragment.ARG_ITEM_ID, item.id);
+                    arguments.putLong(ResultDetailFragment.ARG_ITEM_ID, item.getId());
                     ResultDetailFragment fragment = new ResultDetailFragment();
                     fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.result_detail_container, fragment)
-                            .commit();
-                } else {
+                    parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.result_detail_container, fragment).commit();
+                }
+                else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ResultDetailActivity.class);
-                    intent.putExtra(ResultDetailFragment.ARG_ITEM_ID, item.id);
+                    intent.putExtra(ResultDetailFragment.ARG_ITEM_ID, item.getId());
 
                     context.startActivity(intent);
                 }
             }
         };
 
-        SimpleItemRecyclerViewAdapter(ResultListActivity parent,
-                                      List<DummyContent.DummyItem> items,
-                                      boolean twoPane) {
-            mValues = items;
-            mParentActivity = parent;
-            mTwoPane = twoPane;
+        RestaurateurRecyclerViewAdapter(ResultListActivity parentActivity, List<Restaurateur> results, boolean twoPaneMode) {
+            this.results = results;
+            this.parentActivity = parentActivity;
+            towPaneMode = twoPaneMode;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.result_list_content, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.result_list_content, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            //holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            Restaurateur item = this.results.get(position);
+            if (item != null) {
+                String restaurantLogoPath = item.getImagePath();
+                if (restaurantLogoPath != null) {
+                    //Carica immagine dal server
+                    String imageUrl = String.format("https://everitsms.000webhostapp.com/%s", restaurantLogoPath);
+                    Picasso.get()
+                            .load(imageUrl)
+                            .error(R.mipmap.icon)
+                            .placeholder(R.mipmap.icon)
+                            .fit()
+                            .into(holder.imageViewRestaurantLogo);
+                }
+                holder.textViewRestaurantName.setText(item.getShopName());
+                String minPrice = String.format(Locale.getDefault(), "Importo minimo: € %d", item.getMinPrice());
+                holder.textViewMinPrice.setText(minPrice);
+                //TODO Gestire distanza del ristorante
 
-            holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
+                holder.itemView.setTag(results.get(position));
+                holder.itemView.setOnClickListener(onClickListener);
+            }
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return results.size();
         }
 
-        //TODO Sistemare View
-        class ViewHolder extends RecyclerView.ViewHolder {
-            //final TextView mIdView;
-            final TextView mContentView;
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            final ImageView imageViewRestaurantLogo;
+            final TextView textViewRestaurantName;
+            final TextView textViewMinPrice;
+            final TextView textViewRestaurantDistance;
 
             ViewHolder(View view) {
                 super(view);
-                //mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
-            }
-        }
-    }
-
-    public static class DummyContent {
-
-        /**
-         * An array of sample (dummy) items.
-         */
-        public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
-
-        /**
-         * A map of sample (dummy) items, by ID.
-         */
-        public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
-
-        private static final int COUNT = 25;
-
-        static {
-            // Add some sample items.
-            for (int i = 1; i <= COUNT; i++) {
-                addItem(createDummyItem(i));
-            }
-        }
-
-        private static void addItem(DummyItem item) {
-            ITEMS.add(item);
-            ITEM_MAP.put(item.id, item);
-        }
-
-        private static DummyItem createDummyItem(int position) {
-            return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
-        }
-
-        private static String makeDetails(int position) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("Details about Item: ").append(position);
-            for (int i = 0; i < position; i++) {
-                builder.append("\nMore details information here.");
-            }
-            return builder.toString();
-        }
-
-        /**
-         * A dummy item representing a piece of content.
-         */
-        public static class DummyItem {
-            public final String id;
-            public final String content;
-            public final String details;
-
-            public DummyItem(String id, String content, String details) {
-                this.id = id;
-                this.content = content;
-                this.details = details;
-            }
-
-            @Override
-            public String toString() {
-                return content;
+                imageViewRestaurantLogo = (ImageView) view.findViewById(R.id.imageViewRestaurantLogo);
+                textViewRestaurantName = (TextView) view.findViewById(R.id.textViewRestaurantName);
+                textViewMinPrice = (TextView) view.findViewById(R.id.textViewMinPrice);
+                textViewRestaurantDistance = (TextView) view.findViewById(R.id.textViewRestaurantDistance);
             }
         }
     }
