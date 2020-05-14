@@ -27,12 +27,18 @@ import com.here.android.mpa.search.ResultListener;
 import com.here.android.mpa.search.SearchRequest;
 import com.here.android.mpa.search.TextAutoSuggestionRequest;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.results.ResultListActivity;
+import it.uniba.di.sms1920.everit.utils.Address;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class HomeFragment extends Fragment {
 
@@ -60,12 +66,29 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+        RestaurateurRequest request = new RestaurateurRequest();
+        request.read(1, new RequestListener<Restaurateur>() {
+            @Override
+            public void successResponse(Restaurateur response) {
+                Restaurateur a = response;
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+
+            }
+        });
     }
 
 
     private void search() {
         Intent intent = new Intent(getActivity().getApplicationContext(), ResultListActivity.class);
+        Address address = new Address("via Edoardo Orabona", "Bari", 41.107798, 16.880203);
+        intent.putExtra(ResultListActivity.PARAMETER_ADDRESS, address);
         startActivity(intent);
+
+
+
         /*
         String query = editTextSearch.getText().toString();
 

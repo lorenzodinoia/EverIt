@@ -14,22 +14,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
 public class ResultListActivity extends AppCompatActivity {
+    public static final String PARAMETER_ADDRESS = "address";
+
     private boolean twoPaneMode;
     public static final List<Restaurateur> resultList = new ArrayList<>();
+    private RestaurateurRecyclerViewAdapter recyclerViewAdapter;
+    private Address searchAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,27 +50,6 @@ public class ResultListActivity extends AppCompatActivity {
 
         resultList.clear();
 
-        //Inserito solo a scopo di test
-        RestaurateurRequest request = new RestaurateurRequest();
-        request.read(1, new RequestListener<Restaurateur>() {
-            @Override
-            public void successResponse(Restaurateur response) {
-                resultList.add(response);
-
-                //Portare fuori
-                View recyclerView = findViewById(R.id.result_list);
-                if (recyclerView != null) {
-                    setupRecyclerView((RecyclerView) recyclerView);
-                }
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-
-            }
-        });
-
-
         if (findViewById(R.id.result_detail_container) != null) {
             /*
              * Se il layout è presente vuol dire che l'app è installata su un dispositivo di grandi dimensioni
@@ -71,10 +57,45 @@ public class ResultListActivity extends AppCompatActivity {
              */
             twoPaneMode = true;
         }
+
+        View recyclerView = findViewById(R.id.result_list);
+        if (recyclerView != null) {
+            setupRecyclerView((RecyclerView) recyclerView);
+        }
+
+        Intent intent = getIntent();
+        Address searchAddress;
+        if ((intent != null) && ((searchAddress = intent.getParcelableExtra(PARAMETER_ADDRESS)) != null)) {
+            this.searchAddress = searchAddress;
+            this.search();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "No data", Toast.LENGTH_LONG).show(); //TODO Impostare stringa multi lingua
+            finish();
+        }
+    }
+
+    private void search() {
+        RestaurateurRequest searchRequest = new RestaurateurRequest();
+        searchRequest.search(this.searchAddress.getLatitude(), this.searchAddress.getLongitude(), new RequestListener<Collection<Restaurateur>>() {
+            @Override
+            public void successResponse(Collection<Restaurateur> response) {
+                resultList.addAll(response);
+                if (recyclerViewAdapter != null) {
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, ResultListActivity.resultList, twoPaneMode));
+        this.recyclerViewAdapter = new RestaurateurRecyclerViewAdapter(this, ResultListActivity.resultList, twoPaneMode);
+        recyclerView.setAdapter(this.recyclerViewAdapter);
     }
 
     public static Restaurateur getResultById(long id) {
@@ -90,7 +111,7 @@ public class ResultListActivity extends AppCompatActivity {
         return restaurateur;
     }
 
-    public static class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public static class RestaurateurRecyclerViewAdapter extends RecyclerView.Adapter<RestaurateurRecyclerViewAdapter.ViewHolder> {
         private final ResultListActivity parentActivity;
         private final List<Restaurateur> results;
         private final boolean towPaneMode;
@@ -115,7 +136,7 @@ public class ResultListActivity extends AppCompatActivity {
             }
         };
 
-        SimpleItemRecyclerViewAdapter(ResultListActivity parentActivity, List<Restaurateur> results, boolean twoPaneMode) {
+        RestaurateurRecyclerViewAdapter(ResultListActivity parentActivity, List<Restaurateur> results, boolean twoPaneMode) {
             this.results = results;
             this.parentActivity = parentActivity;
             towPaneMode = twoPaneMode;
