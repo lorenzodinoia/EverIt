@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +20,8 @@ public class DialogNewCategory extends DialogFragment {
 
     private EditText editTextNameCat;
     private Button btnConfirm;
-    private ImageButton btnDismiss;
+    private Button btnCancel;
+
     private DialogNewCategoryListener listener;
 
 
@@ -34,14 +35,22 @@ public class DialogNewCategory extends DialogFragment {
 
         builder.setView(view);
 
-        builder.setView(view).setNegativeButton("Close", (dialog, which) -> {
-
-        }).setPositiveButton("Confirm", (dialog, which) -> {
-                String newCatName = editTextNameCat.getText().toString();
-                listener.getNewName(newCatName);
-        });
-
         editTextNameCat = view.findViewById(R.id.editTextCatName);
+        btnConfirm = view.findViewById(R.id.BtnConfirm);
+        btnConfirm.setOnClickListener(v -> {
+            String newCatName = editTextNameCat.getText().toString();
+            if(newCatName.equals("")){
+                Toast.makeText(getContext(), "EMPTY FIELD", Toast.LENGTH_LONG).show();
+            }else{
+                listener.getNewName(newCatName);
+                this.dismiss();
+            }
+
+        });
+        btnCancel = view.findViewById(R.id.BtnCancel);
+        btnCancel.setOnClickListener(v -> {
+            this.dismiss();
+        });
 
         return builder.create();
     }

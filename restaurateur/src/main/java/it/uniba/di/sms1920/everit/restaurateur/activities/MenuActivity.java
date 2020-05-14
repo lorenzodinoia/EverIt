@@ -14,6 +14,8 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,10 +26,10 @@ import it.uniba.di.sms1920.everit.restaurateur.R;
 
 public class MenuActivity extends AppCompatActivity implements DialogNewCategory.DialogNewCategoryListener {
 
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+    private ExpandableListView expandableListView;
+    private ExpandableListAdapter expandableListAdapter;
+    private List<String> expandableListTitle;
+    private HashMap<String, List<String>> expandableListDetail;
 
     private Button btnAddNewCat;
 
@@ -68,7 +70,8 @@ public class MenuActivity extends AppCompatActivity implements DialogNewCategory
 
     @Override
     public void getNewName(String name) {
-        String newName = name;
+        String newCatName = name;
+        Toast.makeText(getApplicationContext(), newCatName, Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout_SignUp">
 
     <include layout="@layout/toolbar_default"/>
@@ -12,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/containerMain">
-
-
     </FrameLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

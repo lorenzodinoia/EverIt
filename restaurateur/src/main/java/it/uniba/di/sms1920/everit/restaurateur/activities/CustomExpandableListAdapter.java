@@ -45,9 +45,12 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.list_item, null);
         }
 
-        TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
+        TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
+        expandedListTextView.setOnClickListener(v -> {Toast.makeText(context, "text", Toast.LENGTH_SHORT).show();});
         ImageButton btnModItem = convertView.findViewById(R.id.btnModItem);
+        btnModItem.setOnClickListener(v -> {Toast.makeText(context, "mod", Toast.LENGTH_SHORT).show();});
         ImageButton btnDelItem = convertView.findViewById(R.id.btnDelItem);
+        btnDelItem.setOnClickListener(v -> {Toast.makeText(context, "del", Toast.LENGTH_SHORT).show();});
         expandedListTextView.setText(expandedListText);
 
         return convertView;
@@ -77,14 +80,21 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String listTitle = (String) getGroup(listPosition);
+
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_group, null);
         }
+
         TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
-        //ImageButton btnModGroup = convertView.findViewById(R.id.btnModGroup);
+        listTitleTextView.setFocusable(false);
+        listTitleTextView.setOnClickListener(v -> {Toast.makeText(context, "title text", Toast.LENGTH_SHORT).show();});
+        ImageButton btnModGroup = convertView.findViewById(R.id.btnModGroup);
+        btnModGroup.setFocusable(false);
+        btnModGroup.setOnClickListener(v -> {Toast.makeText(context, "GROUP MOD", Toast.LENGTH_SHORT).show();});
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
+
         return convertView;
     }
 

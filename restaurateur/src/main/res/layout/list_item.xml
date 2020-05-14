@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="50dp"
     android:layout_width="match_parent"
-    android:background="@color/lightGreyAccent">
+    android:background="@color/whiteAccent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:context=".activities.MenuActivity">
 
         <TextView
             android:id="@+id/expandedListItem"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/btnModItem"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,10 +28,11 @@
             android:id="@+id/btnModItem"
             android:layout_width="41dp"
             android:layout_height="38dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="36dp"
+            android:focusable="false"
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_menu_edit"
-            android:text="A"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnDelItem"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,10 +40,11 @@
             android:id="@+id/btnDelItem"
             android:layout_width="41dp"
             android:layout_height="38dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="24dp"
+            android:focusable="false"
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_menu_delete"
-            android:text="A"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -40,12 +40,6 @@ public class SignUp1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up1, parent, false);
 
-        Toolbar toolbar = viewRoot.findViewById(R.id.toolbar_default);
-        ((AppCompatActivity) (getActivity())).setSupportActionBar(toolbar);
-
-        (((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        (((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-
         this.initComponent(viewRoot);
         return viewRoot;
     }
