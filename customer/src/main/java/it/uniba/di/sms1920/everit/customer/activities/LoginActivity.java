@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //Authprovider.getuser  if null cazzi
+    //Authprovider.getuser  if null non fa nulla
 
     private void login(String email, String password) {
         AuthProvider<Customer> auth = Providers.getAuthProvider();
@@ -79,6 +79,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void successResponse(Customer response) {
                 Toast.makeText(getApplicationContext(), "Login completato", Toast.LENGTH_LONG ).show();
+                //TODO agguingere refresh schermata home
+                Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override

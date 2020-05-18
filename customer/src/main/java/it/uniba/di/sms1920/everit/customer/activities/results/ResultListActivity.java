@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Address;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -155,7 +156,7 @@ public class ResultListActivity extends AppCompatActivity {
                 String restaurantLogoPath = item.getImagePath();
                 if (restaurantLogoPath != null) {
                     //Carica immagine dal server
-                    String imageUrl = String.format("https://everitsms.000webhostapp.com/%s", restaurantLogoPath);
+                    String imageUrl = String.format("%s/%s", Constants.SERVER_HOST,restaurantLogoPath);
                     Picasso.get()
                             .load(imageUrl)
                             .error(R.mipmap.icon)

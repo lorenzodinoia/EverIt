@@ -21,6 +21,9 @@
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
 
+    <!-- Review Strings -->
+    <string name="reviews">Reviews</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="search">Search</string>
@@ -39,9 +42,10 @@
     <string name="privacySecurity">Privacy and security</string>
     <string name="title_result_list">Results</string>
     <string name="title_result_detail">Result Detail</string>
-    <string name="reviews">Reviews</string>
     <string name="info">Info</string>
     <string name="ShowOnMaps">Show position on Maps</string>
     <string name="ChooseApp">Choose App</string>
+    <string name="title_review_list">Reviews</string>
+    <string name="title_review_detail">Review Detail</string>
 
 </resources>

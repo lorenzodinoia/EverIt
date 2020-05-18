@@ -24,10 +24,15 @@
     <string name="changePassword">Cambia password</string>
     <string name="privacySecurity">Privacy e sicurezza</string>
     <string name="newPassword">Nuova Password</string>
-    <string name="reviews">Reviews</string>
     <string name="info">Info</string>
     <string name="ShowOnMaps">Show position on Maps</string>
     <string name="ChooseApp">Choose App</string>
-    <string name="title_result_list">Results</string>
-    <string name="title_result_detail">Result Detail</string>
+    <string name="title_result_list">Risultati</string>
+    <string name="title_result_detail">Dettaglio Risultati</string>
+
+    <!-- Review Strings -->
+    <string name="reviews">Recensioni</string>
+    <string name="title_review_list">Recensioni</string>
+    <string name="title_review_detail">Dettaglio Recensione</string>
+
 </resources>

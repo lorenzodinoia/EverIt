@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.customer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewListActivity;
+import it.uniba.di.sms1920.everit.utils.models.Customer;
+import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,15 +38,29 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.inflateMenu(R.menu.drawer_view);
-        /** l'utente risulta sempre loggato a priori, setto a mano quello che devo testare
-         * TODO: fix utente loggato dalla launcher act
-        if(Providers.getAuthProvider() == null){
-            navigationView.inflateMenu(R.menu.drawer_view_unlogged);
-        }else{
+        if(Providers.getAuthProvider().getUser() != null){
             navigationView.inflateMenu(R.menu.drawer_view);
+        }else{
+            try {
+                Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Customer>() {
+                    @Override
+                    public void successResponse(Customer response) {
+                        Log.d("test", "Success");
+                        navigationView.inflateMenu(R.menu.drawer_view);
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        Log.d("test", "Error");
+                        navigationView.inflateMenu(R.menu.drawer_view_unlogged);
+                    }
+                });
+            } catch (NoSuchCredentialException e) {
+                Log.d("test", "Non salva credenziali");
+                navigationView.inflateMenu(R.menu.drawer_view_unlogged);
+            }
         }
-         */
+
         init();
     }
 
@@ -81,9 +102,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_review: {
-                if(isValidDestination(R.id.reviewFragment)) {
+                //TODO risolvere con un fragment
+                /*if(isValidDestination(R.id.reviewFragment)) {
                     Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.reviewFragment);
                 }
+                break;*/
+                Intent intent = new Intent(getApplicationContext(), ReviewListActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.nav_setting: {
@@ -103,7 +128,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.exit: {
-                //logout qui
+                //TODO implementare logout
                 break;
             }
         }
