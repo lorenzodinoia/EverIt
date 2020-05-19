@@ -7,39 +7,29 @@
     android:background="@color/whiteAccent">
 
 
-    <TextView
-        android:id="@+id/textName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/newCategoryName"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextCatName"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextCategoryNameContainer"
         style="@style/EditTextMain"
-        android:layout_width="0dp"
-        android:layout_height="33dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/edit_tex_rndb"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
+        android:hint="@string/newCategoryName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textName" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextCategoryName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/BtnConfirm"
-        style="@style/BtnMain"
+        style="@style/ButtonMain"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="30dp"
@@ -50,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCatName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextCategoryNameContainer" />
 
     <View
         android:id="@+id/view7"
@@ -67,7 +57,7 @@
 
     <Button
         android:id="@+id/BtnCancel"
-        style="@style/BtnImportant"
+        style="@style/ButtonImportant"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="30dp"

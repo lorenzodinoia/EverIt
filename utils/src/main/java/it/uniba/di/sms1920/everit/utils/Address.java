@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.utils;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,7 +10,15 @@ public final class Address implements Parcelable {
     private double latitude;
     private double longitude;
 
-    public Address(String address, String city, double latitude, double longitude) {
+    public Address(Location location) {
+        this(location.getLatitude(), location.getLongitude());
+    }
+
+    public Address(double latitude, double longitude) {
+        this( latitude, longitude, null, null);
+    }
+
+    public Address (double latitude, double longitude, String address, String city) {
         this.address = address;
         this.city = city;
         this.latitude = latitude;
@@ -17,7 +26,7 @@ public final class Address implements Parcelable {
     }
 
     private Address(Parcel in) {
-        this(in.readString(), in.readString(), in.readDouble(), in.readDouble());
+        this(in.readDouble(), in.readDouble(), in.readString(), in.readString());
     }
 
     public String getAddress() {
@@ -37,15 +46,25 @@ public final class Address implements Parcelable {
     }
 
     public String getFullAddress() {
-        return String.format("%s, %s", city, address);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (this.city != null) {
+            stringBuilder.append(this.city);
+            stringBuilder.append(", ");
+        }
+        if (this.address != null) {
+            stringBuilder.append(this.address);
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(address);
-        dest.writeString(city);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
+        dest.writeString(address);
+        dest.writeString(city);
     }
 
     @Override

@@ -2,8 +2,6 @@ package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -12,20 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
-import java.util.Objects;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
 public class SignUp1Fragment extends Fragment {
 
-    private EditText editTextShopName;
-    private EditText editTextPhoneNumber;
-    private EditText editTextVAT;
-    private EditText editTextAddress;
-    private Button btnNext;
+    private TextInputEditText editTextShopName;
+    private TextInputEditText editTextPhoneNumber;
+    private TextInputEditText editTextVAT;
+    private TextInputEditText editTextAddress;
+    private MaterialButton btnNext;
 
     public SignUp1Fragment() {
         // Required empty public constructor

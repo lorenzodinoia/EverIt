@@ -20,11 +20,6 @@
         android:label="@string/order"
         tools:layout="@layout/fragment_order"/>
 
-    <fragment android:id="@+id/reviewFragment"
-        android:name="it.uniba.di.sms1920.everit.customer.activities.ReviewFragment"
-        android:label="@string/My_review"
-        tools:layout="@layout/fragment_review"/>
-
     <fragment android:id="@+id/settingsFragment"
         android:name="it.uniba.di.sms1920.everit.customer.activities.SettingsFragment"
         android:label="@string/settings"

@@ -5,62 +5,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-        <EditText
-            android:id="@+id/editTextName"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextNameContainer"
             style="@style/EditTextMain"
-            android:layout_width="312dp"
-            android:layout_marginTop="132dp"
-            android:background="@drawable/edit_tex_rndb"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="50dp"
+            android:hint="@string/name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/editTextSurname"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:importantForAutofill="no"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextSurnameContainer"
             style="@style/EditTextMain"
-            android:layout_width="312dp"
-            android:layout_marginTop="48dp"
-            android:background="@drawable/edit_tex_rndb"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="textNoSuggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="50dp"
+            android:hint="@string/surname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextNameContainer">
 
-        <EditText
-            android:id="@+id/editTextMail"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextSurname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions"
+                    android:importantForAutofill="no"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextMailContainer"
             style="@style/EditTextMain"
-            android:layout_width="312dp"
-            android:layout_marginTop="48dp"
-            android:background="@drawable/edit_tex_rndb"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="50dp"
+            android:hint="@string/phone_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSurname" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextSurnameContainer">
 
-        <EditText
-            android:id="@+id/editTextPhone"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:importantForAutofill="no"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextPhoneContainer"
             style="@style/EditTextMain"
-            android:layout_width="312dp"
-            android:layout_marginTop="48dp"
-            android:background="@drawable/edit_tex_rndb"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="50dp"
+            android:hint="@string/email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextMail" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextMailContainer">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:importantForAutofill="no"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:id="@+id/view7"
@@ -71,72 +102,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhoneContainer" />
 
         <Button
             android:id="@+id/buttonEditConfirm"
-            style="@style/BtnMain"
-            android:background="@drawable/btn_bg"
+            style="@style/ButtonMain"
             android:layout_width="312dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
+            android:background="@drawable/btn_bg"
             android:text="@string/edit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view7" />
 
-        <TextView
-            android:id="@+id/textName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/name"
-            app:layout_constraintBottom_toTopOf="@+id/editTextName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.134"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/textSurname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/surname"
-            app:layout_constraintBottom_toTopOf="@+id/editTextSurname"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
-
-        <TextView
-            android:id="@+id/textPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/phone_number"
-            app:layout_constraintBottom_toTopOf="@+id/editTextMail"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.154"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSurname"
-            app:layout_constraintVertical_bias="0.526" />
-
-        <TextView
-            android:id="@+id/textMail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/email"
-            app:layout_constraintBottom_toTopOf="@+id/editTextPhone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.13"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextMail"
-            app:layout_constraintVertical_bias="0.526" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

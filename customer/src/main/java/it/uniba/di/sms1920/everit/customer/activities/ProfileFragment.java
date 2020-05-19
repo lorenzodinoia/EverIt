@@ -6,18 +6,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import it.uniba.di.sms1920.everit.customer.R;
 
 public class ProfileFragment extends Fragment {
 
-    private EditText editTextName;
-    private EditText editTextSurname;
-    private EditText editTextPhone;
-    private EditText editTextMail;
-    private Button buttonEditConfirm;
+    private TextInputEditText editTextName;
+    private TextInputEditText editTextSurname;
+    private TextInputEditText editTextPhone;
+    private TextInputEditText editTextMail;
+    private MaterialButton buttonEditConfirm;
 
     public ProfileFragment() {
     }

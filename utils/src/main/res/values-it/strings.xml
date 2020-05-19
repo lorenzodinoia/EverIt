@@ -15,4 +15,7 @@
     <string name="phone_number">Numero di telefono</string>
     <string name="name">Nome</string>
     <string name="surname">Cognome</string>
+    <string name="ok_default">OK</string>
+    <string name="cancel_default">Annulla</string>
+    <string name="gps_permission_explanation">È necessario fornire l\'autorizzazione GPS per consentire all\'applicazione di ottenere la tua posizione e migliorare la ricerca di ristoranti</string>
 </resources>

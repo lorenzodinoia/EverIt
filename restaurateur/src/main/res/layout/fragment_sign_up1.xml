@@ -7,7 +7,89 @@
     android:layout_height="match_parent"
     android:id="@+id/first_fragment_signup">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextShopNameContainer"
+        style="@style/EditTextMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/shop_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextShopName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextAddressContainer"
+        style="@style/EditTextMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextShopNameContainer" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextPhoneNumberContainer"
+        style="@style/EditTextMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCity" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextVATContainer"
+        style="@style/EditTextMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/piva"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumberContainer" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextVAT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <View
         android:id="@+id/view2"
@@ -20,46 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextVAT" />
-
-
-    <TextView
-        android:id="@+id/textShopName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="@string/shop_name"
-        app:layout_constraintBottom_toTopOf="@+id/editTextShopName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.147"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextShopName"
-        style="@style/EditTextMain"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="50dp"
-        android:background="@drawable/edit_tex_rndb"
-        android:ems="10"
-        android:hint="@string/shop_name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/address"
-        app:layout_constraintBottom_toTopOf="@+id/editTextAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.147"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/editTextVATContainer" />
 
     <TextView
         android:id="@+id/textViewInfo"
@@ -93,76 +136,14 @@
         android:layout_marginTop="48dp"
         android:background="@drawable/edit_tex_rndb"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAddressContainer" />
 
-
-    <EditText
-        android:id="@+id/editTextAddress"
-        style="@style/EditTextMain"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/edit_tex_rndb"
-        android:ems="10"
-        android:hint="@string/address"
-        android:inputType="textAutoComplete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextShopName" />
-
-    <TextView
-        android:id="@+id/textVAT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/VATnumber"
-        app:layout_constraintBottom_toTopOf="@+id/editTextVAT"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.159"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextVAT"
-        style="@style/EditTextMain"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/edit_tex_rndb"
-        android:ems="10"
-        android:hint="@string/piva"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumber" />
-
-
-    <TextView
-        android:id="@+id/textPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/phone_number"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPhoneNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextPhoneNumber"
-        style="@style/EditTextMain"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/edit_tex_rndb"
-        android:ems="10"
-        android:hint="@string/phone_number"
-        android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCity" />
 
     <Button
         android:id="@+id/btnNext"
         android:layout_width="0dp"
         android:background="@drawable/btn_bg"
-        style="@style/BtnMain"
+        style="@style/ButtonMain"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"

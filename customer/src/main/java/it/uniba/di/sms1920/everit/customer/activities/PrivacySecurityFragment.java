@@ -14,16 +14,19 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
 import it.uniba.di.sms1920.everit.customer.R;
 
 
 public class PrivacySecurityFragment extends Fragment {
 
-    private EditText oldPassword;
-    private EditText newPassword;
-    private EditText newPasswordConf;
-    private Button btnDeleteAccount;
-    private Button btnChangePassword;
+    private TextInputEditText oldPassword;
+    private TextInputEditText newPassword;
+    private TextInputEditText newPasswordConf;
+    private MaterialButton btnDeleteAccount;
+    private MaterialButton btnChangePassword;
 
 
     public PrivacySecurityFragment() {
@@ -67,8 +70,8 @@ public class PrivacySecurityFragment extends Fragment {
             popupWindow.setElevation(20);
             popupWindow.setOverlapAnchor(true);
 
-            Button btnYes = popupView.findViewById(R.id.btnYes);
-            Button btnNo = popupView.findViewById(R.id.btnNo);
+            MaterialButton btnYes = popupView.findViewById(R.id.btnYes);
+            MaterialButton btnNo = popupView.findViewById(R.id.btnNo);
 
             btnNo.setOnClickListener(PopupWindow -> popupWindow.dismiss());
 

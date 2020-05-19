@@ -7,7 +7,7 @@
 
     <Button
         android:id="@+id/btnReview"
-        style="@style/BtnMain"
+        style="@style/ButtonMain"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginStart="32dp"
@@ -21,7 +21,7 @@
 
     <Button
         android:id="@+id/btnInfo"
-        style="@style/BtnMain"
+        style="@style/ButtonMain"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginStart="32dp"
@@ -47,7 +47,7 @@
 
     <Button
         android:id="@+id/btnMaps"
-        style="@style/BtnAccent"
+        style="@style/ButtonAccent"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginStart="24dp"

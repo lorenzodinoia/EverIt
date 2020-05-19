@@ -11,16 +11,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
 
 public class SignUp2Fragment extends Fragment {
 
-    private EditText editTextEmail;
-    private EditText editTextPassword;
-    private EditText editTextdescription;
+    private TextInputEditText editTextEmail;
+    private TextInputEditText editTextPassword;
+    private TextInputEditText editTextdescription;
     private ImageButton imgButtonProfileImg;
-    private Button btnContinue;
+    private MaterialButton btnContinue;
 
     public SignUp2Fragment() {
         // Required empty public constructor
