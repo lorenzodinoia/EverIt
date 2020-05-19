@@ -43,5 +43,9 @@
     <string name="info">Info</string>
     <string name="ShowOnMaps">Show position on Maps</string>
     <string name="ChooseApp">Choose App</string>
+    <string name="map_error">Unable to start map</string>
+    <string name="search_autocomplete_error">Unable to suggests places</string>
+    <string name="search_autocomplete_empty">No suggestions</string>
+    <string name="title_address_chooser">Address chooser</string>
 
 </resources>
