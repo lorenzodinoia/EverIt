@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/textViewShopNameReviewListContent"
-                style="@style/TextViewMain"
+                style="@style/TextViewMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
@@ -57,7 +57,7 @@
 
             <TextView
                 android:id="@+id/textViewRatingIndicatorReviewListContent"
-                style="@style/TextViewMain"
+                style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

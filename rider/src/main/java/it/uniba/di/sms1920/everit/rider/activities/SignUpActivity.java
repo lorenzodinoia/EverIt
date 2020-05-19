@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.InvalidPropertiesFormatException;
 
 import it.uniba.di.sms1920.everit.rider.R;
@@ -17,13 +20,13 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class SignUpActivity extends AppCompatActivity {
-    private EditText editTextName;
-    private EditText editTextSurname;
-    private Button buttonSignUp;
-    private EditText editTextPhoneNumber;
-    private EditText editTextMail;
-    private EditText editTextPassword;
-    private Button buttonLogin;
+    private TextInputEditText editTextName;
+    private TextInputEditText editTextSurname;
+    private MaterialButton buttonSignUp;
+    private TextInputEditText editTextPhoneNumber;
+    private TextInputEditText editTextMail;
+    private TextInputEditText editTextPassword;
+    private MaterialButton buttonLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +41,11 @@ public class SignUpActivity extends AppCompatActivity {
         editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
         editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
         editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
-        buttonLogin = findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonLogin);
+        buttonLogin = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonLogin);
         buttonLogin.setOnClickListener(view ->{
             launchLoginActivity();
         });
-        buttonSignUp = findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonSignUp);
+        buttonSignUp = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonSignUp);
         buttonSignUp.setOnClickListener(view -> {
             String email = editTextMail.getText().toString();
             String password = editTextPassword.getText().toString();

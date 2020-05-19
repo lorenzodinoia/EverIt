@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/textViewRatingIndicatorReviewDetail"
-        style="@style/TextViewMain"
+        style="@style/TextViewSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/textViewReviewDescription"
-        style="@style/TextViewMain"
+        style="@style/TextViewMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"

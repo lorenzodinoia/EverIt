@@ -1,10 +1,12 @@
 package it.uniba.di.sms1920.everit.customer.activities.reviews;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -15,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
 
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Review;
 
 /**
@@ -40,6 +44,18 @@ public class ReviewDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         if(review != null){
             toolbar.setTitle(review.getRestaurateur().getShopName());
+        }
+
+        ImageView imageView = (ImageView) findViewById(R.id.imageViewRestaurantLogoReviewListContent);
+        String restaurateurLogoPath = review.getRestaurateur().getImagePath();
+        if(restaurateurLogoPath != null){
+            String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, restaurateurLogoPath);
+            Picasso.get()
+                    .load(imageUrl)
+                    .error(R.mipmap.icon)
+                    .placeholder(R.mipmap.icon)
+                    .fit()
+                    .into(imageView);
         }
         setSupportActionBar(toolbar);
 

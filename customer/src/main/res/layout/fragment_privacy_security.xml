@@ -5,82 +5,71 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/OldPass"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/EditTextOldPasswordContainer"
+        style="@style/EditTextMain"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/oldPassword"
-        app:layout_constraintBottom_toTopOf="@+id/EditTextOldPassword"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/EditTextOldPassword"
-        style="@style/EditTextMain"
-        android:layout_width="312dp"
-        android:layout_marginTop="160dp"
-        android:background="@drawable/edit_tex_rndb"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/oldPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/newPassword"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/EditTextOldPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/EditTextNewPasswordContainer"
+        style="@style/EditTextMain"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/newPassword"
-        app:layout_constraintBottom_toTopOf="@+id/EditTextNewPassword"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/EditTextNewPassword"
-        style="@style/EditTextMain"
-        android:layout_width="312dp"
-        android:layout_marginTop="58dp"
-        android:background="@drawable/edit_tex_rndb"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="text"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/newPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextOldPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/EditTextOldPasswordContainer">
 
-    <TextView
-        android:id="@+id/newPasswordConf"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/EditTextNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/EditTextNewPasswordConfContainer"
+        style="@style/EditTextMain"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/newPasswordConf"
-        app:layout_constraintBottom_toTopOf="@+id/EditTextNewPasswordConf"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/EditTextNewPasswordConf"
-        style="@style/EditTextMain"
-        android:layout_width="312dp"
-        android:layout_marginTop="58dp"
-        android:background="@drawable/edit_tex_rndb"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="text"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/newPasswordConf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextNewPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/EditTextNewPasswordContainer" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/EditTextNewPasswordConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnChangePass"
-        style="@style/BtnMain"
+        style="@style/ButtonMain"
         android:layout_width="312dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="58dp"
@@ -89,7 +78,7 @@ android:layout_height="match_parent">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextNewPasswordConf" />
+        app:layout_constraintTop_toBottomOf="@+id/EditTextNewPasswordConfContainer" />
 
 
     <View
@@ -104,7 +93,7 @@ android:layout_height="match_parent">
 
     <Button
         android:id="@+id/btnDeleteAccount"
-        style="@style/BtnImportant"
+        style="@style/ButtonAccent"
         android:layout_width="312dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"

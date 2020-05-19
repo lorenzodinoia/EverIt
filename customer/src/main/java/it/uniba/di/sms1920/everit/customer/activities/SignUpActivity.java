@@ -14,16 +14,20 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.InvalidPropertiesFormatException;
 import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText editTextName;
-    private EditText editTextSurname;
-    private EditText editTextPhoneNumber;
-    private EditText editTextMail;
-    private EditText editTextPassword;
+    private TextInputEditText editTextName;
+    private TextInputEditText editTextSurname;
+    private TextInputEditText editTextPhoneNumber;
+    private TextInputEditText editTextMail;
+    private TextInputEditText editTextPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,9 @@ public class SignUpActivity extends AppCompatActivity {
         editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
         editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
 
-        Button buttonSignUp = findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonSignUp); //si rompe qui per un NPE perchè non vede il cazzo di bottone
+        //TODO inizializzare button di login
+
+        MaterialButton buttonSignUp = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonSignUp); //si rompe qui per un NPE perchè non vede il cazzo di bottone
         buttonSignUp.setOnClickListener(view -> {
             String email = editTextMail.getText().toString();
             String password = editTextPassword.getText().toString();
