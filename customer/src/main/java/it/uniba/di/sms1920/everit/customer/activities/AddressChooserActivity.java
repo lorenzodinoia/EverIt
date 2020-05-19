@@ -10,15 +10,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.search.AutoSuggest;
 import com.here.android.mpa.search.AutoSuggestPlace;
@@ -65,9 +65,9 @@ public class AddressChooserActivity extends AppCompatActivity {
      * @see MapFragmentManager
      */
     private MapFragmentManager mapFragmentManager;
-    private EditText editTextQuery;
-    private Button buttonSearch;
-    private Button buttonBack;
+    private TextInputEditText editTextQuery;
+    private MaterialButton buttonSearch;
+    private MaterialButton buttonBack;
     private FrameLayout frameAddressList;
     private FrameLayout frameAddressDetails;
     private TextView textViewAddressDetail;
@@ -137,9 +137,9 @@ public class AddressChooserActivity extends AppCompatActivity {
             LocationProvider.requestPermissions(this, false);
         }
 
-        this.frameAddressList = findViewById(R.id.frameAddressList);
+        this.frameAddressList = this.findViewById(R.id.frameAddressList);
 
-        this.frameAddressDetails = findViewById(R.id.frameAddressDetails);
+        this.frameAddressDetails = this.findViewById(R.id.frameAddressDetails);
         this.textViewAddressDetail = this.frameAddressDetails.findViewById(R.id.textViewAddressDetail);
         this.textViewCityDetail = this.frameAddressDetails.findViewById(R.id.textViewCityDetail);
         this.fabConfirmAddress = this.frameAddressDetails.findViewById(R.id.fabConfirmAddress);
@@ -152,19 +152,20 @@ public class AddressChooserActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.address_list);
+        RecyclerView recyclerView = this.findViewById(R.id.address_list);
         this.recyclerViewAdapter = new AddressRecyclerViewAdapter(this, suggestPlaces);
         recyclerView.setAdapter(this.recyclerViewAdapter);
 
-        this.editTextQuery = findViewById(R.id.editTextQuery);
-        this.buttonSearch = findViewById(R.id.buttonSearchQuery);
+        this.editTextQuery = this.findViewById(R.id.editTextQuery);
+        this.buttonSearch = this.findViewById(R.id.buttonSearchQuery);
         this.buttonSearch.setOnClickListener(v -> {
             String query = editTextQuery.getText().toString().trim();
             if (!query.equals("")) {
                 autocomplete(query);
             }
         });
-        this.buttonBack = findViewById(R.id.buttonBack);
+        this.buttonBack = this.findViewById(R.id.buttonBack);
+        this.buttonBack.setHeight(this.editTextQuery.getHeight());
         this.buttonBack.setOnClickListener(v -> super.onBackPressed());
     }
 

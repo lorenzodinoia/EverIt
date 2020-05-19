@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.customer.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,6 +14,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.results.ResultListActivity;
+import it.uniba.di.sms1920.everit.utils.Address;
+
+import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
 
@@ -35,5 +40,22 @@ public class HomeFragment extends Fragment {
             intent.putExtra(AddressChooserActivity.PARAMETER_QUERY, this.editTextSearch.getText().toString());
             startActivityForResult(intent, AddressChooserActivity.REQUEST_ADDRESS);
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if ((requestCode == AddressChooserActivity.REQUEST_ADDRESS) && (resultCode == RESULT_OK)
+                && (data != null) && (data.hasExtra(AddressChooserActivity.RESULT_ADDRESS))) {
+            Address chosenAddress = data.getParcelableExtra(AddressChooserActivity.RESULT_ADDRESS);
+            if (chosenAddress != null) {
+                this.handleSearchResult(chosenAddress);
+            }
+        }
+    }
+
+    private void handleSearchResult(Address address) {
+        Intent searchIntent = new Intent(getActivity().getApplicationContext(), ResultListActivity.class);
+        searchIntent.putExtra(ResultListActivity.PARAMETER_ADDRESS, address);
+        startActivity(searchIntent);
     }
 }
