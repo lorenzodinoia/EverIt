@@ -47,5 +47,6 @@
     <string name="search_autocomplete_error">Unable to suggests places</string>
     <string name="search_autocomplete_empty">No suggestions</string>
     <string name="title_address_chooser">Address chooser</string>
-
+    <string name="title_review_list">Reviews</string>
+    <string name="title_review_detail">Review Detail</string>
 </resources>

@@ -3,12 +3,13 @@ package it.uniba.di.sms1920.everit.customer.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
@@ -22,10 +23,10 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText editTextEmail;
-    private EditText editTextPassword;
-    private Button buttonLogin;
-    private Button buttonGoToSignUp;
+    private TextInputEditText editTextEmail;
+    private TextInputEditText editTextPassword;
+    private MaterialButton buttonLogin;
+    private MaterialButton buttonGoToSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +55,9 @@ public class LoginActivity extends AppCompatActivity {
     private void initComponents() {
         this.editTextEmail = findViewById(R.id.editTextEmail);
         this.editTextPassword = findViewById(R.id.editTextPassword);
-        this.buttonGoToSignUp = findViewById(R.id.buttonGoToSignUp);
+        this.buttonGoToSignUp = this.findViewById(R.id.buttonGoToSignUp);
         this.buttonGoToSignUp.setOnClickListener(view -> launchSignUpActivity());
-        this.buttonLogin = findViewById(R.id.buttonLogin);
+        this.buttonLogin = this.findViewById(R.id.buttonLoginAL);
         this.buttonLogin.setOnClickListener(view -> {
             String email = this.editTextEmail.getText().toString();
             String password = this.editTextPassword.getText().toString();
@@ -71,14 +72,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //Authprovider.getuser  if null cazzi
-
     private void login(String email, String password) {
         AuthProvider<Customer> auth = Providers.getAuthProvider();
         auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Customer>() {
             @Override
             public void successResponse(Customer response) {
                 Toast.makeText(getApplicationContext(), "Login completato", Toast.LENGTH_LONG ).show();
+                //TODO agguingere refresh schermata home
+                Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override

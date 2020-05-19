@@ -4,18 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageButton;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +24,7 @@ public class MenuActivity extends AppCompatActivity implements DialogNewCategory
     private List<String> expandableListTitle;
     private HashMap<String, List<String>> expandableListDetail;
 
-    private Button btnAddNewCat;
+    private MaterialButton btnAddNewCat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +42,7 @@ public class MenuActivity extends AppCompatActivity implements DialogNewCategory
     }
 
     private void initComponent() {
-        btnAddNewCat = findViewById(R.id.btnAddCategory);
+        btnAddNewCat = this.findViewById(R.id.btnAddCategory);
         btnAddNewCat.setOnClickListener(v -> {
             this.openDialog();
         });

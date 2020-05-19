@@ -14,13 +14,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
 public class DialogNewCategory extends DialogFragment {
 
-    private EditText editTextNameCat;
-    private Button btnConfirm;
-    private Button btnCancel;
+    private TextInputEditText editTextNameCat;
+    private MaterialButton btnConfirm;
+    private MaterialButton btnCancel;
 
     private DialogNewCategoryListener listener;
 
@@ -35,7 +38,7 @@ public class DialogNewCategory extends DialogFragment {
 
         builder.setView(view);
 
-        editTextNameCat = view.findViewById(R.id.editTextCatName);
+        editTextNameCat = view.findViewById(R.id.editTextCategoryName);
         btnConfirm = view.findViewById(R.id.BtnConfirm);
         btnConfirm.setOnClickListener(v -> {
             String newCatName = editTextNameCat.getText().toString();

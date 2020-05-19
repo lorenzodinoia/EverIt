@@ -7,10 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/icon"
@@ -18,12 +17,24 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activities.AddressChooserActivity"
             android:label="@string/title_address_chooser"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.reviews.ReviewListActivity"
+            android:label="@string/title_review_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.reviews.ReviewDetailActivity"
+            android:label="@string/title_review_detail"
+            android:parentActivityName=".activities.reviews.ReviewListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewListActivity" />
+        </activity>
         <activity
             android:name=".activities.results.ResultListActivity"
             android:label="@string/title_result_list"

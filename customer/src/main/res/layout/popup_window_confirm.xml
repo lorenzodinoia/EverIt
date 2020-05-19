@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/textView2"
+        style="@style/TextViewSmall"
         android:layout_width="273dp"
         android:layout_height="65dp"
         android:layout_marginTop="40dp"
@@ -22,7 +23,7 @@
 
     <Button
         android:id="@+id/btnYes"
-        style="@style/BtnImportant"
+        style="@style/ButtonImportant"
         android:background="@drawable/btn_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
 
     <Button
         android:id="@+id/btnNo"
-        style="@style/BtnAccent"
+        style="@style/ButtonAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"

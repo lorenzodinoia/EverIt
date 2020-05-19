@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.request.core;
 
+import android.util.Log;
+
 import com.android.volley.Request;
 
 import org.json.JSONException;
@@ -65,6 +67,7 @@ public abstract class CRUDRequest<T extends Model> {
         ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s", Constants.SERVER_HOST, url), null,
             response -> {
                 try {
+                    Log.d("test", "In try");
                     Collection<T> collection = adapter.fromJSONArray(response, modelType);
                     requestListener.successResponse(collection);
                 }
