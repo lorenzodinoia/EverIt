@@ -24,6 +24,8 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
 
     private final String URL = "restaurateur";
 
+    //TODO implementare altre funzioni
+
     @Override
     public void create(Restaurateur model, RequestListener<Restaurateur> RequestListener) {
         throw new UnsupportedOperationException();

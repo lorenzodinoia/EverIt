@@ -1,8 +1,4 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -27,6 +23,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
     private LinkedHashMap<String, List<String>> expandableListDetail;
+    //TODO passa da String a Product
 
 
     CustomExpandableListAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail) {
@@ -48,7 +45,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final String expandedListText = (String) getChild(listPosition, expandedListPosition);
+
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 
         if(isLastChild){
             convertView = layoutInflater.inflate(R.layout.list_last_item, null);
@@ -85,6 +84,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             TextView textHint = convertView.findViewById(R.id.textHint);
         }
         else {
+
             convertView = layoutInflater.inflate(R.layout.list_item, null);
 
             TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
@@ -138,6 +138,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 dialogConfirm.show();
 
             });
+
         }
 
         return convertView;
@@ -171,8 +172,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         convertView = layoutInflater.inflate(R.layout.list_group, null);
 
         TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
+        listTitleTextView.setFocusable(false);
 
         ImageButton btnModGroup = convertView.findViewById(R.id.btnModGroup);
+        btnModGroup.setFocusable(false);
         btnModGroup.setOnClickListener(v -> {
             AlertDialog.Builder dialogNewName = new AlertDialog.Builder(context);
             dialogNewName.setTitle("MODIFY GROUP NAME");
@@ -198,6 +201,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         });
 
         ImageButton btnDelGroup = convertView.findViewById(R.id.btnDelGroup);
+        btnDelGroup.setFocusable(false);
         btnDelGroup.setOnClickListener(v -> {
             AlertDialog.Builder dialogConfirm = new AlertDialog.Builder(context);
             dialogConfirm.setTitle("DELETE GROUP");
@@ -218,6 +222,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
             dialogConfirm.show();
         });
+
 
         listTitleTextView.setText(listTitle);
         return convertView;
