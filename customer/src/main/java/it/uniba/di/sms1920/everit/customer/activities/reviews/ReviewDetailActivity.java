@@ -48,7 +48,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
 
         ImageView imageView = (ImageView) findViewById(R.id.imageViewRestaurantLogoReviewListContent);
         String restaurateurLogoPath = review.getRestaurateur().getImagePath();
-        if(restaurateurLogoPath != null){
+        /*if(restaurateurLogoPath != null){
             String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, restaurateurLogoPath);
             Picasso.get()
                     .load(imageUrl)
@@ -56,7 +56,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
                     .placeholder(R.mipmap.icon)
                     .fit()
                     .into(imageView);
-        }
+        }*/
         setSupportActionBar(toolbar);
 
         // Show the Up button in the action bar.
