@@ -2,7 +2,11 @@ package it.uniba.di.sms1920.everit.customer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +54,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
+
+        View headerNav = navigationView.inflateHeaderView(R.layout.nav_view_header_user);
+        ImageView imgHeaderNav = headerNav.findViewById(it.uniba.di.sms1920.everit.utils.R.id.imageLogo);
+        TextView textHeaderNav = headerNav.findViewById(it.uniba.di.sms1920.everit.utils.R.id.TextViewDrawer);
+        textHeaderNav.setText("NOME E COGNOME");
 
         navigationView.setNavigationItemSelectedListener(this);
     }

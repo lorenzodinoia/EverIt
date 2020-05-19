@@ -12,13 +12,13 @@
             android:title="@string/home" />
 
         <item
-            android:id="@+id/test"
-            android:icon="@android:drawable/ic_menu_search"
-            android:title="test" />
+            android:id="@+id/sign_up"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="Sign Up" />
 
         <item
             android:id="@+id/Menu"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="@android:drawable/ic_menu_agenda"
             android:title="Menu" />
     </group>
 
@@ -26,7 +26,6 @@
         android:id="@+id/section_out">
         <item
             android:id="@+id/logout"
-            android:icon="@android:drawable/ic_menu_search"
             android:title="@string/logout" />
     </group>
 

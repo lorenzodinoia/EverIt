@@ -42,7 +42,7 @@ public class DialogNewCategory extends DialogFragment {
             if(newCatName.equals("")){
                 Toast.makeText(getContext(), "EMPTY FIELD", Toast.LENGTH_LONG).show();
             }else{
-                listener.getNewName(newCatName);
+                listener.getNewCatName(newCatName);
                 this.dismiss();
             }
 
@@ -66,6 +66,6 @@ public class DialogNewCategory extends DialogFragment {
     }
 
     public interface DialogNewCategoryListener{
-        void getNewName(String name);
+        void getNewCatName(String name);
     }
 }

@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="84dp"
-        android:text="Button"
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="380dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="31dp"
+        android:scaleType="fitXY"
+        android:src="@android:color/holo_orange_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="222dp"
-        android:layout_height="104dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
-
     <View
-        android:layout_width="0dp"
+        android:id="@+id/view2"
+        android:layout_width="380dp"
         android:layout_height="2dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="31dp"
         android:background="#c0c0c0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/imageLogo" />
+
+    <TextView
+        android:id="@+id/TextViewDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:text="NOME E COGNOME"
+        android:textAlignment="center"
+        android:textColor="#1C1B1B"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageLogo"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
