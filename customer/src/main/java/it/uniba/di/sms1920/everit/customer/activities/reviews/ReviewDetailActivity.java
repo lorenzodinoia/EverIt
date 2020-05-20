@@ -41,14 +41,9 @@ public class ReviewDetailActivity extends AppCompatActivity {
         long reviewId = getIntent().getLongExtra(ReviewDetailFragment.ARG_ITEM_ID, 0);
         Review review = ReviewListActivity.getReviewById(reviewId);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        if(review != null){
-            toolbar.setTitle(review.getRestaurateur().getShopName());
-        }
-
-        ImageView imageView = (ImageView) findViewById(R.id.imageViewRestaurantLogoReviewListContent);
+        ImageView imageView = findViewById(R.id.imageViewRestaurantLogoReviewListContent);
         String restaurateurLogoPath = review.getRestaurateur().getImagePath();
-        /*if(restaurateurLogoPath != null){
+        if(restaurateurLogoPath != null){
             String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, restaurateurLogoPath);
             Picasso.get()
                     .load(imageUrl)
@@ -56,7 +51,13 @@ public class ReviewDetailActivity extends AppCompatActivity {
                     .placeholder(R.mipmap.icon)
                     .fit()
                     .into(imageView);
-        }*/
+        }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        if(review != null){
+            toolbar.setTitle(review.getRestaurateur().getShopName());
+        }
+
         setSupportActionBar(toolbar);
 
         // Show the Up button in the action bar.

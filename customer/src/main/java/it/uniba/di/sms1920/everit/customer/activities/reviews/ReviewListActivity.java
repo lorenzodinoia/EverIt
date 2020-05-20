@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.customer.activities.reviews;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +35,7 @@ import it.uniba.di.sms1920.everit.utils.models.Review;
 import it.uniba.di.sms1920.everit.utils.request.ReviewRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 
 public class ReviewListActivity extends AppCompatActivity {
@@ -154,6 +157,7 @@ public class ReviewListActivity extends AppCompatActivity {
                             .load(imageUrl)
                             .error(R.mipmap.icon)
                             .placeholder(R.mipmap.icon)
+                            .transform(new CropCircleTransformation())
                             .fit()
                             .into(holder.imageViewRestaurantLogo);
                 }
