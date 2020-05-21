@@ -37,4 +37,5 @@
     <string name="reviews">Recensioni</string>
     <string name="title_review_list">Recensioni</string>
     <string name="title_review_detail">Dettaglio Recensione</string>
+    <string name="hint_delivery_address">Indirizzo di consegna</string>
 </resources>
