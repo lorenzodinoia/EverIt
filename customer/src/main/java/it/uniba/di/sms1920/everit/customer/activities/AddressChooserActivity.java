@@ -119,8 +119,10 @@ public class AddressChooserActivity extends AppCompatActivity {
     private void loadCurrentPosition() {
         FusedLocationProviderClient locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         locationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
-            if (mapFragmentManager == null) {
+            if (location != null) {
                 userPosition = new Address(location);
+            }
+            if (mapFragmentManager == null) {
                 initMap();
             }
         });
