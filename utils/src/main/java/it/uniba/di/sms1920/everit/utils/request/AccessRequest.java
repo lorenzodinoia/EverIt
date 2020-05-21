@@ -60,7 +60,7 @@ public final class AccessRequest<T extends Model & Authenticable> {
                     RequestListener.successResponse(user);
                 },
                 error -> {
-                    if(error.networkResponse.statusCode == 401){
+                    if((error.networkResponse != null) && (error.networkResponse.statusCode == 401)){
                         String translatedMessage = Providers.getStringFromApplicationContext(R.string.message_wrong_login);
                         RequestListener.errorResponse(new UnauthorizedException(translatedMessage));
                     }

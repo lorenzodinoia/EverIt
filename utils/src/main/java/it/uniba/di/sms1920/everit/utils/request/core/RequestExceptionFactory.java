@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.request.core;
 
+import com.android.volley.NoConnectionError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
 import org.json.JSONException;
@@ -14,7 +16,11 @@ public final class RequestExceptionFactory {
     private static final String DEFAULT_MESSAGE_KEY = "message";
 
     public static RequestException createExceptionFromError(VolleyError error) {
-        int errorCode = error.networkResponse.statusCode;
+        if ((error instanceof TimeoutError) || (error instanceof NoConnectionError)) {
+            return new ServerUnreachableException(Providers.getStringFromApplicationContext(R.string.message_server_unreachable));
+        }
+
+        int errorCode = (error.networkResponse != null) ? error.networkResponse.statusCode : 0;
         String translatedMessage = "";
 
         switch (errorCode) {
@@ -29,9 +35,10 @@ public final class RequestExceptionFactory {
                 return new ServerException(translatedMessage);
             default:
                 String errorMessage = "";
+
                 try {
-                    String errorBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                    if (errorBody.equals("")) {
+                    String errorBody = (error.networkResponse != null) ? new String(error.networkResponse.data, StandardCharsets.UTF_8) : null;
+                    if ((errorBody == null) || (errorBody.equals(""))) {
                         throw new JSONException("No JSON");
                     }
                     JSONObject jsonResponse = new JSONObject(errorBody);
@@ -39,10 +46,12 @@ public final class RequestExceptionFactory {
                         errorMessage = jsonResponse.getString(DEFAULT_MESSAGE_KEY);
                     }
                 }
-                catch (JSONException e) {
+                catch (Exception e) {
                     errorMessage = Providers.getStringFromApplicationContext(R.string.message_generic_error);
                 }
+
                 return new RequestException(errorMessage);
         }
     }
 }
+
