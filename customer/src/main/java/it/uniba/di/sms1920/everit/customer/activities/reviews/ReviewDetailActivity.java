@@ -1,17 +1,13 @@
 package it.uniba.di.sms1920.everit.customer.activities.reviews;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
@@ -30,8 +26,6 @@ import it.uniba.di.sms1920.everit.utils.models.Review;
  * in a {@link ReviewListActivity}.
  */
 public class ReviewDetailActivity extends AppCompatActivity {
-
-    //TODO aggiungere foto ristorante
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
