@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,18 +46,15 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Customer>() {
                     @Override
                     public void successResponse(Customer response) {
-                        Log.d("test", "Success");
                         navigationView.inflateMenu(R.menu.drawer_view);
                     }
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Log.d("test", "Error");
                         navigationView.inflateMenu(R.menu.drawer_view_unlogged);
                     }
                 });
             } catch (NoSuchCredentialException e) {
-                Log.d("test", "Non salva credenziali");
                 navigationView.inflateMenu(R.menu.drawer_view_unlogged);
             }
         }
@@ -102,11 +100,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_review: {
-                //TODO risolvere con un fragment
-                /*if(isValidDestination(R.id.reviewFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.reviewFragment);
-                }
-                break;*/
                 Intent intent = new Intent(getApplicationContext(), ReviewListActivity.class);
                 startActivity(intent);
                 break;
@@ -128,7 +121,22 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.exit: {
-                //TODO implementare logout
+                Providers.getAuthProvider().logout(new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        //TODO creare stringa in string
+                        Toast.makeText(getApplicationContext(), "Logout effettuato", Toast.LENGTH_LONG);
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                    }
+                });
+
+                //TODO non aggiorna l'hamburger
+                finish();
+                startActivity(getIntent());
                 break;
             }
         }

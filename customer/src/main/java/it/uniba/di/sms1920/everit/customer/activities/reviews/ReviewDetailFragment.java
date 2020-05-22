@@ -1,9 +1,6 @@
 package it.uniba.di.sms1920.everit.customer.activities.reviews;
 
-import android.app.Activity;
 import android.os.Bundle;
-
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import androidx.fragment.app.Fragment;
 
