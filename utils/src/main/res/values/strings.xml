@@ -24,6 +24,5 @@
     <string name="ok_default">OK</string>
     <string name="cancel_default">Cancel</string>
     <string name="gps_permission_explanation">"GPS authorization is required to allow the app to get your location and improve restaurant search "</string>
-    <string name="emailError">Wrong email value !</string>
-    <string name="passwordError">Wrong password value !</string>
+    <string name="message_server_unreachable">Service unavailable</string>
 </resources>

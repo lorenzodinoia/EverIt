@@ -60,9 +60,7 @@ public final class AuthProvider<T extends Model & Authenticable> {
         this.accessRequest.logout(new RequestListener<Boolean>() {
             @Override
             public void successResponse(Boolean response) {
-                Providers.getCredentialProvider().removeCredential();
-                user = null;
-                authToken = null;
+                removeAllUserData();
                 logoutListener.successResponse(true);
             }
 
@@ -71,5 +69,11 @@ public final class AuthProvider<T extends Model & Authenticable> {
                 logoutListener.errorResponse(error);
             }
         });
+    }
+
+    public void removeAllUserData() {
+        this.user = null;
+        this.authToken = null;
+        Providers.getCredentialProvider().removeCredential();
     }
 }

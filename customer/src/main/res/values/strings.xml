@@ -49,4 +49,11 @@
     <string name="title_address_chooser">Address chooser</string>
     <string name="title_review_list">Reviews</string>
     <string name="title_review_detail">Review Detail</string>
+    <string name="hint_delivery_address">Delivery address</string>
+    <string name="message_account_deleted">Your account has been successfully canceled</string>
+    <string name="message_password_changed">The password has been successfully changed. Now you need to log in again</string>
+    <string name="message_password_wrong">The password format is incorrect. The password must be at least 8 characters long and contain at least one number</string>
+    <string name="message_field_required">Required field</string>
+    <string name="message_password_confirm_mismatch">Password mismatch</string>
+    <string name="message_done">Done</string>
 </resources>

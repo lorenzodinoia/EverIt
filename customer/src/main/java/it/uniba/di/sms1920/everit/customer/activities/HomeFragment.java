@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,13 @@ public class HomeFragment extends Fragment {
 
         buttonSearch.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity().getApplicationContext(), AddressChooserActivity.class);
-            intent.putExtra(AddressChooserActivity.PARAMETER_QUERY, this.editTextSearch.getText().toString());
+            Editable editableQuery = this.editTextSearch.getText();
+            if (editableQuery != null) {
+                String query = editableQuery.toString().trim();
+                if (!query.equals("")) {
+                    intent.putExtra(AddressChooserActivity.PARAMETER_QUERY, this.editTextSearch.getText().toString());
+                }
+            }
             startActivityForResult(intent, AddressChooserActivity.REQUEST_ADDRESS);
         });
     }
