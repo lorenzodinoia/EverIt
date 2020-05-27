@@ -29,4 +29,5 @@
     <string name="addNewProduct">AGGIUNGI NUOVO PRODOTTO</string>
     <string name="modCategoryName">MODIFICA NOME CATEGORIA</string>
     <string name="deleteCategory">CANCELLA CATEGORIA</string>
+    <string name="emptyFieldError">Questo campo non può essere vuoto</string>
 </resources>

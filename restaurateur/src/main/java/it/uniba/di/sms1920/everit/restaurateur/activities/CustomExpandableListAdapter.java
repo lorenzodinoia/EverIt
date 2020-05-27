@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.models.Product;
@@ -74,35 +75,53 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
                 confirm.setOnClickListener(v1 -> {
-                    values.remove(values.size()-1);
+                    if(!newName.getText().toString().isEmpty()) {
+                        if (!newDescription.getText().toString().isEmpty()) {
+                            if (!newPrice.getText().toString().isEmpty()) {
+                                values.remove(values.size() - 1);
 
-                    Product newProduct = new Product(
-                            expandableListDetail.get(listPosition).getId(),
-                            newName.getText().toString(),
-                            Float.valueOf(newPrice.getText().toString()),
-                            newDescription.getText().toString(),
-                            expandableListDetail.get(listPosition),
-                            (Restaurateur) Providers.getAuthProvider().getUser()
-                    );
+                                Product newProduct = new Product(
+                                        expandableListDetail.get(listPosition).getId(),
+                                        newName.getText().toString(),
+                                        Float.valueOf(newPrice.getText().toString()),
+                                        newDescription.getText().toString(),
+                                        expandableListDetail.get(listPosition),
+                                        (Restaurateur) Providers.getAuthProvider().getUser()
+                                );
 
-                    values.add(newProduct);
+                                values.add(newProduct);
 
-                    ProductRequest productRequest = new ProductRequest();
-                    productRequest.create(newProduct, new RequestListener<Product>() {
-                        @Override
-                        public void successResponse(Product response) {
-                            Product lastProduct = new Product("", 0, "", expandableListDetail.get(listPosition), null);
-                            values.add(lastProduct);
-                            expandableListDetail.get(listPosition).setProducts(values);
-                            updateAdapter(); //EX
+                                ProductRequest productRequest = new ProductRequest();
+                                productRequest.create(newProduct, new RequestListener<Product>() {
+                                    @Override
+                                    public void successResponse(Product response) {
+                                        Product lastProduct = new Product("", 0, "", expandableListDetail.get(listPosition), null);
+                                        values.add(lastProduct);
+                                        expandableListDetail.get(listPosition).setProducts(values);
+                                        updateAdapter(); //EX
+                                    }
+
+                                    @Override
+                                    public void errorResponse(RequestException error) {
+                                    }
+                                });
+                                dialogModItem.dismiss();
+                                updateAdapter();
+
+                            }
+                            else {
+                                TextInputLayout newPriceLayout = dialogModItem.findViewById(R.id.editTextProductPriceContainer);
+                                newPriceLayout.setError(String.valueOf(R.string.emptyFieldError));
+                            }
+                        }else{
+                            TextInputLayout newDescriptionLayout = dialogModItem.findViewById(R.id.editTextProductDescriptionContainer);
+                            newDescriptionLayout.setError(String.valueOf(R.string.emptyFieldError));
                         }
+                    }else {
+                        TextInputLayout newNameLayout = dialogModItem.findViewById(R.id.editTextProductNameContainer);
+                        newNameLayout.setError(String.valueOf(R.string.emptyFieldError));
+                    }
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                        }
-                    });
-                    dialogModItem.dismiss();
-                    updateAdapter();
                 });
 
                 cancel.setOnClickListener(v1 -> dialogModItem.dismiss());
@@ -244,21 +263,26 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             MaterialButton cancel = dialogModName.findViewById(R.id.BtnCancel);
 
             confirm.setOnClickListener(v1 -> {
-                expandableListDetail.get(listPosition).setName(newName.getText().toString());
-                ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
-                productCategoryRequest.update(expandableListDetail.get(listPosition), new RequestListener<ProductCategory>() {
-                    @Override
-                    public void successResponse(ProductCategory response) {
-                        updateAdapter();
-                    }
+                if(!newName.getText().toString().isEmpty()) {
+                    expandableListDetail.get(listPosition).setName(newName.getText().toString());
+                    ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
+                    productCategoryRequest.update(expandableListDetail.get(listPosition), new RequestListener<ProductCategory>() {
+                        @Override
+                        public void successResponse(ProductCategory response) {
+                            updateAdapter();
+                        }
 
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        //TODO vedere
-                    }
-                });
-                dialogModName.dismiss();
-                updateAdapter(); //EX
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            //TODO vedere
+                        }
+                    });
+                    dialogModName.dismiss();
+                    updateAdapter(); //EX
+                }else{
+                    TextInputLayout newNameLayout = dialogModName.findViewById(R.id.editTextCategoryNameContainer);
+                    newNameLayout.setError(String.valueOf(R.string.emptyFieldError));
+                }
             });
 
             cancel.setOnClickListener(v1 -> dialogModName.dismiss());

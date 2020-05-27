@@ -32,4 +32,5 @@
     <string name="addNewProduct">ADD NEW PRODUCT</string>
     <string name="modCategoryName">MODIFY CATEGORY NAME</string>
     <string name="deleteCategory">DELETE CATEGORY</string>
+    <string name="emptyFieldError">This field cannot be null</string>
 </resources>

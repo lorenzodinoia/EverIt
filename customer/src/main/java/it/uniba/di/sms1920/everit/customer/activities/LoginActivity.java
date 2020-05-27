@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                     this.login(email, password);
                 }else{ }
             }else {
-                //editTextEmail.setError(String.valueOf(it.uniba.di.sms1920.everit.utils.R.string.emailError));
+                editTextEmail.setError(String.valueOf(it.uniba.di.sms1920.everit.utils.R.string.emailError));
             }
 
         });
