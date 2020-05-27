@@ -14,9 +14,13 @@ import java.security.GeneralSecurityException;
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.NotificationService;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.AccessRequest;
 import it.uniba.di.sms1920.everit.utils.provider.RequestProvider;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LauncherActivity extends AppCompatActivity {
     private static final float DELAY = 1f;
@@ -32,11 +36,43 @@ public class LauncherActivity extends AppCompatActivity {
         super.onStart();
         this.initServices();
         Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            Intent intent = new Intent(LauncherActivity.this, BaseActivity.class);
-            startActivity(intent);
-            finish();
-        }, ((int) DELAY * 1000));
+
+        if(Providers.getAuthProvider().getUser() == null){
+            try {
+                Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Restaurateur>() {
+                    @Override
+                    public void successResponse(Restaurateur response) {
+                        Log.d("test", "Success");
+                        Intent returnLogin= new Intent(getApplicationContext(), BaseActivity.class);
+                        startActivity(returnLogin);
+                        finish();
+                    }
+
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        Log.d("test", "Error");
+                        Intent returnLogin= new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(returnLogin);
+                        finish();
+                    }
+                });
+            } catch (NoSuchCredentialException e) {
+                Log.d("test", "Non salva credenziali");
+                Intent returnLogin= new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(returnLogin);
+                finish();
+            }
+
+            /**
+            handler.postDelayed(() -> {
+                Intent intent = new Intent(LauncherActivity.this, BaseActivity.class);
+                startActivity(intent);
+                finish();
+            }, ((int) DELAY * 1000));
+             */
+            //TODO Capire se serve
+        }
     }
 
     private void initServices() {

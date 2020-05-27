@@ -1,6 +1,8 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -8,21 +10,33 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialDialogs;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.utils.models.Product;
+import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.ProductCategoryRequest;
+import it.uniba.di.sms1920.everit.utils.request.ProductRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-public class MenuActivity extends AppCompatActivity implements DialogNewCategory.DialogNewCategoryListener {
+public class MenuActivity extends AppCompatActivity {
 
     private ExpandableListView expandableListView ;
     private CustomExpandableListAdapter expandableListAdapter;
-    private List<String> expandableListTitle;
-    private LinkedHashMap<String, List<String>> expandableListDetail = new LinkedHashMap<>();
+    private List<ProductCategory> expandableListDetail = new LinkedList<>();
 
-    private Button btnAddNewCat;
+    private MaterialButton btnAddNewCat;
 
 
     @Override
@@ -36,71 +50,49 @@ public class MenuActivity extends AppCompatActivity implements DialogNewCategory
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        this.initComponent();
+        this.fillListDetails();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initComponent() {
-        btnAddNewCat = findViewById(R.id.btnAddCategory);
-        btnAddNewCat.setOnClickListener(v -> this.openDialog());
-        this.initExpandableList();
-    }
-
-    private void initExpandableList() {
         expandableListView = findViewById(R.id.expandableMenu);
-        this.fillListDetails();
-        expandableListTitle = new ArrayList<>(this.expandableListDetail.keySet());
-        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
 
+        btnAddNewCat = this.findViewById(R.id.btnAddCategory);
+        btnAddNewCat.setOnClickListener(v -> expandableListAdapter.addCategory());
     }
 
     private void fillListDetails(){
-        List<String> pizze = new ArrayList<String>();
-        pizze.add("Margherita");
-        pizze.add("Diavola");
-        pizze.add("4 stagioni");
-        pizze.add("");
+        ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
+        productCategoryRequest.readAll(new RequestListener<Collection<ProductCategory>>() {
+            @Override
+            public void successResponse(Collection<ProductCategory> response) {
+                expandableListDetail = (List<ProductCategory>)response;
 
+                Product lastProduct = new Product("", 0, "", null, null);
+                for(ProductCategory pd : expandableListDetail){
+                    List<Product> pdProd = new ArrayList<>(pd.getProducts());
+                    pdProd.add(lastProduct);
+                    pd.setProducts(pdProd);
+                }
+                initComponent();
+            }
 
-        List<String> bevande = new ArrayList<String>();
-        bevande.add("Coca Cola");
-        bevande.add("Sprite");
-        bevande.add("");
+            @Override
+            public void errorResponse(RequestException error) {
+                //TODO il fragment dell'errore
+            }
 
-        List<String> dolci = new ArrayList<String>();
-        dolci.add("Babà");
-        dolci.add("Frappè");
-        dolci.add("");
-
-        expandableListDetail.put("PIZZE", pizze);
-        expandableListDetail.put("BIBITE", bevande);
-        expandableListDetail.put("DOLCI", dolci);
-    }
-
-
-    private void updateAdapter(){
-        expandableListTitle = new ArrayList<>(this.expandableListDetail.keySet());
-        expandableListAdapter.updateAdapter(expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
-    }
-
-
-    private void openDialog() {
-        DialogNewCategory  newCatDialog = new DialogNewCategory();
-        newCatDialog.show(getSupportFragmentManager(), "New Category");
-    }
-
-
-    @Override
-    public void getNewCatName(String name) {
-        String newCatName = name.toUpperCase();
-        Toast.makeText(this, name, Toast.LENGTH_LONG).show();
-
-        List<String> newCatItems = new ArrayList<>();
-        newCatItems.add("");
-        this.expandableListDetail.put(newCatName, newCatItems);
-
-        updateAdapter();
+        });
     }
 
 }

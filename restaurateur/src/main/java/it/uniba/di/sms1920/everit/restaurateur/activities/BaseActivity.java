@@ -2,10 +2,12 @@ package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,6 +37,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_base);
 
         drawerLayout = findViewById(R.id.drawer_layout);
+
+        Toolbar toolbar =  findViewById(R.id.toolbar_default);
+        setSupportActionBar(toolbar);
+
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -40,17 +49,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void init() {
-         Toolbar toolbar =  findViewById(R.id.toolbar_default);
-         setSupportActionBar(toolbar);
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
 
-        View headerNav = navigationView.inflateHeaderView(R.layout.nav_view_header_user);
-        ImageView imgHeaderNav = headerNav.findViewById(it.uniba.di.sms1920.everit.utils.R.id.imageLogo);
-        TextView textHeaderNav = headerNav.findViewById(it.uniba.di.sms1920.everit.utils.R.id.TextViewDrawer);
-        textHeaderNav.setText("RISTORATORE");
+        View headerNav = navigationView.inflateHeaderView(R.layout.nav_view_header);
 
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -102,7 +105,22 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.logout: {
-                //logout qui
+                Providers.getAuthProvider().logout(new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        //TODO creare stringa in string
+                        Toast.makeText(getApplicationContext(), "Logout effettuato", Toast.LENGTH_LONG);
+                        Intent goIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(goIntent);
+                        finish();
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                    }
+                });
+
                 break;
             }
 

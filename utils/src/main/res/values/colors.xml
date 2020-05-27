@@ -9,4 +9,6 @@
     <color name="greyAccent">#C5C5C5</color>
     <color name="lightGreyAccent">#EFEFEF</color>
     <color name="colorDisabled">#AFAEAE</color>
+    <color name="veryLightGreyAccent">#FAF7F7</color>
+
 </resources>

@@ -1,7 +1,9 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.util.Log;
@@ -9,32 +11,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.utils.models.Product;
+import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.ProductCategoryRequest;
+import it.uniba.di.sms1920.everit.utils.request.ProductRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> expandableListTitle;
-    private LinkedHashMap<String, List<String>> expandableListDetail;
-    //TODO passa da String a Product
+    private List<ProductCategory> expandableListDetail;
 
 
-    CustomExpandableListAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail) {
+    CustomExpandableListAdapter(Context context, List<ProductCategory> expandableListDetail) {
         this.context = context;
-        this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
     }
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).get(expandedListPosition);
+        List<Product> values = new ArrayList<>(this.expandableListDetail.get(listPosition).getProducts());
+        return values.get(expandedListPosition) ;
     }
 
     @Override
@@ -44,101 +52,150 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String expandedListText = (String) getChild(listPosition, expandedListPosition);
-
+        Product child = (Product) getChild(listPosition, expandedListPosition);
+        final String expandedListText = child.getName();
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        List<Product> values = new ArrayList<>(expandableListDetail.get(listPosition).getProducts());
 
         if(isLastChild){
             convertView = layoutInflater.inflate(R.layout.list_last_item, null);
-            ImageButton btnAdd = convertView.findViewById(R.id.btnAddItem);
+            MaterialButton btnAdd = convertView.findViewById(R.id.btnAddItem);
             btnAdd.setOnClickListener(v -> {
+                Dialog dialogModItem = new Dialog(context);
+                dialogModItem.setContentView(R.layout.dialog_mod_item);
+                dialogModItem.setTitle(R.string.addNewProduct);
 
-                AlertDialog.Builder dialogNewItem = new AlertDialog.Builder(context);
-                dialogNewItem.setTitle("NEW ITEM NAME");
-                dialogNewItem.setMessage("Enter new name");
+                TextInputEditText newName = dialogModItem.findViewById(R.id.editTextProductName);
+                TextInputEditText newDescription = dialogModItem.findViewById(R.id.editTextProductDescription);
+                TextInputEditText newPrice = dialogModItem.findViewById(R.id.editTextProductPrice);
 
-                final EditText input = new EditText(context);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                dialogNewItem.setView(input);
+                MaterialButton confirm = dialogModItem.findViewById(R.id.BtnConfirm);
+                MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
-                dialogNewItem.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                confirm.setOnClickListener(v1 -> {
+                    values.remove(values.size()-1);
 
-                    List<String> newItem = getValueOfPair(listPosition);
-                    newItem.remove(""); //TODO mado che porcata
-                    newItem.add(input.getText().toString());
-                    newItem.add("");
+                    Product newProduct = new Product(
+                            expandableListDetail.get(listPosition).getId(),
+                            newName.getText().toString(),
+                            Float.valueOf(newPrice.getText().toString()),
+                            newDescription.getText().toString(),
+                            expandableListDetail.get(listPosition),
+                            (Restaurateur) Providers.getAuthProvider().getUser()
+                    );
 
-                    expandableListDetail.put(getValueOfKey(listPosition), newItem);
+                    values.add(newProduct);
 
-                    updateAdapter(expandableListTitle, expandableListDetail);
+                    ProductRequest productRequest = new ProductRequest();
+                    productRequest.create(newProduct, new RequestListener<Product>() {
+                        @Override
+                        public void successResponse(Product response) {
+                            Product lastProduct = new Product("", 0, "", expandableListDetail.get(listPosition), null);
+                            values.add(lastProduct);
+                            expandableListDetail.get(listPosition).setProducts(values);
+                            updateAdapter(); //EX
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+                        }
+                    });
+                    dialogModItem.dismiss();
+                    updateAdapter();
                 });
 
-                dialogNewItem.setNegativeButton(android.R.string.no, null);
+                cancel.setOnClickListener(v1 -> dialogModItem.dismiss());
 
-                dialogNewItem.show();
+                dialogModItem.show();
             });
-            TextView textHint = convertView.findViewById(R.id.textHint);
         }
         else {
-
             convertView = layoutInflater.inflate(R.layout.list_item, null);
 
             TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
-            expandedListTextView.setText(expandedListText);
+            expandedListTextView.setText(values.get(expandedListPosition).getName());
 
-            ImageButton btnModItem = convertView.findViewById(R.id.btnModItem);
+            TextView productDescription = convertView.findViewById(R.id.textViewDescription);
+            productDescription.setText(values.get(expandedListPosition).getDetails());
+
+            TextView productPrice = convertView.findViewById(R.id.textViewPrice);
+            productPrice.setText(String.valueOf(values.get(expandedListPosition).getPrice()));
+
+            MaterialButton btnModItem = convertView.findViewById(R.id.btnModItem);
             btnModItem.setOnClickListener(v -> {
-                AlertDialog.Builder dialogModName = new AlertDialog.Builder(context);
-                dialogModName.setTitle("MOD NAME");
-                dialogModName.setMessage("Enter new name");
+                Dialog dialogModItem = new Dialog(context);
+                dialogModItem.setContentView(R.layout.dialog_mod_item);
+                dialogModItem.setTitle(R.string.modProductName);
 
-                final EditText input = new EditText(context);
-                input.setHint(expandedListTextView.getText().toString());
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                dialogModName.setView(input);
+                TextInputEditText newName = dialogModItem.findViewById(R.id.editTextProductName);
+                TextInputEditText newDescription = dialogModItem.findViewById(R.id.editTextProductDescription);
+                TextInputEditText newPrice = dialogModItem.findViewById(R.id.editTextProductPrice);
 
-                dialogModName.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                MaterialButton confirm = dialogModItem.findViewById(R.id.BtnConfirm);
+                MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
+                confirm.setOnClickListener(v1 -> {
+                    values.get(expandedListPosition).setName(newName.getText().toString());
+                    values.get(expandedListPosition).setDetails(newDescription.getText().toString());
+                    values.get(expandedListPosition).setPrice(Float.parseFloat(newPrice.getText().toString()));
+
+                    expandableListDetail.get(listPosition).setProducts(values);
+
+                    ProductRequest productRequest = new ProductRequest();
+                    //TODO errore 404 problemi con l'id categoria credo
+                    productRequest.update(values.get(expandedListPosition), new RequestListener<Product>() {
+                        @Override
+                        public void successResponse(Product response) {
+                            updateAdapter();
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+                        }
+                    });
+                    dialogModItem.dismiss();
                 });
 
-                dialogModName.show();
+                cancel.setOnClickListener(v1 -> dialogModItem.dismiss());
 
+                dialogModItem.show();
             });
 
-            ImageButton btnDelItem = convertView.findViewById(R.id.btnDelItem);
+            MaterialButton btnDelItem = convertView.findViewById(R.id.btnDelItem);
             btnDelItem.setOnClickListener(v -> {
+                Dialog dialogYN = new Dialog(context);
+                dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_choice_yn);
+                dialogYN.setTitle(R.string.deleteCategory);
 
-                AlertDialog.Builder dialogConfirm = new AlertDialog.Builder(context);
-                dialogConfirm.setTitle("DELETE ITEM");
-                dialogConfirm.setMessage("You are going to delete " + expandedListText + ". Are you sure ?");
+                TextView newName = dialogYN.findViewById(R.id.TextViewMessage);
+                newName.setText(String.valueOf("You are going to delete " + expandedListText + ". Are you sure ?"));
 
-                dialogConfirm.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                MaterialButton confirm = dialogYN.findViewById(R.id.BtnConfirm);
+                MaterialButton cancel = dialogYN.findViewById(R.id.BtnCancel);
 
-                    Log.d("test", expandableListDetail.toString());
+                confirm.setOnClickListener(v1 -> {
+                    ProductRequest productRequest = new ProductRequest();
+                    productRequest.delete(values.get(expandedListPosition).getId(), new RequestListener<Boolean>() {
+                        @Override
+                        public void successResponse(Boolean response) {
+                            values.remove(expandedListPosition);
+                            expandableListDetail.get(listPosition).setProducts(values);
+                            updateAdapter();
+                        }
 
-                    List<String> newItemList = getValueOfPair(listPosition);
-                    newItemList.remove(expandedListPosition);
-
-                    expandableListDetail.put(getValueOfKey(listPosition), newItemList);
-
-                    Log.d("test", expandableListDetail.toString());
-
-                    updateAdapter(expandableListTitle, expandableListDetail);
+                        @Override
+                        public void errorResponse(RequestException error) {
+                        }
+                    });
+                    updateAdapter(); //EX
+                    dialogYN.dismiss();
                 });
 
-                dialogConfirm.setNegativeButton(android.R.string.no, null);
+                cancel.setOnClickListener(v1 -> dialogYN.dismiss());
 
-                dialogConfirm.show();
-
+                dialogYN.show();
             });
-
         }
 
         return convertView;
@@ -146,17 +203,17 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).size();
+        return this.expandableListDetail.get(listPosition).getProducts().size();
     }
 
     @Override
     public Object getGroup(int listPosition) {
-        return this.expandableListTitle.get(listPosition);
+        return this.expandableListDetail.get(listPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.expandableListTitle.size();
+        return this.expandableListDetail.size();
     }
 
     @Override
@@ -166,7 +223,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String listTitle = (String) getGroup(listPosition);
+        ProductCategory group = (ProductCategory) getGroup(listPosition);
+        String listTitle = group.getName();
 
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = layoutInflater.inflate(R.layout.list_group, null);
@@ -174,53 +232,76 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
         listTitleTextView.setFocusable(false);
 
-        ImageButton btnModGroup = convertView.findViewById(R.id.btnModGroup);
+        MaterialButton btnModGroup = convertView.findViewById(R.id.btnModGroup);
         btnModGroup.setFocusable(false);
         btnModGroup.setOnClickListener(v -> {
-            AlertDialog.Builder dialogNewName = new AlertDialog.Builder(context);
-            dialogNewName.setTitle("MODIFY GROUP NAME");
-            dialogNewName.setMessage("Enter new name");
+            Dialog dialogModName = new Dialog(context);
+            dialogModName.setContentView(R.layout.dialog_new_category);
+            dialogModName.setTitle(R.string.modCategoryName);
 
-            final EditText input = new EditText(context);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT);
-            input.setLayoutParams(lp);
-            dialogNewName.setView(input);
+            TextInputEditText newName = dialogModName.findViewById(R.id.editTextCategoryName);
+            MaterialButton confirm = dialogModName.findViewById(R.id.BtnConfirm);
+            MaterialButton cancel = dialogModName.findViewById(R.id.BtnCancel);
 
-            dialogNewName.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+            confirm.setOnClickListener(v1 -> {
+                expandableListDetail.get(listPosition).setName(newName.getText().toString());
+                ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
+                productCategoryRequest.update(expandableListDetail.get(listPosition), new RequestListener<ProductCategory>() {
+                    @Override
+                    public void successResponse(ProductCategory response) {
+                        updateAdapter();
+                    }
 
-                expandableListDetail.put(input.getText().toString(), expandableListDetail.remove(getValueOfKey(listPosition)));
-                expandableListTitle.set(listPosition, input.getText().toString());
-                updateAdapter(expandableListTitle, expandableListDetail);
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        //TODO vedere
+                    }
+                });
+                dialogModName.dismiss();
+                updateAdapter(); //EX
             });
 
-            dialogNewName.setNegativeButton(android.R.string.no, null);
+            cancel.setOnClickListener(v1 -> dialogModName.dismiss());
 
-            dialogNewName.show();
+            dialogModName.show();
         });
 
-        ImageButton btnDelGroup = convertView.findViewById(R.id.btnDelGroup);
+        MaterialButton btnDelGroup = convertView.findViewById(R.id.btnDelGroup);
         btnDelGroup.setFocusable(false);
         btnDelGroup.setOnClickListener(v -> {
-            AlertDialog.Builder dialogConfirm = new AlertDialog.Builder(context);
-            dialogConfirm.setTitle("DELETE GROUP");
-            dialogConfirm.setMessage("You are going to delete " + listTitle + ". Are you sure ?");
+            Dialog dialogYN = new Dialog(context);
+            dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_choice_yn);
+            dialogYN.setTitle(R.string.deleteCategory);
 
-            dialogConfirm.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+            TextView newName = dialogYN.findViewById(R.id.TextViewMessage);
+            newName.setText(String.valueOf("You are going to delete " + listTitle+ " Are you sure ?"));
 
-                Log.d("test", expandableListDetail.toString());
 
-                expandableListDetail.remove(getValueOfKey(listPosition));
-                expandableListTitle.remove(listPosition);
-                updateAdapter(expandableListTitle, expandableListDetail);
+            MaterialButton confirm = dialogYN.findViewById(R.id.BtnConfirm);
+            MaterialButton cancel = dialogYN.findViewById(R.id.BtnCancel);
 
-                Log.d("test", expandableListDetail.toString());
+            confirm.setOnClickListener(v1 -> {
+                ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
+                productCategoryRequest.delete(expandableListDetail.get(listPosition).getId(), new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        expandableListDetail.remove(expandableListDetail.get(listPosition));
+                        updateAdapter();
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        //TODO da fare
+                        Log.d("Error Response", error.toString());
+                    }
+                });
+                updateAdapter(); //EX
+                dialogYN.dismiss();
             });
 
-            dialogConfirm.setNegativeButton(android.R.string.no, null);
+            cancel.setOnClickListener(v1 -> dialogYN.dismiss());
 
-            dialogConfirm.show();
+            dialogYN.show();
         });
 
 
@@ -248,27 +329,64 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         super.registerDataSetObserver(observer);
     }
 
+    @Override
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+        super.unregisterDataSetObserver(observer);
+    }
 
-    public void updateAdapter(List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail){
-        this.expandableListTitle = expandableListTitle;
-        this.expandableListDetail = expandableListDetail;
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+        super.onGroupExpanded(groupPosition);
+    }
+
+
+    public void updateAdapter(){
         notifyDataSetChanged();
     }
 
 
-    private String getValueOfKey(int indexParent){
-        String key;
-        key = expandableListTitle.get(indexParent);
+    public void addCategory(){
+        Dialog dialogNewCategory = new Dialog(context);
+        dialogNewCategory.setContentView(R.layout.dialog_new_category);
+        dialogNewCategory.setTitle("NEW CATEGORY");
 
-        return key;
+        TextInputEditText newName = dialogNewCategory.findViewById(R.id.editTextCategoryName);
+        MaterialButton cancel = dialogNewCategory.findViewById(R.id.BtnCancel);
+        MaterialButton confirm = dialogNewCategory.findViewById(R.id.BtnConfirm);
+
+        confirm.setOnClickListener(v1 -> {
+            ProductCategory newCat = new ProductCategory(newName.getText().toString());
+            List<Product> products = new LinkedList<>();
+            newCat.setProducts(products);
+
+            ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
+            productCategoryRequest.create(newCat, new RequestListener<ProductCategory>() {
+                @Override
+                public void successResponse(ProductCategory response) {
+                    Product lastProduct = new Product("", 0, "", newCat, null);
+                    products.add(lastProduct);
+                    newCat.setProducts(products);
+
+                    expandableListDetail.add(newCat);
+                    updateAdapter();
+                }
+
+                @Override
+                public void errorResponse(RequestException error) {
+                    //TODO gestire risposta errore
+                }
+            });
+            dialogNewCategory.dismiss();
+            updateAdapter();
+        });
+
+        cancel.setOnClickListener(v1 -> dialogNewCategory.dismiss());
+
+        dialogNewCategory.show();
+        updateAdapter();
     }
 
-    private List<String> getValueOfPair(int indexParent){
-        List<String> values;
-        values = expandableListDetail.get(getValueOfKey(indexParent));
 
-        return values;
-    }
 
 
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
@@ -44,9 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -62,13 +62,14 @@ public class LoginActivity extends AppCompatActivity {
             String email = this.editTextEmail.getText().toString();
             String password = this.editTextPassword.getText().toString();
 
-            if(Utility.isEmailValid(email) && Utility.isPasswordValid(password)) {
-                this.login(email, password);
+            if(Utility.isEmailValid(email)){
+                if(Utility.isPasswordValid(password)){
+                    this.login(email, password);
+                }else{ }
+            }else {
+                //editTextEmail.setError(String.valueOf(it.uniba.di.sms1920.everit.utils.R.string.emailError));
             }
-            else {
-                Toast toast = Toast.makeText(this, R.string.wrong_login, Toast.LENGTH_LONG);
-                toast.show();
-            }
+
         });
     }
 

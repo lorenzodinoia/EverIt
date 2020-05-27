@@ -23,4 +23,13 @@
     <string name="addNewCat">Add new category</string>
     <string name="newCategoryName">New category name</string>
     <string name="confirm">Confirm</string>
+    <string name="newProductDescription">New description</string>
+    <string name="newProductPrice">New price</string>
+    <string name="newProductName">New product name</string>
+    <string name="lastItemText">Add new product</string>
+    <string name="modProductName">MODIFY PRODUCT NAME</string>
+    <string name="deleteProduct">DELETE PRODUCT</string>
+    <string name="addNewProduct">ADD NEW PRODUCT</string>
+    <string name="modCategoryName">MODIFY CATEGORY NAME</string>
+    <string name="deleteCategory">DELETE CATEGORY</string>
 </resources>

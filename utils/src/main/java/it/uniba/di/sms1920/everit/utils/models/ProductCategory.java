@@ -28,6 +28,18 @@ public class ProductCategory extends Model {
         return products;
     }
 
+    public Product getProductByIndex(long prodId) {
+        Product found = null;
+
+        for(Product it: products){
+            if(it.getId() == prodId){
+                found = it;
+            }
+        }
+
+        return found;
+    }
+
     public void setProducts(Collection<Product> products) {
         this.products = products;
     }

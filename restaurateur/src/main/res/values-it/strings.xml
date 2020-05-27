@@ -12,12 +12,21 @@
     <string name="description">Descrizione</string>
     <string name="productName">Nome prodotto</string>
     <string name="home">home</string>
-    <string name="loadImage">Load profile image</string>
+    <string name="loadImage">Carica immagine profilo</string>
     <string name="logout">Logout</string>
     <string name="VATnumber">VAT number</string>
-    <string name="shopType">Shop type</string>
-    <string name="city">City</string>
-    <string name="addNewCat">Add new category</string>
-    <string name="newCategoryName">New category name</string>
-    <string name="confirm">Confirm</string>
+    <string name="shopType">Tipo attività</string>
+    <string name="city">Città</string>
+    <string name="addNewCat">Aggiungi nuova categoria</string>
+    <string name="newCategoryName">Nome nuova categoria</string>
+    <string name="confirm">Conferma</string>
+    <string name="newProductDescription">Nuova descrizione</string>
+    <string name="newProductPrice">Nuovo prezzo</string>
+    <string name="newProductName">Nuovo nome prodotto</string>
+    <string name="lastItemText">Aggiungi nuovo prodotto</string>
+    <string name="modProductName">MODIFICA NOME PRODOTTO</string>
+    <string name="deleteProduct">CANCELLA PRODOTTO</string>
+    <string name="addNewProduct">AGGIUNGI NUOVO PRODOTTO</string>
+    <string name="modCategoryName">MODIFICA NOME CATEGORIA</string>
+    <string name="deleteCategory">CANCELLA CATEGORIA</string>
 </resources>
