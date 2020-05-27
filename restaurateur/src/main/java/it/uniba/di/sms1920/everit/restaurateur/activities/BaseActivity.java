@@ -58,7 +58,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
@@ -75,16 +74,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-    }
+    public void onPointerCaptureChanged(boolean hasCapture) { }
 
     @Override
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment), drawerLayout);
     }
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
