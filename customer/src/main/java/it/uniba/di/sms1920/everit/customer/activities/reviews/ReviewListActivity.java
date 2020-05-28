@@ -41,8 +41,6 @@ public class ReviewListActivity extends AppCompatActivity {
     public static final List<Review> resultList = new ArrayList<>();
     private boolean mTwoPane;
 
-    //TODO non funziona la back arrow
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

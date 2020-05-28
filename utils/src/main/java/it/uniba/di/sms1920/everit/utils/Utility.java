@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.utils;
 
+import android.util.Log;
 import android.util.Patterns;
 
 import java.util.regex.Pattern;
@@ -17,16 +18,12 @@ public final class Utility {
         return pattern.matcher(password).matches();
     }
 
-    public static boolean isNameValid(String surname){
-        if(surname.length() > 1 && surname.length() < 50){
-            return true;
-        }
-
-        return false;
+    public static boolean isNameValid(String name){
+        return name.length() > 1 && name.length() < 50;
     }
 
-    public static boolean isSurnameValid(String name){
-        if(name.length() > 1 && name.length() < 50){
+    public static boolean isSurnameValid(String surname){
+        if(surname.length() > 1 && surname.length() < 50){
             return true;
         }
 

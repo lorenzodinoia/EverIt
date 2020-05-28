@@ -44,4 +44,9 @@
     <string name="message_field_required">Campo obbligatorio</string>
     <string name="message_password_confirm_mismatch">La password non corrisponde</string>
     <string name="message_done">Fatto</string>
+
+
+    <string name="account_updated">Account aggiornato</string>
+    <string name="account_not_updated">Account non aggiornato</string>
+
 </resources>
