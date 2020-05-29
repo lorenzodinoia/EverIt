@@ -45,6 +45,8 @@
     <string name="message_password_confirm_mismatch">La password non corrisponde</string>
     <string name="message_done">Fatto</string>
 
+    <string name="Menu">Menu</string>
+    <string name="ShowMeMenu">Mostrami il menu</string>
 
     <string name="account_updated">Account aggiornato</string>
     <string name="account_not_updated">Account non aggiornato</string>
