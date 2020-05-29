@@ -12,8 +12,11 @@ import com.here.android.mpa.common.ApplicationContext;
 import com.here.android.mpa.common.MapEngine;
 import com.here.android.mpa.common.OnEngineInitListener;
 
+import java.io.FileNotFoundException;
+
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailActivity;
+import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
@@ -43,18 +46,17 @@ public class LauncherActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         try {
             Providers.init(context, Constants.Variants.CUSTOMER);
+            Cart.init(context);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
 
-        //HERE SDK MapEngine initialization
-        MapEngine mapEngine = MapEngine.getInstance();
+        MapEngine mapEngine = MapEngine.getInstance(); //HERE SDK MapEngine initialization
         ApplicationContext appContext = new ApplicationContext(context);
         mapEngine.init(appContext, error -> {
             if (error != OnEngineInitListener.Error.NONE) {
                 Log.e("HERE-SDK", error.getDetails());
-                //TODO Servizio HERE non avviato, fai qualcosa
             }
         });
     }
