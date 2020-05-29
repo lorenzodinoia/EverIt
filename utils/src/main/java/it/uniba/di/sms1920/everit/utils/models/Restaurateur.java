@@ -170,6 +170,18 @@ public class Restaurateur extends Model implements Authenticable {
         this.feedbacks = feedbacks;
     }
 
+    public Product getProductById(long id) {
+        for (ProductCategory category : this.productCategories) {
+            for (Product product : category.getProducts()) {
+                if (product.getId() == id) {
+                    return product;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private static final class Builder {
         private long id;
         private String shopName;

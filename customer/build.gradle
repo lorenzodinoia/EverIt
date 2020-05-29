@@ -37,7 +37,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.google.firebase:firebase-messaging:20.1.7'
+    implementation 'com.google.firebase:firebase-messaging:20.2.0'
     implementation project(path: ':utils')
 
     implementation 'com.google.android.gms:play-services-location:17.0.0'
@@ -59,4 +59,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
 
     api 'jp.wasabeef:picasso-transformations:2.2.1'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

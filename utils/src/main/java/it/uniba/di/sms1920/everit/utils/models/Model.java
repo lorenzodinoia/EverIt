@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import androidx.annotation.Nullable;
+
 public abstract class Model {
 
     private long id;
@@ -16,5 +18,17 @@ public abstract class Model {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean result = false;
+
+        if (obj instanceof Model) {
+            Model model = (Model) obj;
+            result = (this.id == model.getId());
+        }
+
+        return result;
     }
 }
