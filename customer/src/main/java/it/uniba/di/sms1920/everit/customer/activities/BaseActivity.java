@@ -58,7 +58,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Customer>() {
                     @Override
                     public void successResponse(Customer response) {
-                        Log.d("test", "Success");
                         navigationView.inflateMenu(R.menu.drawer_view);
                         String userName = response.getName() + " " + response.getSurname();
                         headerNameDisplay.setText(userName);
@@ -66,12 +65,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Log.d("test", "Error");
                         navigationView.inflateMenu(R.menu.drawer_view_unlogged);
                     }
                 });
             } catch (NoSuchCredentialException e) {
-                Log.d("test", "Non salva credenziali");
                 navigationView.inflateMenu(R.menu.drawer_view_unlogged);
             }
         }

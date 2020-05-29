@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.customer.activities.orders;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -162,6 +163,22 @@ public class OrderListActivity extends AppCompatActivity {
                             .fit()
                             .into(holder.imageViewRestaurateur);
                 }
+                switch(item.getStatus()) {
+                    case 0:
+                        holder.textViewOrderStatus.setText(R.string.ordered);
+                        break;
+                    case 1:
+                        holder.textViewOrderStatus.setText(R.string.in_preparation);
+                        break;
+                    case 2:
+                        holder.textViewOrderStatus.setText(R.string.delivering);
+                        break;
+                    case 3:
+                        holder.textViewOrderStatus.setText(R.string.delivered);
+                        break;
+                    default:
+                        break;
+                }
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);
             }
@@ -177,6 +194,7 @@ public class OrderListActivity extends AppCompatActivity {
             final TextView textViewActivityName;
             final TextView textViewPrice;
             final TextView textViewDeliveryDate;
+            final TextView textViewOrderStatus;
             final ImageView imageViewRestaurateur;
 
             ViewHolder(View view) {
@@ -185,6 +203,7 @@ public class OrderListActivity extends AppCompatActivity {
                 textViewActivityName = (TextView) view.findViewById(R.id.textViewActivityName);
                 textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
                 textViewDeliveryDate = (TextView) view.findViewById(R.id.textViewOrderDate);
+                textViewOrderStatus = (TextView) view.findViewById(R.id.textViewOrderStatus);
                 imageViewRestaurateur = (ImageView) view.findViewById(R.id.imageViewRestaurateur);
             }
         }

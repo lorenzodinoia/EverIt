@@ -49,4 +49,9 @@
     <string name="account_updated">Account aggiornato</string>
     <string name="account_not_updated">Account non aggiornato</string>
 
+    <string name="ordered">Ordinato</string>
+    <string name="in_preparation">In preparazione</string>
+    <string name="delivering">In Consegna</string>
+    <string name="delivered">Consegnat</string>
+
 </resources>

@@ -24,6 +24,11 @@
     <string name="account_updated">Account updated</string>
     <string name="account_not_updated">Account not updated</string>
 
+    <string name="ordered">Ordered</string>
+    <string name="in_preparation">In preparation</string>
+    <string name="delivering">Delivering</string>
+    <string name="delivered">Delivered</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="search">Search</string>
