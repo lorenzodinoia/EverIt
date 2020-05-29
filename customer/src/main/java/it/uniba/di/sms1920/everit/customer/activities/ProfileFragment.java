@@ -87,16 +87,16 @@ public class ProfileFragment extends Fragment {
         editTextPhone.setEnabled(false);
 
         buttonEditConfirm = viewRoot.findViewById(R.id.buttonEditConfirm);
-        buttonEditConfirm.setTag(R.string.edit);
+        buttonEditConfirm.setTag("Edit");
         buttonEditConfirm.setOnClickListener(v -> {
             String status = (String) buttonEditConfirm.getTag();
-            if(status.equals(R.string.edit)) {
-                buttonEditConfirm.setText("Confirm");
+            if(status.equals("Edit")) {
+                buttonEditConfirm.setText(R.string.confirm);
                 editTextName.setEnabled(true);
                 editTextSurname.setEnabled(true);
                 editTextMail.setEnabled(true);
                 editTextPhone.setEnabled(true);
-                v.setTag(R.string.confirm);
+                v.setTag("Confirm");
             } else {
                 boolean flag = true;
                 //TODO aggiungere messaggi errore ai campi errati
@@ -155,7 +155,7 @@ public class ProfileFragment extends Fragment {
                             editTextMail.setEnabled(false);
                             editTextMail.setText(customer.getEmail());
                             editTextPhone.setEnabled(false);
-                            v.setTag(R.string.edit);
+                            v.setTag("Edit");
                         }
 
                         @Override

@@ -19,6 +19,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity;
 import it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewListActivity;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
@@ -105,17 +106,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_order: {
-                if(isValidDestination(R.id.orderFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.orderFragment);
-                }
+                Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.nav_review: {
-                //TODO risolvere con un fragment
-                /*if(isValidDestination(R.id.reviewFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.reviewFragment);
-                }
-                break;*/
                 Intent intent = new Intent(getApplicationContext(), ReviewListActivity.class);
                 startActivity(intent);
                 break;

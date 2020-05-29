@@ -58,7 +58,7 @@ public class OrderDetailFragment extends Fragment {
                 }
             }
             else {
-                //TODO Aggiungere un simbolo per avvertire che l'ordine è ancora da consegnare
+                //TODO Aggiungere un simbolo per segnalare che l'ordine è ancora da consegnare
                 deliveryTimeAsString = dateFormat.format(order.getEstimatedDeliveryTime());
             }
 
@@ -102,7 +102,7 @@ public class OrderDetailFragment extends Fragment {
             String productText = (productItem.getQuantity() > 1) ? String.format(Locale.getDefault(),"%s (x %d)", productItem.getProduct().getName(), productItem.getQuantity())
                     : productItem.getProduct().getName();
             holder.textViewProductName.setText(productText);
-            holder.textViewPrice.setText(String.format(Locale.getDefault(),"€ %.2f", productItem.getProduct().getPrice()));
+            holder.textViewPrice.setText(String.format(Locale.getDefault(),"€ %.2f", productItem.getProduct().getPrice()*productItem.getQuantity()));
 
             holder.itemView.setTag(productItem);
         }
