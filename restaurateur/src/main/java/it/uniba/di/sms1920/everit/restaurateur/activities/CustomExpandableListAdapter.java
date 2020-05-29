@@ -6,14 +6,13 @@ import java.util.List;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -34,7 +33,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<ProductCategory> expandableListDetail;
 
-
     CustomExpandableListAdapter(Context context, List<ProductCategory> expandableListDetail) {
         this.context = context;
         this.expandableListDetail = expandableListDetail;
@@ -47,9 +45,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public long getChildId(int listPosition, int expandedListPosition) {
-        return expandedListPosition;
-    }
+    public long getChildId(int listPosition, int expandedListPosition) { return expandedListPosition; }
 
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
@@ -130,7 +126,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             });
         }
         else {
-            convertView = layoutInflater.inflate(R.layout.list_item, null);
+            convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
 
             TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
             expandedListTextView.setText(values.get(expandedListPosition).getName());
@@ -142,6 +138,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             productPrice.setText(String.valueOf(values.get(expandedListPosition).getPrice()));
 
             MaterialButton btnModItem = convertView.findViewById(R.id.btnModItem);
+            Drawable iconMod = this.context.getDrawable(android.R.drawable.ic_menu_edit);
+            btnModItem.setIcon(iconMod);
             btnModItem.setOnClickListener(v -> {
                 Dialog dialogModItem = new Dialog(context);
                 dialogModItem.setContentView(R.layout.dialog_mod_item);
@@ -182,6 +180,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             });
 
             MaterialButton btnDelItem = convertView.findViewById(R.id.btnDelItem);
+            Drawable iconDel = this.context.getDrawable(android.R.drawable.ic_menu_delete);
+            btnModItem.setIcon(iconDel);
             btnDelItem.setOnClickListener(v -> {
                 Dialog dialogYN = new Dialog(context);
                 dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_choice_yn);
@@ -221,9 +221,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getChildrenCount(int listPosition) {
-        return this.expandableListDetail.get(listPosition).getProducts().size();
-    }
+    public int getChildrenCount(int listPosition) { return this.expandableListDetail.get(listPosition).getProducts().size(); }
 
     @Override
     public Object getGroup(int listPosition) {

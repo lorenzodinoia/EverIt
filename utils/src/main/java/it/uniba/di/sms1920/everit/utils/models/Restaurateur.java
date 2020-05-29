@@ -1,5 +1,8 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collection;
@@ -169,6 +172,7 @@ public class Restaurateur extends Model implements Authenticable {
     public void setFeedbacks(Map<Customer, Integer> feedbacks) {
         this.feedbacks = feedbacks;
     }
+
 
     private static final class Builder {
         private long id;

@@ -56,4 +56,6 @@
     <string name="message_field_required">Required field</string>
     <string name="message_password_confirm_mismatch">Password mismatch</string>
     <string name="message_done">Done</string>
+    <string name="Menu">Menu</string>
+    <string name="ShowMeMenu">Show me the menu</string>
 </resources>

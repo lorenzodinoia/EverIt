@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +102,6 @@ public class ResultListActivity extends AppCompatActivity {
 
     public static Restaurateur getResultById(long id) {
         Restaurateur restaurateur = null;
-
         for (Restaurateur r : ResultListActivity.resultList) {
             if (r.getId() == id) {
                 restaurateur = r;
@@ -116,7 +116,9 @@ public class ResultListActivity extends AppCompatActivity {
         private final ResultListActivity parentActivity;
         private final List<Restaurateur> results;
         private final boolean towPaneMode;
+
         private final View.OnClickListener onClickListener = new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Restaurateur item = (Restaurateur) view.getTag();
@@ -187,10 +189,10 @@ public class ResultListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                imageViewRestaurantLogo = (ImageView) view.findViewById(R.id.imageViewRestaurantLogo);
-                textViewRestaurantName = (TextView) view.findViewById(R.id.textViewRestaurantName);
-                textViewMinPrice = (TextView) view.findViewById(R.id.textViewMinPrice);
-                textViewRestaurantDistance = (TextView) view.findViewById(R.id.textViewRestaurantDistance);
+                imageViewRestaurantLogo = view.findViewById(R.id.imageViewRestaurantLogo);
+                textViewRestaurantName = view.findViewById(R.id.textViewRestaurantName);
+                textViewMinPrice = view.findViewById(R.id.textViewMinPrice);
+                textViewRestaurantDistance =  view.findViewById(R.id.textViewRestaurantDistance);
             }
         }
     }

@@ -23,15 +23,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="4dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddCategory"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logoWide">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoWide">
 
         <ExpandableListView
             android:id="@+id/expandableMenu"
@@ -41,7 +41,7 @@
             android:divider="@android:color/darker_gray"
             android:dividerHeight="0.5dp"
             android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
-        </LinearLayout>
+    </LinearLayout>
 
 
     <Button
