@@ -1,7 +1,5 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
-import org.threeten.bp.LocalDateTime;
-
 import java.util.Date;
 import java.util.Map;
 
@@ -16,7 +14,8 @@ public class Order extends Model {
     private boolean delivered;
     private Map<Product, Integer> products;
     private Restaurateur restaurateur;
-    private LocalDateTime createdAt;
+    private Date createdAt;
+    private int status;
 
     private Order(Builder builder) {
         super(builder.id);
@@ -29,6 +28,7 @@ public class Order extends Model {
         this.delivered = builder.delivered;
         this.products = builder.products;
         this.restaurateur = builder.restaurateur;
+        this.status = builder.status;
     }
 
     public String getDeliveryAddress() {
@@ -103,12 +103,20 @@ public class Order extends Model {
         this.restaurateur = restaurateur;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public float getTotalCost() {
@@ -134,12 +142,14 @@ public class Order extends Model {
         private boolean delivered;
         private Map<Product, Integer> products;
         private Restaurateur restaurateur;
+        private int status;
 
-        public Builder(String deliveryAddress, Date estimatedDeliveryTime, Map<Product, Integer> products, Restaurateur restaurateur) {
+        public Builder(String deliveryAddress, Date estimatedDeliveryTime, Map<Product, Integer> products, Restaurateur restaurateur, int status) {
             this.deliveryAddress = deliveryAddress;
             this.estimatedDeliveryTime = estimatedDeliveryTime;
             this.products = products;
             this.restaurateur = restaurateur;
+            this.status = status;
         }
 
         public Builder setId(long id) {
@@ -169,6 +179,11 @@ public class Order extends Model {
 
         public Builder setDelivered(boolean delivered) {
             this.delivered = delivered;
+            return this;
+        }
+
+        public Builder setStatus(int status){
+            this.status = status;
             return this;
         }
 

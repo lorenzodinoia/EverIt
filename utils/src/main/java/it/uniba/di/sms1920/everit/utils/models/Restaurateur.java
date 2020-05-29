@@ -1,8 +1,5 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collection;
@@ -173,6 +170,17 @@ public class Restaurateur extends Model implements Authenticable {
         this.feedbacks = feedbacks;
     }
 
+    public Product getProductById(long id) {
+        for (ProductCategory category : this.productCategories) {
+            for (Product product : category.getProducts()) {
+                if (product.getId() == id) {
+                    return product;
+                }
+            }
+        }
+
+        return null;
+    }
 
     private static final class Builder {
         private long id;

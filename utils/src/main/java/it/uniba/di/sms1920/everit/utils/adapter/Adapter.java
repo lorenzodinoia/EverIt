@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
 
 import java.lang.reflect.Type;
@@ -28,7 +29,7 @@ public class Adapter<T extends Model> {
     private static final Gson jsonConverter = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .registerTypeAdapter(boolean.class, new BooleanAdapter())
-            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .registerTypeAdapter(LocalDateTime.class, new LocalTimeAdapter())
             .registerTypeAdapter(productMapType, new ProductMapAdapter())
             .registerTypeAdapter(openingDayArrayType, new OpeningDayArrayAdapter())
             .setDateFormat(JSON_DATETIME_FORMAT)

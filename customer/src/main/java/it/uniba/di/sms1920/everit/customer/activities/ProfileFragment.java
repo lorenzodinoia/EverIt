@@ -25,8 +25,6 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class ProfileFragment extends Fragment {
 
-    //TODO finire di aggiungere controlli alle editText
-
     private Customer customer;
     private TextInputEditText editTextName;
     private TextInputLayout editTextNameContainer;
@@ -55,11 +53,11 @@ public class ProfileFragment extends Fragment {
             public void successResponse(Customer response) {
                 customer = response;
                 initComponent(viewRoot);
-                Log.d("test", response.toString());
             }
 
             @Override
             public void errorResponse(RequestException error) {
+                //TODO implementare errore risposta
                 Log.d("test", error.toString());
             }
         });
@@ -83,7 +81,7 @@ public class ProfileFragment extends Fragment {
         editTextMail.setText(customer.getEmail());
         editTextMail.setEnabled(false);
 
-        editTextMailContainer = viewRoot.findViewById(R.id.editTextPhoneContainer);
+        editTextPhoneContainer = viewRoot.findViewById(R.id.editTextPhoneContainer);
         editTextPhone= viewRoot.findViewById(R.id.editTextPhone);
         editTextPhone.setText(customer.getPhoneNumber());
         editTextPhone.setEnabled(false);
@@ -93,62 +91,79 @@ public class ProfileFragment extends Fragment {
         buttonEditConfirm.setOnClickListener(v -> {
             String status = (String) buttonEditConfirm.getTag();
             if(status.equals("Edit")) {
-                buttonEditConfirm.setText("Confirm");
+                buttonEditConfirm.setText(R.string.confirm);
                 editTextName.setEnabled(true);
                 editTextSurname.setEnabled(true);
                 editTextMail.setEnabled(true);
                 editTextPhone.setEnabled(true);
                 v.setTag("Confirm");
             } else {
-                if(Utility.isNameValid(editTextName.getText().toString())){
-                    if(Utility.isSurnameValid(editTextSurname.getText().toString())){
-                        if(Utility.isPhoneValid(editTextPhone.getText().toString())){
-                            if(!Utility.isEmailValid(editTextMail.getText().toString())){
-                                CustomerRequest customerRequest = new CustomerRequest();
-                                customer.setName(editTextName.getText().toString());
-                                customer.setSurname(editTextSurname.getText().toString());
-                                customer.setEmail(editTextMail.getText().toString());
-                                customer.setPhoneNumber(editTextPhone.getText().toString());
-                                customerRequest.update(customer, new RequestListener<Customer>() {
-                                    @Override
-                                    public void successResponse(Customer response) {
-                                        //TODO modificare le stringhe
-                                        Toast.makeText(getActivity().getApplicationContext(), "Modifiche applicate", Toast.LENGTH_LONG).show();
-                                        buttonEditConfirm.setText("Edit");
-                                        editTextName.setText(customer.getName());
-                                        editTextName.setEnabled(false);
-                                        editTextSurname.setText(customer.getSurname());
-                                        editTextSurname.setEnabled(false);
-                                        editTextMail.setText(customer.getEmail());
-                                        editTextMail.setEnabled(false);
-                                        editTextMail.setText(customer.getEmail());
-                                        editTextPhone.setEnabled(false);
-                                        v.setTag("Edit");
-                                    }
-
-                                    @Override
-                                    public void errorResponse(RequestException error) {
-                                        //TODO modificare le stringhe
-                                        Toast.makeText(getActivity().getApplicationContext(), "Modifiche non riuscite", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            } else{
-                                editTextMailContainer.setError("Mettere messaggio di errore");
-                                editTextMailContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
-                            }
-                        } else{
-                            editTextPhoneContainer.setError("Mettere messaggio di errore");
-                            editTextPhoneContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
-                        }
-                    } else{
-                        editTextSurnameContainer.setError("Mettere messaggio di errore");
-                        editTextSurnameContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
-                    }
-                } else{
+                boolean flag = true;
+                //TODO aggiungere messaggi errore ai campi errati
+                if(!Utility.isNameValid(editTextName.getText().toString())){
+                    flag = false;
                     editTextNameContainer.setError("Mettere messaggio di errore");
                     editTextNameContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
+                } else{
+                    editTextNameContainer.setError(null);
+                    editTextNameContainer.clearFocus();
                 }
 
+                if(!Utility.isSurnameValid(editTextSurname.getText().toString())){
+                    flag = false;
+                    editTextSurnameContainer.setError("Mettere messaggio di errore");
+                    editTextSurnameContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
+                } else{
+                    editTextNameContainer.setError(null);
+                    editTextNameContainer.clearFocus();
+                }
+
+                if(!Utility.isPhoneValid(editTextPhone.getText().toString())){
+                    flag = false;
+                    editTextPhoneContainer.setError("Mettere messaggio di errore");
+                    editTextPhoneContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
+                } else{
+                    editTextNameContainer.setError(null);
+                    editTextNameContainer.clearFocus();
+                }
+
+                if(!Utility.isEmailValid(editTextMail.getText().toString())){
+                    flag = false;
+                    editTextMailContainer.setError("Mettere messaggio di errore");
+                    editTextMailContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
+                } else{
+                    editTextNameContainer.setError(null);
+                    editTextNameContainer.clearFocus();
+                }
+
+                if(flag){
+                    CustomerRequest customerRequest = new CustomerRequest();
+                    customer.setName(editTextName.getText().toString());
+                    customer.setSurname(editTextSurname.getText().toString());
+                    customer.setEmail(editTextMail.getText().toString());
+                    customer.setPhoneNumber(editTextPhone.getText().toString());
+                    customerRequest.update(customer, new RequestListener<Customer>() {
+                        @Override
+                        public void successResponse(Customer response) {
+                            Toast.makeText(getActivity().getApplicationContext(), R.string.account_updated, Toast.LENGTH_LONG).show();
+                            buttonEditConfirm.setText(R.string.edit);
+                            editTextName.setText(customer.getName());
+                            editTextName.setEnabled(false);
+                            editTextSurname.setText(customer.getSurname());
+                            editTextSurname.setEnabled(false);
+                            editTextMail.setText(customer.getEmail());
+                            editTextMail.setEnabled(false);
+                            editTextMail.setText(customer.getEmail());
+                            editTextPhone.setEnabled(false);
+                            v.setTag("Edit");
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            Toast.makeText(getActivity().getApplicationContext(), R.string.account_not_updated, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
 
             }
         });

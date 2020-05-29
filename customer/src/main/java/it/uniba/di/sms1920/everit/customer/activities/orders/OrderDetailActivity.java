@@ -3,12 +3,16 @@ package it.uniba.di.sms1920.everit.customer.activities.orders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.squareup.picasso.Picasso;
+
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 
 
@@ -27,6 +31,18 @@ public class OrderDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         long idObj = getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0);
         Order item = OrderListActivity.getOrderById(idObj);
+
+        ImageView imageView = findViewById(R.id.imageViewDetailOrder);
+        if(item.getRestaurateur().getImagePath() != null){
+            String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
+            Picasso.get()
+                    .load(imageUrl)
+                    .error(R.mipmap.icon)
+                    .placeholder(R.mipmap.icon)
+                    .fit()
+                    .into(imageView);
+        }
+
         if (item != null) {
             toolbar.setTitle(item.getRestaurateur().getShopName());
         }

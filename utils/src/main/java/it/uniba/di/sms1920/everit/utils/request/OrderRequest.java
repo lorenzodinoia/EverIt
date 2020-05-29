@@ -23,7 +23,7 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
 
     @Override
     public void readAll(RequestListener<Collection<Order>> RequestListener) {
-        super.readAll(URL, RequestListener, Order.class, true);
+        super.readAll(URL+"/getAll", RequestListener, Order.class, true);
     }
 
     @Override

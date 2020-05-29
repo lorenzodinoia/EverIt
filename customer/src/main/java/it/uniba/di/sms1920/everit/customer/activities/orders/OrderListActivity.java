@@ -3,33 +3,44 @@ package it.uniba.di.sms1920.everit.customer.activities.orders;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
+import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 
 public class OrderListActivity extends AppCompatActivity {
     private boolean twoPaneMode;
     @SuppressLint("UseSparseArrays")
     public static final List<Order> orderList = new ArrayList<>();
+
+    //TODO aggiungere back arrow
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,37 +60,23 @@ public class OrderListActivity extends AppCompatActivity {
         }
 
         View recyclerView = findViewById(R.id.order_list);
-        assert recyclerView != null; //TODO Sto assert pare messo qui perchè pesava il culo mettere un if del cazzo, e meno male che lo ha scritto Google...
+        assert recyclerView != null;
 
-        //TODO Rimuovere login. Inserito solo a scopo di test
-        /*
-        LoginRequest.getInstance().login("mario.rossi@gmail.com", "password123", new RequestListener<Boolean>() {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.readAll(new RequestListener<Collection<Order>>() {
             @Override
-            public void successResponse(Boolean response) {
-                OrderRequest orderRequest = new OrderRequest();
-                orderRequest.readAll(new RequestListener<Collection<Order>>() {
-                    @Override
-                    public void successResponse(Collection<Order> response) {
-                        //TODO Salvare order list in modo da non rifare la richiesta ad ogni rotazione dello schermo
-                        orderList.clear();
-                        orderList.addAll(response);
-                        setupRecyclerView((RecyclerView) recyclerView);
-                    }
-
-                    @Override
-                    public void errorResponse(String error) {
-                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-                    }
-                });
+            public void successResponse(Collection<Order> response) {
+                orderList.clear();
+                orderList.addAll(response);
+                setupRecyclerView((RecyclerView) recyclerView);
             }
 
             @Override
-            public void errorResponse(String error) {
-                Toast.makeText(getApplicationContext(), "Niente login", Toast.LENGTH_LONG).show();
+            public void errorResponse(RequestException error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
             }
-        }, false);
+        });
 
-         */
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -156,7 +153,32 @@ public class OrderListActivity extends AppCompatActivity {
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
                 holder.textViewPrice.setText(String.format(Locale.getDefault(), "€ %.2f", item.getTotalCost()));
                 holder.textViewDeliveryDate.setText(dateAsString);
-
+                if(item.getRestaurateur().getImagePath() != null){
+                    String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
+                    Picasso.get()
+                            .load(imageUrl)
+                            .error(R.mipmap.icon)
+                            .placeholder(R.mipmap.icon)
+                            .transform(new CropCircleTransformation())
+                            .fit()
+                            .into(holder.imageViewRestaurateur);
+                }
+                switch(item.getStatus()) {
+                    case 0:
+                        holder.textViewOrderStatus.setText(R.string.ordered);
+                        break;
+                    case 1:
+                        holder.textViewOrderStatus.setText(R.string.in_preparation);
+                        break;
+                    case 2:
+                        holder.textViewOrderStatus.setText(R.string.delivering);
+                        break;
+                    case 3:
+                        holder.textViewOrderStatus.setText(R.string.delivered);
+                        break;
+                    default:
+                        break;
+                }
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);
             }
@@ -172,6 +194,7 @@ public class OrderListActivity extends AppCompatActivity {
             final TextView textViewActivityName;
             final TextView textViewPrice;
             final TextView textViewDeliveryDate;
+            final TextView textViewOrderStatus;
             final ImageView imageViewRestaurateur;
 
             ViewHolder(View view) {
@@ -180,6 +203,7 @@ public class OrderListActivity extends AppCompatActivity {
                 textViewActivityName = (TextView) view.findViewById(R.id.textViewActivityName);
                 textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
                 textViewDeliveryDate = (TextView) view.findViewById(R.id.textViewOrderDate);
+                textViewOrderStatus = (TextView) view.findViewById(R.id.textViewOrderStatus);
                 imageViewRestaurateur = (ImageView) view.findViewById(R.id.imageViewRestaurateur);
             }
         }

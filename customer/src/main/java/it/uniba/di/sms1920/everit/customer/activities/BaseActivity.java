@@ -2,7 +2,6 @@ package it.uniba.di.sms1920.everit.customer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -17,9 +16,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+
 import com.google.android.material.navigation.NavigationView;
+
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity;
 import it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewListActivity;
+import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
@@ -55,7 +58,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Customer>() {
                     @Override
                     public void successResponse(Customer response) {
-                        Log.d("test", "Success");
                         navigationView.inflateMenu(R.menu.drawer_view);
                         String userName = response.getName() + " " + response.getSurname();
                         headerNameDisplay.setText(userName);
@@ -63,12 +65,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Log.d("test", "Error");
                         navigationView.inflateMenu(R.menu.drawer_view_unlogged);
                     }
                 });
             } catch (NoSuchCredentialException e) {
-                Log.d("test", "Non salva credenziali");
                 navigationView.inflateMenu(R.menu.drawer_view_unlogged);
             }
         }
@@ -105,17 +105,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_order: {
-                if(isValidDestination(R.id.orderFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.orderFragment);
-                }
+                Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.nav_review: {
-                //TODO risolvere con un fragment
-                /*if(isValidDestination(R.id.reviewFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.reviewFragment);
-                }
-                break;*/
                 Intent intent = new Intent(getApplicationContext(), ReviewListActivity.class);
                 startActivity(intent);
                 break;
@@ -188,4 +182,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment), drawerLayout);
     }
 
+    @Override
+    protected void onDestroy() {
+        Cart cart = Cart.getInstance();
+
+        if ((cart != null) && (!cart.isEmpty())) {
+            cart.saveToFile();
+        }
+
+        super.onDestroy();
+    }
 }
