@@ -8,6 +8,8 @@ import it.uniba.di.sms1920.everit.utils.models.City;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Model;
 import it.uniba.di.sms1920.everit.utils.models.Order;
+import it.uniba.di.sms1920.everit.utils.models.Product;
+import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Review;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
@@ -22,6 +24,8 @@ public final class AdapterProvider {
         adapters.put(Restaurateur.class, new Adapter<Restaurateur>());
         adapters.put(Rider.class, new Adapter<Rider>());
         adapters.put(Review.class, new Adapter<Review>());
+        adapters.put(Product.class, new Adapter<Product>());
+        adapters.put(ProductCategory.class, new Adapter<ProductCategory>());
     }
 
     public static <T extends Model> Adapter<T> getAdapterFor(Class<T> modelClass) {

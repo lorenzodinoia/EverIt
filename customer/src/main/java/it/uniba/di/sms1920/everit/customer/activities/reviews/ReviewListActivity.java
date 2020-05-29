@@ -50,6 +50,7 @@ public class ReviewListActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
+
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -81,6 +82,14 @@ public class ReviewListActivity extends AppCompatActivity {
                         Log.d("test", error.toString());
                     }
                 });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -188,4 +197,6 @@ public class ReviewListActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

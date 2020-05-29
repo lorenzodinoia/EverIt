@@ -19,4 +19,7 @@
     <string name="cancel_default">Annulla</string>
     <string name="gps_permission_explanation">È necessario fornire l\'autorizzazione GPS per consentire all\'applicazione di ottenere la tua posizione e migliorare la ricerca di ristoranti</string>
     <string name="message_server_unreachable">Servizio non disponibile</string>
+    <string name="emailError">Email errata !</string>
+    <string name="passwordError">Password errata !</string>
+
 </resources>

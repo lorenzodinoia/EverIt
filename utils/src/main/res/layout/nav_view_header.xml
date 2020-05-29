@@ -32,10 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
-        android:text="NOME E COGNOME"
         android:textAlignment="center"
-        android:textColor="#1C1B1B"
-        android:textSize="25sp"
+        style="@style/TextViewLarge"
         app:layout_constraintBottom_toBottomOf="@+id/imageLogo"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,8 @@ package it.uniba.di.sms1920.everit.customer.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,8 +40,15 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_base);
 
         drawerLayout = findViewById(R.id.drawer_layout);
+
+        Toolbar toolbar =  findViewById(R.id.toolbar_default);
+        setSupportActionBar(toolbar);
+
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.inflateHeaderView(it.uniba.di.sms1920.everit.utils.R.layout.nav_view_header);
+        TextView headerNameDisplay = headerView.findViewById(R.id.TextViewDrawer);
 
         if(Providers.getAuthProvider().getUser() != null){
             navigationView.inflateMenu(R.menu.drawer_view);
@@ -48,15 +57,20 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Customer>() {
                     @Override
                     public void successResponse(Customer response) {
+                        Log.d("test", "Success");
                         navigationView.inflateMenu(R.menu.drawer_view);
+                        String userName = response.getName() + " " + response.getSurname();
+                        headerNameDisplay.setText(userName);
                     }
 
                     @Override
                     public void errorResponse(RequestException error) {
+                        Log.d("test", "Error");
                         navigationView.inflateMenu(R.menu.drawer_view_unlogged);
                     }
                 });
             } catch (NoSuchCredentialException e) {
+                Log.d("test", "Non salva credenziali");
                 navigationView.inflateMenu(R.menu.drawer_view_unlogged);
             }
         }
@@ -65,9 +79,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void init() {
-        Toolbar toolbar =  findViewById(R.id.toolbar_default);
-        setSupportActionBar(toolbar);
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
@@ -102,6 +113,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_review: {
+                //TODO risolvere con un fragment
+                /*if(isValidDestination(R.id.reviewFragment)) {
+                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.reviewFragment);
+                }
+                break;*/
                 Intent intent = new Intent(getApplicationContext(), ReviewListActivity.class);
                 startActivity(intent);
                 break;
@@ -136,9 +152,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-                //TODO non aggiorna l'hamburger
                 finish();
-                startActivity(getIntent());
                 break;
             }
         }
