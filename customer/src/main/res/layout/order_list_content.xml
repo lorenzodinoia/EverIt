@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:background="@android:color/transparent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -24,57 +24,44 @@
 
             <TextView
                 android:id="@+id/textViewActivityName"
+                style="@style/TextViewLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"
+                android:text="Nome negozio"
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/view2"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="90dp"
-                android:background="#c0c0c0"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textViewId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
 
             <TextView
                 android:id="@+id/textViewPrice"
+                style="@style/TextViewMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:text="prezzo"
+                app:layout_constraintStart_toEndOf="@+id/textViewOrderDate"
+                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
+
+            <TextView
+                android:id="@+id/textViewOrderDate"
+                style="@style/TextViewMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewId" />
-
-            <TextView
-                android:id="@+id/textViewOrderDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toEndOf="@+id/textViewId"
+                android:text="data ordine"
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
                 app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
 
             <ImageView
                 android:id="@+id/imageViewRestaurateur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@mipmap/icon" />
 
@@ -82,11 +69,15 @@
                 android:id="@+id/textViewOrderStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="50dp"
-                android:layout_marginBottom="9dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="3dp"
+                android:text="stato ordine"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageViewRestaurateur" />
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
+                app:layout_constraintTop_toBottomOf="@+id/textViewOrderDate"
+                app:layout_constraintVertical_bias="1.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 

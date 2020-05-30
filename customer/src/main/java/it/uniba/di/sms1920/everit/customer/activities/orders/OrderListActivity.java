@@ -3,9 +3,9 @@ package it.uniba.di.sms1920.everit.customer.activities.orders;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -48,8 +48,10 @@ public class OrderListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_default);
-        setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         if (findViewById(R.id.order_detail_container) != null) {
             /*
@@ -77,6 +79,14 @@ public class OrderListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -149,7 +159,6 @@ public class OrderListActivity extends AppCompatActivity {
                     dateAsString = dateFormat.format(item.getEstimatedDeliveryTime());
                 }
 
-                holder.textViewId.setText(String.format(Locale.getDefault(), "# %d", item.getId()));
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
                 holder.textViewPrice.setText(String.format(Locale.getDefault(), "€ %.2f", item.getTotalCost()));
                 holder.textViewDeliveryDate.setText(dateAsString);
@@ -190,7 +199,6 @@ public class OrderListActivity extends AppCompatActivity {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView textViewId;
             final TextView textViewActivityName;
             final TextView textViewPrice;
             final TextView textViewDeliveryDate;
@@ -199,7 +207,6 @@ public class OrderListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                textViewId = (TextView) view.findViewById(R.id.textViewId);
                 textViewActivityName = (TextView) view.findViewById(R.id.textViewActivityName);
                 textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
                 textViewDeliveryDate = (TextView) view.findViewById(R.id.textViewOrderDate);

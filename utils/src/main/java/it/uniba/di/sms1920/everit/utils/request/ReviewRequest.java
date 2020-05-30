@@ -23,7 +23,7 @@ public final class ReviewRequest extends CRUDRequest<Review> implements CRUD<Rev
 
     @Override
     public void readAll(RequestListener<Collection<Review>> RequestListener) {
-        super.readAll(URL, RequestListener, Review.class, true);
+        super.readAll(URL+"/getAll", RequestListener, Review.class, true);
     }
 
     @Override
