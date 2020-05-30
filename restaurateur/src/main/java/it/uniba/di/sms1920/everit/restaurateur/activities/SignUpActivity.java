@@ -4,8 +4,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
 
@@ -25,8 +23,8 @@ public class SignUpActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Fragment fragment_signup1 = new Fragment(R.layout.fragment_sign_up1);
-        getSupportFragmentManager().beginTransaction().add(R.id.containerMain, fragment_signup1).commit();
+        Fragment fragmentSignUp1 = new Fragment(R.layout.fragment_sign_up1);
+        getSupportFragmentManager().beginTransaction().add(R.id.containerMain, fragmentSignUp1).commit();
     }
 
 }

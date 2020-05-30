@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +48,6 @@ public class SignUp1Fragment extends Fragment {
         editTextVAT = viewRoot.findViewById(R.id.editTextVAT);
         btnNext = viewRoot.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
-
-            Log.d("cazxi", "Caio");
 
             String shopName = editTextShopName.getText().toString();
             String address = editTextAddress.getText().toString();

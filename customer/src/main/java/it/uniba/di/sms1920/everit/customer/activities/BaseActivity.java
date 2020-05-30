@@ -148,9 +148,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
         }
-        item.setChecked(true);
+
         drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
     private boolean isValidDestination(int dest){

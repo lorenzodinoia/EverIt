@@ -40,7 +40,7 @@ public class OrderListActivity extends AppCompatActivity {
     @SuppressLint("UseSparseArrays")
     public static final List<Order> orderList = new ArrayList<>();
 
-    //TODO aggiungere back arrow
+    //TODO aggiungere gestione se non ci sono dati (anche nelle review)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
