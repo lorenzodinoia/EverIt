@@ -3,11 +3,12 @@ package it.uniba.di.sms1920.everit.utils.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collection;
-import java.util.Map;
+
+import it.uniba.di.sms1920.everit.utils.Address;
 
 public class Restaurateur extends Model implements Authenticable {
     private String shopName;
-    private String address;
+    private Address address;
     private String phoneNumber;
     private String email;
     private String password;
@@ -17,12 +18,10 @@ public class Restaurateur extends Model implements Authenticable {
     private int minPrice;
     private String imagePath;
     private ShopType shopType;
-    private City city;
     private boolean isOpen;
     private Collection<ProductCategory> productCategories;
     @SerializedName("opening_times")
     private Collection<OpeningDay> openingDays;
-    private Map<Customer, Integer> feedbacks;
 
     private Restaurateur(Builder builder) {
         super(builder.id);
@@ -36,10 +35,8 @@ public class Restaurateur extends Model implements Authenticable {
         this.minPrice = builder.minPrice;
         this.imagePath = builder.imagePath;
         this.shopType = builder.shopType;
-        this.city = builder.city;
         this.productCategories = builder.productCategories;
         this.openingDays = builder.openingDays;
-        this.feedbacks = builder.feedbacks;
     }
 
     public String getShopName() {
@@ -50,11 +47,11 @@ public class Restaurateur extends Model implements Authenticable {
         this.shopName = shopName;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -130,14 +127,6 @@ public class Restaurateur extends Model implements Authenticable {
         this.shopType = shopType;
     }
 
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
     public boolean isOpen() {
         return isOpen;
     }
@@ -162,14 +151,6 @@ public class Restaurateur extends Model implements Authenticable {
         this.openingDays = openingDays;
     }
 
-    public Map<Customer, Integer> getFeedbacks() {
-        return feedbacks;
-    }
-
-    public void setFeedbacks(Map<Customer, Integer> feedbacks) {
-        this.feedbacks = feedbacks;
-    }
-
     public Product getProductById(long id) {
         for (ProductCategory category : this.productCategories) {
             for (Product product : category.getProducts()) {
@@ -185,7 +166,7 @@ public class Restaurateur extends Model implements Authenticable {
     private static final class Builder {
         private long id;
         private String shopName;
-        private String address;
+        private Address address;
         private String phoneNumber;
         private String email;
         private String password;
@@ -195,19 +176,17 @@ public class Restaurateur extends Model implements Authenticable {
         private int minPrice;
         private String imagePath;
         private ShopType shopType;
-        private City city;
+        private boolean isOpen;
         private Collection<ProductCategory> productCategories;
         private Collection<OpeningDay> openingDays;
-        private Map<Customer, Integer> feedbacks;
 
-        public Builder(String shopName, String address, String phoneNumber, String email, String vatNumber, ShopType shopType, City city) {
+        public Builder(String shopName, Address address, String phoneNumber, String email, String vatNumber, ShopType shopType) {
             this.shopName = shopName;
             this.address = address;
             this.phoneNumber = phoneNumber;
             this.email = email;
             this.vatNumber = vatNumber;
             this.shopType = shopType;
-            this.city = city;
         }
 
         public Builder setId(long id) {
@@ -232,11 +211,6 @@ public class Restaurateur extends Model implements Authenticable {
 
         public Builder setImagePath(String imagePath) {
             this.imagePath = imagePath;
-            return this;
-        }
-
-        public Builder setFeedbacks(Map<Customer, Integer> feedbacks) {
-            this.feedbacks = feedbacks;
             return this;
         }
 

@@ -172,21 +172,18 @@ public class OrderListActivity extends AppCompatActivity {
                             .fit()
                             .into(holder.imageViewRestaurateur);
                 }
-                switch(item.getStatus()) {
-                    case 0:
-                        holder.textViewOrderStatus.setText(R.string.ordered);
-                        break;
-                    case 1:
-                        holder.textViewOrderStatus.setText(R.string.in_preparation);
-                        break;
-                    case 2:
-                        holder.textViewOrderStatus.setText(R.string.delivering);
-                        break;
-                    case 3:
-                        holder.textViewOrderStatus.setText(R.string.delivered);
-                        break;
-                    default:
-                        break;
+                Order.Status orderStatus = item.getStatus();
+                if (orderStatus.equals(Order.Status.ORDERED)) {
+                    holder.textViewOrderStatus.setText(R.string.ordered);
+                }
+                else if (orderStatus.equals(Order.Status.IN_PROGRESS)) {
+                    holder.textViewOrderStatus.setText(R.string.in_preparation);
+                }
+                else if (orderStatus.equals(Order.Status.DELIVERING)) {
+                    holder.textViewOrderStatus.setText(R.string.delivering);
+                }
+                else if (orderStatus.equals(Order.Status.DELIVERED)) {
+                    holder.textViewOrderStatus.setText(R.string.delivered);
                 }
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);
