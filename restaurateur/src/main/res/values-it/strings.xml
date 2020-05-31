@@ -30,4 +30,7 @@
     <string name="modCategoryName">MODIFICA NOME CATEGORIA</string>
     <string name="deleteCategory">CANCELLA CATEGORIA</string>
     <string name="emptyFieldError">Questo campo non può essere vuoto</string>
+
+
+    <string name="shop_type">Tipologia Negozio</string>
 </resources>

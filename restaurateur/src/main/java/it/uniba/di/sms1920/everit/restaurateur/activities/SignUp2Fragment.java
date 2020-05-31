@@ -19,7 +19,7 @@ public class SignUp2Fragment extends Fragment {
 
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
-    private TextInputEditText editTextdescription;
+    private TextInputEditText editTextDescription;
     private ImageButton imgButtonProfileImg;
     private MaterialButton btnContinue;
 
@@ -43,13 +43,13 @@ public class SignUp2Fragment extends Fragment {
     private void initComponent(View viewRoot){
         editTextEmail = viewRoot.findViewById(R.id.editTextMail);
         editTextPassword = viewRoot.findViewById(R.id.editTextPassword);
-        editTextdescription = viewRoot.findViewById(R.id.editTextDescription);
+        editTextDescription = viewRoot.findViewById(R.id.editTextDescription);
         imgButtonProfileImg = viewRoot.findViewById(R.id.imageButton);
         btnContinue = viewRoot.findViewById(R.id.buttonContinue);
         btnContinue.setOnClickListener(view -> {
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
-            String descr = editTextdescription.getText().toString();
+            String descr = editTextDescription.getText().toString();
         });
     }
 

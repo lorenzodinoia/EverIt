@@ -1,9 +1,12 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
 
@@ -23,8 +26,14 @@ public class SignUpActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Fragment fragmentSignUp1 = new Fragment(R.layout.fragment_sign_up1);
-        getSupportFragmentManager().beginTransaction().add(R.id.containerMain, fragmentSignUp1).commit();
+        SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        //TODO agigungere back arrow
+        return super.onSupportNavigateUp();
+    }
 }

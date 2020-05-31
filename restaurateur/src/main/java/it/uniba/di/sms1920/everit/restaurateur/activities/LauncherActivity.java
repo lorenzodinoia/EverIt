@@ -42,7 +42,6 @@ public class LauncherActivity extends AppCompatActivity {
                 Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Restaurateur>() {
                     @Override
                     public void successResponse(Restaurateur response) {
-                        Log.d("test", "Success");
                         Intent returnLogin= new Intent(getApplicationContext(), BaseActivity.class);
                         startActivity(returnLogin);
                         finish();
@@ -51,14 +50,12 @@ public class LauncherActivity extends AppCompatActivity {
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Log.d("test", "Error");
                         Intent returnLogin= new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(returnLogin);
                         finish();
                     }
                 });
             } catch (NoSuchCredentialException e) {
-                Log.d("test", "Non salva credenziali");
                 Intent returnLogin= new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(returnLogin);
                 finish();
