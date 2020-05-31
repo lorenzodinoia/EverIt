@@ -25,6 +25,7 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     CustomExpandibleMenuAdapter(Context context, List<ProductCategory> expandableListDetail) {
         this.context = context;
         this.expandableListDetail = expandableListDetail;
+        removeEmptyGroups();
     }
 
     @Override
@@ -45,17 +46,16 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         ProductCategory group = (ProductCategory) getGroup(listPosition);
-        String listTitle = group.getName();
+            String listTitle = group.getName();
 
-        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = layoutInflater.inflate(R.layout.list_group, null);
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.list_group, null);
 
+            TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
+            listTitleTextView.setFocusable(false);
 
+            listTitleTextView.setText(listTitle);
 
-        TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
-        listTitleTextView.setFocusable(false);
-
-        listTitleTextView.setText(listTitle);
         return convertView;
     }
 
@@ -106,4 +106,13 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) { return false; }
+
+    private void removeEmptyGroups(){
+        for(int i=0; i < expandableListDetail.size(); i++){
+            if(getChildrenCount(i) == 0){
+                expandableListDetail.remove(i);
+            }
+        }
+        notifyDataSetChanged();
+    }
 }

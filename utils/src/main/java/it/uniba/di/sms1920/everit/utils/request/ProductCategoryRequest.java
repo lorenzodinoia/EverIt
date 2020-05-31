@@ -27,7 +27,7 @@ public final class ProductCategoryRequest extends CRUDRequest<ProductCategory> i
 
     @Override
     public void readAll(RequestListener<Collection<ProductCategory>> RequestListener) {
-        super.readAll(RESTAURATEUR + "/" + Long.toString(Providers.getAuthProvider().getUser().getId()) + PRODCUTCATEGORY, RequestListener, ProductCategory.class,false);
+        super.readAll(RESTAURATEUR + PRODCUTCATEGORY, RequestListener, ProductCategory.class,true);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,15 +18,20 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.models.Review;
 import it.uniba.di.sms1920.everit.utils.request.ProductCategoryRequest;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
+import it.uniba.di.sms1920.everit.utils.request.ReviewRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -43,6 +49,9 @@ public class ResultDetailFragment extends Fragment {
     private ExpandableListView expandableListView ;
     private CustomExpandibleMenuAdapter expandableListAdapter;
     private List<ProductCategory> expandableListDetail = new LinkedList<>();
+
+    private List<Review> reviews;
+
 
 
     public ResultDetailFragment() {}
@@ -62,6 +71,19 @@ public class ResultDetailFragment extends Fragment {
                     expandableListDetail = (List<ProductCategory>) restaurateur.getProductCategories();
                     expandableListAdapter = new CustomExpandibleMenuAdapter(getActivity(), expandableListDetail);
                     expandableListView.setAdapter(expandableListAdapter);
+
+                    ReviewRequest reviewRequest = new ReviewRequest();
+                    reviewRequest.readAll(new RequestListener<Collection<Review>>() {
+                        @Override
+                        public void successResponse(Collection<Review> response) {
+                            reviews = new ArrayList<>(response);
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+
+                        }
+                    });
 
                     initComponent();
                 }
@@ -92,6 +114,13 @@ public class ResultDetailFragment extends Fragment {
 
         layoutMenuText.setOnClickListener(v -> showOrHide());
 
+        ViewStub stub = (ViewStub) rootView.findViewById(R.id.layout_stub);
+        stub.setLayoutResource(R.layout.review_list_content);
+
+        TextView a = rootView.findViewById(R.id.textViewShopNameReviewListContent);
+        //a.setText(reviews.get(0).getText());
+
+        View inflated = stub.inflate();
 
         return rootView;
     }
