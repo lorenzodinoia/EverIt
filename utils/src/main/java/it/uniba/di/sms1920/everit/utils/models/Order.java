@@ -1,50 +1,51 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
-import java.util.Date;
+import org.threeten.bp.LocalDateTime;
+
 import java.util.Map;
 
+import it.uniba.di.sms1920.everit.utils.Address;
+
 public class Order extends Model {
-
-    private String deliveryAddress;
-    private Date estimatedDeliveryTime;
-    private String orderNotes;
-    private String validationCode;
-    private String deliveryNotes;
-    private Date actualDeliveryTime;
-    private boolean delivered;
-    private Map<Product, Integer> products;
-    private Restaurateur restaurateur;
-    private Date createdAt;
-    private int status;
-
-    private Order(Builder builder) {
-        super(builder.id);
-        this.deliveryAddress = builder.deliveryAddress;
-        this.estimatedDeliveryTime = builder.estimatedDeliveryTime;
-        this.orderNotes = builder.orderNotes;
-        this.validationCode = builder.validationCode;
-        this.deliveryNotes = builder.deliveryNotes;
-        this.actualDeliveryTime = builder.actualDeliveryTime;
-        this.delivered = builder.delivered;
-        this.products = builder.products;
-        this.restaurateur = builder.restaurateur;
-        this.status = builder.status;
+    public enum Status {
+        ORDERED, IN_PROGRESS, DELIVERING, DELIVERED
     }
 
-    public String getDeliveryAddress() {
+    private Address deliveryAddress;
+    private LocalDateTime estimatedDeliveryTime;
+    private LocalDateTime actualDeliveryTime;
+    private String orderNotes;
+    private String deliveryNotes;
+    private String validationCode;
+    private Status status;
+    private Map<Product, Integer> products;
+    private Restaurateur restaurateur;
+    private LocalDateTime createdAt;
+
+    private Order() {}
+
+    public Address getDeliveryAddress() {
         return deliveryAddress;
     }
 
-    public void setDeliveryAddress(String deliveryAddress) {
+    public void setDeliveryAddress(Address deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public Date getEstimatedDeliveryTime() {
+    public LocalDateTime getEstimatedDeliveryTime() {
         return estimatedDeliveryTime;
     }
 
-    public void setEstimatedDeliveryTime(Date estimatedDeliveryTime) {
+    public void setEstimatedDeliveryTime(LocalDateTime estimatedDeliveryTime) {
         this.estimatedDeliveryTime = estimatedDeliveryTime;
+    }
+
+    public LocalDateTime getActualDeliveryTime() {
+        return actualDeliveryTime;
+    }
+
+    public void setActualDeliveryTime(LocalDateTime actualDeliveryTime) {
+        this.actualDeliveryTime = actualDeliveryTime;
     }
 
     public String getOrderNotes() {
@@ -55,14 +56,6 @@ public class Order extends Model {
         this.orderNotes = orderNotes;
     }
 
-    public String getValidationCode() {
-        return validationCode;
-    }
-
-    public void setValidationCode(String validationCode) {
-        this.validationCode = validationCode;
-    }
-
     public String getDeliveryNotes() {
         return deliveryNotes;
     }
@@ -71,20 +64,20 @@ public class Order extends Model {
         this.deliveryNotes = deliveryNotes;
     }
 
-    public Date getActualDeliveryTime() {
-        return actualDeliveryTime;
+    public String getValidationCode() {
+        return validationCode;
     }
 
-    public void setActualDeliveryTime(Date actualDeliveryTime) {
-        this.actualDeliveryTime = actualDeliveryTime;
+    public void setValidationCode(String validationCode) {
+        this.validationCode = validationCode;
     }
 
-    public boolean isDelivered() {
-        return delivered;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setDelivered(boolean delivered) {
-        this.delivered = delivered;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Map<Product, Integer> getProducts() {
@@ -103,20 +96,20 @@ public class Order extends Model {
         this.restaurateur = restaurateur;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public int getStatus() {
-        return status;
+    public boolean isDelivered() {
+        return (this.status.equals(Status.DELIVERED));
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setDelivered(boolean delivered) {
+        this.status = Status.DELIVERED;
     }
 
     public float getTotalCost() {
@@ -125,70 +118,8 @@ public class Order extends Model {
         for (Map.Entry<Product, Integer> entry: this.products.entrySet()) {
             final int quantity = entry.getValue();
             cost += entry.getKey().getPrice() * quantity;
-
         }
 
         return cost;
-    }
-
-    public static final class Builder {
-        private long id;
-        private String deliveryAddress;
-        private Date estimatedDeliveryTime;
-        private String orderNotes;
-        private String validationCode;
-        private String deliveryNotes;
-        private Date actualDeliveryTime;
-        private boolean delivered;
-        private Map<Product, Integer> products;
-        private Restaurateur restaurateur;
-        private int status;
-
-        public Builder(String deliveryAddress, Date estimatedDeliveryTime, Map<Product, Integer> products, Restaurateur restaurateur, int status) {
-            this.deliveryAddress = deliveryAddress;
-            this.estimatedDeliveryTime = estimatedDeliveryTime;
-            this.products = products;
-            this.restaurateur = restaurateur;
-            this.status = status;
-        }
-
-        public Builder setId(long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setOrderNotes(String orderNotes) {
-            this.orderNotes = orderNotes;
-            return this;
-        }
-
-        public Builder setValidationCode(String validationCode) {
-            this.validationCode = validationCode;
-            return this;
-        }
-
-        public Builder setDeliveryNotes(String deliveryNotes) {
-            this.deliveryNotes = deliveryNotes;
-            return this;
-        }
-
-        public Builder setActualDeliveryTime(Date actualDeliveryTime) {
-            this.actualDeliveryTime = actualDeliveryTime;
-            return this;
-        }
-
-        public Builder setDelivered(boolean delivered) {
-            this.delivered = delivered;
-            return this;
-        }
-
-        public Builder setStatus(int status){
-            this.status = status;
-            return this;
-        }
-
-        public Order build() {
-            return new Order(this);
-        }
     }
 }

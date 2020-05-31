@@ -62,7 +62,7 @@ public class OrderDetailFragment extends Fragment {
                 deliveryTimeAsString = dateFormat.format(order.getEstimatedDeliveryTime());
             }
 
-            textViewDeliveryAddress.setText(order.getDeliveryAddress());
+            textViewDeliveryAddress.setText(order.getDeliveryAddress().getAddress());
             textViewOrderTime.setText(orderTimeAsString);
             textViewDeliveryTime.setText(deliveryTimeAsString);
             textViewOrderNotes.setText(order.getOrderNotes());

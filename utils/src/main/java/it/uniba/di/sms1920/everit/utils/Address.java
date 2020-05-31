@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public final class Address implements Parcelable {
+    private static final String CITY_SEPARATOR = " - ";
+
     private String address;
     private String city;
     private double latitude;
@@ -15,7 +17,21 @@ public final class Address implements Parcelable {
     }
 
     public Address(double latitude, double longitude) {
-        this( latitude, longitude, null, null);
+        this(latitude, longitude, null, null);
+    }
+
+    public Address(double latitude, double longitude, String fullAddress) {
+        if (fullAddress.contains(" - ")) {
+            String[] parts = fullAddress.split(CITY_SEPARATOR, 2);
+            this.address = parts[0];
+            this.city = parts[1];
+        }
+        else {
+            this.address = fullAddress;
+            this.city = "";
+        }
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Address (double latitude, double longitude, String address, String city) {
@@ -48,12 +64,12 @@ public final class Address implements Parcelable {
     public String getFullAddress() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        if (this.city != null) {
-            stringBuilder.append(this.city);
-            stringBuilder.append(", ");
-        }
         if (this.address != null) {
             stringBuilder.append(this.address);
+        }
+        if (this.city != null) {
+            stringBuilder.append(CITY_SEPARATOR);
+            stringBuilder.append(this.city);
         }
 
         return stringBuilder.toString();

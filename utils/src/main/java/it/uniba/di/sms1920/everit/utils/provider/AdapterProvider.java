@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
-import it.uniba.di.sms1920.everit.utils.models.City;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Model;
 import it.uniba.di.sms1920.everit.utils.models.Order;
@@ -19,7 +18,6 @@ public final class AdapterProvider {
 
     static {
         adapters.put(Customer.class, new Adapter<Customer>());
-        adapters.put(City.class, new Adapter<City>());
         adapters.put(Order.class, new Adapter<Order>());
         adapters.put(Restaurateur.class, new Adapter<Restaurateur>());
         adapters.put(Rider.class, new Adapter<Rider>());
