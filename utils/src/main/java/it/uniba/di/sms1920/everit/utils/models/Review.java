@@ -1,21 +1,24 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
 public class Review extends Model {
-
     private int vote;
     private String text;
     private Customer customer;
     private Restaurateur restaurateur;
 
-    public Review(int vote, String description, Restaurateur restaurateur, Customer customer){
+    public Review(int vote, String text, Customer customer, Restaurateur restaurateur) {
         this.vote = vote;
-        this.text = description ;
-        this.restaurateur = restaurateur;
+        this.text = text;
         this.customer = customer;
+        this.restaurateur = restaurateur;
     }
 
-    public String getURLInsertion() {
-        return String.format("restaurateur/%d/feedback", this.restaurateur.getId());
+    public Review(long id, int vote, String text, Customer customer, Restaurateur restaurateur) {
+        super(id);
+        this.vote = vote;
+        this.text = text;
+        this.customer = customer;
+        this.restaurateur = restaurateur;
     }
 
     public int getVote() {

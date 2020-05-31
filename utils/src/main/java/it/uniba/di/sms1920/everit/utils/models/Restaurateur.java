@@ -3,7 +3,6 @@ package it.uniba.di.sms1920.everit.utils.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collection;
-import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Address;
 
@@ -23,7 +22,6 @@ public class Restaurateur extends Model implements Authenticable {
     private Collection<ProductCategory> productCategories;
     @SerializedName("opening_times")
     private Collection<OpeningDay> openingDays;
-    private Map<Customer, Integer> feedback;
 
     private Restaurateur(Builder builder) {
         super(builder.id);
@@ -39,7 +37,6 @@ public class Restaurateur extends Model implements Authenticable {
         this.shopType = builder.shopType;
         this.productCategories = builder.productCategories;
         this.openingDays = builder.openingDays;
-        this.feedback = builder.feedback;
     }
 
     public String getShopName() {
@@ -154,14 +151,6 @@ public class Restaurateur extends Model implements Authenticable {
         this.openingDays = openingDays;
     }
 
-    public Map<Customer, Integer> getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(Map<Customer, Integer> feedback) {
-        this.feedback = feedback;
-    }
-
     public Product getProductById(long id) {
         for (ProductCategory category : this.productCategories) {
             for (Product product : category.getProducts()) {
@@ -190,7 +179,6 @@ public class Restaurateur extends Model implements Authenticable {
         private boolean isOpen;
         private Collection<ProductCategory> productCategories;
         private Collection<OpeningDay> openingDays;
-        private Map<Customer, Integer> feedback;
 
         public Builder(String shopName, Address address, String phoneNumber, String email, String vatNumber, ShopType shopType) {
             this.shopName = shopName;
@@ -223,11 +211,6 @@ public class Restaurateur extends Model implements Authenticable {
 
         public Builder setImagePath(String imagePath) {
             this.imagePath = imagePath;
-            return this;
-        }
-
-        public Builder setFeedback(Map<Customer, Integer> feedback) {
-            this.feedback = feedback;
             return this;
         }
 
