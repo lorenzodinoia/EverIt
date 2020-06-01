@@ -44,4 +44,8 @@ public final class ReviewRequest extends CRUDRequest<Review> implements CRUD<Rev
     public void readRestaurateurReviews(RequestListener<Collection<Review>> requestListener) {
         super.readAll("restaurateur/review/all", requestListener, Review.class, true);
     }
+
+    public void readRestaurateurReviews(long restaurateurId, RequestListener<Collection<Review>> requestListener) {
+        super.readAll(String.format("restaurateur/%d/review/all", restaurateurId), requestListener, Review.class, false);
+    }
 }
