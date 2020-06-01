@@ -37,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        //TODO agigungere back arrow
+        //TODO agigungere back arrow (bug)
         return super.onSupportNavigateUp();
     }
 

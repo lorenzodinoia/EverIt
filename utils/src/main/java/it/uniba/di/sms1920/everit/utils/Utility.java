@@ -54,5 +54,28 @@ public final class Utility {
         return false;
     }
 
+    public static boolean isDeliveryCostValid(float price){
+        if(price >= 0 && price < 1000){
+            return true;
+        }
 
+        return false;
+    }
+
+    public static boolean isMinPriceValid(float price){
+        if(price >= 0 && price < 1000){
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isDescriptionValid(String description){
+
+        if(description.length() <=250){
+            return true;
+        }
+
+        return false;
+    }
 }

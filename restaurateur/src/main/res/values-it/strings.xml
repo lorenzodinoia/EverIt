@@ -42,5 +42,8 @@
     <string name="delivery_cost">Costo consegna</string>
     <string name="min_price">Spesa minima</string>
     <string name="back">Indietro</string>
+    <string name="error_delivery_cost">Costo consegna tra 0 e 999</string>
+    <string name="error_min_price">Spesa minima tra 0 and 999</string>
+    <string name="error_description">Descrizione massimo 250 charatteri</string>
 
 </resources>

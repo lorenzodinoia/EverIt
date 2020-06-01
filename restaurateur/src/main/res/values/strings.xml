@@ -23,6 +23,9 @@
     <string name="delivery_cost">Delivery cost</string>
     <string name="min_price">Min price</string>
     <string name="back">Back</string>
+    <string name="error_delivery_cost">Delivery cost between 0 and 999</string>
+    <string name="error_min_price">Min price between 0 and 999</string>
+    <string name="error_description">Description max 250 chars</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
