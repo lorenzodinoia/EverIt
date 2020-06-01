@@ -72,6 +72,7 @@ public class ResultDetailFragment extends Fragment {
                     expandableListAdapter = new CustomExpandibleMenuAdapter(getActivity(), expandableListDetail);
                     expandableListView.setAdapter(expandableListAdapter);
 
+                    /**
                     ReviewRequest reviewRequest = new ReviewRequest();
                     reviewRequest.readAll(new RequestListener<Collection<Review>>() {
                         @Override
@@ -84,6 +85,7 @@ public class ResultDetailFragment extends Fragment {
 
                         }
                     });
+                     */
 
                     initComponent();
                 }
@@ -127,7 +129,7 @@ public class ResultDetailFragment extends Fragment {
 
     private void initComponent(){
         textViewPhoneNumber.setText(restaurateur.getPhoneNumber());
-        textViewAddress.setText(restaurateur.getAddress());
+       // textViewAddress.setText(restaurateur.getAddress());
     }
 
     private void showOrHide(){
