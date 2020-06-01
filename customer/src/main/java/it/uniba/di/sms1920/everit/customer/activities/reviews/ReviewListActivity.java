@@ -65,7 +65,7 @@ public class ReviewListActivity extends AppCompatActivity {
             setupRecyclerView((RecyclerView) recyclerView);
         }
                 ReviewRequest reviewRequest = new ReviewRequest();
-                reviewRequest.readAll(new RequestListener<Collection<Review>>() {
+                reviewRequest.readCustomerReviews(new RequestListener<Collection<Review>>() {
                     @Override
                     public void successResponse(Collection<Review> response) {
                         resultList.clear();
