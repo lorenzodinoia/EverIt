@@ -155,7 +155,6 @@ public class OrderListActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    //TODO Aggiungere un simbolo per avvertire che l'ordine è ancora da consegnare
                     dateAsString = dateFormat.format(item.getEstimatedDeliveryTime());
                 }
 

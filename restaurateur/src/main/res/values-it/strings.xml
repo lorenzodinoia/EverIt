@@ -33,4 +33,14 @@
 
 
     <string name="shop_type">Tipologia Negozio</string>
+    <string name="default_shop_type">Seleziona una tipologia di attività</string>
+    <string name="error_shop_name">Nome negozio tra 2 e 50 caratteri</string>
+    <string name="error_phone_number">Numero telefono tra 8 e 11 cifre</string>
+    <string name="error_shop_type">Seleziona una tipologia</string>
+    <string name="error_VAT_number">Lunghezza partita iva 11 cifre</string>
+
+    <string name="delivery_cost">Costo consegna</string>
+    <string name="min_price">Spesa minima</string>
+    <string name="back">Indietro</string>
+
 </resources>

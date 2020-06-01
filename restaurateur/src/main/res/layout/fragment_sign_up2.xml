@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="47dp"
         android:layout_marginEnd="30dp"
         android:background="#c0c0c0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,45 +20,45 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextDescriptionContainer" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editTextEmailContainer"
+        android:id="@+id/editTextDeliveryCostContainer"
         style="@style/EditTextMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
-        android:hint="@string/email"
+        android:hint="@string/delivery_cost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextDeliveryCost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editTextPasswordContainer"
+        android:id="@+id/editTextMinPriceContainer"
         style="@style/EditTextMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
-        android:hint="@string/password"
+        android:hint="@string/min_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailContainer">
+        app:layout_constraintTop_toBottomOf="@+id/editTextDeliveryCostContainer">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editTextMinPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -73,16 +73,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordContainer">
+        app:layout_constraintTop_toBottomOf="@+id/editTextMinPriceContainer">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
             android:gravity="start|top"
+            android:inputType="textMultiLine"
             android:paddingTop="5dp"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -91,7 +91,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/btn_bg"
         android:text="@string/next"
@@ -99,27 +99,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
+    <Button
+        android:id="@+id/buttonBack"
+        style="@style/ButtonAccent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/btn_bg"
+        android:text="@string/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonContinue" />
+
     <TextView
         android:id="@+id/textimage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="93dp"
         android:text="@string/loadImage"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/roundcorner"
         android:backgroundTint="@color/greyAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textimage"
         app:srcCompat="@android:drawable/ic_menu_upload" />
 
     <TextView
@@ -132,7 +146,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonContinue" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonBack" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,9 @@ package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,8 @@ import it.uniba.di.sms1920.everit.restaurateur.R;
 
 
 public class SignUpActivity extends AppCompatActivity {
+
+    private int state = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +39,13 @@ public class SignUpActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         //TODO agigungere back arrow
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+                super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -38,5 +38,21 @@ public final class Utility {
         return false;
     }
 
+    public static boolean isShopNameValid(String shopName){
+        if(shopName.length() >1 && shopName.length() < 50){
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isVATValid(String vat){
+        if(vat.length() == 11){
+            return true;
+        }
+
+        return false;
+    }
+
 
 }

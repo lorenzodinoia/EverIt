@@ -14,6 +14,15 @@
     <string name="home">Home</string>
 
     <string name="shop_type">Shop Type</string>
+    <string name="default_shop_type">Select a shop type</string>
+    <string name="error_shop_name">Shop name between 2 and 50 chars</string>
+    <string name="error_phone_number">Phone number between 8 and 11 digits</string>
+    <string name="error_shop_type">Select a shop type</string>
+    <string name="error_VAT_number">VAT number length is 11 digits</string>
+
+    <string name="delivery_cost">Delivery cost</string>
+    <string name="min_price">Min price</string>
+    <string name="back">Back</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
