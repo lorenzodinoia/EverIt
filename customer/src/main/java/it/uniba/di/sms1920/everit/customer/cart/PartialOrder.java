@@ -51,8 +51,20 @@ public class PartialOrder {
         this.products = products;
     }
 
+    public int getProductQuantity(Product product) {
+        int quantity = 0;
+
+        if (this.products.containsKey(product)) {
+            quantity = this.products.get(product);
+        }
+
+        return quantity;
+    }
+
     public void addProduct(Product product) {
-        this.addProduct(product, 1);
+        int savedQuantity = this.getProductQuantity(product);
+
+        this.addProduct(product, ++savedQuantity);
     }
 
     public void addProduct(Product product, int quantity) {
@@ -60,11 +72,19 @@ public class PartialOrder {
     }
 
     public void removeProduct(Product product) {
-        this.products.remove(product);
+        int quantity = this.getProductQuantity(product);
+        quantity--;
+
+        if (quantity == 0) {
+            this.deleteProduct(product);
+        }
+        else {
+            this.addProduct(product, quantity);
+        }
     }
 
-    public void setProductQuantity(Product product, int quantity) {
-        this.addProduct(product, quantity);
+    public void deleteProduct(Product product) {
+        this.products.remove(product);
     }
 
     SerializableItem getSerializableItem() {

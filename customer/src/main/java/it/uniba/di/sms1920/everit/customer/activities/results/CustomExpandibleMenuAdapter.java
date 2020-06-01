@@ -14,16 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
+import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 
 public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
     private Context context;
+    private CartConnector cartConnector;
     private List<ProductCategory> expandableListDetail;
 
-    CustomExpandibleMenuAdapter(Context context, List<ProductCategory> expandableListDetail) {
+    CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector, List<ProductCategory> expandableListDetail) {
         this.context = context;
+        this.cartConnector = cartConnector;
         this.expandableListDetail = expandableListDetail;
     }
 
@@ -93,10 +97,16 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
         Drawable iconMod = this.context.getDrawable(it.uniba.di.sms1920.everit.utils.R.drawable.ic_add_primary_30dp);
         btnAddItem.setIcon(iconMod);
+        btnAddItem.setOnClickListener(v -> {
+            cartConnector.getPartialOrder().addProduct(values.get(expandedListPosition));
+        });
 
         MaterialButton btnRemovelItem = convertView.findViewById(R.id.btnDelItem);
         Drawable iconDel = this.context.getDrawable(it.uniba.di.sms1920.everit.utils.R.drawable.ic_remove_grey_30dp);
         btnRemovelItem.setIcon(iconDel);
+        btnRemovelItem.setOnClickListener(v -> {
+            cartConnector.getPartialOrder().removeProduct(values.get(expandedListPosition));
+        });
 
         return convertView;
     }
