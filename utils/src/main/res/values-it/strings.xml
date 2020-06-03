@@ -22,4 +22,11 @@
     <string name="emailError">Email errata !</string>
     <string name="passwordError">Password errata !</string>
 
+    <string name="monday">Lunedi</string>
+    <string name="tuesday">Martedi</string>
+    <string name="wednesday">Mercoledi</string>
+    <string name="thursday">Giovedi</string>
+    <string name="friday">Venerdi</string>
+    <string name="saturday">Sabato</string>
+    <string name="sunday">Domenica</string>
 </resources>

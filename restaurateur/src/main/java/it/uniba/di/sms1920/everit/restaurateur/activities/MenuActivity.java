@@ -1,21 +1,16 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialDialogs;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -23,10 +18,7 @@ import java.util.Objects;
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
-import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
-import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.ProductCategoryRequest;
-import it.uniba.di.sms1920.everit.utils.request.ProductRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -63,7 +55,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void initComponent() {
-        expandableListView = findViewById(R.id.expandableMenu);
+        expandableListView = findViewById(R.id.expandableMenuOpenung);
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
 

@@ -5,8 +5,9 @@
     <string name="piva">VAT Number</string>
     <string name="phone_number">Phone number</string>
     <string name="address">Address</string>
-    <string name="signup_part_1">Part 1 of 2</string>
-    <string name="signup_part_2">Part 2 of 2</string>
+    <string name="signup_part_1">Part 1 of 3</string>
+    <string name="signup_part_2">Part 2 of 3</string>
+    <string name="signup_part_3">Part 3 of 3</string>
     <string name="add">add</string>
     <string name="price">Price</string>
     <string name="description">Description</string>
@@ -26,6 +27,16 @@
     <string name="error_delivery_cost">Delivery cost between 0 and 999</string>
     <string name="error_min_price">Min price between 0 and 999</string>
     <string name="error_description">Description max 250 chars</string>
+
+    <string name="opening_time">Opening Time</string>
+    <string name="closing_time">Closing Time</string>
+
+    <string name="confirm_password">Confirm Password</string>
+
+    <string name="map_error">Unable to start map</string>
+    <string name="search_autocomplete_error">Unable to suggests places</string>
+    <string name="search_autocomplete_empty">No suggestions</string>
+    <string name="title_address_chooser">Address chooser</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -47,4 +58,5 @@
     <string name="modCategoryName">MODIFY CATEGORY NAME</string>
     <string name="deleteCategory">DELETE CATEGORY</string>
     <string name="emptyFieldError">This field cannot be null</string>
+
 </resources>

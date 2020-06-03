@@ -7,6 +7,7 @@
     <string name="address">Indirizzo</string>
     <string name="signup_part_1">Parte 1 di 2</string>
     <string name="signup_part_2">Parte 2 di 2</string>
+    <string name="signup_part_3">Parte 3 di 3</string>
     <string name="add">Aggiungi</string>
     <string name="price">Costo</string>
     <string name="description">Descrizione</string>
@@ -45,5 +46,15 @@
     <string name="error_delivery_cost">Costo consegna tra 0 e 999</string>
     <string name="error_min_price">Spesa minima tra 0 and 999</string>
     <string name="error_description">Descrizione massimo 250 charatteri</string>
+
+    <string name="opening_time">Orario Apertura</string>
+    <string name="closing_time">Orario Chiusura</string>
+
+    <string name="confirm_password">Confirm Password</string>
+
+    <string name="map_error">Impossibile avviare la mappa</string>
+    <string name="search_autocomplete_error">Impossibile suggerire posti</string>
+    <string name="search_autocomplete_empty">Nessun suggerimento</string>
+    <string name="title_address_chooser">Scegli indirizzo</string>
 
 </resources>

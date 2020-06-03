@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -28,11 +29,15 @@ import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.Utility;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.ShopType;
 import it.uniba.di.sms1920.everit.utils.request.ShopTypeRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
+
+import static android.app.Activity.RESULT_OK;
 
 public class SignUp1Fragment extends Fragment {
 
@@ -42,6 +47,8 @@ public class SignUp1Fragment extends Fragment {
     private TextInputEditText editTextPhoneNumber;
     private TextInputLayout editTextVATContainer;
     private TextInputEditText editTextVAT;
+    private TextInputLayout editTextAddressContainer;
+    private TextInputEditText editTextAddress;
     private MaterialButton btnNext;
 
     private Spinner spinnerShopType;
@@ -90,7 +97,8 @@ public class SignUp1Fragment extends Fragment {
         editTextShopName = viewRoot.findViewById(R.id.editTextShopName);
         editTextVATContainer = viewRoot.findViewById(R.id.editTextVATContainer);
         editTextVAT = viewRoot.findViewById(R.id.editTextVAT);
-
+        editTextAddressContainer = viewRoot.findViewById(R.id.editTextAddressContainer);
+        editTextAddress = viewRoot.findViewById(R.id.editTextAddress);
 
         textViewEmptyShopType = viewRoot.findViewById(R.id.textViewEmptyShopType);
         spinnerShopType = viewRoot.findViewById(R.id.spinnerShopType);
@@ -113,6 +121,10 @@ public class SignUp1Fragment extends Fragment {
             }
         });
 
+        editTextAddress.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity().getApplicationContext(), AddressChooserActivity.class);
+            startActivityForResult(intent, AddressChooserActivity.REQUEST_ADDRESS);
+        });
         btnNext = viewRoot.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
 
@@ -155,8 +167,18 @@ public class SignUp1Fragment extends Fragment {
                 textViewEmptyShopType.setText("");
             }
 
+            if(editTextAddress.getText() == null){
+                flag = false;
+                editTextAddressContainer.setError("Inserire errore");
+            }
+            else{
+                editTextAddressContainer.setError(null);
+            }
+
 
             if(flag) {
+                SignUpActivity signUpActivity = (SignUpActivity) getActivity();
+                
                 SignUp2Fragment fragment2 = new SignUp2Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -191,6 +213,18 @@ public class SignUp1Fragment extends Fragment {
         @Override
         public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             return super.getDropDownView(position, convertView, parent);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if ((requestCode == AddressChooserActivity.REQUEST_ADDRESS) && (resultCode == RESULT_OK)
+                && (data != null) && (data.hasExtra(AddressChooserActivity.RESULT_ADDRESS))) {
+            Address chosenAddress = data.getParcelableExtra(AddressChooserActivity.RESULT_ADDRESS);
+            if (chosenAddress != null) {
+                editTextAddress.setText(chosenAddress.getFullAddress());
+            }
         }
     }
 }

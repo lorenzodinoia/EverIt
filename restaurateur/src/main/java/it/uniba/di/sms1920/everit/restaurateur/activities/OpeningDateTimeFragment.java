@@ -7,60 +7,105 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+
+import org.threeten.bp.LocalTime;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
+import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.request.OpeningTimeRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OpeningDateTimeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class OpeningDateTimeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ExpandableListView expandableListView ;
+    private OpeningDateTimeExpandibleListAdapter expandableListAdapter;
+    private List<OpeningDay> expandableListDetail = new LinkedList<>();
+    private Restaurateur restaurateur;
 
     public OpeningDateTimeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OpeningDateTimeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static OpeningDateTimeFragment newInstance(String param1, String param2) {
-        OpeningDateTimeFragment fragment = new OpeningDateTimeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public OpeningDateTimeFragment(Restaurateur restaurateur) {
+        this.restaurateur = restaurateur;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_opening_date_time, container, false);
+
+        View viewRoot = inflater.inflate(R.layout.fragment_opening_date_time, parent, false);
+
+        fillListDetails(viewRoot);
+
+        return viewRoot;
     }
+
+    public static void createOpeningTime(OpeningTime openingDay, int opTimePosition){
+
+        OpeningTimeRequest openingTimeRequest = new OpeningTimeRequest();
+        openingTimeRequest.create(new OpeningTime(null, null), new RequestListener<OpeningTime>() {
+            @Override
+            public void successResponse(OpeningTime response) {
+
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+
+            }
+        });
+    }
+
+    private void initComponent(View view) {
+        expandableListView = view.findViewById(R.id.expandableMenuOpenung);
+        if(restaurateur != null) {
+            expandableListAdapter = new OpeningDateTimeExpandibleListAdapter(getActivity().getApplicationContext(), expandableListDetail, true);
+        }
+        else{
+            expandableListAdapter = new OpeningDateTimeExpandibleListAdapter(getActivity().getApplicationContext(), expandableListDetail, false);
+        }
+        expandableListView.setAdapter(expandableListAdapter);
+
+    }
+
+    private void fillListDetails(View view){
+        LocalTime fakeLocalTime = LocalTime.now();
+        OpeningTime fakeOpeningTime = new OpeningTime(fakeLocalTime, fakeLocalTime);
+        setExpandableListData();
+        if(restaurateur != null){
+            expandableListDetail.addAll(restaurateur.getOpeningDays());
+        }
+
+        for(OpeningDay day : expandableListDetail){
+            day.getOpeningTimes().add(fakeOpeningTime);
+        }
+
+        initComponent(view);
+    }
+
+    private void setExpandableListData(){
+        this.expandableListDetail.add(new OpeningDay(1, getString(R.string.monday)));
+        this.expandableListDetail.add(new OpeningDay(2, getString(R.string.tuesday)));
+        this.expandableListDetail.add(new OpeningDay(3, getString(R.string.wednesday)));
+        this.expandableListDetail.add(new OpeningDay(4, getString(R.string.thursday)));
+        this.expandableListDetail.add(new OpeningDay(5, getString(R.string.friday)));
+        this.expandableListDetail.add(new OpeningDay(6, getString(R.string.saturday)));
+        this.expandableListDetail.add(new OpeningDay(7, getString(R.string.sunday)));
+    }
+
+
 }

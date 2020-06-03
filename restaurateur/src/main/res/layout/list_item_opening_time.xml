@@ -14,38 +14,27 @@
 
 
         <TextView
-            android:id="@+id/textViewDayName"
-            style="@style/TextViewMedium"
+            android:id="@+id/textViewOpeningTime"
+            style="@style/TextViewLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
-            android:text="TextViewDayName"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="25dp"
+            android:text="@string/opening_time"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewHours"
-            style="@style/TextViewMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
-            android:text="TextViewHours"
-            app:layout_constraintStart_toEndOf="@+id/textViewDayName"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Button
-            android:id="@+id/btnDeleteOpeningDateTime"
-            style="@style/ButtonIconOnly"
+            android:id="@+id/btnDeleteOpeningTime"
+            android:background="@android:color/transparent"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="35dp"
             android:focusable="false"
-            app:icon="@android:drawable/ic_menu_delete"
+            app:icon="@drawable/ic_remove_grey_30dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingClass" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </RelativeLayout>

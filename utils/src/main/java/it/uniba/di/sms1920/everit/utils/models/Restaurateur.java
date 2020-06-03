@@ -182,7 +182,7 @@ public class Restaurateur extends Model implements Authenticable {
         return null;
     }
 
-    private static final class Builder {
+    public static final class Builder {
         private long id;
         private String shopName;
         private String address;

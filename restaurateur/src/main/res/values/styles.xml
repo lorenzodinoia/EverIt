@@ -11,4 +11,16 @@
         <item name="android:dropDownVerticalOffset">40dp</item>
         <item name="android:overlapAnchor">false</item>
     </style>
+
+    <style name="ButtonIconOnlyTest" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="iconTint">@color/greyAccent</item>
+    </style>
+
 </resources>

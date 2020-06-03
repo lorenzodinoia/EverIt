@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
 
 
     defaultConfig {
@@ -14,6 +14,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
     }
 
     buildTypes {
@@ -48,4 +54,8 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
     implementation 'com.google.android.material:material:1.1.0'
+
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation(name: 'HERE-sdk', ext: 'aar')
+
 }
