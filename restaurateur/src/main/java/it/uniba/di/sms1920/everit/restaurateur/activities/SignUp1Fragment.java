@@ -178,7 +178,7 @@ public class SignUp1Fragment extends Fragment {
 
             if(flag) {
                 SignUpActivity signUpActivity = (SignUpActivity) getActivity();
-                
+
                 SignUp2Fragment fragment2 = new SignUp2Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
