@@ -7,13 +7,23 @@
     android:layout_height="match_parent"
     android:id="@+id/first_fragment_signup">
 
+    <Spinner
+        android:id="@+id/spinnerShopType"
+        style="@style/spinnerCustom"
+        android:layout_width="312dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewShopType" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextShopNameContainer"
         style="@style/EditTextMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="50dp"
         android:hint="@string/shop_name"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +35,29 @@
             android:id="@+id/editTextShopName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextPhoneNumberContainer"
+        style="@style/EditTextMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:hint="@string/phone_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextVATContainer">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -40,34 +72,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextShopNameContainer" >
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumberContainer">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextAddress"
+            android:focusableInTouchMode="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editTextPhoneNumberContainer"
-        style="@style/EditTextMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="50dp"
-        android:hint="@string/address"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCity" >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,15 +92,15 @@
         android:layout_marginEnd="50dp"
         android:hint="@string/piva"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumberContainer" >
+        app:layout_constraintTop_toBottomOf="@+id/spinnerShopType">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextVAT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"/>
+            android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <View
@@ -96,17 +108,17 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:background="#c0c0c0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextVATContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAddressContainer" />
 
     <TextView
         android:id="@+id/textViewInfo"
-        style="@style/TextMain"
+        style="@style/TextViewSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -115,28 +127,6 @@
         app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNext" />
-
-    <TextView
-        android:id="@+id/textCity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/city"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerCity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.136"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <Spinner
-        android:id="@+id/spinnerCity"
-        android:layout_width="312dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/edit_tex_rndb"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddressContainer" />
 
 
     <Button
@@ -153,6 +143,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/textViewShopType"
+        style="@style/TextViewSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/shop_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextShopNameContainer" />
+
+    <TextView
+        android:id="@+id/textViewEmptyShopType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerShopType" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Review;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
+import it.uniba.di.sms1920.everit.utils.models.ShopType;
 
 public final class AdapterProvider {
     private static final Map<Class<? extends Model>, Adapter<? extends Model>> adapters = new HashMap<>();
@@ -24,6 +25,7 @@ public final class AdapterProvider {
         adapters.put(Review.class, new Adapter<Review>());
         adapters.put(Product.class, new Adapter<Product>());
         adapters.put(ProductCategory.class, new Adapter<ProductCategory>());
+        adapters.put(ShopType.class, new Adapter<ShopType>());
     }
 
     public static <T extends Model> Adapter<T> getAdapterFor(Class<T> modelClass) {

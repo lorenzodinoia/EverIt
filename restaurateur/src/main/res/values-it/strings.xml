@@ -7,6 +7,7 @@
     <string name="address">Indirizzo</string>
     <string name="signup_part_1">Parte 1 di 2</string>
     <string name="signup_part_2">Parte 2 di 2</string>
+    <string name="signup_part_3">Parte 3 di 3</string>
     <string name="add">Aggiungi</string>
     <string name="price">Costo</string>
     <string name="description">Descrizione</string>
@@ -30,4 +31,30 @@
     <string name="modCategoryName">MODIFICA NOME CATEGORIA</string>
     <string name="deleteCategory">CANCELLA CATEGORIA</string>
     <string name="emptyFieldError">Questo campo non può essere vuoto</string>
+
+
+    <string name="shop_type">Tipologia Negozio</string>
+    <string name="default_shop_type">Seleziona una tipologia di attività</string>
+    <string name="error_shop_name">Nome negozio tra 2 e 50 caratteri</string>
+    <string name="error_phone_number">Numero telefono tra 8 e 11 cifre</string>
+    <string name="error_shop_type">Seleziona una tipologia</string>
+    <string name="error_VAT_number">Lunghezza partita iva 11 cifre</string>
+
+    <string name="delivery_cost">Costo consegna</string>
+    <string name="min_price">Spesa minima</string>
+    <string name="back">Indietro</string>
+    <string name="error_delivery_cost">Costo consegna tra 0 e 999</string>
+    <string name="error_min_price">Spesa minima tra 0 and 999</string>
+    <string name="error_description">Descrizione massimo 250 charatteri</string>
+
+    <string name="opening_time">Orario Apertura</string>
+    <string name="closing_time">Orario Chiusura</string>
+
+    <string name="confirm_password">Confirm Password</string>
+
+    <string name="map_error">Impossibile avviare la mappa</string>
+    <string name="search_autocomplete_error">Impossibile suggerire posti</string>
+    <string name="search_autocomplete_empty">Nessun suggerimento</string>
+    <string name="title_address_chooser">Scegli indirizzo</string>
+
 </resources>

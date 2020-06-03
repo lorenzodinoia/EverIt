@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.threeten.bp.LocalTime;
@@ -42,5 +44,11 @@ public class OpeningTime extends Model implements Comparable<OpeningTime> {
     @Override
     public int compareTo(OpeningTime o) {
         return this.open.compareTo(o.getOpen());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return open.toString()+" - "+close.toString();
     }
 }
