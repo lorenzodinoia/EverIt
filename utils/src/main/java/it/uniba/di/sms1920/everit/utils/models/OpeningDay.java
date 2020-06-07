@@ -26,7 +26,7 @@ public class OpeningDay extends Model implements Comparable<OpeningDay> {
         return name;
     }
 
-    public Collection<OpeningTime> getOpeningTimes() {
+    public List<OpeningTime> getOpeningTimes() {
         return openingTimes;
     }
 

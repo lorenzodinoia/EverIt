@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/logoWide">
 
         <ExpandableListView
-            android:id="@+id/expandableMenuOpenung"
+            android:id="@+id/expandableMenuOpening"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:childDivider="@color/greyAccent"

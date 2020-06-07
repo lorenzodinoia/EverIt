@@ -68,9 +68,14 @@ public class OrderListActivity extends AppCompatActivity {
         orderRequest.readAll(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
-                orderList.clear();
-                orderList.addAll(response);
-                setupRecyclerView((RecyclerView) recyclerView);
+                if(!response.isEmpty()) {
+                    orderList.clear();
+                    orderList.addAll(response);
+                    setupRecyclerView((RecyclerView) recyclerView);
+                }
+                else{
+
+                }
             }
 
             @Override

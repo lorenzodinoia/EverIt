@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 import org.threeten.bp.LocalTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 public class OpeningTime extends Model implements Comparable<OpeningTime> {
     @SerializedName("opening_time")
@@ -49,6 +50,7 @@ public class OpeningTime extends Model implements Comparable<OpeningTime> {
     @NonNull
     @Override
     public String toString() {
-        return open.toString()+" - "+close.toString();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        return open.format(timeFormatter)+" - "+close.format(timeFormatter);
     }
 }

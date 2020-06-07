@@ -55,7 +55,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void initComponent() {
-        expandableListView = findViewById(R.id.expandableMenuOpenung);
+        expandableListView = findViewById(R.id.expandableMenuOpening);
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
 

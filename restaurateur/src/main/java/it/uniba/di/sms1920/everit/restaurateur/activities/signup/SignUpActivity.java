@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.restaurateur.activities;
+package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -6,18 +6,18 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeFragment;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Restaurateur.Builder restaurateur;
+    private Restaurateur.Builder restaurateur = new Restaurateur.Builder();
     private int state = 0;
 
     @Override
@@ -34,9 +34,12 @@ public class SignUpActivity extends AppCompatActivity {
         SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
-        /*OpeningDateTimeFragment openingDateTimeFragment = new OpeningDateTimeFragment();
+        /*OpeningDateTimeFragment openingDateTimeFragment = new OpeningDateTimeFragment(restaurateur);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.containerSignUp, openingDateTimeFragment).addToBackStack(null).commit();*/
+        /*OpeningTimeSelectionFragment openingTimeSelectionFragment = new OpeningTimeSelectionFragment(restaurateur);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.containerSignUp, openingTimeSelectionFragment).addToBackStack(null).commit();*/
     }
 
     @Override
@@ -59,5 +62,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void setRestaurateur(Restaurateur.Builder restaurateur) {
         this.restaurateur = restaurateur;
+    }
+
+    public Restaurateur.Builder getRestaurateurBuilder(){
+        return restaurateur;
     }
 }

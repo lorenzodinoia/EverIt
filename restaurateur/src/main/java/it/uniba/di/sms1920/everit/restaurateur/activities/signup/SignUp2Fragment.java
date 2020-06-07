@@ -1,9 +1,11 @@
-package it.uniba.di.sms1920.everit.restaurateur.activities;
+package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,16 +20,18 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeFragment;
 import it.uniba.di.sms1920.everit.utils.Utility;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import okhttp3.internal.Util;
 
 
 public class SignUp2Fragment extends Fragment {
 
+    private  SignUpActivity signUpActivity;
+    private  Restaurateur.Builder restaurateurBuilder;
     private TextInputEditText editTextDeliveryCost;
     private TextInputLayout editTextDeliveryCostContainer;
     private TextInputEditText editTextMinPrice;
@@ -39,6 +43,7 @@ public class SignUp2Fragment extends Fragment {
     private Uri imagePath;
 
     private MaterialButton btnContinue;
+    private MaterialButton btnBack;
 
     private static int PICK_IMAGE = 1;
 
@@ -60,6 +65,7 @@ public class SignUp2Fragment extends Fragment {
     }
 
     private void initComponent(View viewRoot){
+        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         editTextDeliveryCostContainer = viewRoot.findViewById(R.id.editTextDeliveryCostContainer);
         editTextDeliveryCost = viewRoot.findViewById(R.id.editTextDeliveryCost);
         editTextMinPriceContainer = viewRoot.findViewById(R.id.editTextMinPriceContainer);
@@ -72,6 +78,18 @@ public class SignUp2Fragment extends Fragment {
             fetchImageFromGallery(viewRoot);
         });
 
+
+        editTextDeliveryCost.setText(Float.toString(restaurateurBuilder.getDeliveryCost()));
+        editTextMinPrice.setText(Float.toString(restaurateurBuilder.getMinPrice()));
+
+        if(restaurateurBuilder.getDescription() != null){
+            editTextDescription.setText(restaurateurBuilder.getDescription());
+        }
+
+        btnBack = viewRoot.findViewById(R.id.buttonBack);
+        btnBack.setOnClickListener(view -> {
+            getActivity().getSupportFragmentManager().popBackStack();
+        });
         btnContinue = viewRoot.findViewById(R.id.buttonContinue);
         btnContinue.setOnClickListener(view -> {
 
@@ -106,10 +124,22 @@ public class SignUp2Fragment extends Fragment {
             }
 
             if(flag){
-                OpeningDateTimeFragment fragmentOpeningDateTime = new OpeningDateTimeFragment();
+                restaurateurBuilder.setDeliveryCost(Float.parseFloat(editTextDeliveryCost.getText().toString()));
+                restaurateurBuilder.setMinPrice(Float.parseFloat(editTextMinPrice.getText().toString()));
+                if(!editTextDescription.getText().toString().equals("")){
+                    restaurateurBuilder.setDescription(editTextDescription.getText().toString());
+                }
+                OpeningTimeSelectionFragment openingTimeSelectionFragment;
+                if(restaurateurBuilder.getOpeningDays() != null){
+                    openingTimeSelectionFragment = new OpeningTimeSelectionFragment();
+                }
+                else{
+                    openingTimeSelectionFragment = new OpeningTimeSelectionFragment();
+                }
+
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.containerSignUp, fragmentOpeningDateTime).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerSignUp, openingTimeSelectionFragment).addToBackStack(null).commit();
             }
         });
     }
@@ -142,5 +172,14 @@ public class SignUp2Fragment extends Fragment {
                         .fit()
                         .into(imgButtonProfileImg);
             }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if(context instanceof  SignUpActivity){
+            signUpActivity = (SignUpActivity) context;
+        }
     }
 }

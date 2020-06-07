@@ -46,7 +46,7 @@
             android:name=".activities.BaseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".activities.signup.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data

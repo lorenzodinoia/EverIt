@@ -1,12 +1,15 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collection;
+import java.util.List;
 
 import it.uniba.di.sms1920.everit.utils.Address;
 
-public class Restaurateur extends Model implements Authenticable {
+public class Restaurateur extends Model implements Authenticable{
     private String shopName;
     private Address address;
     private String phoneNumber;
@@ -15,13 +18,13 @@ public class Restaurateur extends Model implements Authenticable {
     private String vatNumber;
     private String description;
     private float deliveryCost;
-    private int minPrice;
+    private float minPrice;
     private String imagePath;
     private ShopType shopType;
     private boolean isOpen;
     private Collection<ProductCategory> productCategories;
     @SerializedName("opening_times")
-    private Collection<OpeningDay> openingDays;
+    private List<OpeningDay> openingDays;
 
     private Restaurateur(Builder builder) {
         super(builder.id);
@@ -103,11 +106,11 @@ public class Restaurateur extends Model implements Authenticable {
         this.deliveryCost = deliveryCost;
     }
 
-    public int getMinPrice() {
+    public float getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(int minPrice) {
+    public void setMinPrice(float minPrice) {
         this.minPrice = minPrice;
     }
 
@@ -143,11 +146,11 @@ public class Restaurateur extends Model implements Authenticable {
         this.productCategories = productCategories;
     }
 
-    public Collection<OpeningDay> getOpeningDays() {
+    public List<OpeningDay> getOpeningDays() {
         return openingDays;
     }
 
-    public void setOpeningDays(Collection<OpeningDay> openingDays) {
+    public void setOpeningDays(List<OpeningDay> openingDays) {
         this.openingDays = openingDays;
     }
 
@@ -173,25 +176,73 @@ public class Restaurateur extends Model implements Authenticable {
         private String vatNumber;
         private String description;
         private float deliveryCost;
-        private int minPrice;
+        private float minPrice;
         private String imagePath;
         private ShopType shopType;
         private boolean isOpen;
         private Collection<ProductCategory> productCategories;
-        private Collection<OpeningDay> openingDays;
+        private List<OpeningDay> openingDays;
 
-        public Builder(String shopName, Address address, String phoneNumber, String email, String vatNumber, ShopType shopType) {
-            this.shopName = shopName;
-            this.address = address;
-            this.phoneNumber = phoneNumber;
-            this.email = email;
-            this.vatNumber = vatNumber;
-            this.shopType = shopType;
+        public Builder() {
+
         }
 
-        public Builder setId(long id) {
-            this.id = id;
+        public String getShopName() {
+            return shopName;
+        }
+
+        public Builder setShopName(String shopName) {
+            this.shopName = shopName;
             return this;
+        }
+
+        public Address getAddress() {
+            return address;
+        }
+
+        public Builder setAddress(Address address) {
+            this.address = address;
+            return this;
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public Builder setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public String getVatNumber() {
+            return vatNumber;
+        }
+
+        public Builder setVatNumber(String vatNumber) {
+            this.vatNumber = vatNumber;
+            return this;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         public Builder setDescription(String description) {
@@ -199,14 +250,26 @@ public class Restaurateur extends Model implements Authenticable {
             return this;
         }
 
+        public float getDeliveryCost() {
+            return deliveryCost;
+        }
+
         public Builder setDeliveryCost(float deliveryCost) {
             this.deliveryCost = deliveryCost;
             return this;
         }
 
-        public Builder setMinPrice(int minPrice) {
+        public float getMinPrice() {
+            return minPrice;
+        }
+
+        public Builder setMinPrice(float minPrice) {
             this.minPrice = minPrice;
             return this;
+        }
+
+        public String getImagePath() {
+            return imagePath;
         }
 
         public Builder setImagePath(String imagePath) {
@@ -214,12 +277,38 @@ public class Restaurateur extends Model implements Authenticable {
             return this;
         }
 
+        public ShopType getShopType() {
+            return shopType;
+        }
+
+        public Builder setShopType(ShopType shopType) {
+            this.shopType = shopType;
+            return this;
+        }
+
+        public boolean isOpen() {
+            return isOpen;
+        }
+
+        public Builder setOpen(boolean open) {
+            isOpen = open;
+            return this;
+        }
+
+        public Collection<ProductCategory> getProductCategories() {
+            return productCategories;
+        }
+
         public Builder setProductCategories(Collection<ProductCategory> productCategories) {
             this.productCategories = productCategories;
             return this;
         }
 
-        public Builder setOpeningDays(Collection<OpeningDay> openingDays) {
+        public List<OpeningDay> getOpeningDays() {
+            return openingDays;
+        }
+
+        public Builder setOpeningDays(List<OpeningDay> openingDays) {
             this.openingDays = openingDays;
             return this;
         }

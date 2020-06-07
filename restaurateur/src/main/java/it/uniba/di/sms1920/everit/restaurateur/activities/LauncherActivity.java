@@ -8,6 +8,10 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.here.android.mpa.common.ApplicationContext;
+import com.here.android.mpa.common.MapEngine;
+import com.here.android.mpa.common.OnEngineInitListener;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
@@ -80,5 +84,13 @@ public class LauncherActivity extends AppCompatActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        MapEngine mapEngine = MapEngine.getInstance(); //HERE SDK MapEngine initialization
+        ApplicationContext appContext = new ApplicationContext(context);
+        mapEngine.init(appContext, error -> {
+            if (error != OnEngineInitListener.Error.NONE) {
+                Log.e("HERE-SDK", error.getDetails());
+            }
+        });
     }
 }

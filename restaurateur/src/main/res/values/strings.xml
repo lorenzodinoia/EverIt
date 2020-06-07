@@ -5,9 +5,10 @@
     <string name="piva">VAT Number</string>
     <string name="phone_number">Phone number</string>
     <string name="address">Address</string>
-    <string name="signup_part_1">Part 1 of 3</string>
-    <string name="signup_part_2">Part 2 of 3</string>
-    <string name="signup_part_3">Part 3 of 3</string>
+    <string name="signup_part_1">Part 1 of 4</string>
+    <string name="signup_part_2">Part 2 of 4</string>
+    <string name="signup_part_3">Part 3 of 4</string>
+    <string name="signup_part_4">Part 4 of 4</string>
     <string name="add">add</string>
     <string name="price">Price</string>
     <string name="description">Description</string>
@@ -20,6 +21,7 @@
     <string name="error_phone_number">Phone number between 8 and 11 digits</string>
     <string name="error_shop_type">Select a shop type</string>
     <string name="error_VAT_number">VAT number length is 11 digits</string>
+    <string name="error_address">Select an address</string>
 
     <string name="delivery_cost">Delivery cost</string>
     <string name="min_price">Min price</string>
@@ -30,8 +32,17 @@
 
     <string name="opening_time">Opening Time</string>
     <string name="closing_time">Closing Time</string>
+    <string name="title_opening_time_selection">Select your opening time</string>
+    <string name="title_closing_time_selection">Select your closing time</string>
+    <string name="error_opening_time">Select opening time</string>
+    <string name="error_closing_time">Select closing time</string>
 
     <string name="confirm_password">Confirm Password</string>
+    <string name="error_email">Wrong email format</string>
+    <string name="error_password">Wrong password format</string>
+    <string name="error_match_password">Passwords does not match</string>
+
+    <string name="account_created">Account created</string>
 
     <string name="map_error">Unable to start map</string>
     <string name="search_autocomplete_error">Unable to suggests places</string>

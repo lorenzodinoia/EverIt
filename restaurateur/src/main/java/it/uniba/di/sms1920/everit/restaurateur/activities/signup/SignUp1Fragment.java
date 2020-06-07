@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.restaurateur.activities;
+package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.restaurateur.activities.AddressChooserActivity;
 import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -41,6 +43,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class SignUp1Fragment extends Fragment {
 
+    private  SignUpActivity signUpActivity;
+    private Restaurateur.Builder restaurateurBuilder;
     private TextInputLayout editTextShopNameContainer;
     private TextInputEditText editTextShopName;
     private TextInputLayout editTextPhoneNumberContainer;
@@ -49,6 +53,7 @@ public class SignUp1Fragment extends Fragment {
     private TextInputEditText editTextVAT;
     private TextInputLayout editTextAddressContainer;
     private TextInputEditText editTextAddress;
+    private Address address;
     private MaterialButton btnNext;
 
     private Spinner spinnerShopType;
@@ -61,6 +66,7 @@ public class SignUp1Fragment extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,14 @@ public class SignUp1Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up1, parent, false);
+        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+        if(getActivity() instanceof SignUpActivity){
+            SignUpActivity signUpActivity = (SignUpActivity) getActivity();
+            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+        }
+        else {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
 
         ShopTypeRequest shopTypeRequest = new ShopTypeRequest();
         shopTypeRequest.readAll(new RequestListener<Collection<ShopType>>() {
@@ -90,7 +104,6 @@ public class SignUp1Fragment extends Fragment {
     }
 
     private void initComponent(View viewRoot) {
-
         editTextPhoneNumberContainer = viewRoot.findViewById(R.id.editTextPhoneNumberContainer);
         editTextPhoneNumber = viewRoot.findViewById(R.id.editTextPhoneNumber);
         editTextShopNameContainer = viewRoot.findViewById(R.id.editTextShopNameContainer);
@@ -100,6 +113,21 @@ public class SignUp1Fragment extends Fragment {
         editTextAddressContainer = viewRoot.findViewById(R.id.editTextAddressContainer);
         editTextAddress = viewRoot.findViewById(R.id.editTextAddress);
 
+        if(restaurateurBuilder != null) {
+            if (restaurateurBuilder.getShopName() != null) {
+                editTextShopName.setText(restaurateurBuilder.getShopName());
+            }
+            if (restaurateurBuilder.getAddress() != null) {
+                editTextAddress.setText(restaurateurBuilder.getAddress().getFullAddress());
+            }
+            if (restaurateurBuilder.getPhoneNumber() != null) {
+                editTextPhoneNumber.setText(restaurateurBuilder.getPhoneNumber());
+            }
+            //TODO fix update after back arrow press
+            if (restaurateurBuilder.getShopType() != null) {
+                spinnerShopType.setSelection((int) restaurateurBuilder.getShopType().getId());
+            }
+        }
         textViewEmptyShopType = viewRoot.findViewById(R.id.textViewEmptyShopType);
         spinnerShopType = viewRoot.findViewById(R.id.spinnerShopType);
         spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shopTypes);
@@ -169,7 +197,7 @@ public class SignUp1Fragment extends Fragment {
 
             if(editTextAddress.getText() == null){
                 flag = false;
-                editTextAddressContainer.setError("Inserire errore");
+                editTextAddressContainer.setError(getString(R.string.error_address));
             }
             else{
                 editTextAddressContainer.setError(null);
@@ -177,8 +205,13 @@ public class SignUp1Fragment extends Fragment {
 
 
             if(flag) {
-                SignUpActivity signUpActivity = (SignUpActivity) getActivity();
-
+                restaurateurBuilder.setShopName(editTextShopName.getText().toString());
+                restaurateurBuilder.setPhoneNumber(editTextPhoneNumber.getText().toString());
+                restaurateurBuilder.setVatNumber(editTextVAT.getText().toString());
+                restaurateurBuilder.setAddress(address);
+                restaurateurBuilder.setDeliveryCost(0);
+                restaurateurBuilder.setMinPrice(0);
+                restaurateurBuilder.setDescription("");
                 SignUp2Fragment fragment2 = new SignUp2Fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -223,8 +256,18 @@ public class SignUp1Fragment extends Fragment {
                 && (data != null) && (data.hasExtra(AddressChooserActivity.RESULT_ADDRESS))) {
             Address chosenAddress = data.getParcelableExtra(AddressChooserActivity.RESULT_ADDRESS);
             if (chosenAddress != null) {
+                address = chosenAddress;
                 editTextAddress.setText(chosenAddress.getFullAddress());
             }
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if(context instanceof  SignUpActivity){
+            signUpActivity = (SignUpActivity) context;
         }
     }
 }

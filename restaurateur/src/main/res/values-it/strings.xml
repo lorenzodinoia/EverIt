@@ -5,9 +5,10 @@
     <string name="piva" translatable="false">Partita IVA</string>
     <string name="phone_number">Numero di telefono</string>
     <string name="address">Indirizzo</string>
-    <string name="signup_part_1">Parte 1 di 2</string>
-    <string name="signup_part_2">Parte 2 di 2</string>
-    <string name="signup_part_3">Parte 3 di 3</string>
+    <string name="signup_part_1">Parte 1 di 4</string>
+    <string name="signup_part_2">Parte 2 di 4</string>
+    <string name="signup_part_3">Parte 3 di 4</string>
+    <string name="signup_part_4">Parte 4 di 4</string>
     <string name="add">Aggiungi</string>
     <string name="price">Costo</string>
     <string name="description">Descrizione</string>
@@ -39,6 +40,7 @@
     <string name="error_phone_number">Numero telefono tra 8 e 11 cifre</string>
     <string name="error_shop_type">Seleziona una tipologia</string>
     <string name="error_VAT_number">Lunghezza partita iva 11 cifre</string>
+    <string name="error_address">Seleziona un indirizzo</string>
 
     <string name="delivery_cost">Costo consegna</string>
     <string name="min_price">Spesa minima</string>
@@ -49,8 +51,17 @@
 
     <string name="opening_time">Orario Apertura</string>
     <string name="closing_time">Orario Chiusura</string>
+    <string name="title_opening_time_selection">Seleziona il tuo orario di apertura</string>
+    <string name="title_closing_time_selection">Seleziona il tuo orario di chiusura</string>
+    <string name="error_opening_time">Seleziona orario di apertura</string>
+    <string name="error_closing_time">Seleziona orario di chiusura</string>
 
     <string name="confirm_password">Confirm Password</string>
+    <string name="error_email">Formato email errato</string>
+    <string name="error_password">Formato password errato</string>
+    <string name="error_match_password">Le due password non coincidono</string>
+
+    <string name="account_created">Account creato</string>
 
     <string name="map_error">Impossibile avviare la mappa</string>
     <string name="search_autocomplete_error">Impossibile suggerire posti</string>
