@@ -15,12 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,12 +25,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 
+import it.uniba.di.sms1920.everit.customer.DeliveryAddress;
 import it.uniba.di.sms1920.everit.customer.R;
 
-import it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewDetailActivity;
-import it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewDetailFragment;
-import it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewListActivity;
-import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.customer.cart.Cart;
+import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
+import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Review;
@@ -42,10 +39,9 @@ import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.ReviewRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 
-public class ResultDetailFragment extends Fragment {
+public class ResultDetailFragment extends Fragment implements CartConnector {
     public static final String ARG_ITEM_ID = "item_id";
     private static final String GONE = "GONE";
     private static final String VISIBLE = "VISIBLE";
@@ -82,7 +78,7 @@ public class ResultDetailFragment extends Fragment {
                 public void successResponse(Restaurateur response) {
                     restaurateur = response;
                     expandableListDetail = (List<ProductCategory>) restaurateur.getProductCategories();
-                    expandableListAdapter = new CustomExpandibleMenuAdapter(getContext(), expandableListDetail);
+                    expandableListAdapter = new CustomExpandibleMenuAdapter(getActivity(), ResultDetailFragment.this, expandableListDetail);
                     expandableListView.setAdapter(expandableListAdapter);
 
                     ReviewRequest reviewRequest = new ReviewRequest();
@@ -198,6 +194,29 @@ public class ResultDetailFragment extends Fragment {
             scrollableReviews.add(reviews.get(scrollableReviews.size()));
             reviewCardRecyclerViewAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public Cart getCart() {
+        Cart cart = Cart.getInstance();
+
+        if (cart == null) {
+            Cart.init(getContext());
+            cart = Cart.getInstance();
+        }
+
+        return cart;
+    }
+
+    @Override
+    public PartialOrder getPartialOrder() {
+        PartialOrder partialOrder = this.getCart().getPartialOrderOf(restaurateur);
+
+        if (partialOrder == null) {
+            partialOrder = this.getCart().initPartialOrderFor(restaurateur, DeliveryAddress.get());
+        }
+
+        return partialOrder;
     }
 
 

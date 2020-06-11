@@ -14,16 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 
 public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
     private Context context;
+    private CartConnector cartConnector;
     private List<ProductCategory> expandableListDetail;
 
-    CustomExpandibleMenuAdapter(Context context, List<ProductCategory> expandableListDetail) {
+    CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector ,List<ProductCategory> expandableListDetail) {
         this.context = context;
+        this.cartConnector = cartConnector;
         this.expandableListDetail = expandableListDetail;
         removeEmptyGroups();
     }
@@ -90,9 +93,15 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         TextView productPrice = convertView.findViewById(R.id.textViewPrice);
         productPrice.setText(String.valueOf(values.get(expandedListPosition).getPrice()));
 
-        MaterialButton btnAddItem =   convertView.findViewById(R.id.btnModItem);
-        MaterialButton btnRemovelItem =  convertView.findViewById(R.id.btnDelItem);
+        MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
+        btnAddItem.setOnClickListener(v -> {
+            cartConnector.getPartialOrder().addProduct(values.get(expandedListPosition));
+        });
 
+        MaterialButton btnRemovelItem = convertView.findViewById(R.id.btnDelItem);
+        btnRemovelItem.setOnClickListener(v -> {
+            cartConnector.getPartialOrder().removeProduct(values.get(expandedListPosition));
+        });
         return convertView;
     }
 
