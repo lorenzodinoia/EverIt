@@ -1,7 +1,7 @@
 package it.uniba.di.sms1920.everit.customer.activities.results;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,15 +90,20 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         TextView productPrice = convertView.findViewById(R.id.textViewPrice);
         productPrice.setText(String.valueOf(values.get(expandedListPosition).getPrice()));
 
-        MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
-        Drawable iconMod = this.context.getDrawable(it.uniba.di.sms1920.everit.utils.R.drawable.ic_add_primary_30dp);
-        btnAddItem.setIcon(iconMod);
-
-        MaterialButton btnRemovelItem = convertView.findViewById(R.id.btnDelItem);
-        Drawable iconDel = this.context.getDrawable(it.uniba.di.sms1920.everit.utils.R.drawable.ic_remove_grey_30dp);
-        btnRemovelItem.setIcon(iconDel);
+        MaterialButton btnAddItem =   convertView.findViewById(R.id.btnModItem);
+        MaterialButton btnRemovelItem =  convertView.findViewById(R.id.btnDelItem);
 
         return convertView;
+    }
+
+    @Override
+    public void registerDataSetObserver(DataSetObserver observer) {
+        super.registerDataSetObserver(observer);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
     }
 
     @Override
@@ -108,11 +113,13 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) { return false; }
 
     private void removeEmptyGroups(){
-        for(int i=0; i < expandableListDetail.size(); i++){
-            if(getChildrenCount(i) == 0){
-                expandableListDetail.remove(i);
+
+        for(ProductCategory it: new ArrayList<>(expandableListDetail)){
+            if(it.getProducts().isEmpty()){
+                expandableListDetail.remove(it);
             }
         }
+
         notifyDataSetChanged();
     }
 }

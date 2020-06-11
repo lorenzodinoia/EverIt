@@ -41,7 +41,8 @@ public abstract class CRUDRequest<T extends Model> {
 
             Providers.getRequestProvider().addToQueue(request);
         }
-        catch (JSONException e) {
+        catch (Exception e) {
+            Log.d("QUESTO", e.toString());
             e.printStackTrace();
         }
     }
@@ -98,8 +99,8 @@ public abstract class CRUDRequest<T extends Model> {
                         ((Restaurateur) model).setPassword(null);
                     }
                 },
-                error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
-                    ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
+                error ->requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                           ((needToken) ? Providers.getAuthProvider().getAuthToken() : null));
 
             Providers.getRequestProvider().addToQueue(request);
         }

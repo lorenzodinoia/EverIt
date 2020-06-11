@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,26 +20,22 @@ import com.google.android.material.textfield.TextInputLayout;
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
-import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
-import it.uniba.di.sms1920.everit.utils.provider.Providers;
-import it.uniba.di.sms1920.everit.utils.request.ProductCategoryRequest;
-import it.uniba.di.sms1920.everit.utils.request.ProductRequest;
-import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
-import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<ProductCategory> expandableListDetail;
+    private MenuActivity menuActivity;
 
-    CustomExpandableListAdapter(Context context, List<ProductCategory> expandableListDetail) {
+    CustomExpandableListAdapter(Context context, List<ProductCategory> expandableListDetail, MenuActivity menuActivity) {
         this.context = context;
         this.expandableListDetail = expandableListDetail;
+        this.menuActivity = menuActivity;
     }
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        List<Product> values = new ArrayList<>(this.expandableListDetail.get(listPosition).getProducts());
+        LinkedList<Product> values = new LinkedList<>(this.expandableListDetail.get(listPosition).getProducts());
         return values.get(expandedListPosition) ;
     }
 
@@ -49,11 +44,12 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Product child = (Product) getChild(listPosition, expandedListPosition);
-        final String expandedListText = child.getName();
-        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Product product = (Product) getChild(listPosition, expandedListPosition);
+        ProductCategory category = (ProductCategory) getGroup(listPosition);
+        List<Product> products = new ArrayList<> (category.getProducts());
 
-        List<Product> values = new ArrayList<>(expandableListDetail.get(listPosition).getProducts());
+        final String expandedListText = product.getName();
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if(isLastChild){
             convertView = layoutInflater.inflate(R.layout.list_last_item, null);
@@ -74,36 +70,16 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                     if(!newName.getText().toString().isEmpty()) {
                         if (!newDescription.getText().toString().isEmpty()) {
                             if (!newPrice.getText().toString().isEmpty()) {
-                                values.remove(values.size() - 1);
-
                                 Product newProduct = new Product(
-                                        expandableListDetail.get(listPosition).getId(),
                                         newName.getText().toString(),
-                                        Float.valueOf(newPrice.getText().toString()),
+                                        Float.parseFloat(newPrice.getText().toString()),
                                         newDescription.getText().toString(),
-                                        expandableListDetail.get(listPosition),
-                                        (Restaurateur) Providers.getAuthProvider().getUser()
+                                        new ProductCategory(category.getId(), category.getName()),
+                                        null
                                 );
 
-                                values.add(newProduct);
-
-                                ProductRequest productRequest = new ProductRequest();
-                                productRequest.create(newProduct, new RequestListener<Product>() {
-                                    @Override
-                                    public void successResponse(Product response) {
-                                        Product lastProduct = new Product("", 0, "", expandableListDetail.get(listPosition), null);
-                                        values.add(lastProduct);
-                                        expandableListDetail.get(listPosition).setProducts(values);
-                                        updateAdapter(); //EX
-                                    }
-
-                                    @Override
-                                    public void errorResponse(RequestException error) {
-                                    }
-                                });
+                                menuActivity.addCategoryItem(listPosition, newProduct);
                                 dialogModItem.dismiss();
-                                updateAdapter();
-
                             }
                             else {
                                 TextInputLayout newPriceLayout = dialogModItem.findViewById(R.id.editTextProductPriceContainer);
@@ -129,13 +105,13 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
 
             TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
-            expandedListTextView.setText(values.get(expandedListPosition).getName());
+            expandedListTextView.setText(product.getName());
 
             TextView productDescription = convertView.findViewById(R.id.textViewDescription);
-            productDescription.setText(values.get(expandedListPosition).getDetails());
+            productDescription.setText(product.getDetails());
 
             TextView productPrice = convertView.findViewById(R.id.textViewPrice);
-            productPrice.setText(String.valueOf(values.get(expandedListPosition).getPrice()));
+            productPrice.setText(String.valueOf(product.getPrice()));
 
             MaterialButton btnModItem = convertView.findViewById(R.id.btnModItem);
             Drawable iconMod = this.context.getDrawable(android.R.drawable.ic_menu_edit);
@@ -153,24 +129,17 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
                 confirm.setOnClickListener(v1 -> {
-                    values.get(expandedListPosition).setName(newName.getText().toString());
-                    values.get(expandedListPosition).setDetails(newDescription.getText().toString());
-                    values.get(expandedListPosition).setPrice(Float.parseFloat(newPrice.getText().toString()));
 
-                    expandableListDetail.get(listPosition).setProducts(values);
+                    Product temp = new Product(
+                            product.getId(),
+                            newName.getText().toString(),
+                            Float.parseFloat(newPrice.getText().toString()),
+                            newDescription.getText().toString(),
+                            new ProductCategory(category.getId(), category.getName()),
+                            null);
 
-                    ProductRequest productRequest = new ProductRequest();
-                    //TODO errore 404 problemi con l'id categoria credo
-                    productRequest.update(values.get(expandedListPosition), new RequestListener<Product>() {
-                        @Override
-                        public void successResponse(Product response) {
-                            updateAdapter();
-                        }
+                    menuActivity.updateCategoryItem(temp, listPosition);
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                        }
-                    });
                     dialogModItem.dismiss();
                 });
 
@@ -181,7 +150,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
             MaterialButton btnDelItem = convertView.findViewById(R.id.btnDelItem);
             Drawable iconDel = this.context.getDrawable(android.R.drawable.ic_menu_delete);
-            btnModItem.setIcon(iconDel);
+            btnDelItem.setIcon(iconDel);
             btnDelItem.setOnClickListener(v -> {
                 Dialog dialogYN = new Dialog(context);
                 dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_choice_yn);
@@ -194,20 +163,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 MaterialButton cancel = dialogYN.findViewById(R.id.BtnCancel);
 
                 confirm.setOnClickListener(v1 -> {
-                    ProductRequest productRequest = new ProductRequest();
-                    productRequest.delete(values.get(expandedListPosition).getId(), new RequestListener<Boolean>() {
-                        @Override
-                        public void successResponse(Boolean response) {
-                            values.remove(expandedListPosition);
-                            expandableListDetail.get(listPosition).setProducts(values);
-                            updateAdapter();
-                        }
-
-                        @Override
-                        public void errorResponse(RequestException error) {
-                        }
-                    });
-                    updateAdapter(); //EX
+                    menuActivity.deleteCategoryItem(listPosition, product.getId());
                     dialogYN.dismiss();
                 });
 
@@ -262,25 +218,18 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
             confirm.setOnClickListener(v1 -> {
                 if(!newName.getText().toString().isEmpty()) {
-                    expandableListDetail.get(listPosition).setName(newName.getText().toString());
-                    ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
-                    productCategoryRequest.update(expandableListDetail.get(listPosition), new RequestListener<ProductCategory>() {
-                        @Override
-                        public void successResponse(ProductCategory response) {
-                            updateAdapter();
-                        }
+                    ProductCategory modCat = new ProductCategory(
+                            group.getId(),
+                            newName.getText().toString()
+                    );
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            //TODO vedere
-                        }
-                    });
-                    dialogModName.dismiss();
-                    updateAdapter(); //EX
+                    menuActivity.updateProductCategory(modCat, listPosition);
+
                 }else{
                     TextInputLayout newNameLayout = dialogModName.findViewById(R.id.editTextCategoryNameContainer);
                     newNameLayout.setError(String.valueOf(R.string.emptyFieldError));
                 }
+                dialogModName.dismiss();
             });
 
             cancel.setOnClickListener(v1 -> dialogModName.dismiss());
@@ -296,36 +245,21 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             dialogYN.setTitle(R.string.deleteCategory);
 
             TextView newName = dialogYN.findViewById(R.id.TextViewMessage);
-            newName.setText(String.valueOf("You are going to delete " + listTitle+ " Are you sure ?"));
-
+            newName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            newName.setText(String.valueOf("You are going to delete " + listTitle + ", are you sure ?"));
 
             MaterialButton confirm = dialogYN.findViewById(R.id.BtnConfirm);
             MaterialButton cancel = dialogYN.findViewById(R.id.BtnCancel);
 
             confirm.setOnClickListener(v1 -> {
-                ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
-                productCategoryRequest.delete(expandableListDetail.get(listPosition).getId(), new RequestListener<Boolean>() {
-                    @Override
-                    public void successResponse(Boolean response) {
-                        expandableListDetail.remove(expandableListDetail.get(listPosition));
-                        updateAdapter();
-                    }
-
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        //TODO da fare
-                        Log.d("Error Response", error.toString());
-                    }
-                });
-                updateAdapter(); //EX
-                dialogYN.dismiss();
+               menuActivity.deleteProductCategory(group);
+               dialogYN.dismiss();
             });
 
             cancel.setOnClickListener(v1 -> dialogYN.dismiss());
 
             dialogYN.show();
         });
-
 
         listTitleTextView.setText(listTitle);
         return convertView;
@@ -361,12 +295,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         super.onGroupExpanded(groupPosition);
     }
 
-
-    public void updateAdapter(){
-        notifyDataSetChanged();
-    }
-
-
     public void addCategory(){
         Dialog dialogNewCategory = new Dialog(context);
         dialogNewCategory.setContentView(R.layout.dialog_new_category);
@@ -378,37 +306,15 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
         confirm.setOnClickListener(v1 -> {
             ProductCategory newCat = new ProductCategory(newName.getText().toString());
-            List<Product> products = new LinkedList<>();
-            newCat.setProducts(products);
 
-            ProductCategoryRequest productCategoryRequest = new ProductCategoryRequest();
-            productCategoryRequest.create(newCat, new RequestListener<ProductCategory>() {
-                @Override
-                public void successResponse(ProductCategory response) {
-                    Product lastProduct = new Product("", 0, "", newCat, null);
-                    products.add(lastProduct);
-                    newCat.setProducts(products);
-
-                    expandableListDetail.add(newCat);
-                    updateAdapter();
-                }
-
-                @Override
-                public void errorResponse(RequestException error) {
-                    //TODO gestire risposta errore
-                }
-            });
+            menuActivity.addNewProductCategory(newCat);
             dialogNewCategory.dismiss();
-            updateAdapter();
         });
 
         cancel.setOnClickListener(v1 -> dialogNewCategory.dismiss());
 
         dialogNewCategory.show();
-        updateAdapter();
     }
-
-
 
 
 }

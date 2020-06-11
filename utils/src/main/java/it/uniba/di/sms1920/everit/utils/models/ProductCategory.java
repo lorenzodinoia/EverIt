@@ -31,9 +31,10 @@ public class ProductCategory extends Model {
     public Product getProductByIndex(long prodId) {
         Product found = null;
 
-        for(Product it: products){
+        for(Product it: this.products){
             if(it.getId() == prodId){
                 found = it;
+                break;
             }
         }
 
@@ -43,4 +44,5 @@ public class ProductCategory extends Model {
     public void setProducts(Collection<Product> products) {
         this.products = products;
     }
+
 }

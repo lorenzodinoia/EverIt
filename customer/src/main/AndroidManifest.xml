@@ -26,7 +26,7 @@
         <activity
             android:name=".activities.reviews.ReviewListActivity"
             android:label="@string/title_review_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.reviews.ReviewDetailActivity"
             android:label="@string/title_review_detail"
