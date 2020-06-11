@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import it.uniba.di.sms1920.everit.customer.DeliveryAddress;
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.results.ResultListActivity;
 import it.uniba.di.sms1920.everit.utils.Address;
@@ -61,6 +62,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void handleSearchResult(Address address) {
+        DeliveryAddress.set(address);
         Intent searchIntent = new Intent(getActivity().getApplicationContext(), ResultListActivity.class);
         searchIntent.putExtra(ResultListActivity.PARAMETER_ADDRESS, address);
         startActivity(searchIntent);
