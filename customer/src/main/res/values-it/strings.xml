@@ -55,5 +55,7 @@
     <string name="in_preparation">In preparazione</string>
     <string name="delivering">In Consegna</string>
     <string name="delivered">Consegnat</string>
+    <string name="minimum_purchase">"Spesa minima: "</string>
+    <string name="delivey_cost">"Costo di consegna: "</string>
 
 </resources>

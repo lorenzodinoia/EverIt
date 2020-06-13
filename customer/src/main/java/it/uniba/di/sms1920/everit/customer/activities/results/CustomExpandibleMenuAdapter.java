@@ -1,7 +1,7 @@
 package it.uniba.di.sms1920.everit.customer.activities.results;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,6 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
-import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 
@@ -25,10 +24,11 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     private CartConnector cartConnector;
     private List<ProductCategory> expandableListDetail;
 
-    CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector, List<ProductCategory> expandableListDetail) {
+    CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector ,List<ProductCategory> expandableListDetail) {
         this.context = context;
         this.cartConnector = cartConnector;
         this.expandableListDetail = expandableListDetail;
+        removeEmptyGroups();
     }
 
     @Override
@@ -49,17 +49,16 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         ProductCategory group = (ProductCategory) getGroup(listPosition);
-        String listTitle = group.getName();
+            String listTitle = group.getName();
 
-        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = layoutInflater.inflate(R.layout.list_group, null);
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.list_group, null);
 
+            TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
+            listTitleTextView.setFocusable(false);
 
+            listTitleTextView.setText(listTitle);
 
-        TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
-        listTitleTextView.setFocusable(false);
-
-        listTitleTextView.setText(listTitle);
         return convertView;
     }
 
@@ -95,20 +94,25 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         productPrice.setText(String.valueOf(values.get(expandedListPosition).getPrice()));
 
         MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
-        Drawable iconMod = this.context.getDrawable(it.uniba.di.sms1920.everit.utils.R.drawable.ic_add_primary_30dp);
-        btnAddItem.setIcon(iconMod);
         btnAddItem.setOnClickListener(v -> {
             cartConnector.getPartialOrder().addProduct(values.get(expandedListPosition));
         });
 
         MaterialButton btnRemovelItem = convertView.findViewById(R.id.btnDelItem);
-        Drawable iconDel = this.context.getDrawable(it.uniba.di.sms1920.everit.utils.R.drawable.ic_remove_grey_30dp);
-        btnRemovelItem.setIcon(iconDel);
         btnRemovelItem.setOnClickListener(v -> {
             cartConnector.getPartialOrder().removeProduct(values.get(expandedListPosition));
         });
-
         return convertView;
+    }
+
+    @Override
+    public void registerDataSetObserver(DataSetObserver observer) {
+        super.registerDataSetObserver(observer);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
     }
 
     @Override
@@ -116,4 +120,15 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) { return false; }
+
+    private void removeEmptyGroups(){
+
+        for(ProductCategory it: new ArrayList<>(expandableListDetail)){
+            if(it.getProducts().isEmpty()){
+                expandableListDetail.remove(it);
+            }
+        }
+
+        notifyDataSetChanged();
+    }
 }

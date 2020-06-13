@@ -2,8 +2,11 @@ package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,8 +22,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
+import it.uniba.di.sms1920.everit.utils.models.Customer;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -28,30 +34,56 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private Restaurateur restaurateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-
         Toolbar toolbar =  findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        init();
+        View headerNav = navigationView.inflateHeaderView(R.layout.nav_view_header);
 
+        /**
+        if(Providers.getAuthProvider().getUser() != null){
+            drawerLayout = findViewById(R.id.drawer_layout);
+            this.restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
+
+            Log.d("QUESTO", restaurateur.getShopName());
+        }else{
+            try {
+                Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Restaurateur>() {
+                    @Override
+                    public void successResponse(Restaurateur response) {
+                        restaurateur = response;
+                        Log.d("QUESTO", restaurateur.getShopName());
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        //TODO gestire
+                    }
+                });
+            } catch (NoSuchCredentialException e) {
+                //TODO gestire
+            }
+        }
+         */
+
+        init();
     }
 
     private void init() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
-
-        View headerNav = navigationView.inflateHeaderView(R.layout.nav_view_header);
 
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -119,9 +151,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
 
         }
-        item.setChecked(true);
         drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
     private boolean isValidDestination(int dest){

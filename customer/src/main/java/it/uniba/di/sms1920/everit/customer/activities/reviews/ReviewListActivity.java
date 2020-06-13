@@ -135,9 +135,7 @@ public class ReviewListActivity extends AppCompatActivity {
             }
         };
 
-        ReviewRecyclerViewAdapter(ReviewListActivity parent,
-                                      List<Review> items,
-                                      boolean twoPane) {
+        ReviewRecyclerViewAdapter(ReviewListActivity parent, List<Review> items, boolean twoPane) {
             results = items;
             parentActivity = parent;
             mTwoPane = twoPane;

@@ -26,12 +26,11 @@ public final class ProductRequest extends CRUDRequest<Product> implements CRUD<P
 
     @Override
     public void readAll(RequestListener<Collection<Product>> RequestListener) {
-        super.readAll( RESTAURATEUR + "/" + Long.toString(Providers.getAuthProvider().getUser().getId()) + CATEGORY + PRODUCT, RequestListener, Product.class, true); //TODO cambia path
+        super.readAll( RESTAURATEUR + "/" + Long.toString(Providers.getAuthProvider().getUser().getId()) + CATEGORY + PRODUCT, RequestListener, Product.class, true);
     }
 
     @Override
     public void update(Product model, RequestListener<Product> RequestListener) {
-        //super.update(model, RESTAURATEUR + CATEGORY + "/" + Long.toString(model.getCategory().getId()) + PRODUCT + "/" + Long.toString(model.getId()), RequestListener, Product.class, true);
        super.update(model, RESTAURATEUR + CATEGORY + PRODUCT + "/" + Long.toString(model.getId()), RequestListener, Product.class, true);
     }
 

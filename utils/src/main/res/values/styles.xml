@@ -55,6 +55,10 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="TextViewVerySmall" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="TextViewMedium" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">20sp</item>
     </style>

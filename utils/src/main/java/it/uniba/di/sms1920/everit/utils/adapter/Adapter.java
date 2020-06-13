@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.adapter;
 
+import android.util.Log;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,10 +37,11 @@ public class Adapter<T extends Model> {
             .registerTypeAdapter(Restaurateur.class, new RestaurateurAdapter())
             .registerTypeAdapter(PRODUCT_MAP_TYPE, new ProductMapAdapter())
             .registerTypeAdapter(OPENING_DAY_ARRAY_TYPE, new OpeningDayArrayAdapter())
+            .registerTypeAdapter(Product.class, new ProductAdapter())
             .create();
 
     public JSONObject toJSON(T object) throws JSONException {
-        return new JSONObject(jsonConverter.toJson(object));
+            return new JSONObject(jsonConverter.toJson(object));
     }
 
     public T fromJSON(JSONObject json, Type classType) {
