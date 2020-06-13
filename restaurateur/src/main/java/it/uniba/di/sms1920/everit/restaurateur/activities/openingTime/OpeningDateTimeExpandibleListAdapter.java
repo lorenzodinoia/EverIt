@@ -119,8 +119,8 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
                 //TODO aggiungere controllo sulle ore? (ora1 < ora2)
 
                 if(flag){
-                    curdInterface.create(listPosition, new OpeningTime(openingTime, closingTime));
-                    //fragment.createOpeningTime(listPosition, new OpeningTime(openingTime, closingTime));
+                    //curdInterface.create(listPosition, new OpeningTime(openingTime, closingTime));
+                    fragment.createOpeningTime(listPosition, new OpeningTime(openingTime, closingTime));
                 }
 
             });
@@ -132,8 +132,8 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
 
             Button btnDeleteItem = convertView.findViewById(R.id.btnDeleteOpeningTime);
             btnDeleteItem.setOnClickListener(v -> {
-                curdInterface.delete(listPosition, expandedListPosition);
-                //fragment.deleteOpeningTime(listPosition, expandedListPosition);
+                //curdInterface.delete(listPosition, expandedListPosition);
+                fragment.deleteOpeningTime(listPosition, expandedListPosition);
             });
 
         }

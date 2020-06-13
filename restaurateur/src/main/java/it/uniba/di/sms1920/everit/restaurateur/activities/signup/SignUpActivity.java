@@ -1,6 +1,8 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -15,7 +17,7 @@ import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDat
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements  OpeningDateTimeFragment.OnFragmentInteractionListener, OpeningTimeSelectionFragment.OnFragmentInteractionListener{
 
     private Restaurateur.Builder restaurateur = new Restaurateur.Builder();
     private int state = 0;
@@ -34,12 +36,9 @@ public class SignUpActivity extends AppCompatActivity {
         SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
-        /*OpeningDateTimeFragment openingDateTimeFragment = new OpeningDateTimeFragment(restaurateur);
+        /*SignUp3Fragment fragmentSignUp3 = new SignUp3Fragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerSignUp, openingDateTimeFragment).addToBackStack(null).commit();*/
-        /*OpeningTimeSelectionFragment openingTimeSelectionFragment = new OpeningTimeSelectionFragment(restaurateur);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerSignUp, openingTimeSelectionFragment).addToBackStack(null).commit();*/
+        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp3).addToBackStack(null).commit();*/
     }
 
     @Override
@@ -66,5 +65,15 @@ public class SignUpActivity extends AppCompatActivity {
 
     public Restaurateur.Builder getRestaurateurBuilder(){
         return restaurateur;
+    }
+
+    @Override
+    public void messageFromChildFragment(Uri uri) {
+        Log.i("TAG", "received communication from parent fragment");
+    }
+
+    @Override
+    public void messageFromParentFragment(Uri uri) {
+        Log.i("TAG", "received communication from child fragment");
     }
 }

@@ -30,7 +30,7 @@ public class Adapter<T extends Model> {
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .setDateFormat(JSON_DATETIME_FORMAT)
             .registerTypeAdapter(boolean.class, new BooleanAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new LocalTimeAdapter())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .registerTypeAdapter(Order.class, new OrderAdapter())
             .registerTypeAdapter(Restaurateur.class, new RestaurateurAdapter())
             .registerTypeAdapter(PRODUCT_MAP_TYPE, new ProductMapAdapter())

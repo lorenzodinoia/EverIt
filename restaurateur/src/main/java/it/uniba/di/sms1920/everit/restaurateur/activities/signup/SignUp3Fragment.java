@@ -1,10 +1,13 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,8 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class SignUp3Fragment extends Fragment {
 
+    private SignUpActivity signUpActivity;
+    private  Restaurateur.Builder restaurateurBuilder;
     private TextInputLayout editTextEmailContainer;
     private TextInputEditText editTextEmail;
     private TextInputLayout editTextPasswordContainer;
@@ -56,6 +61,7 @@ public class SignUp3Fragment extends Fragment {
     }
 
     private void initComponent(View viewRoot){
+        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         editTextEmailContainer = viewRoot.findViewById(R.id.editTextEmailContainerSignUp);
         editTextEmail = viewRoot.findViewById(R.id.editTextEmailSignUp);
         editTextPasswordContainer = viewRoot.findViewById(R.id.editTextPasswordContainerSignUp);
@@ -70,22 +76,22 @@ public class SignUp3Fragment extends Fragment {
         btnSignUp.setOnClickListener(view -> {
 
             boolean flag = true;
-            if(Utility.isEmailValid(editTextEmail.toString())){
+            if(Utility.isEmailValid(editTextEmail. getText().toString())){
                 editTextEmailContainer.setError(null);
             }else{
                 flag = false;
                 editTextEmailContainer.setError(getString(R.string.error_email));
             }
 
-            if(Utility.isPasswordValid(editTextPassword.toString())){
+            if(Utility.isPasswordValid(editTextPassword.getText().toString())){
                 editTextPasswordContainer.setError(null);
             }else{
                 flag = false;
                 editTextPasswordContainer.setError(getString(R.string.error_password));
             }
 
-            if(Utility.isPasswordValid(editTextConfirmPassword.toString())){
-                if(editTextPassword.getText().equals(editTextConfirmPassword.getText())){
+            if(Utility.isPasswordValid(editTextConfirmPassword.getText().toString())){
+                if(editTextPassword.getText().toString().equals(editTextConfirmPassword.getText().toString())){
                     editTextConfirmPasswordContainer.setError(null);
                 }else{
                     flag = false;
@@ -98,45 +104,34 @@ public class SignUp3Fragment extends Fragment {
 
 
             if(flag){
-                SignUpActivity signUpActivity = new SignUpActivity();
-                Restaurateur.Builder restaurateur = signUpActivity.getRestaurateur();
-
-                restaurateur.setEmail(editTextEmail.getText().toString());
-                restaurateur.setPassword(editTextPassword.getText().toString());
-                Restaurateur newRestaurateur = restaurateur.build();
+                restaurateurBuilder.setEmail(editTextEmail.getText().toString());
+                Restaurateur newRestaurateur = restaurateurBuilder.build();
+                newRestaurateur.setPassword(editTextPassword.getText().toString());
                 RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
                 restaurateurRequest.create(newRestaurateur, new RequestListener<Restaurateur>() {
                     @Override
                     public void successResponse(Restaurateur response) {
-                        OpeningTimeRequest openingTimeRequest = new OpeningTimeRequest();
-                        for(OpeningDay day : newRestaurateur.getOpeningDays()){
-                            for(OpeningTime time : day.getOpeningTimes()){
-                                //TODO fare richiesta sul server per aggiungere collection di openingtime
-                                openingTimeRequest.create(time, new RequestListener<OpeningTime>() {
-                                    @Override
-                                    public void successResponse(OpeningTime response) {
-                                        Toast.makeText(getContext(), R.string.account_created, Toast.LENGTH_LONG);
-                                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                                        startActivity(intent);
-                                        getActivity().finish();
-                                    }
-
-                                    @Override
-                                    public void errorResponse(RequestException error) {
-                                        //TODO gestire errorResponse
-                                    }
-                                });
-                            }
-                        }
+                        //TODO inserire immagine
+                        Log.d("test", "Success!!!");
                     }
 
                     @Override
                     public void errorResponse(RequestException error) {
                         //TODO gestire errorResponse
+                        Log.d("test", error.getMessage());
                     }
                 });
             }
         });
 
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if(context instanceof  SignUpActivity){
+            signUpActivity = (SignUpActivity) context;
+        }
     }
 }

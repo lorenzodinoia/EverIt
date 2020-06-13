@@ -28,7 +28,7 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
 
     @Override
     public void create(Restaurateur model, RequestListener<Restaurateur> RequestListener) {
-        throw new UnsupportedOperationException();
+        super.create(model, URL, RequestListener, Restaurateur.class, false);
     }
 
     @Override

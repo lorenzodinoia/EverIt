@@ -1,9 +1,11 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.openingTime;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -11,14 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.TimePicker;
 
 import org.threeten.bp.LocalTime;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.restaurateur.activities.signup.OpeningTimeSelectionFragment;
+import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
 import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
 import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -30,18 +34,18 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class OpeningDateTimeFragment extends Fragment {
 
-    
+    private OnFragmentInteractionListener listener;
+    private SignUpActivity signUpActivity;
     private ExpandableListView expandableListView;
     private OpeningDateTimeExpandibleListAdapter expandableListAdapter;
     private List<OpeningDay> expandableListDetail = new LinkedList<>();
-    private Restaurateur.Builder restaurateur;
+    private Restaurateur.Builder restaurateurBuilder;
+    private Restaurateur restaurateur;
+    private OpeningTime lastItem = new OpeningTime(LocalTime.now(), LocalTime.now());
+    private List<OpeningDay> days = new ArrayList<>();
 
     public OpeningDateTimeFragment() {
         // Required empty public constructor
-    }
-
-    public OpeningDateTimeFragment(Restaurateur.Builder restaurateur) {
-        this.restaurateur = restaurateur;
     }
 
     @Override
@@ -61,9 +65,42 @@ public class OpeningDateTimeFragment extends Fragment {
     }
 
     private void initComponent(View view) {
+        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         expandableListView = view.findViewById(R.id.expandableMenuOpening);
+        setExpandableListData();
+        fillListDetail();
         expandableListAdapter = new OpeningDateTimeExpandibleListAdapter(getActivity(), expandableListDetail, this);
         expandableListView.setAdapter(expandableListAdapter);
+    }
+
+    private void setExpandableListData(){
+        days.add(new OpeningDay(1, getString(R.string.monday)));
+        days.add(new OpeningDay(2, getString(R.string.tuesday)));
+        days.add(new OpeningDay(3, getString(R.string.wednesday)));
+        days.add(new OpeningDay(4, getString(R.string.thursday)));
+        days.add(new OpeningDay(5, getString(R.string.friday)));
+        days.add(new OpeningDay(6, getString(R.string.saturday)));
+        days.add(new OpeningDay(7, getString(R.string.sunday)));
+        expandableListDetail.addAll(days);
+    }
+
+    private void fillListDetail(){
+        if(restaurateurBuilder == null){
+            restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
+            for(OpeningDay item : restaurateur.getOpeningDays()){
+                Long index = item.getId()-1;
+                expandableListDetail.get(index.intValue()).getOpeningTimes().addAll(item.getOpeningTimes());
+            }
+        }
+        else{
+            List<OpeningDay> temp_day = new ArrayList<>(days);
+            restaurateurBuilder.setOpeningDays(temp_day);
+        }
+
+
+        for(OpeningDay item : expandableListDetail){
+            item.getOpeningTimes().add(lastItem);
+        }
     }
 
 
@@ -72,13 +109,13 @@ public class OpeningDateTimeFragment extends Fragment {
 
     public void createOpeningTime(int listPosition, OpeningTime openingTime){
 
-        if(restaurateur == null){
+        if(restaurateurBuilder == null){
             OpeningTimeRequest openingTimeRequest = new OpeningTimeRequest();
             openingTimeRequest.create(openingTime, new RequestListener<OpeningTime>() {
                 @Override
                 public void successResponse(OpeningTime response) {
                     expandableListDetail.get(listPosition).getOpeningTimes().add(response);
-
+                    notifyDataSetChanged();
                 }
 
                 @Override
@@ -88,21 +125,23 @@ public class OpeningDateTimeFragment extends Fragment {
             });
         }
         else{
-            restaurateur.getOpeningDays().get(listPosition).getOpeningTimes().add(openingTime);
-            //expandableListDetail.get(listPosition).getOpeningTimes().add(openingTime);
+            expandableListDetail.get(listPosition).getOpeningTimes().remove(expandableListDetail.get(listPosition).getOpeningTimes().size()-1);
+            expandableListDetail.get(listPosition).getOpeningTimes().add(openingTime);
+            expandableListDetail.get(listPosition).getOpeningTimes().add(lastItem);
+            notifyDataSetChanged();
         }
 
     }
 
     public void deleteOpeningTime(int listPosition, int expandedListPosition){
 
-        if(restaurateur == null){
+        if(restaurateurBuilder == null){
             OpeningTimeRequest openingTimeRequest = new OpeningTimeRequest();
             openingTimeRequest.delete(expandableListDetail.get(listPosition).getOpeningTimes().get(expandedListPosition).getId(), new RequestListener<Boolean>() {
                 @Override
                 public void successResponse(Boolean response) {
                     expandableListDetail.get(listPosition).getOpeningTimes().remove(expandedListPosition);
-                    expandableListAdapter.notifyDataSetChanged();
+                    notifyDataSetChanged();
                 }
 
                 @Override
@@ -112,8 +151,9 @@ public class OpeningDateTimeFragment extends Fragment {
             });
         }
         else{
-            restaurateur.getOpeningDays().get(listPosition).getOpeningTimes().remove(expandedListPosition);
-            //expandableListDetail.get(listPosition).getOpeningTimes().remove(expandedListPosition);
+            expandableListDetail.get(listPosition).getOpeningTimes().remove(expandedListPosition);
+            //restaurateurBuilder.getOpeningDays().get(listPosition).getOpeningTimes().remove(expandedListPosition);
+            notifyDataSetChanged();
         }
     }
 
@@ -129,5 +169,34 @@ public class OpeningDateTimeFragment extends Fragment {
         expandableListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
 
+        if(context instanceof  SignUpActivity){
+            signUpActivity = (SignUpActivity) context;
+        }
+
+        if(context instanceof OpeningTimeSelectionFragment.OnFragmentInteractionListener){
+            listener = (OnFragmentInteractionListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void messageFromChildFragment(Uri uri);
+    }
 }

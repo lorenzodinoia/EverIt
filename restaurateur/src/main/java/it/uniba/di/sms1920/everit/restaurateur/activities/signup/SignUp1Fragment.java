@@ -155,7 +155,8 @@ public class SignUp1Fragment extends Fragment {
         });
         btnNext = viewRoot.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
-
+            Address addressFake = new Address(16.305676, 41.13449, "via Piave, 20", "Andria");
+            editTextAddress.setText(addressFake.getFullAddress());
             boolean flag = true;
 
             String shopName = editTextShopName.getText().toString();
@@ -208,7 +209,9 @@ public class SignUp1Fragment extends Fragment {
                 restaurateurBuilder.setShopName(editTextShopName.getText().toString());
                 restaurateurBuilder.setPhoneNumber(editTextPhoneNumber.getText().toString());
                 restaurateurBuilder.setVatNumber(editTextVAT.getText().toString());
-                restaurateurBuilder.setAddress(address);
+                restaurateurBuilder.setShopType(shopTypeSelected);
+
+                restaurateurBuilder.setAddress(addressFake);
                 restaurateurBuilder.setDeliveryCost(0);
                 restaurateurBuilder.setMinPrice(0);
                 restaurateurBuilder.setDescription("");

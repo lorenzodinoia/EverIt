@@ -21,13 +21,14 @@ import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
 import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 
 public class OpeningDayArrayAdapter implements JsonDeserializer<List<OpeningDay>> {
+
     private static final class Keys {
         private static final String OPENING_DAY_KEY = "opening_day";
     }
 
     private static final Gson jsonConverter = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalDateTimeAdapter())
             .setDateFormat(Adapter.JSON_DATETIME_FORMAT)
             .create();
 

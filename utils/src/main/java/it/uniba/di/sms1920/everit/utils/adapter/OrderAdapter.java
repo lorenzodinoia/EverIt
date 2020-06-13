@@ -3,7 +3,6 @@ package it.uniba.di.sms1920.everit.utils.adapter;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -13,12 +12,9 @@ import com.google.gson.JsonParseException;
 import org.threeten.bp.LocalDateTime;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.models.Order;
-import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 public class OrderAdapter implements JsonDeserializer<Order> {
@@ -32,7 +28,7 @@ public class OrderAdapter implements JsonDeserializer<Order> {
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .setDateFormat(Adapter.JSON_DATETIME_FORMAT)
             .registerTypeAdapter(boolean.class, new BooleanAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new LocalTimeAdapter())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .registerTypeAdapter(Restaurateur.class, new RestaurateurAdapter())
             .registerTypeAdapter(Adapter.PRODUCT_MAP_TYPE, new ProductMapAdapter())
             .create();

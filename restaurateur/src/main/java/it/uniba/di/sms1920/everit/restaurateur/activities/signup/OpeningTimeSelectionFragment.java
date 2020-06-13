@@ -1,9 +1,12 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,21 +14,24 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeFragment;
-import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningTimeManager;
+import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
 import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 
 public class OpeningTimeSelectionFragment extends Fragment {
 
+    private OnFragmentInteractionListener listener;
     private SignUpActivity signUpActivity;
+    private OpeningDateTimeFragment openingDateTimeFragment;
     private Restaurateur.Builder restaurateurBuilder;
+    private TextView textViewErrorOpeningTimes;
     private MaterialButton btnNext;
     private MaterialButton btnBack;
 
@@ -45,17 +51,34 @@ public class OpeningTimeSelectionFragment extends Fragment {
 
         restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
 
-
+        textViewErrorOpeningTimes = viewRoot.findViewById(R.id.textViewErrorOpeningTimes);
         btnBack = viewRoot.findViewById(R.id.buttonBackOpeningTime);
         btnBack.setOnClickListener(view -> {
             getActivity().getSupportFragmentManager().popBackStack();
         });
         btnNext = viewRoot.findViewById(R.id.btnNextOpeningTime);
         btnNext.setOnClickListener(view -> {
-            SignUp3Fragment signUp3Fragment = new SignUp3Fragment();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.containerSignUp, signUp3Fragment).addToBackStack(null).commit();
+            textViewErrorOpeningTimes.setText("");
+            boolean valid = false;
+            for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
+                if(day.getOpeningTimes().size() > 1){
+                    valid = true;
+                }
+            }
+
+            if(valid) {
+                for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
+                    day.getOpeningTimes().remove(day.getOpeningTimes().size()-1);
+                }
+                SignUp3Fragment signUp3Fragment = new SignUp3Fragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
+                fragmentTransaction1.replace(R.id.containerSignUp, signUp3Fragment).addToBackStack(null).commit();
+            }
+            else{
+                textViewErrorOpeningTimes.setText(R.string.error_not_selected_opening_time);
+                textViewErrorOpeningTimes.setTextColor(Color.parseColor("#ae0022"));
+            }
 
         });
         return viewRoot;
@@ -68,5 +91,29 @@ public class OpeningTimeSelectionFragment extends Fragment {
         if(context instanceof  SignUpActivity){
             signUpActivity = (SignUpActivity) context;
         }
+
+        if(context instanceof OnFragmentInteractionListener){
+            listener = (OnFragmentInteractionListener) context;
+        }else{
+            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        openingDateTimeFragment = new OpeningDateTimeFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.opening_time_container, openingDateTimeFragment).addToBackStack(null).commit();
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void messageFromParentFragment(Uri uri);
     }
 }

@@ -19,27 +19,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/opening_time_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="190dp"
+        android:layout_marginBottom="200dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/viewOpeningTimeSelection"
+        app:layout_constraintBottom_toTopOf="@id/textViewErrorOpeningTimes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewHintOpeningTimeSelection">
 
-        <fragment
-            android:id="@+id/fragmentOpeningTime"
-            android:name="it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeFragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-    </LinearLayout>
+    </FrameLayout>
 
     <View
         android:id="@+id/viewOpeningTimeSelection"
@@ -75,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/btn_bg"
         android:text="@string/back"
         app:layout_constraintBottom_toTopOf="@+id/textViewInfo"
@@ -89,10 +83,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="192dp"
         android:layout_marginEnd="193dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/signup_part_3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewErrorOpeningTimes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/viewOpeningTimeSelection"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
