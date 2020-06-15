@@ -1,12 +1,10 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -61,7 +59,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void initComponent() {
-        expandableListView = findViewById(R.id.expandableMenu);
+        expandableListView = findViewById(R.id.expandableMenuOpening);
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListDetail, this);
         expandableListView.setAdapter(expandableListAdapter);
 

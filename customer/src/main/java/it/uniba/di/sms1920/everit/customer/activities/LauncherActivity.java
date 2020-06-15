@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.here.android.mpa.common.ApplicationContext;
 import com.here.android.mpa.common.MapEngine;
 import com.here.android.mpa.common.OnEngineInitListener;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.io.FileNotFoundException;
 
@@ -59,5 +60,7 @@ public class LauncherActivity extends AppCompatActivity {
                 Log.e("HERE-SDK", error.getDetails());
             }
         });
+
+        AndroidThreeTen.init(getApplicationContext());
     }
 }

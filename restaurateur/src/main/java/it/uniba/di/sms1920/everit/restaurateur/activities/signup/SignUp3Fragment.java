@@ -17,6 +17,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
+
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Utility;
@@ -111,8 +113,19 @@ public class SignUp3Fragment extends Fragment {
                 restaurateurRequest.create(newRestaurateur, new RequestListener<Restaurateur>() {
                     @Override
                     public void successResponse(Restaurateur response) {
-                        //TODO inserire immagine
-                        Log.d("test", "Success!!!");
+                        if(restaurateurBuilder.getImagePath() != null){
+                            restaurateurRequest.saveImage(new File(restaurateurBuilder.getImagePath()), new RequestListener<String>() {
+                                @Override
+                                public void successResponse(String response) {
+                                    Log.d("test", response);
+                                }
+
+                                @Override
+                                public void errorResponse(RequestException error) {
+                                    Log.d("test", error.getMessage());
+                                }
+                            });
+                        }
                     }
 
                     @Override

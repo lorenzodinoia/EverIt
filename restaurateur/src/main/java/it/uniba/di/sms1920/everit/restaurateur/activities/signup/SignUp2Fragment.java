@@ -124,6 +124,9 @@ public class SignUp2Fragment extends Fragment {
             }
 
             if(flag){
+                if(imagePath != null){
+                    restaurateurBuilder.setImagePath(imagePath.getPath());
+                }
                 restaurateurBuilder.setDeliveryCost(Float.parseFloat(editTextDeliveryCost.getText().toString()));
                 restaurateurBuilder.setMinPrice(Float.parseFloat(editTextMinPrice.getText().toString()));
                 if(!editTextDescription.getText().toString().equals("")){

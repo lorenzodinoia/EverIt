@@ -5,6 +5,7 @@ import com.android.volley.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -16,6 +17,7 @@ import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.ArrayRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
+import it.uniba.di.sms1920.everit.utils.request.core.ImageRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestExceptionFactory;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -23,6 +25,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 public final class RestaurateurRequest extends CRUDRequest<Restaurateur> implements CRUD<Restaurateur> {
 
     private final String URL = "restaurateur";
+    private final String IMAGE = "image";
 
     //TODO implementare altre funzioni
 
@@ -83,5 +86,26 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
                 );
 
         Providers.getRequestProvider().addToQueue(request);
+    }
+
+    public void saveImage(File file, RequestListener<String> requestListener){
+
+        ImageRequest imageRequest = new ImageRequest(URL+"/"+IMAGE,
+                response -> {
+                String resultResponse = new String(response.data);
+                    try{
+                        JSONObject result = new JSONObject(resultResponse);
+                        String status = result.getString("status");
+                        String message = result.getString("message");
+                        requestListener.successResponse(message);
+                    } catch(JSONException e){
+                        requestListener.successResponse(e.getMessage());
+                    }
+                },
+                error -> {
+                    requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                }, Providers.getAuthProvider().getAuthToken(), file);
+
+        Providers.getRequestProvider().addToQueue(imageRequest);
     }
 }
