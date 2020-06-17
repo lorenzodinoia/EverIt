@@ -1,6 +1,6 @@
 package it.uniba.di.sms1920.everit.utils.request.core;
 
-import android.graphics.Bitmap;
+/*import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.android.volley.AuthFailureError;
@@ -11,7 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,4 +67,4 @@ public class ImageRequest extends MultipartRequest{
 
         return byteArrayOutputStream.toByteArray();
     }
-}
+}*/

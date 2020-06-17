@@ -1,13 +1,22 @@
 package it.uniba.di.sms1920.everit.utils.request;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
@@ -17,7 +26,7 @@ import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.ArrayRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
-import it.uniba.di.sms1920.everit.utils.request.core.ImageRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.MultipartRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestExceptionFactory;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -88,9 +97,9 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         Providers.getRequestProvider().addToQueue(request);
     }
 
-    public void saveImage(File file, RequestListener<String> requestListener){
+    public void saveImage(File file, RequestListener<String> requestListener) throws IOException {
 
-        ImageRequest imageRequest = new ImageRequest(URL+"/"+IMAGE,
+        /*ImageRequest imageRequest = new ImageRequest(URL+"/"+IMAGE,
                 response -> {
                 String resultResponse = new String(response.data);
                     try{
@@ -107,5 +116,32 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
                 }, Providers.getAuthProvider().getAuthToken(), file);
 
         Providers.getRequestProvider().addToQueue(imageRequest);
+    }*/
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Expect", "application/json");
+        headers.put("Accept", "application/json");
+        headers.put("Content-Type", "application/json");
+
+        MultipartRequest request = new MultipartRequest(String.format("%s/api/%s/%s", Constants.SERVER_HOST, URL, IMAGE), headers,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        //TODO gestire risposta
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //TODO gestire risposta
+                    }
+                });
+        byte[] arrayFile = new byte[(int) file.length()];
+        FileInputStream inputStream = new FileInputStream(file);
+        inputStream.read(arrayFile);
+        String extension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        request.addPart(new MultipartRequest.FilePart("image", extension, file.getName(), arrayFile));
+
+        Providers.getRequestProvider().addToQueue(request);
     }
+
 }

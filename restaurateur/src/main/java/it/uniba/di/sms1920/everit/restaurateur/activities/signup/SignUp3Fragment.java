@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
+import java.io.IOException;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.LoginActivity;
@@ -114,17 +115,21 @@ public class SignUp3Fragment extends Fragment {
                     @Override
                     public void successResponse(Restaurateur response) {
                         if(restaurateurBuilder.getImagePath() != null){
-                            restaurateurRequest.saveImage(new File(restaurateurBuilder.getImagePath()), new RequestListener<String>() {
-                                @Override
-                                public void successResponse(String response) {
-                                    Log.d("test", response);
-                                }
+                            try {
+                                restaurateurRequest.saveImage(new File(restaurateurBuilder.getImagePath()), new RequestListener<String>() {
+                                    @Override
+                                    public void successResponse(String response) {
+                                        Log.d("test", response);
+                                    }
 
-                                @Override
-                                public void errorResponse(RequestException error) {
-                                    Log.d("test", error.getMessage());
-                                }
-                            });
+                                    @Override
+                                    public void errorResponse(RequestException error) {
+                                        Log.d("test", error.getMessage());
+                                    }
+                                });
+                            }catch (IOException e){
+                                e.printStackTrace();
+                            }
                         }
                     }
 

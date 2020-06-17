@@ -5,97 +5,114 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import it.uniba.di.sms1920.everit.utils.provider.Providers;
-
+/**
+ * A Request obejct to provide Multipart Mime POST support for the Volley framework.
+ */
 public class MultipartRequest extends Request<NetworkResponse> {
 
-    private final String twoHyphens = "--";
-    private final String lineEnd = "\r\n";
-    private final String boundary = "apiclient-" + System.currentTimeMillis();
-
-    private Response.Listener<NetworkResponse> listener;
-    private Response.ErrorListener errorListener;
     private Map<String, String> headers;
+    private Response.Listener listener;
+    private Response.ErrorListener errorListener;
 
+    private final String boundary = Long.toHexString(System.currentTimeMillis());
+    private final String twoDashes = "--";
+    private final String newLine = "\r\n";
+
+    private List<MultiPart> parts = new ArrayList<MultiPart>();
 
     /**
-     * Constructor with option method and default header configuration.
      *
-     * @param method        method for now accept POST and GET only
-     * @param url           request destination
-     * @param listener      on success event handler
-     * @param errorListener on error event handler
+     * @param url URL to make the POST to
+     * @param headers A Map containing any headers that should be added to the request
+     * @param listener A Volley Response.Listener to process any returned data
+     * @param errorListener A Volley Response.ErrorListener to handle errors
      */
-    public MultipartRequest(int method, String url,
-                                  Response.Listener<NetworkResponse> listener,
-                                  Response.ErrorListener errorListener) {
-        super(method, url, errorListener);
+    public MultipartRequest(String url, Map<String,String> headers,
+                            Response.Listener<NetworkResponse> listener,
+                            Response.ErrorListener errorListener) {
+        super(Method.POST, url, errorListener);
+        this.headers = headers;
         this.listener = listener;
         this.errorListener = errorListener;
+
     }
 
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> map = new HashMap<>();
-        map.put("Expect", "application/json");
-        map.put("Accept", "application/json");
-        return map;
+    public MultipartRequest(int method, String url, Map<String,String> headers,
+                            Response.Listener<NetworkResponse> listener,
+                            Response.ErrorListener errorListener) {
+        super(method,url,errorListener);
+        this.headers = headers;
+        this.listener = listener;
+        this.errorListener = errorListener;
+
+    }
+
+    /**
+     * Adds a new part to the request
+     *
+     * @param part
+     */
+    public void addPart(MultiPart part) {
+        if (part != null) {
+            parts.add(part);
+        }
     }
 
     @Override
     public String getBodyContentType() {
-        return "multipart/from-data;boundary="+boundary;
+        return "multipart/form-data;boundary=" + boundary;
     }
 
     @Override
     public byte[] getBody() throws AuthFailureError {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(bos);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(byteArrayOutputStream);
 
         try {
-            // populate text payload
-            Map<String, String> params = getParams();
-            if (params != null && params.size() > 0) {
-                textParse(dos, params, getParamsEncoding());
+            for (MultiPart part: parts) {
+                dos.writeBytes(twoDashes + boundary + newLine);
+                if (part instanceof FormPart) {
+                    dos.writeBytes("Content-Disposition: form-data; name=\"" + part.getName() + "\"" + newLine);
+                    dos.writeBytes(newLine);
+                    dos.write(part.getData());
+                    dos.writeBytes(newLine);
+                } else if (part instanceof FilePart) {
+                    FilePart filePart = (FilePart) part;
+                    dos.writeBytes("Content-Disposition: form-data; name=\"" + part.getName()
+                            + "\"; filename=\"" + filePart.getFilename() + "\"" + newLine);
+                    dos.writeBytes("Content-type: " + filePart.getMimeType() + newLine);
+                    dos.writeBytes(newLine);
+                    dos.write(part.getData());
+                    dos.writeBytes(newLine);
+                }
             }
 
-            // populate data byte payload
-            Map<String, DataPart> data = getByteData();
-            if (data != null && data.size() > 0) {
-                dataParse(dos, data);
-            }
-
-            // close multipart form data after text and file data
-            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-            return bos.toByteArray();
+            //close out
+            dos.writeBytes(twoDashes + boundary + twoDashes + newLine);
+            return byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
-
-    //TODO capire quale header serve
-    /**
-     * Custom method handle data payload.
-     *
-     * @return Map data part label with data byte
-     * @throws AuthFailureError
-     */
-    protected Map<String, DataPart> getByteData() throws AuthFailureError {
-        return null;
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        if (headers != null) {
+            return headers;
+        } else {
+            return super.getHeaders();
+        }
     }
 
     @Override
@@ -109,191 +126,85 @@ public class MultipartRequest extends Request<NetworkResponse> {
         }
     }
 
-
     @Override
     protected void deliverResponse(NetworkResponse response) {
         listener.onResponse(response);
     }
 
-    @Override
-    public void deliverError(VolleyError error) {
-        errorListener.onErrorResponse(error);
-    }
-
-
     /**
-     * Parse string map into data output stream by key and value.
-     *
-     * @param dataOutputStream data output stream handle string parsing
-     * @param params           string inputs collection
-     * @param encoding         encode the inputs, default UTF-8
-     * @throws IOException
+     * A generic part to add
      */
-    private void textParse(DataOutputStream dataOutputStream, Map<String, String> params, String encoding) throws IOException {
-        try {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                buildTextPart(dataOutputStream, entry.getKey(), entry.getValue());
-            }
-        } catch (UnsupportedEncodingException uee) {
-            throw new RuntimeException("Encoding not supported: " + encoding, uee);
-        }
-    }
+    protected static abstract class MultiPart {
 
-    /**
-     * Parse data into data output stream.
-     *
-     * @param dataOutputStream data output stream handle file attachment
-     * @param data             loop through data
-     * @throws IOException
-     */
-    private void dataParse(DataOutputStream dataOutputStream, Map<String, DataPart> data) throws IOException {
-        for (Map.Entry<String, DataPart> entry : data.entrySet()) {
-            buildDataPart(dataOutputStream, entry.getValue(), entry.getKey());
+        private String name;
+        private String mimeType;
+
+        public MultiPart(String name, String mimeType) {
+            this.name = name;
+            this.mimeType = mimeType;
         }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getMimeType() {
+            return mimeType;
+        }
+
+        public abstract byte[] getData();
     }
 
     /**
-     * Write string data into header and data output stream.
-     *
-     * @param dataOutputStream data output stream handle string parsing
-     * @param parameterName    name of input
-     * @param parameterValue   value of input
-     * @throws IOException
+     * A class to represent a basic form field to be added to the request
      */
-    private void buildTextPart(DataOutputStream dataOutputStream, String parameterName, String parameterValue) throws IOException {
-        dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
-        dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"" + parameterName + "\"" + lineEnd);
-        //dataOutputStream.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
-        dataOutputStream.writeBytes(lineEnd);
-        dataOutputStream.writeBytes(parameterValue + lineEnd);
+    public static class FormPart extends MultiPart {
+
+        private String value;
+
+        /**
+         * Creates a form part with the supplied name and value
+         * @param name form field name
+         * @param value form field value
+         */
+        public FormPart(String name, String value) {
+            super(name, "");
+            this.value = value;
+        }
+
+        @Override
+        public byte[] getData() {
+            return value.getBytes();
+        }
     }
 
     /**
-     * Write data file into header and data output stream.
-     *
-     * @param dataOutputStream data output stream handle data parsing
-     * @param dataFile         data byte as DataPart from collection
-     * @param inputName        name of data input
-     * @throws IOException
+     * A class representing a file to be added to the request
      */
-    private void buildDataPart(DataOutputStream dataOutputStream, DataPart dataFile, String inputName) throws IOException {
-        dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
-        dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"" +
-                inputName + "\"; filename=\"" + dataFile.getFileName() + "\"" + lineEnd);
-        if (dataFile.getType() != null && !dataFile.getType().trim().isEmpty()) {
-            dataOutputStream.writeBytes("Content-Type: " + dataFile.getType() + lineEnd);
-        }
-        dataOutputStream.writeBytes(lineEnd);
+    public static class FilePart extends MultiPart {
 
-        ByteArrayInputStream fileInputStream = new ByteArrayInputStream(dataFile.getContent());
-        int bytesAvailable = fileInputStream.available();
-
-        int maxBufferSize = 1024 * 1024;
-        int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-        byte[] buffer = new byte[bufferSize];
-
-        int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-        while (bytesRead > 0) {
-            dataOutputStream.write(buffer, 0, bufferSize);
-            bytesAvailable = fileInputStream.available();
-            bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-        }
-
-        dataOutputStream.writeBytes(lineEnd);
-    }
-
-    /**
-     * Simple data container use for passing byte file
-     */
-    public class DataPart {
-        private String fileName;
-        private byte[] content;
-        private String type;
+        private byte data[];
+        private String filename;
 
         /**
-         * Default data part
+         * Creates a file with the given values to add to the request
+         * @param name form field name
+         * @param mimeType mime type for part
+         * @param filename filename (can be null)
+         * @param data the content of the file
          */
-        public DataPart() {
+        public FilePart(String name, String mimeType, String filename, byte data[]){
+            super(name, mimeType);
+            this.data = data;
+            this.filename = filename;
         }
 
-        /**
-         * Constructor with data.
-         *
-         * @param name label of data
-         * @param data byte data
-         */
-        public DataPart(String name, byte[] data) {
-            fileName = name;
-            content = data;
+        public byte[] getData() {
+            return data;
         }
 
-        /**
-         * Constructor with mime data type.
-         *
-         * @param name     label of data
-         * @param data     byte data
-         * @param mimeType mime data like "image/jpeg"
-         */
-        public DataPart(String name, byte[] data, String mimeType) {
-            fileName = name;
-            content = data;
-            type = mimeType;
-        }
-
-        /**
-         * Getter file name.
-         *
-         * @return file name
-         */
-        public String getFileName() {
-            return fileName;
-        }
-
-        /**
-         * Setter file name.
-         *
-         * @param fileName string file name
-         */
-        public void setFileName(String fileName) {
-            this.fileName = fileName;
-        }
-
-        /**
-         * Getter content.
-         *
-         * @return byte file data
-         */
-        public byte[] getContent() {
-            return content;
-        }
-
-        /**
-         * Setter content.
-         *
-         * @param content byte file data
-         */
-        public void setContent(byte[] content) {
-            this.content = content;
-        }
-
-        /**
-         * Getter mime type.
-         *
-         * @return mime type
-         */
-        public String getType() {
-            return type;
-        }
-
-        /**
-         * Setter mime type.
-         *
-         * @param type mime type
-         */
-        public void setType(String type) {
-            this.type = type;
+        public String getFilename() {
+            return filename;
         }
     }
 }
