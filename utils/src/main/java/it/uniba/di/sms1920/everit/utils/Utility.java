@@ -78,4 +78,13 @@ public final class Utility {
 
         return false;
     }
+
+    public static boolean isMaxDeliveryTimeSlot(int maxDeliveryTimeSlot){
+
+        if(maxDeliveryTimeSlot > 0){
+            return true;
+        }
+
+        return false;
+    }
 }

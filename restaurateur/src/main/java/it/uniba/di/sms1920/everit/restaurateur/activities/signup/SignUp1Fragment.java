@@ -76,13 +76,13 @@ public class SignUp1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up1, parent, false);
         restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
-        if(getActivity() instanceof SignUpActivity){
+        /*if(getActivity() instanceof SignUpActivity){
             SignUpActivity signUpActivity = (SignUpActivity) getActivity();
             restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
         else {
             getActivity().getSupportFragmentManager().popBackStack();
-        }
+        }*/
 
         ShopTypeRequest shopTypeRequest = new ShopTypeRequest();
         shopTypeRequest.readAll(new RequestListener<Collection<ShopType>>() {
@@ -212,11 +212,12 @@ public class SignUp1Fragment extends Fragment {
                 restaurateurBuilder.setShopType(shopTypeSelected);
 
                 restaurateurBuilder.setAddress(addressFake);
+                restaurateurBuilder.setMaxDeliveryPerTimeSlot(0);
                 restaurateurBuilder.setDeliveryCost(0);
                 restaurateurBuilder.setMinPrice(0);
                 restaurateurBuilder.setDescription("");
                 SignUp2Fragment fragment2 = new SignUp2Fragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containerSignUp, fragment2).addToBackStack(null).commit();
             }
@@ -271,6 +272,7 @@ public class SignUp1Fragment extends Fragment {
 
         if(context instanceof  SignUpActivity){
             signUpActivity = (SignUpActivity) context;
+            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
     }
 }

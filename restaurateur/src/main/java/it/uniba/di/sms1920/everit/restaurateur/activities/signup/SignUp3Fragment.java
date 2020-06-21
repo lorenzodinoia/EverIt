@@ -19,6 +19,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.LoginActivity;
@@ -44,6 +46,7 @@ public class SignUp3Fragment extends Fragment {
     private TextInputEditText editTextConfirmPassword;
     private MaterialButton btnSignUp;
     private MaterialButton btnBack;
+    private Context context;
 
     public SignUp3Fragment() {
         // Required empty public constructor
@@ -64,7 +67,6 @@ public class SignUp3Fragment extends Fragment {
     }
 
     private void initComponent(View viewRoot){
-        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         editTextEmailContainer = viewRoot.findViewById(R.id.editTextEmailContainerSignUp);
         editTextEmail = viewRoot.findViewById(R.id.editTextEmailSignUp);
         editTextPasswordContainer = viewRoot.findViewById(R.id.editTextPasswordContainerSignUp);
@@ -73,7 +75,7 @@ public class SignUp3Fragment extends Fragment {
         editTextConfirmPassword = viewRoot.findViewById(R.id.editTextConfirmPasswordSignUp);
         btnBack = viewRoot.findViewById(R.id.buttonBack2);
         btnBack.setOnClickListener(view -> {
-            getActivity().getSupportFragmentManager().popBackStack();
+            signUpActivity.getSupportFragmentManager().popBackStackImmediate();
         });
         btnSignUp = viewRoot.findViewById(R.id.buttonSignUpAll);
         btnSignUp.setOnClickListener(view -> {
@@ -114,23 +116,8 @@ public class SignUp3Fragment extends Fragment {
                 restaurateurRequest.create(newRestaurateur, new RequestListener<Restaurateur>() {
                     @Override
                     public void successResponse(Restaurateur response) {
-                        if(restaurateurBuilder.getImagePath() != null){
-                            try {
-                                restaurateurRequest.saveImage(new File(restaurateurBuilder.getImagePath()), new RequestListener<String>() {
-                                    @Override
-                                    public void successResponse(String response) {
-                                        Log.d("test", response);
-                                    }
-
-                                    @Override
-                                    public void errorResponse(RequestException error) {
-                                        Log.d("test", error.getMessage());
-                                    }
-                                });
-                            }catch (IOException e){
-                                e.printStackTrace();
-                            }
-                        }
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -150,6 +137,8 @@ public class SignUp3Fragment extends Fragment {
 
         if(context instanceof  SignUpActivity){
             signUpActivity = (SignUpActivity) context;
+            this.context = context;
+            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
     }
 }

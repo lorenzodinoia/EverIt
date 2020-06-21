@@ -42,19 +42,22 @@
     <string name="error_VAT_number">Lunghezza partita iva 11 cifre</string>
     <string name="error_address">Seleziona un indirizzo</string>
 
+    <string name="num_max_delivery_per_time_slot">Num max consegne per fascia oraria</string>
     <string name="delivery_cost">Costo consegna</string>
     <string name="min_price">Spesa minima</string>
     <string name="back">Indietro</string>
+    <string name="error_num_delivery_time_slot">Num max consegne maggiore di 0</string>
     <string name="error_delivery_cost">Costo consegna tra 0 e 999</string>
     <string name="error_min_price">Spesa minima tra 0 and 999</string>
     <string name="error_description">Descrizione massimo 250 charatteri</string>
 
-    <string name="opening_time">Orario Apertura</string>
-    <string name="closing_time">Orario Chiusura</string>
+    <string name="opening_time">Apertura</string>
+    <string name="closing_time">Chiusura</string>
     <string name="title_opening_time_selection">Seleziona il tuo orario di apertura</string>
     <string name="title_closing_time_selection">Seleziona il tuo orario di chiusura</string>
     <string name="error_opening_time">Seleziona orario di apertura</string>
     <string name="error_closing_time">Seleziona orario di chiusura</string>
+    <string name="error_time_equal">Gli orari devono essere diversi</string>
 
     <string name="error_not_selected_opening_time">Inserisci almeno un orario di apertura</string>
 

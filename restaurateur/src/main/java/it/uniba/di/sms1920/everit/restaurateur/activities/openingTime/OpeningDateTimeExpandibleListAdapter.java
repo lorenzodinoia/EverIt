@@ -30,7 +30,6 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
     private Context context;
     private List<OpeningDay> expandableListDetail;
     OpeningDateTimeFragment fragment;
-    OpeningTimeCRUDInterface curdInterface;
 
     LocalTime openingTime;
     LocalTime closingTime;
@@ -95,7 +94,7 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
                 timePickerDialogClosingTime.show();
             });
 
-            MaterialButton btnAdd = convertView.findViewById(R.id.btnDeleteOpeningTime);
+            MaterialButton btnAdd = convertView.findViewById(R.id.btnAddOpeningTime);
             btnAdd.setOnClickListener(v -> {
 
                 boolean flag = true;
@@ -116,11 +115,17 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
                     editTextClosingTimeContainer.setError(null);
                 }
 
-                //TODO aggiungere controllo sulle ore? (ora1 < ora2)
-
                 if(flag){
-                    //curdInterface.create(listPosition, new OpeningTime(openingTime, closingTime));
-                    fragment.createOpeningTime(listPosition, new OpeningTime(openingTime, closingTime));
+                    if(!openingTime.equals(closingTime)){
+                        editTextOpeningTimeContainer.setError(null);
+                        editTextClosingTimeContainer.setError(null);
+                        fragment.createOpeningTime(listPosition, new OpeningTime(openingTime, closingTime));
+                    }
+                    else{
+                        editTextOpeningTimeContainer.setError(context.getString(R.string.error_time_equal));
+                        editTextClosingTimeContainer.setError(context.getString(R.string.error_time_equal));
+                    }
+
                 }
 
             });
@@ -132,7 +137,6 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
 
             Button btnDeleteItem = convertView.findViewById(R.id.btnDeleteOpeningTime);
             btnDeleteItem.setOnClickListener(v -> {
-                //curdInterface.delete(listPosition, expandedListPosition);
                 fragment.deleteOpeningTime(listPosition, expandedListPosition);
             });
 
@@ -206,8 +210,5 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
         super.onGroupExpanded(groupPosition);
     }
 
-    public void setInterface(OpeningTimeCRUDInterface crudInterface){
-        this.curdInterface = crudInterface;
-    }
 }
 

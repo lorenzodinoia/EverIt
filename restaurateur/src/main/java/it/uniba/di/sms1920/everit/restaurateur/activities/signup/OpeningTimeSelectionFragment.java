@@ -54,7 +54,7 @@ public class OpeningTimeSelectionFragment extends Fragment {
         textViewErrorOpeningTimes = viewRoot.findViewById(R.id.textViewErrorOpeningTimes);
         btnBack = viewRoot.findViewById(R.id.buttonBackOpeningTime);
         btnBack.setOnClickListener(view -> {
-            getActivity().getSupportFragmentManager().popBackStack();
+            signUpActivity.getSupportFragmentManager().popBackStack();
         });
         btnNext = viewRoot.findViewById(R.id.btnNextOpeningTime);
         btnNext.setOnClickListener(view -> {
@@ -67,11 +67,11 @@ public class OpeningTimeSelectionFragment extends Fragment {
             }
 
             if(valid) {
-                for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
+                /*for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
                     day.getOpeningTimes().remove(day.getOpeningTimes().size()-1);
-                }
+                }*/
                 SignUp3Fragment signUp3Fragment = new SignUp3Fragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
                 fragmentTransaction1.replace(R.id.containerSignUp, signUp3Fragment).addToBackStack(null).commit();
             }

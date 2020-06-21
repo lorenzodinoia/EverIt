@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
@@ -33,12 +34,12 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
+        /*SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
-        /*SignUp3Fragment fragmentSignUp3 = new SignUp3Fragment();
+        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();*/
+        OpeningTimeSelectionFragment openingTimeSelectionFragment = new OpeningTimeSelectionFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp3).addToBackStack(null).commit();*/
+        fragmentTransaction.add(R.id.containerSignUp, openingTimeSelectionFragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -50,7 +51,13 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            FragmentManager fm = getSupportFragmentManager();
+            if(fm.getBackStackEntryCount() > 1){
+                fm.popBackStack();
+            }
+            else {
                 super.onBackPressed();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

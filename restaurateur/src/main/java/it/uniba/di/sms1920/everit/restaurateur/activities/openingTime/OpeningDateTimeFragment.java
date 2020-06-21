@@ -25,6 +25,8 @@ import it.uniba.di.sms1920.everit.restaurateur.activities.signup.OpeningTimeSele
 import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
 import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
 import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
+import it.uniba.di.sms1920.everit.utils.models.Product;
+import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.OpeningTimeRequest;
@@ -65,15 +67,21 @@ public class OpeningDateTimeFragment extends Fragment {
     }
 
     private void initComponent(View view) {
-        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+        if((restaurateurBuilder != null) && (restaurateurBuilder.getOpeningDays() != null)){
+            for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
+                day.getOpeningTimes().remove(day.getOpeningTimes().size()-1);
+            }
+        }
         expandableListView = view.findViewById(R.id.expandableMenuOpening);
-        setExpandableListData();
+        //add data to expandible list detail
         fillListDetail();
         expandableListAdapter = new OpeningDateTimeExpandibleListAdapter(getActivity(), expandableListDetail, this);
         expandableListView.setAdapter(expandableListAdapter);
     }
 
     private void setExpandableListData(){
+        expandableListDetail.clear();
+        days.clear();
         days.add(new OpeningDay(1, getString(R.string.monday)));
         days.add(new OpeningDay(2, getString(R.string.tuesday)));
         days.add(new OpeningDay(3, getString(R.string.wednesday)));
@@ -87,17 +95,18 @@ public class OpeningDateTimeFragment extends Fragment {
     private void fillListDetail(){
         if(restaurateurBuilder == null){
             restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
-            for(OpeningDay item : restaurateur.getOpeningDays()){
-                Long index = item.getId()-1;
-                expandableListDetail.get(index.intValue()).getOpeningTimes().addAll(item.getOpeningTimes());
-            }
+            expandableListDetail = restaurateur.getOpeningDays();
         }
         else{
-            List<OpeningDay> temp_day = new ArrayList<>(days);
-            restaurateurBuilder.setOpeningDays(temp_day);
+            if(restaurateurBuilder.getOpeningDays() == null) {
+                setExpandableListData();
+                List<OpeningDay> temp_day = new ArrayList<>(days);
+                restaurateurBuilder.setOpeningDays(temp_day);
+            } else{
+                expandableListDetail = null;
+                expandableListDetail = restaurateurBuilder.getOpeningDays();
+            }
         }
-
-
         for(OpeningDay item : expandableListDetail){
             item.getOpeningTimes().add(lastItem);
         }
@@ -152,7 +161,6 @@ public class OpeningDateTimeFragment extends Fragment {
         }
         else{
             expandableListDetail.get(listPosition).getOpeningTimes().remove(expandedListPosition);
-            //restaurateurBuilder.getOpeningDays().get(listPosition).getOpeningTimes().remove(expandedListPosition);
             notifyDataSetChanged();
         }
     }
@@ -175,6 +183,8 @@ public class OpeningDateTimeFragment extends Fragment {
 
         if(context instanceof  SignUpActivity){
             signUpActivity = (SignUpActivity) context;
+            restaurateurBuilder = null;
+            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
 
         if(context instanceof OpeningTimeSelectionFragment.OnFragmentInteractionListener){
@@ -199,4 +209,6 @@ public class OpeningDateTimeFragment extends Fragment {
         // TODO: Update argument type and name
         void messageFromChildFragment(Uri uri);
     }
+
+
 }

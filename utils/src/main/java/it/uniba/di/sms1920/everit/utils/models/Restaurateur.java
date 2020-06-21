@@ -17,6 +17,8 @@ public class Restaurateur extends Model implements Authenticable{
     private String password;
     private String vatNumber;
     private String description;
+    @SerializedName("max_delivery_time_slot")
+    private int maxDeliveryPerTimeSlot;
     private float deliveryCost;
     private float minPrice;
     private String imagePath;
@@ -98,6 +100,14 @@ public class Restaurateur extends Model implements Authenticable{
         this.description = description;
     }
 
+    public int getMaxDeliveryPerTimeSlot(){
+        return maxDeliveryPerTimeSlot;
+    }
+
+    public void setMaxDeliveryPerTimeSlot(int maxDeliveryPerTimeSlot){
+        this.maxDeliveryPerTimeSlot = maxDeliveryPerTimeSlot;
+    }
+
     public float getDeliveryCost() {
         return deliveryCost;
     }
@@ -175,6 +185,7 @@ public class Restaurateur extends Model implements Authenticable{
         private String password;
         private String vatNumber;
         private String description;
+        private int maxDeliveryPerTimeSlot;
         private float deliveryCost;
         private float minPrice;
         private String imagePath;
@@ -247,6 +258,15 @@ public class Restaurateur extends Model implements Authenticable{
 
         public Builder setDescription(String description) {
             this.description = description;
+            return this;
+        }
+
+        public int getMaxDeliveryPerTimeSlot() {
+            return maxDeliveryPerTimeSlot;
+        }
+
+        public Builder setMaxDeliveryPerTimeSlot(int maxDeliveryPerTimeSlot) {
+            this.maxDeliveryPerTimeSlot = maxDeliveryPerTimeSlot;
             return this;
         }
 

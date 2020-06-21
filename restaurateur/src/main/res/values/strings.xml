@@ -23,19 +23,22 @@
     <string name="error_VAT_number">VAT number length is 11 digits</string>
     <string name="error_address">Select an address</string>
 
+    <string name="num_max_delivery_per_time_slot">Nun max delivery per time slot</string>
     <string name="delivery_cost">Delivery cost</string>
     <string name="min_price">Min price</string>
     <string name="back">Back</string>
+    <string name="error_num_delivery_time_slot">Num max delivery greater than 0</string>
     <string name="error_delivery_cost">Delivery cost between 0 and 999</string>
     <string name="error_min_price">Min price between 0 and 999</string>
     <string name="error_description">Description max 250 chars</string>
 
-    <string name="opening_time">Opening Time</string>
-    <string name="closing_time">Closing Time</string>
+    <string name="opening_time">Opening</string>
+    <string name="closing_time">Closing</string>
     <string name="title_opening_time_selection">Select your opening time</string>
     <string name="title_closing_time_selection">Select your closing time</string>
     <string name="error_opening_time">Select opening time</string>
     <string name="error_closing_time">Select closing time</string>
+    <string name="error_time_equal">Times must be different</string>
 
     <string name="error_not_selected_opening_time">Insert at least one opening time</string>
 

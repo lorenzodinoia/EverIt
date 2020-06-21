@@ -1,18 +1,33 @@
 package it.uniba.di.sms1920.everit.utils.request;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
+import android.util.Log;
+import android.webkit.MimeTypeMap;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.BufferUnderflowException;
+import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -97,51 +112,55 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         Providers.getRequestProvider().addToQueue(request);
     }
 
-    public void saveImage(File file, RequestListener<String> requestListener) throws IOException {
+    public void saveImage(Uri uri, Context context, RequestListener<String> requestListener) {
 
-        /*ImageRequest imageRequest = new ImageRequest(URL+"/"+IMAGE,
-                response -> {
-                String resultResponse = new String(response.data);
-                    try{
-                        JSONObject result = new JSONObject(resultResponse);
-                        String status = result.getString("status");
-                        String message = result.getString("message");
-                        requestListener.successResponse(message);
-                    } catch(JSONException e){
-                        requestListener.successResponse(e.getMessage());
-                    }
-                },
-                error -> {
-                    requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
-                }, Providers.getAuthProvider().getAuthToken(), file);
-
-        Providers.getRequestProvider().addToQueue(imageRequest);
-    }*/
         Map<String, String> headers = new HashMap<>();
         headers.put("Expect", "application/json");
         headers.put("Accept", "application/json");
-        headers.put("Content-Type", "application/json");
+        headers.put("Authorization", Providers.getAuthProvider().getAuthToken());
 
+        //Setting listener
+        //TODO gestire onResponse e onErrorResponse
         MultipartRequest request = new MultipartRequest(String.format("%s/api/%s/%s", Constants.SERVER_HOST, URL, IMAGE), headers,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
-                        //TODO gestire risposta
+                        Log.d("test", new String(response.data));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //TODO gestire risposta
+                        Log.d("test", new String(error.networkResponse.data));
                     }
                 });
-        byte[] arrayFile = new byte[(int) file.length()];
-        FileInputStream inputStream = new FileInputStream(file);
-        inputStream.read(arrayFile);
-        String extension = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
-        request.addPart(new MultipartRequest.FilePart("image", extension, file.getName(), arrayFile));
 
+        //Creating image bitmap and convert it into bytes array
+        Bitmap bmp = null;
+        try {
+            bmp = getBitmapFromUri(uri, context);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        bmp.recycle();
+
+        //Creating request and adding to queue
+        request.addPart(new MultipartRequest.FilePart("image", "image/jpg", "image.jpg", byteArray));
         Providers.getRequestProvider().addToQueue(request);
     }
+
+    private Bitmap getBitmapFromUri(Uri uri, Context context) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor =
+                context.getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
+    }
+
 
 }
