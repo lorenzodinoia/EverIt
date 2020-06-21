@@ -42,7 +42,6 @@ public abstract class CRUDRequest<T extends Model> {
             Providers.getRequestProvider().addToQueue(request);
         }
         catch (Exception e) {
-            Log.d("QUESTO", e.toString());
             e.printStackTrace();
         }
     }
@@ -68,7 +67,6 @@ public abstract class CRUDRequest<T extends Model> {
         ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s", Constants.SERVER_HOST, url), null,
             response -> {
                 try {
-                    Log.d("test", "In try");
                     Collection<T> collection = adapter.fromJSONArray(response, modelType);
                     requestListener.successResponse(collection);
                 }

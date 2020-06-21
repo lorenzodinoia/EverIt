@@ -73,4 +73,6 @@
     <string name="search_autocomplete_empty">Nessun suggerimento</string>
     <string name="title_address_chooser">Scegli indirizzo</string>
 
+    <string name="pending_orders">Ordini attivi</string>
+
 </resources>

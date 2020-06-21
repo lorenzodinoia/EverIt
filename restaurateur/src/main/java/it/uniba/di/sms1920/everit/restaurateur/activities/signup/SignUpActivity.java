@@ -34,12 +34,10 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        /*SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
+        SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();*/
-        OpeningTimeSelectionFragment openingTimeSelectionFragment = new OpeningTimeSelectionFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerSignUp, openingTimeSelectionFragment).addToBackStack(null).commit();
+        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
+
     }
 
     @Override
@@ -61,6 +59,7 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public Restaurateur.Builder getRestaurateur() {
         return restaurateur;

@@ -4,7 +4,6 @@
     package="it.uniba.di.sms1920.everit.restaurateur">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,11 +20,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-
         <activity
             android:name=".activities.AddressChooserActivity"
-            android:label="@string/title_address_chooser">
-        </activity>
+            android:label="@string/title_address_chooser"></activity>
         <activity
             android:name=".activities.LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar">
