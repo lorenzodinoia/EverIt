@@ -210,5 +210,7 @@ public class OpeningDateTimeFragment extends Fragment {
         void messageFromChildFragment(Uri uri);
     }
 
+    public void updateEditText(LocalTime time){
 
+    }
 }

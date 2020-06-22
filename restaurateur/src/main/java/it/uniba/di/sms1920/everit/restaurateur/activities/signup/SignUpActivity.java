@@ -37,12 +37,14 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
         SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
+        /*OpeningTimeSelectionFragment fragmentSignUp1 = new OpeningTimeSelectionFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();*/
 
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        //TODO agigungere back arrow (bug)
         return super.onSupportNavigateUp();
     }
 
@@ -54,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
                 fm.popBackStack();
             }
             else {
-                super.onBackPressed();
+                finish();
             }
         }
         return super.onOptionsItemSelected(item);

@@ -67,9 +67,9 @@ public class OpeningTimeSelectionFragment extends Fragment {
             }
 
             if(valid) {
-                /*for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
+                for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
                     day.getOpeningTimes().remove(day.getOpeningTimes().size()-1);
-                }*/
+                }
                 SignUp3Fragment signUp3Fragment = new SignUp3Fragment();
                 FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();

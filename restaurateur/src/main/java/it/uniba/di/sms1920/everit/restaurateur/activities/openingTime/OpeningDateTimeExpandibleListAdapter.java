@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.restaurateur.activities.openingTime;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import org.threeten.bp.LocalTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
@@ -33,10 +36,12 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
 
     LocalTime openingTime;
     LocalTime closingTime;
-    private TextInputLayout editTextOpeningTimeContainer;
-    private TextInputEditText editTextOpeningTime;
-    private TextInputLayout editTextClosingTimeContainer;
-    private TextInputEditText editTextClosingTime;
+    private Map<Integer, TextInputLayout> editTextOpeningTimeContainer = new HashMap<>();
+    private Map<Integer, TextInputEditText> editTextOpeningTime = new HashMap<>();
+    private Map<Integer, TextInputLayout> editTextClosingTimeContainer = new HashMap<>();
+    private Map<Integer, TextInputEditText> editTextClosingTime = new HashMap<>();
+    /*private TextInputLayout editTextClosingTimeContainer;
+    private TextInputEditText editTextClosingTime;*/
 
 
     OpeningDateTimeExpandibleListAdapter(Context context, List<OpeningDay> expandableListDetail, OpeningDateTimeFragment fragment){
@@ -56,38 +61,43 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
 
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        OpeningTime child = (OpeningTime) getChild(listPosition, expandedListPosition);
-        final String expandedListText = child.toString();
+        //OpeningTime child = (OpeningTime) getChild(listPosition, expandedListPosition);
+        //final String expandedListText = child.toString();
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         List<OpeningTime> values = new ArrayList<>(expandableListDetail.get(listPosition).getOpeningTimes());
 
         if(isLastChild){
             convertView = layoutInflater.inflate(R.layout.list_last_item_opening_time, null);
-            editTextOpeningTimeContainer = convertView.findViewById(R.id.editTextOpeningTimeContainer);
-            editTextOpeningTime = convertView.findViewById(R.id.editTextOpeningTime);
-            editTextClosingTimeContainer = convertView.findViewById(R.id.editTextClosingTimeContainer);
-            editTextClosingTime = convertView.findViewById(R.id.editTextClosingTime);
+            editTextOpeningTimeContainer.put(listPosition, convertView.findViewById(R.id.editTextOpeningTimeContainer));
+            editTextOpeningTime.put(listPosition, convertView.findViewById(R.id.editTextOpeningTime));
+            //editTextOpeningTime = convertView.findViewById(R.id.editTextOpeningTime);
+            editTextClosingTimeContainer.put(listPosition, convertView.findViewById(R.id.editTextClosingTimeContainer));
+            editTextClosingTime.put(listPosition, convertView.findViewById(R.id.editTextClosingTime));
+
             int mHourOfDay = Calendar.HOUR_OF_DAY;
             int mMinute = Calendar.MINUTE;
-            editTextOpeningTime.setOnClickListener(v -> {
+            editTextOpeningTime.get(listPosition).setOnClickListener(v -> {
                 TimePickerDialog timePickerDialogOpeningTime = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         openingTime = LocalTime.of(hourOfDay, minute);
-                        editTextOpeningTime.setText(openingTime.toString());
+                        editTextOpeningTime.get(listPosition).setText(openingTime.toString());
+                        //editTextOpeningTime.setText(openingTime.toString());
+                        Log.d("test", Integer.toString(listPosition));
+                        Log.d("test", Integer.toString(expandedListPosition));
                     }
                 }, mHourOfDay, mMinute, true);
 
                 timePickerDialogOpeningTime.setTitle(R.string.title_opening_time_selection);
                 timePickerDialogOpeningTime.show();
             });
-            editTextClosingTime.setOnClickListener(v -> {
+            editTextClosingTime.get(listPosition).setOnClickListener(v -> {
                 TimePickerDialog timePickerDialogClosingTime = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         closingTime = LocalTime.of(hourOfDay, minute);
-                        editTextClosingTime.setText(closingTime.toString());
+                        editTextClosingTime.get(listPosition).setText(closingTime.toString());
                     }
                 }, mHourOfDay, mMinute, true);
                 timePickerDialogClosingTime.setTitle(R.string.title_closing_time_selection);
@@ -99,31 +109,31 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
 
                 boolean flag = true;
 
-                if(editTextOpeningTime.getText().toString().equals("")){
+                if(editTextOpeningTime.get(listPosition).getText().toString().equals("")){
                     flag = false;
-                    editTextOpeningTimeContainer.setError(context.getString(R.string.error_opening_time));
+                    editTextOpeningTimeContainer.get(listPosition).setError(context.getString(R.string.error_opening_time));
                 }
                 else{
-                    editTextOpeningTimeContainer.setError(null);
+                    editTextOpeningTimeContainer.get(listPosition).setError(null);
                 }
 
-                if(editTextClosingTime.getText().toString().equals("")){
+                if(editTextClosingTime.get(listPosition).getText().toString().equals("")){
                     flag = false;
-                    editTextClosingTimeContainer.setError(context.getString(R.string.error_closing_time));
+                    editTextClosingTimeContainer.get(listPosition).setError(context.getString(R.string.error_closing_time));
                 }
                 else{
-                    editTextClosingTimeContainer.setError(null);
+                    editTextClosingTimeContainer.get(listPosition).setError(null);
                 }
 
                 if(flag){
                     if(!openingTime.equals(closingTime)){
-                        editTextOpeningTimeContainer.setError(null);
-                        editTextClosingTimeContainer.setError(null);
+                        editTextOpeningTimeContainer.get(listPosition).setError(null);
+                        editTextClosingTimeContainer.get(listPosition).setError(null);
                         fragment.createOpeningTime(listPosition, new OpeningTime(openingTime, closingTime));
                     }
                     else{
-                        editTextOpeningTimeContainer.setError(context.getString(R.string.error_time_equal));
-                        editTextClosingTimeContainer.setError(context.getString(R.string.error_time_equal));
+                        editTextOpeningTimeContainer.get(listPosition).setError(context.getString(R.string.error_time_equal));
+                        editTextClosingTimeContainer.get(listPosition).setError(context.getString(R.string.error_time_equal));
                     }
 
                 }
