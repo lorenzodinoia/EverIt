@@ -109,7 +109,7 @@ public class OpeningTimeSelectionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         openingDateTimeFragment = new OpeningDateTimeFragment();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.opening_time_container, openingDateTimeFragment).addToBackStack(null).commit();
+        transaction.replace(R.id.opening_time_container, openingDateTimeFragment).addToBackStack(null).commit(); 
     }
 
     public interface OnFragmentInteractionListener {

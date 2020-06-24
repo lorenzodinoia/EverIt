@@ -20,21 +20,24 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order> {
 
-    private final String URL = "customer/order";
+    //private final String URL = "customer/order";
+    private final String CUSTOMER = "customer";
+    private final String RESTAURATEUR = "restaurateur";
+    private final String ORDER = "order";
 
     @Override
     public void create(Order model, RequestListener<Order> RequestListener) {
-        super.create(model, URL, RequestListener, Order.class, true);
+        super.create(model, CUSTOMER+"/"+ORDER, RequestListener, Order.class, true);
     }
 
     @Override
     public void read(long id, RequestListener<Order> RequestListener) {
-        super.read(id, URL, RequestListener, Order.class, true);
+        super.read(id, CUSTOMER+"/"+ORDER, RequestListener, Order.class, true);
     }
 
     @Override
     public void readAll(RequestListener<Collection<Order>> RequestListener) {
-        super.readAll(URL+"/getAll", RequestListener, Order.class, true);
+        super.readAll(CUSTOMER+"/"+ORDER+"/getAll", RequestListener, Order.class, true);
     }
 
     @Override
@@ -50,7 +53,7 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
     public void readPendingOrders(RequestListener<Collection<Order>> requestListener){
         Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
 
-        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/pending", Constants.SERVER_HOST, URL), null,
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%s/pending", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
                 response -> {
                     try {
                         Collection<Order> collection = adapter.fromJSONArray(response, Order.class);

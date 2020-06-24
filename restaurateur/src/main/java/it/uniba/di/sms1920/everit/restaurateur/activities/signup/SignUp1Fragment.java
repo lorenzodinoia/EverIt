@@ -76,14 +76,6 @@ public class SignUp1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up1, parent, false);
         restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
-        /*if(getActivity() instanceof SignUpActivity){
-            SignUpActivity signUpActivity = (SignUpActivity) getActivity();
-            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
-        }
-        else {
-            getActivity().getSupportFragmentManager().popBackStack();
-        }*/
-
         ShopTypeRequest shopTypeRequest = new ShopTypeRequest();
         shopTypeRequest.readAll(new RequestListener<Collection<ShopType>>() {
             @Override

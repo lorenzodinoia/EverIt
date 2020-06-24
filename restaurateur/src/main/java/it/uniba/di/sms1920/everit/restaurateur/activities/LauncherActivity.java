@@ -90,7 +90,7 @@ public class LauncherActivity extends AppCompatActivity {
         ApplicationContext appContext = new ApplicationContext(context);
         mapEngine.init(appContext, error -> {
             if (error != OnEngineInitListener.Error.NONE) {
-                Log.e("HERE-SDK", error.getDetails());
+                Log.e("HERE-SDK", error.name());
             }
         });
 

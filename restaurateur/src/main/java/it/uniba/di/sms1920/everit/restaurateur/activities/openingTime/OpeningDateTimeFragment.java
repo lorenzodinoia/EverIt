@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,18 +61,17 @@ public class OpeningDateTimeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View viewRoot = inflater.inflate(R.layout.fragment_opening_date_time, parent, false);
-
         initComponent(viewRoot);
 
         return viewRoot;
     }
 
     private void initComponent(View view) {
-        if((restaurateurBuilder != null) && (restaurateurBuilder.getOpeningDays() != null)){
+        /*if((restaurateurBuilder != null) && (restaurateurBuilder.getOpeningDays() != null)){
             for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
                 day.getOpeningTimes().remove(day.getOpeningTimes().size()-1);
             }
-        }
+        }*/
         expandableListView = view.findViewById(R.id.expandableMenuOpening);
         //add data to expandible list detail
         fillListDetail();

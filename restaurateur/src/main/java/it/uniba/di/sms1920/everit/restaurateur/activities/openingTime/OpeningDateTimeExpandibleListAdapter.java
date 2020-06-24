@@ -40,8 +40,6 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
     private Map<Integer, TextInputEditText> editTextOpeningTime = new HashMap<>();
     private Map<Integer, TextInputLayout> editTextClosingTimeContainer = new HashMap<>();
     private Map<Integer, TextInputEditText> editTextClosingTime = new HashMap<>();
-    /*private TextInputLayout editTextClosingTimeContainer;
-    private TextInputEditText editTextClosingTime;*/
 
 
     OpeningDateTimeExpandibleListAdapter(Context context, List<OpeningDay> expandableListDetail, OpeningDateTimeFragment fragment){
@@ -61,8 +59,6 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
 
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        //OpeningTime child = (OpeningTime) getChild(listPosition, expandedListPosition);
-        //final String expandedListText = child.toString();
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         List<OpeningTime> values = new ArrayList<>(expandableListDetail.get(listPosition).getOpeningTimes());
@@ -71,7 +67,6 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
             convertView = layoutInflater.inflate(R.layout.list_last_item_opening_time, null);
             editTextOpeningTimeContainer.put(listPosition, convertView.findViewById(R.id.editTextOpeningTimeContainer));
             editTextOpeningTime.put(listPosition, convertView.findViewById(R.id.editTextOpeningTime));
-            //editTextOpeningTime = convertView.findViewById(R.id.editTextOpeningTime);
             editTextClosingTimeContainer.put(listPosition, convertView.findViewById(R.id.editTextClosingTimeContainer));
             editTextClosingTime.put(listPosition, convertView.findViewById(R.id.editTextClosingTime));
 

@@ -75,7 +75,7 @@ public class SignUp3Fragment extends Fragment {
         editTextConfirmPassword = viewRoot.findViewById(R.id.editTextConfirmPasswordSignUp);
         btnBack = viewRoot.findViewById(R.id.buttonBack2);
         btnBack.setOnClickListener(view -> {
-            signUpActivity.getSupportFragmentManager().popBackStackImmediate();
+            signUpActivity.getSupportFragmentManager().popBackStack();
         });
         btnSignUp = viewRoot.findViewById(R.id.buttonSignUpAll);
         btnSignUp.setOnClickListener(view -> {

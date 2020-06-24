@@ -73,6 +73,9 @@
     <string name="search_autocomplete_empty">Nessun suggerimento</string>
     <string name="title_address_chooser">Scegli indirizzo</string>
 
-    <string name="pending_orders">Ordini attivi</string>
+    <string name="not_confirmed">Non confermato</string>
+    <string name="confirmed">Confermato</string>
 
+    <string name="title_order_list">Ordini</string>
+    <string name="title_order_detail">Dettaglio Ordine</string>
 </resources>
