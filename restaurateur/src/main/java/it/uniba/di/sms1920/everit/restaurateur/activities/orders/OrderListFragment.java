@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -237,11 +238,10 @@ public class OrderListFragment extends Fragment {
             Order item = this.orders.get(position);
             if (item != null) {
                 holder.textViewOrderNumber.setText("#" + item.getId());
-                //TODO fix conversione data (anche nel customer)
-                /*DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
-                String dateAsString = dateFormat.format(item.getEstimatedDeliveryTime());
-                holder.textViewDeliveryDate.setText(dateAsString);*/
+                String dateAsString = estimatedDeliveryTime.format(formatter);
+                holder.textViewDeliveryDate.setText(dateAsString);
                 holder.textViewPrice.setText(item.getTotalCost() + "€");
 
                 holder.itemView.setTag(item);

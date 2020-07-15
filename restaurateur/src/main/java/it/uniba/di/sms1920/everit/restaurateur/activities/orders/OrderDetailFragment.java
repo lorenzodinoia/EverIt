@@ -1,8 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.orders;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -18,14 +16,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.orders.dummy.DummyContent;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -78,9 +81,7 @@ public class OrderDetailFragment extends Fragment {
         if (order != null) {
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumberProduct);
             TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewOrderDeliveryTime);
-            //TODO se fai click su elemento recyclerview, crasha
             //TODO se si imposta un ordine come confermato viene visualizzato in entrambe le tab
-            //TODO fix conversione date
             RecyclerView recyclerView = rootView.findViewById(R.id.productsRecyclerView);
             TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotes);
             TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewOrderDeliveryPrice);
@@ -92,9 +93,12 @@ public class OrderDetailFragment extends Fragment {
             }
 
             textViewOrderNumber.setText(Long.toString(order.getId()));
-            /*DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
-            String dateAsString = dateFormat.format(order.getEstimatedDeliveryTime());
-            textViewDeliveryTime.setText(dateAsString);*/
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
+            LocalDateTime estimatedDeliveryTime = order.getEstimatedDeliveryTime();
+            String dateAsString = estimatedDeliveryTime.format(formatter);
+            textViewDeliveryTime.setText(dateAsString);
+
             textViewSubTotalOrderPrice.setText(Float.toString(order.getTotalCost()));
             Restaurateur restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
             textViewOrderNotes.setText(order.getOrderNotes());
@@ -144,7 +148,8 @@ public class OrderDetailFragment extends Fragment {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         List<Product> products = new ArrayList<>(order.getProducts().keySet());
         List<Integer> quantity = new ArrayList<>(order.getProducts().values());
-        recyclerView.setAdapter(new OrderDetailFragment.ProductsRecyclerViewAdapter(this, products, quantity));
+        ProductsRecyclerViewAdapter adapter = new OrderDetailFragment.ProductsRecyclerViewAdapter(this, products, quantity);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -156,12 +161,7 @@ public class OrderDetailFragment extends Fragment {
         private final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order item = (Order) view.getTag();
-                Context context = view.getContext();
-                Intent intent = new Intent(context, OrderDetailActivity.class);
-                intent.putExtra(OrderDetailFragment.ARG_ITEM_ID, item.getId());
-                intent.putExtra(OrderDetailFragment.INDEX, parentActivity.index);
-                context.startActivity(intent);
+                return;
             }
         };
 

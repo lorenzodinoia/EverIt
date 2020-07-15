@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -154,16 +155,16 @@ public class OrderListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             Order item = this.orders.get(position);
             if (item != null) {
-                LocalDateTime date = item.getEstimatedDeliveryTime();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
+                LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
                 String dateAsString = "";
-                DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
                 if (item.isDelivered()) {
                     if (item.getActualDeliveryTime() != null) {
-                        dateAsString = dateFormat.format(item.getActualDeliveryTime());
+                        dateAsString = estimatedDeliveryTime.format(formatter);
                     }
                 }
                 else {
-                    dateAsString = dateFormat.format(item.getEstimatedDeliveryTime());
+                    dateAsString = estimatedDeliveryTime.format(formatter);
                 }
 
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
@@ -211,11 +212,11 @@ public class OrderListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                textViewActivityName = (TextView) view.findViewById(R.id.textViewActivityName);
-                textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
-                textViewDeliveryDate = (TextView) view.findViewById(R.id.textViewOrderDate);
-                textViewOrderStatus = (TextView) view.findViewById(R.id.textViewOrderStatus);
-                imageViewRestaurateur = (ImageView) view.findViewById(R.id.imageViewRestaurateur);
+                textViewActivityName = view.findViewById(R.id.textViewActivityName);
+                textViewPrice = view.findViewById(R.id.textViewPrice);
+                textViewDeliveryDate = view.findViewById(R.id.textViewOrderDate);
+                textViewOrderStatus = view.findViewById(R.id.textViewOrderStatus);
+                imageViewRestaurateur = view.findViewById(R.id.imageViewRestaurateur);
             }
         }
     }
