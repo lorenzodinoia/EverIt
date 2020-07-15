@@ -9,7 +9,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+
 import it.uniba.di.sms1920.everit.rider.R;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -29,12 +31,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         init();
-
     }
 
     private void init() {
-        //  Toolbar toolbar =  findViewById(R.id.toolbar_default);
-         // setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
+        setSupportActionBar(toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);

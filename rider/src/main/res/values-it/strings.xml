@@ -8,4 +8,6 @@
     <string name="surname">Cognome</string>
     <string name="account_created">Account creato correttamente</string>
     <string name="home">Home</string>
+    <string name="notification_location_title">Rider in servizio</string>
+    <string name="notification_location_body">Servizio di rilevamento continuo della posizione attivato</string>
 </resources>
