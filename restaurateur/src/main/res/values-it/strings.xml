@@ -14,6 +14,7 @@
     <string name="description">Descrizione</string>
     <string name="productName">Nome prodotto</string>
     <string name="home">home</string>
+    <string name="order_history">Storico ordini</string>
     <string name="loadImage">Carica immagine profilo</string>
     <string name="logout">Logout</string>
     <string name="VATnumber">VAT number</string>
@@ -89,4 +90,6 @@
     <string name="title_order_detail">Dettaglio Ordine</string>
     <string name="title_orders">Orders</string>
 
+    <string name="title_doneorder_list">DoneOrders</string>
+    <string name="title_doneorder_detail">DoneOrder Detail</string>
 </resources>

@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.restaurateur.activities.orders;
+package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
 import android.app.Activity;
 import android.os.Bundle;

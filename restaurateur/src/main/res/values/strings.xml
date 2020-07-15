@@ -14,6 +14,7 @@
     <string name="description">Description</string>
     <string name="productName">Product name</string>
     <string name="home">Home</string>
+    <string name="order_history">Order history</string>
 
     <string name="shop_type">Shop Type</string>
     <string name="default_shop_type">Select a shop type</string>
@@ -89,5 +90,7 @@
     <string name="title_order_list">Orders</string>
     <string name="title_order_detail">Order Detail</string>
     <string name="title_orders">Orders</string>
+    <string name="title_doneorder_list">DoneOrders</string>
+    <string name="title_doneorder_detail">DoneOrder Detail</string>
 
 </resources>

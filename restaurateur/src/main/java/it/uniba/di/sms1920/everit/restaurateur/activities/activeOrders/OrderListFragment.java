@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.restaurateur.activities.orders;
+package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,16 +16,15 @@ import android.widget.TextView;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -241,12 +240,13 @@ public class OrderListFragment extends Fragment {
         public void onBindViewHolder(final OrderListFragment.OrderRecyclerViewAdapter.ViewHolder holder, int position) {
             Order item = this.orders.get(position);
             if (item != null) {
+                Restaurateur restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
                 holder.textViewOrderNumber.setText("#" + item.getId());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
                 String dateAsString = estimatedDeliveryTime.format(formatter);
                 holder.textViewDeliveryDate.setText(dateAsString);
-                holder.textViewPrice.setText(item.getTotalCost() + "€");
+                holder.textViewPrice.setText((item.getTotalCost() + restaurateur.getDeliveryCost()) + "€");
 
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);

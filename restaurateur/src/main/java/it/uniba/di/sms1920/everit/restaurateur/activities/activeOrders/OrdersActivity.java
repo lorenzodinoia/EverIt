@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.restaurateur.activities.orders;
+package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,7 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.orders.ui.main.OrderTabAdapter;
+import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.ui.main.OrderTabAdapter;
 
 public class OrdersActivity extends AppCompatActivity {
 

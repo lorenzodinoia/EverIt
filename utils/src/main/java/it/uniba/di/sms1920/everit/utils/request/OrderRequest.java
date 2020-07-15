@@ -72,6 +72,25 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
         Providers.getRequestProvider().addToQueue(request);
     }
 
+    public void readDoneOrders(RequestListener<Collection<Order>> requestListener){
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%s/done", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
+                response -> {
+                    try {
+                        Collection<Order> collection = adapter.fromJSONArray(response, Order.class);
+                        requestListener.successResponse(collection);
+                    }
+                    catch (JSONException e) {
+                        requestListener.errorResponse(new RequestException(e.getMessage()));
+                    }
+                },
+                error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                Providers.getAuthProvider().getAuthToken());
+
+        Providers.getRequestProvider().addToQueue(request);
+    }
+
     public void readToDoOrders(RequestListener<Collection<Order>> requestListener){
         Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
 
