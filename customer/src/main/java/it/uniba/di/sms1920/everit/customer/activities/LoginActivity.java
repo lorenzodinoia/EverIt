@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
@@ -37,10 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
 
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
 
         this.initComponents();
     }

@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.customer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -157,6 +158,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return dest != Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.toolbar_cart, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
@@ -166,6 +174,16 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                     return true;
                 }else{
                     return false;
+                }
+            }
+
+            case R.id.goTo_cart:{
+                if(Providers.getAuthProvider().getUser() != null) {
+                    Intent cartIntent = new Intent(getApplicationContext(), CartActivity.class);
+                    startActivity(cartIntent);
+                }else{
+                    Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(loginIntent);
                 }
             }
             default:

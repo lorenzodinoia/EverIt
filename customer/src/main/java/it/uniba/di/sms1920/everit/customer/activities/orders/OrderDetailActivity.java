@@ -15,7 +15,6 @@ import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 
-
 /**
  * An activity representing a single Order detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,

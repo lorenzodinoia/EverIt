@@ -69,4 +69,13 @@
     <string name="ShowMeMenu">Show me the menu</string>
     <string name="minimum_purchase">Minimum purchase: </string>
     <string name="delivey_cost">Delivery cost: </string>
+    <string name="cart_ic_toolbar">cart_ic_toolbar</string>
+    <string name="Order">ORDER</string>
+    <string name="your_products">Your products</string>
+    <string name="Currency_symbol">$</string>
+    <string name="Continue">Continue</string>
+    <string name="order_notes">Order notes</string>
+    <string name="delivery_notes">Delivery notes</string>
+    <string name="Back">Back</string>
+    <string name="empty_cart_message">It looks like your cart is empty!You must select some products before proceeding!</string>
 </resources>

@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -28,6 +30,7 @@ import java.util.List;
 import it.uniba.di.sms1920.everit.customer.DeliveryAddress;
 import it.uniba.di.sms1920.everit.customer.R;
 
+import it.uniba.di.sms1920.everit.customer.activities.CartActivity;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
 import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
@@ -54,6 +57,7 @@ public class ResultDetailFragment extends Fragment implements CartConnector {
     private Restaurateur restaurateur;
     private TextView textViewPhoneNumber, textViewAddress, textViewOpenClosed, textViewDeliveryCost, textViewMinPurchase, textViewReviewNumber;
     private LinearLayout layoutMenuContainer, layoutMenuText, layoutReviewCardListContainer, layoutCall;
+    private MaterialButton buttonOrder;
     private ConstraintLayout layoutRatingBar;
     private RatingBar ratingBar;
 
@@ -148,6 +152,16 @@ public class ResultDetailFragment extends Fragment implements CartConnector {
         textViewMinPurchase = rootView.findViewById(R.id.textViewMinPurchase);
         textViewOpenClosed = rootView.findViewById(R.id.textViewOpenClosed);
         textViewReviewNumber = rootView.findViewById(R.id.textViewReviewNumber);
+
+        buttonOrder = rootView.findViewById(R.id.buttonOrderMenu);
+        buttonOrder.setOnClickListener(v -> {
+            if(getCart().isEmpty()){
+
+            }else{
+                Intent goIntent = new Intent(getActivity(), CartActivity.class);
+                startActivity(goIntent);
+            }
+        });
 
         expandableListView = rootView.findViewById(R.id.expandableMenu);
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -13,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +29,11 @@ import java.util.List;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.CartActivity;
+import it.uniba.di.sms1920.everit.customer.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Review;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.ReviewRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -83,11 +88,30 @@ public class ReviewListActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.toolbar_cart, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            super.onBackPressed();
+        switch (item.getItemId()){
+            case android.R.id.home:{
+                super.onBackPressed();
+            }
+
+            case R.id.goTo_cart:{
+                if(Providers.getAuthProvider().getUser() != null) {
+                    Intent cartIntent = new Intent(getApplicationContext(), CartActivity.class);
+                    startActivity(cartIntent);
+                }else{
+                    Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(loginIntent);
+                }
+            }
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
