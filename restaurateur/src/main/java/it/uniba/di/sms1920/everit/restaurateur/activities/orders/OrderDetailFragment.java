@@ -1,37 +1,50 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.orders;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.button.MaterialButton;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.orders.dummy.DummyContent;
+import it.uniba.di.sms1920.everit.utils.models.Order;
+import it.uniba.di.sms1920.everit.utils.models.Product;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-/**
- * A fragment representing a single Order detail screen.
- * This fragment is either contained in a {@link OrderListActivity}
- * in two-pane mode (on tablets) or a {@link OrderDetailActivity}
- * on handsets.
- */
 public class OrderDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String INDEX = "fragment_index";
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private DummyContent.DummyItem mItem;
+
+    private Order order;
+    private int index;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -45,16 +58,15 @@ public class OrderDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            index = getArguments().getInt(INDEX);
+            long id = getArguments().getLong(ARG_ITEM_ID);
+            order = OrderListFragment.getOrderById(id);
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
-            }
+            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
+            /*if (appBarLayout != null) {
+                //appBarLayout.setTitle(order.content);
+            }*/
         }
     }
 
@@ -63,11 +75,135 @@ public class OrderDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.order_detail)).setText(mItem.details);
+        if (order != null) {
+            TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumberProduct);
+            TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewOrderDeliveryTime);
+            //TODO se fai click su elemento recyclerview, crasha
+            //TODO se si imposta un ordine come confermato viene visualizzato in entrambe le tab
+            //TODO fix conversione date
+            RecyclerView recyclerView = rootView.findViewById(R.id.productsRecyclerView);
+            TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotes);
+            TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewOrderDeliveryPrice);
+            TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewOrderSubTotalPrice);
+            TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewOrderTotalPrice);
+            MaterialButton confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
+            if(index != 0){
+                confirmButton.setText(R.string.late_button);
+            }
+
+            textViewOrderNumber.setText(Long.toString(order.getId()));
+            /*DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
+            String dateAsString = dateFormat.format(order.getEstimatedDeliveryTime());
+            textViewDeliveryTime.setText(dateAsString);*/
+            textViewSubTotalOrderPrice.setText(Float.toString(order.getTotalCost()));
+            Restaurateur restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
+            textViewOrderNotes.setText(order.getOrderNotes());
+            float deliveryCost = restaurateur.getDeliveryCost();
+            textViewOrderDeliveryPrice.setText(Float.toString(deliveryCost));
+            textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
+            setupRecyclerView(recyclerView);
+            confirmButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OrderRequest orderRequest = new OrderRequest();
+                    if(index == 0){
+                        orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
+                            @Override
+                            public void successResponse(Order response) {
+                                Log.d("test", "Edited");
+                            }
+
+                            @Override
+                            public void errorResponse(RequestException error) {
+                                Log.d("test", "Not edited");
+                            }
+                        });
+                    }
+                    else if(index == 1){
+                        orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
+                            @Override
+                            public void successResponse(Order response) {
+                                Log.d("test", "Late");
+                            }
+
+                            @Override
+                            public void errorResponse(RequestException error) {
+                                Log.d("test", "Not late");
+                            }
+                        });
+                    }
+                }
+            });
+
+
         }
 
         return rootView;
+    }
+
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        List<Product> products = new ArrayList<>(order.getProducts().keySet());
+        List<Integer> quantity = new ArrayList<>(order.getProducts().values());
+        recyclerView.setAdapter(new OrderDetailFragment.ProductsRecyclerViewAdapter(this, products, quantity));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    public static class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<OrderDetailFragment.ProductsRecyclerViewAdapter.ViewHolder> {
+        private final OrderDetailFragment parentActivity;
+        private final List<Product> products;
+        private final List<Integer> quantity;
+
+        private final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Order item = (Order) view.getTag();
+                Context context = view.getContext();
+                Intent intent = new Intent(context, OrderDetailActivity.class);
+                intent.putExtra(OrderDetailFragment.ARG_ITEM_ID, item.getId());
+                intent.putExtra(OrderDetailFragment.INDEX, parentActivity.index);
+                context.startActivity(intent);
+            }
+        };
+
+        ProductsRecyclerViewAdapter(OrderDetailFragment parent, List<Product> products, List<Integer> quantity) {
+            this.products = products;
+            this.quantity = quantity;
+            this.parentActivity = parent;
+        }
+
+        @Override
+        public OrderDetailFragment.ProductsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_detail, parent, false);
+            return new OrderDetailFragment.ProductsRecyclerViewAdapter.ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(final OrderDetailFragment.ProductsRecyclerViewAdapter.ViewHolder holder, int position) {
+            Product item = this.products.get(position);
+            int productQuantity = this.quantity.get(position);
+            if (item != null) {
+                holder.textViewProductName.setText(item.getName());
+                holder.textViewQuantity.setText(String.format("x %d", productQuantity));
+
+                holder.itemView.setTag(item);
+                holder.itemView.setOnClickListener(itemOnClickListener);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return products.size();
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView textViewProductName;
+            final TextView textViewQuantity;
+
+            ViewHolder(View view) {
+                super(view);
+                textViewProductName = view.findViewById(R.id.textViewProductName);
+                textViewQuantity = view.findViewById(R.id.textViewQuantity);
+            }
+        }
     }
 }

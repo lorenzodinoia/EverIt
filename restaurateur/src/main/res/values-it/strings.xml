@@ -74,8 +74,19 @@
     <string name="title_address_chooser">Scegli indirizzo</string>
 
     <string name="not_confirmed">Non confermato</string>
-    <string name="confirmed">Confermato</string>
+    <string name="to_do">Da preparare</string>
+    <string name="order_number_label">Numero ordine</string>
+    <string name="order_delivery_time_label">Orario consegna</string>
+    <string name="delivery_cost_label">Costo consegna</string>
+    <string name="subtotal_price_label">SubTotale</string>
+    <string name="total_price_label">Prezzo totale</string>
+    <string name="order_notes_label">Note ordine</string>
+    <string name="order_products_label">Prodotti</string>
+    <string name="confirm_order_button">Conferma ordine</string>
+    <string name="late_button">In ritardo</string>
 
     <string name="title_order_list">Ordini</string>
     <string name="title_order_detail">Dettaglio Ordine</string>
+    <string name="title_orders">Orders</string>
+
 </resources>

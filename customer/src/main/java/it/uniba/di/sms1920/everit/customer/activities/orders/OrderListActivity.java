@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -152,6 +154,7 @@ public class OrderListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             Order item = this.orders.get(position);
             if (item != null) {
+                LocalDateTime date = item.getEstimatedDeliveryTime();
                 String dateAsString = "";
                 DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
                 if (item.isDelivered()) {

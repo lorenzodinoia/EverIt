@@ -55,7 +55,16 @@
     <string name="title_address_chooser">Address chooser</string>
 
     <string name="not_confirmed">Not confirmed</string>
-    <string name="confirmed">Confirmed</string>
+    <string name="to_do">To do</string>
+    <string name="order_number_label">Order number</string>
+    <string name="order_delivery_time_label">Delivery time</string>
+    <string name="delivery_cost_label">Delivery cost</string>
+    <string name="subtotal_price_label">SubTotal price</string>
+    <string name="total_price_label">Total price</string>
+    <string name="order_notes_label">Order notes</string>
+    <string name="order_products_label">Products</string>
+    <string name="confirm_order_button">Confirm order</string>
+    <string name="late_button">Late</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -79,5 +88,6 @@
     <string name="emptyFieldError">This field cannot be null</string>
     <string name="title_order_list">Orders</string>
     <string name="title_order_detail">Order Detail</string>
+    <string name="title_orders">Orders</string>
 
 </resources>

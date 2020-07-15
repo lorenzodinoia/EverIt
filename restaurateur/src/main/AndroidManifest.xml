@@ -20,18 +20,19 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".activities.orders.OrderListActivity"
-            android:label="@string/title_order_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".activities.orders.OrdersActivity"
+            android:label="@string/title_orders"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".activities.orders.OrderDetailActivity"
             android:label="@string/title_order_detail"
-            android:parentActivityName=".activities.orders.OrderListActivity"
+            android:parentActivityName=".activities.orders.OrdersActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.uniba.di.sms1920.everit.restaurateur.activities.orders.OrderListActivity" />
+                android:value="it.uniba.di.sms1920.everit.restaurateur.activities.orders.OrdersActivity" />
         </activity>
         <activity
             android:name=".activities.AddressChooserActivity"
