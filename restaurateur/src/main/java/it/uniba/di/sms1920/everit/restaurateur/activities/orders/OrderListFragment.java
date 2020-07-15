@@ -73,13 +73,14 @@ public class OrderListFragment extends Fragment {
             orderRequest.readPendingOrders(new RequestListener<Collection<Order>>() {
                 @Override
                 public void successResponse(Collection<Order> response) {
+                    orderList.clear();
                     if (!response.isEmpty()) {
-                        orderList.clear();
                         orderList.addAll(response);
                         setupRecyclerView((RecyclerView) recyclerView);
                     } else {
                         //TODO gestire caso in cui non ci sono ordini
                     }
+
                 }
 
                 @Override
@@ -92,8 +93,8 @@ public class OrderListFragment extends Fragment {
             orderRequest.readToDoOrders(new RequestListener<Collection<Order>>() {
                 @Override
                 public void successResponse(Collection<Order> response) {
+                    orderList.clear();
                     if(response.isEmpty()){
-                        orderList.clear();
                         orderList.addAll(response);
                         setupRecyclerView((RecyclerView) recyclerView);
                     }
@@ -142,19 +143,21 @@ public class OrderListFragment extends Fragment {
             orderRequest.readPendingOrders(new RequestListener<Collection<Order>>() {
                 @Override
                 public void successResponse(Collection<Order> response) {
+                    orderList.clear();
                     if(!response.isEmpty()){
-                        orderList.clear();
                         orderList.addAll(response);
-                        if(adapter == null){
-                            setupRecyclerView((RecyclerView) recyclerView);
-                        }
-                        else{
-                            adapter.notifyDataSetChanged();
-                        }
                     }
                     else{
                         //TODO gestire caso in cui non ci sono ordini
                     }
+
+                    if(adapter == null){
+                        setupRecyclerView((RecyclerView) recyclerView);
+                    }
+                    else{
+                        adapter.notifyDataSetChanged();
+                    }
+
                 }
 
                 @Override
@@ -167,18 +170,19 @@ public class OrderListFragment extends Fragment {
             orderRequest.readToDoOrders(new RequestListener<Collection<Order>>() {
                 @Override
                 public void successResponse(Collection<Order> response) {
+                    orderList.clear();
                     if(!response.isEmpty()){
-                        orderList.clear();
                         orderList.addAll(response);
-                        if(adapter == null){
-                            setupRecyclerView((RecyclerView) recyclerView);
-                        }
-                        else{
-                            adapter.notifyDataSetChanged();
-                        }
                     }
                     else{
                         //TODO gestire caso in cui non ci sono ordini
+                    }
+
+                    if(adapter == null){
+                        setupRecyclerView((RecyclerView) recyclerView);
+                    }
+                    else{
+                        adapter.notifyDataSetChanged();
                     }
                 }
 

@@ -20,12 +20,8 @@ import android.widget.TextView;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
@@ -81,7 +77,6 @@ public class OrderDetailFragment extends Fragment {
         if (order != null) {
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumberProduct);
             TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewOrderDeliveryTime);
-            //TODO se si imposta un ordine come confermato viene visualizzato in entrambe le tab
             RecyclerView recyclerView = rootView.findViewById(R.id.productsRecyclerView);
             TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotes);
             TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewOrderDeliveryPrice);
@@ -110,6 +105,7 @@ public class OrderDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     OrderRequest orderRequest = new OrderRequest();
+                    //TODO gestire risposte
                     if(index == 0){
                         orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
                             @Override
