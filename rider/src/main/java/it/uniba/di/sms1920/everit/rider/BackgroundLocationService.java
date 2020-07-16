@@ -21,10 +21,13 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.Locale;
+
 import it.uniba.di.sms1920.everit.rider.activities.BaseActivity;
 
 public class BackgroundLocationService extends Service {
     public static final String ACTION_START_WORKING = "service.work";
+    public static final String PARAMETER_AUTH_TOKEN = "auth-token";
 
     private static final class LocationUpdatesSettings {
         private static final long INTERVAL = 10000;
@@ -41,6 +44,7 @@ public class BackgroundLocationService extends Service {
     private static LocationRequest locationRequestSettings;
 
     private boolean working;
+    private String authToken;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -81,7 +85,8 @@ public class BackgroundLocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if ((intent.getAction() != null) && (intent.getAction().equals(ACTION_START_WORKING))) {
+        if ((intent.getAction() != null) && (intent.getAction().equals(ACTION_START_WORKING)) && (intent.hasExtra(PARAMETER_AUTH_TOKEN))) {
+            this.authToken = intent.getStringExtra(PARAMETER_AUTH_TOKEN);
             this.startWorking();
             Log.d("SERVIZIO", "Avviato");
         }
@@ -147,7 +152,8 @@ public class BackgroundLocationService extends Service {
     }
 
     private void onNewLocation(Location location) {
-        Log.d("SERVIZIO", location.toString());
+        String logString = String.format(Locale.getDefault(), "%f, %f - token: %s", location.getLatitude(), location.getLongitude(), this.authToken);
+        Log.d("SERVIZIO", logString);
     }
 
     public void stop() {
