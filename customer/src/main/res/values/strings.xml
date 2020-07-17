@@ -69,16 +69,6 @@
     <string name="ShowMeMenu">Show me the menu</string>
     <string name="minimum_purchase">Minimum purchase: </string>
     <string name="delivey_cost">Delivery cost: </string>
-    <string name="cart_ic_toolbar">cart_ic_toolbar</string>
-    <string name="Order">ORDER</string>
-    <string name="your_products">Your products</string>
-    <string name="Currency_symbol">$</string>
-    <string name="Continue">Continue</string>
-    <string name="order_notes">Order notes</string>
-    <string name="delivery_notes">Delivery notes</string>
-    <string name="Back">Back</string>
-    <string name="empty_cart_message">It looks like your cart is empty!You must select some products before proceeding!</string>
-    <string name="delivery_address">Delivery address:</string>
-    <string name="sub_total">Sub-total:</string>
-    <string name="total">Total</string>
+    <string name="gps_permission_explanation">The app needs access to your location to improve the search for restaurants near you</string>
+    <string name="message_no_gps_permission">The app can\'t access your current position</string>
 </resources>

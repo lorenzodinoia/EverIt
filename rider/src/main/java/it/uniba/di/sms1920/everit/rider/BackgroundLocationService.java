@@ -15,19 +15,31 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.activities.BaseActivity;
+import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.request.core.ObjectRequest;
 
 public class BackgroundLocationService extends Service {
     public static final String ACTION_START_WORKING = "service.work";
     public static final String PARAMETER_AUTH_TOKEN = "auth-token";
+    private static final String SERVER_URL = String.format("%s/api/rider/location", Constants.SERVER_HOST);
+    private static final String REQUEST_BODY_LATITUDE = "latitude";
+    private static final String REQUEST_BODY_LONGITUDE = "longitude";
+    private static final String CONSOLE_TAG = "LOCATION SERVICE";
 
     private static final class LocationUpdatesSettings {
         private static final long INTERVAL = 10000;
@@ -45,6 +57,7 @@ public class BackgroundLocationService extends Service {
 
     private boolean working;
     private String authToken;
+    private RequestQueue requestQueue;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -66,6 +79,7 @@ public class BackgroundLocationService extends Service {
     @Override
     public void onCreate() {
         this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        this.requestQueue = Volley.newRequestQueue(this);
     }
 
     @Override
@@ -88,7 +102,7 @@ public class BackgroundLocationService extends Service {
         if ((intent.getAction() != null) && (intent.getAction().equals(ACTION_START_WORKING)) && (intent.hasExtra(PARAMETER_AUTH_TOKEN))) {
             this.authToken = intent.getStringExtra(PARAMETER_AUTH_TOKEN);
             this.startWorking();
-            Log.d("SERVIZIO", "Avviato");
+            Log.d(CONSOLE_TAG, "Started");
         }
 
         return START_STICKY;
@@ -96,7 +110,7 @@ public class BackgroundLocationService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d("SERVIZIO", "Distrutto");
+        Log.d(CONSOLE_TAG, "Destroyed");
         this.stopWorking();
         super.onDestroy();
     }
@@ -152,8 +166,25 @@ public class BackgroundLocationService extends Service {
     }
 
     private void onNewLocation(Location location) {
-        String logString = String.format(Locale.getDefault(), "%f, %f - token: %s", location.getLatitude(), location.getLongitude(), this.authToken);
-        Log.d("SERVIZIO", logString);
+        String logString = String.format(Locale.getDefault(), "%f, %f", location.getLatitude(), location.getLongitude());
+        Log.d(CONSOLE_TAG, logString);
+        this.uploadNewLocation(location);
+    }
+
+    private void uploadNewLocation(Location location) {
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put(REQUEST_BODY_LATITUDE, location.getLatitude());
+            requestBody.put(REQUEST_BODY_LONGITUDE, location.getLongitude());
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        ObjectRequest serverRequest = new ObjectRequest(Request.Method.POST, SERVER_URL, requestBody,
+                response -> Log.d(CONSOLE_TAG, "Location pushed successfully"),
+                error -> Log.e(CONSOLE_TAG, "There was an error on pushing new location: " + error.toString()), this.authToken);
+        this.requestQueue.add(serverRequest);
     }
 
     public void stop() {

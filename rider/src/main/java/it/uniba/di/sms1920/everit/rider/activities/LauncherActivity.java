@@ -14,10 +14,14 @@ import java.security.GeneralSecurityException;
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.NotificationService;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
+import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.AccessRequest;
 import it.uniba.di.sms1920.everit.utils.provider.RequestProvider;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LauncherActivity extends AppCompatActivity {
     private static final float DELAY = 1f;
@@ -32,12 +36,31 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         this.initServices();
-        Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            Intent intent = new Intent(LauncherActivity.this, BaseActivity.class);
-            startActivity(intent);
-            finish();
-        }, ((int) DELAY * 1000));
+
+        if (Providers.getAuthProvider().getUser() == null){
+            try {
+                Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Rider>() {
+                    @Override
+                    public void successResponse(Rider response) {
+                        Intent goToBaseActivity = new Intent(getApplicationContext(), BaseActivity.class);
+                        startActivity(goToBaseActivity);
+                        finish();
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        Intent returnToLogin = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(returnToLogin);
+                        finish();
+                    }
+                });
+            }
+            catch (NoSuchCredentialException e) {
+                Intent returnToLogin = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(returnToLogin);
+                finish();
+            }
+        }
     }
 
     private void initServices() {

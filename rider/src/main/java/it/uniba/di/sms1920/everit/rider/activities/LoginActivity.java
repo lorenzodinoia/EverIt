@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         this.editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         this.buttonGoToSignUp = (Button) findViewById(R.id.buttonGoToSignUp);
         this.buttonGoToSignUp.setOnClickListener(view -> launchSignUpActivity());
-        this.buttonLogin = (Button) findViewById(R.id.buttonLogin);
+        this.buttonLogin = (Button) findViewById(R.id.buttonLoginAL);
         this.buttonLogin.setOnClickListener(view -> {
             String email = this.editTextEmail.getText().toString();
             String password = this.editTextPassword.getText().toString();

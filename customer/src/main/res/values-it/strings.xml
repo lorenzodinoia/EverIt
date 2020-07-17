@@ -57,17 +57,7 @@
     <string name="delivered">Consegnat</string>
     <string name="minimum_purchase">"Spesa minima: "</string>
     <string name="delivey_cost">"Costo di consegna: "</string>
-    <string name="cart_ic_toolbar">cart_ic_toolbar</string>
-    <string name="Order">ORDINA</string>
-    <string name="your_products">I tuoi prodotti</string>
-    <string name="Currency_symbol">€</string>
-    <string name="Continue">Continua</string>
-    <string name="order_notes">Note sull\' ordine</string>
-    <string name="delivery_notes">Note sulla consegna</string>
-    <string name="Back">Indietro</string>
-    <string name="empty_cart_message">Sembra che il tuo carrello sia vuoto! Devi selezionare dei prodotti prima di poter procedere!</string>
-    <string name="delivery_address">Delivery address:</string>
-    <string name="sub_total">Sub-total:</string>
-    <string name="total">Total</string>
+    <string name="gps_permission_explanation">L\'app ha bisogno di accedere alla tua posizione per migliorare la ricerca dei ristoranti nelle tue vicinanze</string>
+    <string name="message_no_gps_permission">L\'app non può accedere alla tua posizione attuale</string>
 
 </resources>

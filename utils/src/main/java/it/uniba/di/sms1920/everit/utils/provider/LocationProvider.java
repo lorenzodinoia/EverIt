@@ -2,83 +2,111 @@ package it.uniba.di.sms1920.everit.utils.provider;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import it.uniba.di.sms1920.everit.utils.R;
-
 public final class LocationProvider {
+    public enum PermissionStatus {GRANTED, NOT_GRANTED, NOT_GRANTED_SHOW_EXPLANATION}
+
     public static int REQUEST_PERMISSION_GPS = 1;
-    private static final String PERMISSION_GPS = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String PERMISSION_BACKGROUND_GPS = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
-    private static final String[] REQUIRED_PERMISSIONS = new String[] {Manifest.permission.ACCESS_FINE_LOCATION};
-    private static final String[] REQUIRED_PERMISSIONS_BACKGROUND = new String[] {PERMISSION_GPS, PERMISSION_BACKGROUND_GPS};
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public static int REQUEST_PERMISSION_BACKGROUND_GPS = 2;
+    public static final String PERMISSION_GPS = Manifest.permission.ACCESS_FINE_LOCATION;
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public static final String PERMISSION_BACKGROUND_GPS = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
 
-    public static boolean hasPermissions(Context context) {
-        return (ContextCompat.checkSelfPermission(context, PERMISSION_GPS) == PackageManager.PERMISSION_GRANTED);
-    }
+    public static PermissionStatus hasPermissions(Activity activity) {
+        PermissionStatus status;
 
-    public static void requestPermissions(Activity activity, boolean withBackgroundPermission) {
-        requestPermissions(activity, withBackgroundPermission, false);
-    }
-
-    public static void requestPermissions(Activity activity, boolean withBackgroundPermission, boolean ignoreExplanation) {
-        if ((!ignoreExplanation) && (ActivityCompat.shouldShowRequestPermissionRationale(activity, PERMISSION_GPS))) {
-            showExplanationMessage(activity);
+        if (activity.checkSelfPermission(PERMISSION_GPS) == PackageManager.PERMISSION_GRANTED) {
+            status = PermissionStatus.GRANTED;
+        }
+        else if (activity.shouldShowRequestPermissionRationale(PERMISSION_GPS)) {
+            status = PermissionStatus.NOT_GRANTED_SHOW_EXPLANATION;
         }
         else {
-            String[] permissions = (withBackgroundPermission) ? REQUIRED_PERMISSIONS_BACKGROUND : REQUIRED_PERMISSIONS;
-            activity.requestPermissions(permissions, REQUEST_PERMISSION_GPS);
+            status = PermissionStatus.NOT_GRANTED;
         }
+
+        return status;
     }
 
-    public static void requestPermissions(Fragment fragment, boolean withBackgroundPermission) {
-        requestPermissions(fragment, withBackgroundPermission, false);
-    }
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public static PermissionStatus hasBackgroundPermissions(Activity activity) {
+        PermissionStatus status;
 
-    public static void requestPermissions(Fragment fragment, boolean withBackgroundPermission, boolean ignoreExplanation) {
-        if ((!ignoreExplanation) && (fragment.shouldShowRequestPermissionRationale(PERMISSION_GPS))) {
-            showExplanationMessage(fragment);
+        if (activity.checkSelfPermission(PERMISSION_BACKGROUND_GPS) == PackageManager.PERMISSION_GRANTED) {
+            status = PermissionStatus.GRANTED;
+        }
+        else if (activity.shouldShowRequestPermissionRationale(PERMISSION_BACKGROUND_GPS)) {
+            status = PermissionStatus.NOT_GRANTED_SHOW_EXPLANATION;
         }
         else {
-            String[] permissions = (withBackgroundPermission) ? REQUIRED_PERMISSIONS_BACKGROUND : REQUIRED_PERMISSIONS;
-            fragment.requestPermissions(permissions, REQUEST_PERMISSION_GPS);
+            status = PermissionStatus.NOT_GRANTED;
         }
+
+        return status;
     }
 
-    private static void showExplanationMessage(Activity activity) {
-        new AlertDialog.Builder(activity)
-                .setMessage(activity.getString(R.string.gps_permission_explanation))
-                .setPositiveButton(activity.getString(R.string.ok_default), (dialog, which) -> requestPermissions(activity, false, true))
-                .setNegativeButton(activity.getString(R.string.cancel_default), (dialog, which) -> {
-                    dialog.dismiss();
-                    if (activity instanceof ActivityCompat.OnRequestPermissionsResultCallback) {
-                        activity.onRequestPermissionsResult(REQUEST_PERMISSION_GPS, new String[] {}, new int[] {PackageManager.PERMISSION_DENIED});
-                    }
-                })
-                .create()
-                .show();
+    public static PermissionStatus hasPermissions(Fragment fragment) {
+        PermissionStatus status;
+
+        if (fragment.getContext() == null) {
+            return PermissionStatus.NOT_GRANTED;
+        }
+
+        if (fragment.getContext().checkSelfPermission(PERMISSION_GPS) == PackageManager.PERMISSION_GRANTED) {
+            status = PermissionStatus.GRANTED;
+        }
+        else if (fragment.shouldShowRequestPermissionRationale(PERMISSION_GPS)) {
+            status = PermissionStatus.NOT_GRANTED_SHOW_EXPLANATION;
+        }
+        else {
+            status = PermissionStatus.NOT_GRANTED;
+        }
+
+        return status;
     }
 
-    private static void showExplanationMessage(Fragment fragment) {
-        Context context = fragment.getContext();
-        if (context != null) {
-            new AlertDialog.Builder(fragment.getContext())
-                    .setMessage(fragment.getString(R.string.gps_permission_explanation))
-                    .setPositiveButton(fragment.getString(R.string.ok_default), (dialog, which) -> requestPermissions(fragment, true, true))
-                    .setNegativeButton(fragment.getString(R.string.cancel_default), (dialog, which) -> {
-                        dialog.dismiss();
-                        if (fragment instanceof ActivityCompat.OnRequestPermissionsResultCallback) {
-                            fragment.onRequestPermissionsResult(REQUEST_PERMISSION_GPS, new String[] {}, new int[] {PackageManager.PERMISSION_DENIED});
-                        }
-                    })
-                    .create()
-                    .show();
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public static PermissionStatus hasBackgroundPermissions(Fragment fragment) {
+        PermissionStatus status;
+
+        if (fragment.getContext() == null) {
+            return PermissionStatus.NOT_GRANTED;
         }
+
+        if (fragment.getContext().checkSelfPermission(PERMISSION_BACKGROUND_GPS) == PackageManager.PERMISSION_GRANTED) {
+            status = PermissionStatus.GRANTED;
+        }
+        else if (fragment.shouldShowRequestPermissionRationale(PERMISSION_BACKGROUND_GPS)) {
+            status = PermissionStatus.NOT_GRANTED_SHOW_EXPLANATION;
+        }
+        else {
+            status = PermissionStatus.NOT_GRANTED;
+        }
+
+        return status;
+    }
+
+    public static void requestPermissions(Activity activity) {
+        activity.requestPermissions(new String[] {PERMISSION_GPS}, REQUEST_PERMISSION_GPS);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public static void requestBackgroundPermissions(Activity activity) {
+        activity.requestPermissions(new String[] {PERMISSION_GPS, PERMISSION_BACKGROUND_GPS}, REQUEST_PERMISSION_BACKGROUND_GPS);
+    }
+
+    public static void requestPermissions(Fragment fragment) {
+        fragment.requestPermissions(new String[] {PERMISSION_GPS}, REQUEST_PERMISSION_GPS);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public static void requestBackgroundPermissions(Fragment fragment) {
+        fragment.requestPermissions(new String[] {PERMISSION_GPS, PERMISSION_BACKGROUND_GPS}, REQUEST_PERMISSION_BACKGROUND_GPS);
     }
 }

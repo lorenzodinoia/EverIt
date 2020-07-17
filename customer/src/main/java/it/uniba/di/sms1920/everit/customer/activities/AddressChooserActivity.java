@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -105,6 +107,7 @@ public class AddressChooserActivity extends AppCompatActivity {
             }
             else {
                 //GPS permissions are not granted then load the map without set the current position (default position will be used)
+                Toast.makeText(getApplicationContext(), getString(R.string.message_no_gps_permission), Toast.LENGTH_LONG).show();
                 initMap();
             }
         }
@@ -116,6 +119,7 @@ public class AddressChooserActivity extends AppCompatActivity {
      *
      * @see FusedLocationProviderClient
      */
+    @SuppressLint("MissingPermission")
     private void loadCurrentPosition() {
         FusedLocationProviderClient locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         locationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
@@ -129,14 +133,36 @@ public class AddressChooserActivity extends AppCompatActivity {
     }
 
     /**
+     * Show a detailed message to explain why the app needs location permission
+     */
+    private void showExplanationForLocation() {
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.gps_permission_explanation))
+                .setPositiveButton(getString(R.string.ok_default), (dialog, which) -> LocationProvider.requestPermissions(this))
+                .setNegativeButton(getString(R.string.cancel_default), (dialog, which) -> {
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(), getString(R.string.message_no_gps_permission), Toast.LENGTH_LONG).show();
+                })
+                .create()
+                .show();
+    }
+
+    /**
      * Initialize all the UI components and check for the GPS permissions
      */
     private void initComponents() {
-        if (LocationProvider.hasPermissions(getApplicationContext())) {
-            this.loadCurrentPosition();
-        }
-        else {
-            LocationProvider.requestPermissions(this, false);
+        LocationProvider.PermissionStatus permissionStatus = LocationProvider.hasPermissions(this);
+
+        switch (permissionStatus) {
+            case GRANTED:
+                this.loadCurrentPosition();
+                break;
+            case NOT_GRANTED:
+                LocationProvider.requestPermissions(this);
+                break;
+            case NOT_GRANTED_SHOW_EXPLANATION:
+                showExplanationForLocation();
+                break;
         }
 
         this.frameAddressList = this.findViewById(R.id.frameAddressList);
