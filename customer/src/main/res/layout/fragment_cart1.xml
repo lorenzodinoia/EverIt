@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cart_product_list"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,12 +10,12 @@
 
     <TextView
         android:id="@+id/labelDeliveryAddress"
-        style="@style/TextViewVerySmall"
+        style="@style/TextViewSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Delivery Address:"
+        android:text="@string/delivery_address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="Via Caldarola 26/A"
+        android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelDeliveryAddress" />
 
@@ -97,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="20dp"
-        android:text="Sub-Total:"
+        android:text="@string/sub_total"
         app:layout_constraintEnd_toStartOf="@+id/textViewSubTotal"
         app:layout_constraintTop_toBottomOf="@+id/view6" />
 
@@ -109,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:layout_marginEnd="20dp"
-        android:text="Delivery cost:"
+        android:text="@string/delivey_cost"
         app:layout_constraintEnd_toStartOf="@+id/textViewDeliveryCost"
         app:layout_constraintTop_toBottomOf="@+id/LabelSubTotal" />
 
@@ -120,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:text="Total:"
+        android:text="@string/total"
         app:layout_constraintEnd_toStartOf="@+id/textViewTotalPrice"
         app:layout_constraintTop_toBottomOf="@+id/LabelDeliveryCost" />
 
@@ -131,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:text="32,00"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view6" />
 
@@ -142,7 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="3,50"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSubTotal" />
 
@@ -153,11 +154,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:text="35,50"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryCost" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonContinueOrder"
         style="@style/ButtonMain"
         android:layout_width="312dp"

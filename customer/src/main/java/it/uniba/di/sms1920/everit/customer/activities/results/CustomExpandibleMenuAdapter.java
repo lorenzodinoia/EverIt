@@ -2,16 +2,23 @@ package it.uniba.di.sms1920.everit.customer.activities.results;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
@@ -78,11 +85,18 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     public View getChildView(int listPosition, int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Product child = (Product) getChild(listPosition, expandedListPosition);
         final String expandedListText = child.getName();
+        AtomicInteger counter = new AtomicInteger();
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         List<Product> values = new ArrayList<>(expandableListDetail.get(listPosition).getProducts());
 
         convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
+
+        TextInputLayout editTextNumberContainer = convertView.findViewById(R.id.editTextNumberContainer);
+        TextInputEditText editTextNumber = convertView.findViewById(R.id.editTextNumber);
+        editTextNumber.setText(String.valueOf(counter.get()));
+        editTextNumberContainer.setVisibility(View.VISIBLE);
+
 
         TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(values.get(expandedListPosition).getName());
@@ -96,11 +110,15 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
         btnAddItem.setOnClickListener(v -> {
             cartConnector.getPartialOrder().addProduct(values.get(expandedListPosition));
+            editTextNumber.setText(String.valueOf(counter.incrementAndGet()));
         });
 
         MaterialButton btnRemovelItem = convertView.findViewById(R.id.btnDelItem);
         btnRemovelItem.setOnClickListener(v -> {
-            cartConnector.getPartialOrder().removeProduct(values.get(expandedListPosition));
+            if(counter.get() >= 0 ) {
+                cartConnector.getPartialOrder().removeProduct(values.get(expandedListPosition));
+                editTextNumber.setText(String.valueOf(counter.decrementAndGet()));
+            }
         });
         return convertView;
     }

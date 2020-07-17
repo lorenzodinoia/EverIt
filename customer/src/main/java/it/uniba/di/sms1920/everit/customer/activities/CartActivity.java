@@ -15,10 +15,8 @@ import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.cartFragments.Cart1Fragment;
 import it.uniba.di.sms1920.everit.customer.activities.cartFragments.CartEmptyFragment;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
-import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
-import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
 
-public class CartActivity extends AppCompatActivity implements CartConnector {
+public class CartActivity extends AppCompatActivity {
 
     private Cart cart;
 
@@ -27,16 +25,14 @@ public class CartActivity extends AppCompatActivity implements CartConnector {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        /**
-        Toolbar toolbar = findViewById(R.id.toolbarCart);
+        //TODO sta toolbar è messa da xml e non inclusa perchè altrimenti si rompe a caso
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCart);
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-         */
-
-        cart = getCart();
+        cart = Cart.getInstance();
 
         if(cart.isEmpty()){
             CartEmptyFragment cartEmptyFragment = new CartEmptyFragment();
@@ -48,17 +44,8 @@ public class CartActivity extends AppCompatActivity implements CartConnector {
             fragmentTransaction.add(R.id.containerCartFragment, cart1Fragment).addToBackStack(null).commit();
         }
 
-
         //bottone torna menu ristorante
-
-
-        //bottone check carrello
-
-
-        //viewPager
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -74,24 +61,5 @@ public class CartActivity extends AppCompatActivity implements CartConnector {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-    @Override
-    public Cart getCart() {
-        Cart cart = Cart.getInstance();
-
-        if (cart == null) {
-            Cart.init(this);
-            cart = Cart.getInstance();
-        }
-        return cart;
-    }
-
-    @Override
-    public PartialOrder getPartialOrder() {
-        return null;
-    }
-
-
-
 }
+
