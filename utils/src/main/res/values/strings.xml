@@ -23,7 +23,6 @@
     <string name="HERE_LICENSE" translatable="false">K+u3P8VkLYf/6SFsLa5AWoeF/EFt6IrFTF2PCkvLcWFges5XA1l+qBEiAiDlpkrn95PUs3xzWKn9QSJhVw6eD+QL71ZE8WPmjzu82NTva8txP8FCPxUIN7WZqHBljcSi81+M2G7VQYEod3f6cYl4G+oYJwYclUabvoNjQ7gQ+nN3vnJLplYPUOljAhKcLK8R4Cd8KdBPZZzVwWxTtAdOS10RzKtYxlQ2bV5Eic2K53x/bX+QkLBeXeBrLAVEO+0KN73Ne46FBJEyW5R0Mi+ywgV56RAuA7Ab4hURKj7wJWKsyTP/eS5ByQEiXFiAsZZWENmuYf1L24vriQLTwMSw3kFa2pXLPEcFwReHhktTWM+pPwvYWhESpy2SqWRICeVHIyA3WHkPIGcqYYr/2XIvoSbRp8yyJdH+637VIK39HxD2ZwF6z8xPqmmJIS1GFxYmWWOK25YRdFZXvMaM73OegiBorwHDaVwNfB96PwPLA6YIjnvWfanh+YywESaXRDMeiWPfRmEbZ1ukXyf8PnR2E3NXeEGVyu4XYjj6FBGtTdjQQqfwsHbwbXDEaQ21yD4xRbN/GcsqPfBl9Pw4wB0/hcAaHpVb4BbtRNPnV6GW+49FyluVrh18nc/ENV3CzQWtQxTpUtc/VgXGNcqF1/4RDGkuD14mYsQqK9Nl76QCfqA=</string>
     <string name="ok_default">OK</string>
     <string name="cancel_default">Cancel</string>
-    <string name="gps_permission_explanation">"GPS authorization is required to allow the app to get your location and improve restaurant search "</string>
     <string name="message_server_unreachable">Service unavailable</string>
     <string name="emailError">Wrong Email !</string>
     <string name="passwordError">Wrong Password !</string>

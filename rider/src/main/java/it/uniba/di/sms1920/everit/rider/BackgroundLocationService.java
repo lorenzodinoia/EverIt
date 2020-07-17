@@ -152,7 +152,7 @@ public class BackgroundLocationService extends Service {
     }
 
     private void onNewLocation(Location location) {
-        String logString = String.format(Locale.getDefault(), "%f, %f - token: %s", location.getLatitude(), location.getLongitude(), this.authToken);
+        String logString = String.format(Locale.getDefault(), "%f, %f", location.getLatitude(), location.getLongitude());
         Log.d("SERVIZIO", logString);
     }
 

@@ -10,5 +10,8 @@
     <string name="home">Home</string>
     <string name="notification_location_title">Rider in servizio</string>
     <string name="notification_location_body">Servizio di rilevamento continuo della posizione attivato</string>
-    <string name="message_no_gps_permission">Impossibile iniziare il lavore senza il servizo di localizzazion</string>
+    <string name="message_no_gps_permission">Senza i permessi per accedere alla posizione non è possibile iniziare il turno di lavoro</string>
+    <string name="text_service_start">Inizia a lavorare</string>
+    <string name="text_service_stop">Finisci di lavorare</string>
+    <string name="gps_permission_explanation">L\'applicazione deve conoscere la tua posizione, anche quando non la si utilizza, per ricevere proposte di consegna</string>
 </resources>

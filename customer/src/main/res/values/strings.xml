@@ -69,4 +69,6 @@
     <string name="ShowMeMenu">Show me the menu</string>
     <string name="minimum_purchase">Minimum purchase: </string>
     <string name="delivey_cost">Delivery cost: </string>
+    <string name="gps_permission_explanation">The app needs access to your location to improve the search for restaurants near you</string>
+    <string name="message_no_gps_permission">The app can\'t access your current position</string>
 </resources>
