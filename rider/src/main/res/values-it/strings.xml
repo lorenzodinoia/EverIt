@@ -10,4 +10,5 @@
     <string name="home">Home</string>
     <string name="notification_location_title">Rider in servizio</string>
     <string name="notification_location_body">Servizio di rilevamento continuo della posizione attivato</string>
+    <string name="message_no_gps_permission">Impossibile iniziare il lavore senza il servizo di localizzazion</string>
 </resources>

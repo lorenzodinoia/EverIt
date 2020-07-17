@@ -10,4 +10,5 @@
     <string name="home">Home</string>
     <string name="notification_location_title">Rider at work</string>
     <string name="notification_location_body">Continuous position detection service activated</string>
+    <string name="message_no_gps_permission">Can\'t start working without location service</string>
 </resources>
