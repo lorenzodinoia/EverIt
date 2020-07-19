@@ -167,7 +167,7 @@ public class ResultListActivity extends AppCompatActivity {
                             .into(holder.imageViewRestaurantLogo);
                 }
                 holder.textViewRestaurantName.setText(item.getShopName());
-                String minPrice = String.format(Locale.getDefault(), "Importo minimo: € %.2f", item.getMinPrice());
+                String minPrice = String.format(Locale.getDefault(), "Ordine minimo: € %.2f", item.getMinPrice());
                 holder.textViewMinPrice.setText(minPrice);
                 //TODO Gestire distanza del ristorante
 

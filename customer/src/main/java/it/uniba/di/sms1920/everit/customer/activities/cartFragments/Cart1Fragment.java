@@ -31,6 +31,7 @@ public class Cart1Fragment extends Fragment {
     private RecyclerView recyclerViewProducts;
 
     private MaterialButton buttonOrder;
+    private MaterialButton buttonEmptyCart;
 
     private Cart cart;
 
@@ -63,12 +64,20 @@ public class Cart1Fragment extends Fragment {
 
         recyclerViewProducts = viewRoot.findViewById(R.id.recycleViewProducts);
 
-         buttonOrder = (MaterialButton) viewRoot.findViewById(R.id.buttonContinueOrder);
-         buttonOrder.setOnClickListener(v -> {
-             Cart2Fragment fragment2 = new Cart2Fragment();
-             FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-             fragmentTransaction.replace(R.id.containerCartFragment, fragment2).addToBackStack(null).commit();
-         });
+        buttonOrder = (MaterialButton) viewRoot.findViewById(R.id.buttonContinueOrder);
+        buttonOrder.setOnClickListener(v -> {
+            Cart2Fragment fragment2 = new Cart2Fragment();
+            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.containerCartFragment, fragment2).addToBackStack(null).commit();
+        });
+
+        buttonEmptyCart = (MaterialButton) viewRoot.findViewById(R.id.buttonEmptyOrder);
+        buttonEmptyCart.setOnClickListener(v -> {
+            cart.clear();
+            getActivity().finish();
+            startActivity(getActivity().getIntent());
+        });
+
     }
 
     private void setupComponent(){

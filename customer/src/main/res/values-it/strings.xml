@@ -74,8 +74,7 @@
     <string name="delivey_cost">"Costo di consegna: "</string>
     <string name="gps_permission_explanation">L\'app ha bisogno di accedere alla tua posizione per migliorare la ricerca dei ristoranti nelle tue vicinanze</string>
     <string name="message_no_gps_permission">L\'app non può accedere alla tua posizione attuale</string>
-
-
+    <string name="DeleteCart">Delete cart</string>
 
 
 </resources>
