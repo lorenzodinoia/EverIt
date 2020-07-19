@@ -12,15 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Iterator;
+import java.util.Map;
+
+import it.uniba.di.sms1920.everit.customer.ProductRecyclerViewAdapter;
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
-import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
+import it.uniba.di.sms1920.everit.utils.models.Product;
 
 public class Cart1Fragment extends Fragment {
 
     private TextView textViewAddress;
     private TextView textViewTotal;
     private TextView textViewSubTotal;
+    private float subtotal = 0;
     private TextView textViewDeliveryCost;
 
     private RecyclerView recyclerViewProducts;
@@ -69,5 +74,17 @@ public class Cart1Fragment extends Fragment {
     private void setupComponent(){
         textViewAddress.setText(cart.getPartialOrder().getDeliveryAddress().getFullAddress());
         textViewDeliveryCost.setText(String.valueOf(cart.getPartialOrder().getRestaurateur().getDeliveryCost()));
+
+        recyclerViewProducts.setAdapter(new ProductRecyclerViewAdapter(cart.getPartialOrder().getProducts()));
+
+        Map<Product, Integer> map = cart.getPartialOrder().getProducts();
+
+        for (Map.Entry<Product, Integer> pair : map.entrySet()) {
+            subtotal = subtotal + ((pair.getKey().getPrice()) * (pair.getValue()));
+        }
+
+        textViewSubTotal.setText(String.valueOf(subtotal));
+        textViewTotal.setText(String.valueOf(subtotal + cart.getPartialOrder().getRestaurateur().getDeliveryCost()));
     }
+
 }
