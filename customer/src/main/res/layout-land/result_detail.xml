@@ -42,8 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20sp"
-                    android:layout_marginTop="5dp"
-                    android:text="via Orabona 186, Bari" />
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 
@@ -66,7 +65,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20sp"
-                    android:text="Aperto"
                     android:layout_marginTop="5dp"/>
 
                 <TextView
@@ -75,8 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20sp"
-                    android:layout_marginTop="5dp"
-                    android:text="Chiude alle 20.20" />
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 
@@ -99,8 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20sp"
-                    android:layout_marginTop="5dp"
-                    android:text="080 577 9861" />
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 
