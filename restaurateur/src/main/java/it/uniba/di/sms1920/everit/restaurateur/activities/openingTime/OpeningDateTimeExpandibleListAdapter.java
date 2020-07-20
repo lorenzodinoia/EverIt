@@ -3,7 +3,6 @@ package it.uniba.di.sms1920.everit.restaurateur.activities.openingTime;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +77,6 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         openingTime = LocalTime.of(hourOfDay, minute);
                         editTextOpeningTime.get(listPosition).setText(openingTime.toString());
-                        //editTextOpeningTime.setText(openingTime.toString());
-                        Log.d("test", Integer.toString(listPosition));
-                        Log.d("test", Integer.toString(expandedListPosition));
                     }
                 }, mHourOfDay, mMinute, true);
 

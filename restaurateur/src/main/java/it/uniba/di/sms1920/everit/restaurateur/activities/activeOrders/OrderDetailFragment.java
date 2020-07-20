@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -8,6 +9,7 @@ import com.google.android.material.button.MaterialButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +44,7 @@ public class OrderDetailFragment extends Fragment {
     public static final String INDEX = "fragment_index";
 
 
+    //TODO capire come chiudere il fragment alla pressione del button
     private Order order;
     private int index;
 
@@ -101,6 +104,7 @@ public class OrderDetailFragment extends Fragment {
             textViewOrderDeliveryPrice.setText(Float.toString(deliveryCost));
             textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
             setupRecyclerView(recyclerView);
+
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -134,7 +138,6 @@ public class OrderDetailFragment extends Fragment {
                     }
                 }
             });
-
 
         }
 

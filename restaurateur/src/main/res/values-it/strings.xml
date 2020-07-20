@@ -86,10 +86,19 @@
     <string name="confirm_order_button">Conferma ordine</string>
     <string name="late_button">In ritardo</string>
 
+    <string name="date_time_opening">Orari di apertura</string>
+
     <string name="title_order_list">Ordini</string>
     <string name="title_order_detail">Dettaglio Ordine</string>
     <string name="title_orders">Orders</string>
 
-    <string name="title_doneorder_list">DoneOrders</string>
+    <string name="title_doneorder_list">Ordini evasi</string>
     <string name="title_doneorder_detail">DoneOrder Detail</string>
+
+    <string name="title_activity_opening_date_time">OpeningDateTimeActivity</string>
+
+    <string name="empty_order_not_confirmed">Nessun ordine da confermare</string>
+    <string name="empty_order_to_do">Nessun ordine da evadere</string>
+    <string name="empty_order_history">Nessu ordine completato</string>
+
 </resources>

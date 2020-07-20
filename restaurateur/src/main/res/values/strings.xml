@@ -67,6 +67,12 @@
     <string name="confirm_order_button">Confirm order</string>
     <string name="late_button">Late</string>
 
+    <string name="date_time_opening">DateTime opening</string>
+
+    <string name="empty_order_not_confirmed">No order to confirm</string>
+    <string name="empty_order_to_do">No order to do</string>
+    <string name="empty_order_history">No order completed</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="loadImage">Load profile image</string>
@@ -92,5 +98,7 @@
     <string name="title_orders">Orders</string>
     <string name="title_doneorder_list">DoneOrders</string>
     <string name="title_doneorder_detail">DoneOrder Detail</string>
+    <string name="title_activity_opening_date_time">OpeningDateTimeActivity</string>
+
 
 </resources>

@@ -40,6 +40,7 @@ public class OrderListFragment extends Fragment {
     private int index;
     private OrderRecyclerViewAdapter adapter;
     View recyclerView;
+    private TextView textViewEmptyData;
 
     public OrderListFragment() {
         // Required empty public constructor
@@ -64,6 +65,7 @@ public class OrderListFragment extends Fragment {
             mTwoPane = true;
         }
 
+        textViewEmptyData = view.findViewById(R.id.textViewEmptyDataActiveOrders);
         recyclerView = view.findViewById(R.id.order_list);
         assert recyclerView != null;
 
@@ -74,10 +76,13 @@ public class OrderListFragment extends Fragment {
                 public void successResponse(Collection<Order> response) {
                     orderList.clear();
                     if (!response.isEmpty()) {
+                        textViewEmptyData.setVisibility(View.INVISIBLE);
                         orderList.addAll(response);
                         setupRecyclerView((RecyclerView) recyclerView);
                     } else {
                         //TODO gestire caso in cui non ci sono ordini
+                        textViewEmptyData.setVisibility(View.VISIBLE);
+                        textViewEmptyData.setText(R.string.empty_order_not_confirmed);
                     }
 
                 }
@@ -94,11 +99,14 @@ public class OrderListFragment extends Fragment {
                 public void successResponse(Collection<Order> response) {
                     orderList.clear();
                     if(response.isEmpty()){
+                        textViewEmptyData.setVisibility(View.INVISIBLE);
                         orderList.addAll(response);
                         setupRecyclerView((RecyclerView) recyclerView);
                     }
                     else{
                         //TODO gestire caso in cui non ci sono ordini
+                        textViewEmptyData.setVisibility(View.VISIBLE);
+                        textViewEmptyData.setText(R.string.empty_order_to_do);
                     }
                 }
 
@@ -144,10 +152,13 @@ public class OrderListFragment extends Fragment {
                 public void successResponse(Collection<Order> response) {
                     orderList.clear();
                     if(!response.isEmpty()){
+                        textViewEmptyData.setVisibility(View.INVISIBLE);
                         orderList.addAll(response);
                     }
                     else{
                         //TODO gestire caso in cui non ci sono ordini
+                        textViewEmptyData.setVisibility(View.VISIBLE);
+                        textViewEmptyData.setText(R.string.empty_order_not_confirmed);
                     }
 
                     if(adapter == null){
@@ -171,10 +182,13 @@ public class OrderListFragment extends Fragment {
                 public void successResponse(Collection<Order> response) {
                     orderList.clear();
                     if(!response.isEmpty()){
+                        textViewEmptyData.setVisibility(View.INVISIBLE);
                         orderList.addAll(response);
                     }
                     else{
                         //TODO gestire caso in cui non ci sono ordini
+                        textViewEmptyData.setVisibility(View.VISIBLE);
+                        textViewEmptyData.setText(R.string.empty_order_to_do);
                     }
 
                     if(adapter == null){

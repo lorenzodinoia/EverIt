@@ -37,10 +37,6 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
         SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
-        /*OpeningTimeSelectionFragment fragmentSignUp1 = new OpeningTimeSelectionFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();*/
-
     }
 
     @Override

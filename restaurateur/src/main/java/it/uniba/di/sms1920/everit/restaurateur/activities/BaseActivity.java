@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrdersActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -118,6 +119,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.order_history:{
                 Intent intent = new Intent(this.getApplicationContext(), DoneOrderListActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.datetime_opening:{
+                Intent intent = new Intent(this.getApplicationContext(), OpeningDateTimeActivity.class);
                 startActivity(intent);
                 break;
             }
