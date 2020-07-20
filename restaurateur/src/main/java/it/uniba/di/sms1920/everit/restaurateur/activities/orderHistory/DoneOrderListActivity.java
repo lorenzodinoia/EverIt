@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+import org.w3c.dom.Text;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
@@ -50,6 +51,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     public static final List<Order> orders = new ArrayList<>();
+    private TextView textViewEmptyOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        textViewEmptyOrders = findViewById(R.id.textViewEmptyDataOrderHistory);
         View recyclerView = findViewById(R.id.doneorder_list);
         assert recyclerView != null;
 
@@ -79,10 +82,12 @@ public class DoneOrderListActivity extends AppCompatActivity {
             public void successResponse(Collection<Order> response) {
                 orders.clear();
                 if(!response.isEmpty()){
+                    textViewEmptyOrders.setVisibility(View.INVISIBLE);
                     orders.addAll(response);
                 }
                 else{
-                    //TODO gestire recyclerView senza dati
+                    textViewEmptyOrders.setVisibility(View.VISIBLE);
+                    textViewEmptyOrders.setText(R.string.empty_order_history);
                 }
                 setupRecyclerView((RecyclerView) recyclerView);
             }

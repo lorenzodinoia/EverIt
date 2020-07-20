@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -45,6 +46,11 @@ public class OpeningTime extends Model implements Comparable<OpeningTime> {
     @Override
     public int compareTo(OpeningTime o) {
         return this.open.compareTo(o.getOpen());
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return super.equals(obj);
     }
 
     @NonNull

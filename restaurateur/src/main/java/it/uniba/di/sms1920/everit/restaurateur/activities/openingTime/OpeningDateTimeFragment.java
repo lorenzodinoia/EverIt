@@ -39,7 +39,7 @@ public class OpeningDateTimeFragment extends Fragment {
     private List<OpeningDay> expandableListDetail = new LinkedList<>();
     private Restaurateur.Builder restaurateurBuilder;
     private Restaurateur restaurateur;
-    private OpeningTime lastItem = new OpeningTime(LocalTime.now(), LocalTime.now());
+    private OpeningTime lastItem = new OpeningTime(-1, LocalTime.now(), LocalTime.now());
     private List<OpeningDay> days = new ArrayList<>();
 
     public OpeningDateTimeFragment() {
@@ -120,13 +120,24 @@ public class OpeningDateTimeFragment extends Fragment {
             }
         }
         for(OpeningDay item : expandableListDetail){
-            item.getOpeningTimes().add(lastItem);
+            boolean fakeItem = false;
+            if(item.getOpeningTimes().isEmpty()){
+                item.getOpeningTimes().add(lastItem);
+            }
+            else{
+                for(OpeningTime time : item.getOpeningTimes()){
+                    if(time.getId() == lastItem.getId()){
+                        fakeItem = true;
+                    }
+                }
+                if(!fakeItem) {
+                    item.getOpeningTimes().add(lastItem);
+                }
+            }
+
         }
     }
 
-
-    //TODO verificare dati del restaurateur
-    //TODO verificare efficacia richieste
 
     public void createOpeningTime(int listPosition, OpeningTime openingTime){
 
