@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.customer.activities;
+package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,8 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.cartFragments.Cart1Fragment;
-import it.uniba.di.sms1920.everit.customer.activities.cartFragments.CartEmptyFragment;
+import it.uniba.di.sms1920.everit.customer.activities.cartActivity.Cart1Fragment;
+import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartEmptyFragment;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 
 public class CartActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.customer.activities.cartFragments;
+package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.customer.ProductRecyclerViewAdapter;

@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.customer.activities.cartFragments;
+package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

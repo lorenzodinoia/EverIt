@@ -30,7 +30,7 @@ import java.util.List;
 import it.uniba.di.sms1920.everit.customer.DeliveryAddress;
 import it.uniba.di.sms1920.everit.customer.R;
 
-import it.uniba.di.sms1920.everit.customer.activities.CartActivity;
+import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
 import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
