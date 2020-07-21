@@ -12,6 +12,14 @@
             android:title="@string/home" />
 
         <item
+            android:id="@+id/order_history"
+            android:title="@string/order_history" />
+
+        <item
+            android:id="@+id/datetime_opening"
+            android:title="@string/date_time_opening"/>
+
+        <item
             android:id="@+id/sign_up"
             android:icon="@android:drawable/ic_menu_edit"
             android:title="Sign Up" />
