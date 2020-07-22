@@ -16,7 +16,6 @@ public class Restaurateur extends Model implements Authenticable{
     private String email;
     private String password;
     private String vatNumber;
-    private String description;
     @SerializedName("max_delivery_time_slot")
     private int maxDeliveryPerTimeSlot;
     private float deliveryCost;
@@ -35,7 +34,6 @@ public class Restaurateur extends Model implements Authenticable{
         this.phoneNumber = builder.phoneNumber;
         this.email = builder.email;
         this.vatNumber = builder.vatNumber;
-        this.description = builder.description;
         this.deliveryCost = builder.deliveryCost;
         this.minPrice = builder.minPrice;
         this.imagePath = builder.imagePath;
@@ -90,14 +88,6 @@ public class Restaurateur extends Model implements Authenticable{
 
     public void setVatNumber(String vatNumber) {
         this.vatNumber = vatNumber;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getMaxDeliveryPerTimeSlot(){
@@ -184,7 +174,6 @@ public class Restaurateur extends Model implements Authenticable{
         private String email;
         private String password;
         private String vatNumber;
-        private String description;
         private int maxDeliveryPerTimeSlot;
         private float deliveryCost;
         private float minPrice;
@@ -249,15 +238,6 @@ public class Restaurateur extends Model implements Authenticable{
 
         public Builder setVatNumber(String vatNumber) {
             this.vatNumber = vatNumber;
-            return this;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public Builder setDescription(String description) {
-            this.description = description;
             return this;
         }
 

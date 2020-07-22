@@ -207,7 +207,6 @@ public class SignUp1Fragment extends Fragment {
                 restaurateurBuilder.setMaxDeliveryPerTimeSlot(0);
                 restaurateurBuilder.setDeliveryCost(0);
                 restaurateurBuilder.setMinPrice(0);
-                restaurateurBuilder.setDescription("");
                 SignUp2Fragment fragment2 = new SignUp2Fragment();
                 FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

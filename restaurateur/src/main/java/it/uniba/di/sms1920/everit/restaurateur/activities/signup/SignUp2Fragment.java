@@ -51,8 +51,6 @@ public class SignUp2Fragment extends Fragment {
     private TextInputLayout editTextDeliveryCostContainer;
     private TextInputEditText editTextMinPrice;
     private TextInputLayout editTextMinPriceContainer;
-    private TextInputEditText editTextDescription;
-    private TextInputLayout editTextDescriptionContainer;
 
     private ImageButton imgButtonProfileImg;
     private String imagePath;
@@ -86,8 +84,6 @@ public class SignUp2Fragment extends Fragment {
         editTextDeliveryCost = viewRoot.findViewById(R.id.editTextDeliveryCost);
         editTextMinPriceContainer = viewRoot.findViewById(R.id.editTextMinPriceContainer);
         editTextMinPrice = viewRoot.findViewById(R.id.editTextMinPrice);
-        editTextDescriptionContainer = viewRoot.findViewById(R.id.editTextDescriptionContainer);
-        editTextDescription = viewRoot.findViewById(R.id.editTextDescription);
 
         /*imgButtonProfileImg = viewRoot.findViewById(R.id.imageButton);
         imgButtonProfileImg.setOnClickListener(v -> {
@@ -97,10 +93,6 @@ public class SignUp2Fragment extends Fragment {
         editTextMaxDeliveryPerTimeSlot.setText(Integer.toString(restaurateurBuilder.getMaxDeliveryPerTimeSlot()));
         editTextDeliveryCost.setText(Float.toString(restaurateurBuilder.getDeliveryCost()));
         editTextMinPrice.setText(Float.toString(restaurateurBuilder.getMinPrice()));
-
-        if (restaurateurBuilder.getDescription() != null) {
-            editTextDescription.setText(restaurateurBuilder.getDescription());
-        }
 
         /*if (restaurateurBuilder.getImagePath() != null) {
             Picasso.get().
@@ -121,7 +113,6 @@ public class SignUp2Fragment extends Fragment {
             int maxDeliveryTimeSlot = Integer.parseInt(editTextMaxDeliveryPerTimeSlot.getText().toString());
             float deliveryCost = Float.parseFloat(editTextDeliveryCost.getText().toString());
             float minPrice = Float.parseFloat(editTextMinPrice.getText().toString());
-            String description = editTextDescription.getText().toString();
 
             if(!Utility.isMaxDeliveryTimeSlot(maxDeliveryTimeSlot)){
                 flag = false;
@@ -144,16 +135,6 @@ public class SignUp2Fragment extends Fragment {
                 editTextMinPriceContainer.setError(null);
             }
 
-            if (!description.equals("")) {
-                if (!Utility.isDescriptionValid(description)) {
-                    flag = false;
-                    editTextDescriptionContainer.setError(getString(R.string.error_description));
-                } else {
-                    editTextDescriptionContainer.setError(null);
-                }
-            } else {
-                editTextDescriptionContainer.setError(null);
-            }
 
             if (flag) {
                 /*if (imagePath != null) {
@@ -163,9 +144,6 @@ public class SignUp2Fragment extends Fragment {
                 restaurateurBuilder.setMaxDeliveryPerTimeSlot(maxDeliveryTimeSlot);
                 restaurateurBuilder.setDeliveryCost(Float.parseFloat(editTextDeliveryCost.getText().toString()));
                 restaurateurBuilder.setMinPrice(Float.parseFloat(editTextMinPrice.getText().toString()));
-                if (!editTextDescription.getText().toString().equals("")) {
-                    restaurateurBuilder.setDescription(editTextDescription.getText().toString());
-                }
 
                 OpeningTimeSelectionFragment openingTimeSelectionFragment = new OpeningTimeSelectionFragment();
                 FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
