@@ -46,6 +46,7 @@ public class OrderListActivity extends AppCompatActivity {
     private boolean twoPaneMode;
     @SuppressLint("UseSparseArrays")
     public static final List<Order> orderList = new ArrayList<>();
+    private TextView textViewEmptyOrders;
 
     //TODO aggiungere gestione se non ci sono dati (anche nelle review)
 
@@ -68,6 +69,7 @@ public class OrderListActivity extends AppCompatActivity {
             this.twoPaneMode = true;
         }
 
+        textViewEmptyOrders = findViewById(R.id.textViewEmptyOrderHistoryCustomer);
         View recyclerView = findViewById(R.id.order_list);
         assert recyclerView != null;
 
@@ -75,18 +77,23 @@ public class OrderListActivity extends AppCompatActivity {
         orderRequest.readAll(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
+                orderList.clear();
                 if(!response.isEmpty()) {
-                    orderList.clear();
+                    textViewEmptyOrders.setVisibility(View.INVISIBLE);
                     orderList.addAll(response);
-                    setupRecyclerView((RecyclerView) recyclerView);
                 }
                 else{
-
+                    textViewEmptyOrders.setVisibility(View.VISIBLE);
+                    textViewEmptyOrders.setText(R.string.no_orders);
+                    textViewEmptyOrders.bringToFront();
                 }
+
+                setupRecyclerView((RecyclerView) recyclerView);
             }
 
             @Override
             public void errorResponse(RequestException error) {
+                //TODO gestire errorResponse
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
             }
         });

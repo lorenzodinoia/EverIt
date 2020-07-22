@@ -115,7 +115,6 @@ public class SignUp1Fragment extends Fragment {
             if (restaurateurBuilder.getPhoneNumber() != null) {
                 editTextPhoneNumber.setText(restaurateurBuilder.getPhoneNumber());
             }
-            //TODO fix update after back arrow press
             if (restaurateurBuilder.getShopType() != null) {
                 spinnerShopType.setSelection((int) restaurateurBuilder.getShopType().getId());
             }

@@ -21,6 +21,13 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/textViewEmptyOrderHistoryCustomer"
+        style="@style/TextViewMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"

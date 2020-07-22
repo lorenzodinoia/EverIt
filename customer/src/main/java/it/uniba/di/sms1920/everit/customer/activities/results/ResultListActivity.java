@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class ResultListActivity extends AppCompatActivity {
     public static final List<Restaurateur> resultList = new ArrayList<>();
     private RestaurateurRecyclerViewAdapter recyclerViewAdapter;
     private Address searchAddress;
+    private TextView textViewEmptyResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class ResultListActivity extends AppCompatActivity {
             twoPaneMode = true;
         }
 
+        textViewEmptyResult = findViewById(R.id.textViewEmptyResultCustomer);
         View recyclerView = findViewById(R.id.result_list);
         if (recyclerView != null) {
             setupRecyclerView((RecyclerView) recyclerView);
@@ -82,9 +85,18 @@ public class ResultListActivity extends AppCompatActivity {
         searchRequest.search(this.searchAddress.getLatitude(), this.searchAddress.getLongitude(), new RequestListener<Collection<Restaurateur>>() {
             @Override
             public void successResponse(Collection<Restaurateur> response) {
-                resultList.addAll(response);
-                if (recyclerViewAdapter != null) {
-                    recyclerViewAdapter.notifyDataSetChanged();
+                resultList.clear();
+                if(!response.isEmpty()){
+                    textViewEmptyResult.setVisibility(View.INVISIBLE);
+                    resultList.addAll(response);
+                    if (recyclerViewAdapter != null) {
+                        recyclerViewAdapter.notifyDataSetChanged();
+                    }
+                }
+                else{
+                    textViewEmptyResult.setVisibility(View.VISIBLE);
+                    textViewEmptyResult.setText(R.string.no_results);
+                    textViewEmptyResult.bringToFront();
                 }
             }
 
