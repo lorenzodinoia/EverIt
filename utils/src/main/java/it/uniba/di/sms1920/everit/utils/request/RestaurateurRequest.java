@@ -1,19 +1,16 @@
 package it.uniba.di.sms1920.everit.utils.request;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,12 +33,14 @@ import java.util.Map;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.models.User;
 import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.ArrayRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
 import it.uniba.di.sms1920.everit.utils.request.core.MultipartRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.ObjectRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestExceptionFactory;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -162,5 +161,22 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         return image;
     }
 
+    public void getCurrentUser(RequestListener requestListener){
+        Adapter<Restaurateur> adapter = AdapterProvider.getAdapterFor(Restaurateur.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s/read/current", Constants.SERVER_HOST, URL), null,
+                    response -> {
+                        Restaurateur data = adapter.fromJSON(response, Restaurateur.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
 
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,25 +45,32 @@ public class OrderDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (order != null) {
-            TextView textViewDeliveryAddress = (TextView) rootView.findViewById(R.id.textViewDeliveryAddress);
-            TextView textViewTotalPrice = (TextView) rootView.findViewById(R.id.textViewPrice);
-            TextView textViewOrderTime = (TextView) rootView.findViewById(R.id.textViewOrderDateTime);
-            TextView textViewDeliveryTime = (TextView) rootView.findViewById(R.id.textViewDeliveryDateTime);
-            TextView textViewOrderNotes = (TextView) rootView.findViewById(R.id.textViewOrderNotesBox);
-            TextView textViewDeliveryNotes = (TextView) rootView.findViewById(R.id.textViewDeliveryNotesBox);
-            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleViewProducts);
+            TextView textViewDeliveryAddress = rootView.findViewById(R.id.textViewDeliveryAddress);
+            TextView textViewTotalPrice = rootView.findViewById(R.id.textViewPrice);
+            TextView textViewOrderTime = rootView.findViewById(R.id.textViewOrderDateTime);
+            TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
+            TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotesBox);
+            TextView textViewDeliveryNotes = rootView.findViewById(R.id.textViewDeliveryNotesBox);
+            RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
 
-            DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
-            String orderTimeAsString = dateFormat.format(order.getCreatedAt());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
+            LocalDateTime createdAt = order.getCreatedAt();
+            LocalDateTime estimatedDeliveryTime = order.getEstimatedDeliveryTime();
+
+            String orderTimeAsString = "";
+            if(createdAt != null) {
+                orderTimeAsString = createdAt.format(formatter);
+            }
+
             String deliveryTimeAsString = "";
             if (order.isDelivered()) {
                 if (order.getActualDeliveryTime() != null) {
-                    deliveryTimeAsString = dateFormat.format(order.getActualDeliveryTime());
+                    deliveryTimeAsString = estimatedDeliveryTime.format(formatter);
                 }
             }
             else {
                 //TODO Aggiungere un simbolo per segnalare che l'ordine è ancora da consegnare
-                deliveryTimeAsString = dateFormat.format(order.getEstimatedDeliveryTime());
+                deliveryTimeAsString = estimatedDeliveryTime.format(formatter);
             }
 
             textViewDeliveryAddress.setText(order.getDeliveryAddress().getAddress());

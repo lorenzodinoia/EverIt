@@ -6,6 +6,7 @@ import java.util.Map;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Model;
+import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
@@ -26,6 +27,7 @@ public final class AdapterProvider {
         adapters.put(Product.class, new Adapter<Product>());
         adapters.put(ProductCategory.class, new Adapter<ProductCategory>());
         adapters.put(ShopType.class, new Adapter<ShopType>());
+        adapters.put(OpeningTime.class, new Adapter<OpeningTime>());
     }
 
     public static <T extends Model> Adapter<T> getAdapterFor(Class<T> modelClass) {

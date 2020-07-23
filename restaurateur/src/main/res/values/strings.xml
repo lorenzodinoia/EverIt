@@ -14,6 +14,7 @@
     <string name="description">Description</string>
     <string name="productName">Product name</string>
     <string name="home">Home</string>
+    <string name="order_history">Order history</string>
 
     <string name="shop_type">Shop Type</string>
     <string name="default_shop_type">Select a shop type</string>
@@ -55,7 +56,22 @@
     <string name="title_address_chooser">Address chooser</string>
 
     <string name="not_confirmed">Not confirmed</string>
-    <string name="confirmed">Confirmed</string>
+    <string name="to_do">To do</string>
+    <string name="order_number_label">Order number</string>
+    <string name="order_delivery_time_label">Delivery time</string>
+    <string name="delivery_cost_label">Delivery cost</string>
+    <string name="subtotal_price_label">SubTotal price</string>
+    <string name="total_price_label">Total price</string>
+    <string name="order_notes_label">Order notes</string>
+    <string name="order_products_label">Products</string>
+    <string name="confirm_order_button">Confirm order</string>
+    <string name="late_button">Late</string>
+
+    <string name="date_time_opening">DateTime opening</string>
+
+    <string name="empty_order_not_confirmed">No order to confirm</string>
+    <string name="empty_order_to_do">No order to do</string>
+    <string name="empty_order_history">No order completed</string>
 
     <string name="gps_permission_explanation">The app needs access to your location to improve the search for restaurants near you</string>
     <string name="message_no_gps_permission">The app can\'t access your current position</string>
@@ -82,5 +98,10 @@
     <string name="emptyFieldError">This field cannot be null</string>
     <string name="title_order_list">Orders</string>
     <string name="title_order_detail">Order Detail</string>
+    <string name="title_orders">Orders</string>
+    <string name="title_doneorder_list">DoneOrders</string>
+    <string name="title_doneorder_detail">DoneOrder Detail</string>
+    <string name="title_activity_opening_date_time">OpeningDateTimeActivity</string>
+
 
 </resources>

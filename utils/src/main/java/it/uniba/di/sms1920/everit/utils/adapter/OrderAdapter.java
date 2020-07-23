@@ -22,6 +22,7 @@ public class OrderAdapter implements JsonDeserializer<Order> {
         private static final String ADDRESS_KEY = "delivery_address";
         private static final String LONGITUDE_KEY = "longitude";
         private static final String LATITUDE_KEY = "latitude";
+        private static final String STATUS = "status";
     }
 
     private static final Gson orderJsonConverter = new GsonBuilder()
@@ -43,11 +44,31 @@ public class OrderAdapter implements JsonDeserializer<Order> {
         jsonObject.remove(Keys.LATITUDE_KEY);
         double longitude = jsonObject.get(Keys.LONGITUDE_KEY).getAsDouble();
         jsonObject.remove(Keys.LONGITUDE_KEY);
+        int status = jsonObject.get(Keys.STATUS).getAsInt();
+        jsonObject.remove(Keys.STATUS);
+
 
         Address deliveryAddress = new Address(latitude, longitude, address);
+        Order.Status newStatus = null;
+
+        switch (status){
+            case 0 :
+                newStatus = Order.Status.ORDERED;
+                break;
+            case 1:
+                newStatus = Order.Status.IN_PROGRESS;
+                break;
+            case 2:
+                newStatus = Order.Status.DELIVERING;
+                break;
+            case 3:
+                newStatus = Order.Status.DELIVERED;
+                break;
+        }
 
         Order order = orderJsonConverter.fromJson(jsonObject.toString(), Order.class);
         order.setDeliveryAddress(deliveryAddress);
+        order.setStatus(newStatus);
 
         return order;
     }

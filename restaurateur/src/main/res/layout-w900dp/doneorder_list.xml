@@ -9,26 +9,27 @@
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    android:showDividers="middle">
+    android:showDividers="middle"
+    tools:context=".activities.orderHistory.DoneOrderListActivity">
 
     <!--
-    This layout is a two-pane layout for the Orders master/detail flow.
+    This layout is a two-pane layout for the DoneOrders master/detail flow.
     -->
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/order_list"
-        android:name="it.uniba.di.sms1920.everit.restaurateur.activities.orders.OrderListFragment"
+        android:id="@+id/doneorder_list"
+        android:name="it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListFragment"
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderListActivity"
-        tools:listitem="@layout/order_list_content" />
+        tools:context="it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity"
+        tools:listitem="@layout/doneorder_list_content" />
 
     <FrameLayout
-        android:id="@+id/order_detail_container"
+        android:id="@+id/doneorder_detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3" />
