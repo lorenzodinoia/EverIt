@@ -2,67 +2,62 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="30dp"
+        android:checkedButton="@+id/home_delivery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textViewStandard"
-            style="@style/TextViewMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="8dp"
-            android:text="Ritiro al locale"
-            app:layout_constraintEnd_toStartOf="@+id/switchOrderType"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchOrderType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RadioButton
+            android:id="@+id/home_delivery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:checked="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/HOME_DELIVERY" />
 
-        <TextView
-            android:id="@+id/textViewCustom"
-            style="@style/TextViewMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="8dp"
-            android:text="Domicilio"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/switchOrderType"
-            app:layout_constraintTop_toTopOf="parent" />
+        <RadioButton
+            android:id="@+id/customer_pickup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/CUSTOMER_PICKUP" />
+    </RadioGroup>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/TextViewHint"
+        style="@style/TextViewSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/hint_spinner_delivery"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        tools:ignore="MissingConstraints" />
 
     <Spinner
-        android:id="@+id/spinnerShopType"
+        android:id="@+id/spinnerDeliveryTime"
+        style="@style/spinnerCustom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/TextViewHint" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonBack"
@@ -94,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerShopType"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerDeliveryTime"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

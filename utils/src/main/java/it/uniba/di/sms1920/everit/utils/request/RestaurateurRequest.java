@@ -32,6 +32,7 @@ import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
+import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.User;
 import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
@@ -179,4 +180,8 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
             e.printStackTrace();
         }
     }
+
+
+
+
 }

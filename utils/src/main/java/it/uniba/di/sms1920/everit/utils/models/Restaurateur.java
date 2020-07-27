@@ -1,7 +1,5 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collection;

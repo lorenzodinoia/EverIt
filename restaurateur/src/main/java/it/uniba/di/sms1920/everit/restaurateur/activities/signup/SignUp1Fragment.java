@@ -43,14 +43,18 @@ import static android.app.Activity.RESULT_OK;
 
 public class SignUp1Fragment extends Fragment {
 
-    private  SignUpActivity signUpActivity;
+    private SignUpActivity signUpActivity;
     private Restaurateur.Builder restaurateurBuilder;
+
     private TextInputLayout editTextShopNameContainer;
     private TextInputEditText editTextShopName;
+
     private TextInputLayout editTextPhoneNumberContainer;
     private TextInputEditText editTextPhoneNumber;
+
     private TextInputLayout editTextVATContainer;
     private TextInputEditText editTextVAT;
+
     private TextInputLayout editTextAddressContainer;
     private TextInputEditText editTextAddress;
     private Address address;
@@ -147,6 +151,7 @@ public class SignUp1Fragment extends Fragment {
         });
         btnNext = viewRoot.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
+            //TODO address finto
             Address addressFake = new Address(16.305676, 41.13449, "via Piave, 20", "Andria");
             editTextAddress.setText(addressFake.getFullAddress());
             boolean flag = true;
@@ -155,27 +160,21 @@ public class SignUp1Fragment extends Fragment {
             String VAT = editTextVAT.getText().toString();
             String phoneNumber = editTextPhoneNumber.getText().toString();
 
-            if(!Utility.isShopNameValid(shopName)){
+            if(!Utility.isShopNameValid(shopName, editTextShopNameContainer, getActivity())){
                 flag = false;
-                editTextShopNameContainer.setError(getString(R.string.error_shop_name));
-            }
-            else{
+            } else{
                 editTextShopNameContainer.setError(null);
             }
 
-            if(!Utility.isPhoneValid(phoneNumber)){
+            if(!Utility.isPhoneValid(phoneNumber, editTextPhoneNumberContainer, getActivity())){
                 flag = false;
-                editTextPhoneNumberContainer.setError(getString(R.string.error_phone_number));
-            }
-            else{
+            } else{
                 editTextPhoneNumberContainer.setError(null);
             }
 
-            if(!Utility.isVATValid(VAT)){
+            if(!Utility.isVATValid(VAT, editTextVATContainer, getActivity())){
                 flag = false;
-                editTextVATContainer.setError(getString(R.string.error_VAT_number));
-            }
-            else{
+            } else{
                 editTextVATContainer.setError(null);
             }
 
@@ -183,16 +182,13 @@ public class SignUp1Fragment extends Fragment {
                 flag = false;
                 textViewEmptyShopType.setText(R.string.error_shop_type);
                 textViewEmptyShopType.setTextColor(Color.parseColor("#ae0022"));
-            }
-            else{
+            } else{
                 textViewEmptyShopType.setText("");
             }
 
-            if(editTextAddress.getText() == null){
+            if(!Utility.isAddressValid(address, editTextAddressContainer, getActivity())){
                 flag = false;
-                editTextAddressContainer.setError(getString(R.string.error_address));
-            }
-            else{
+            } else{
                 editTextAddressContainer.setError(null);
             }
 
@@ -208,6 +204,7 @@ public class SignUp1Fragment extends Fragment {
                 restaurateurBuilder.setDeliveryCost(0);
                 restaurateurBuilder.setMinPrice(0);
                 restaurateurBuilder.setDescription("");
+
                 SignUp2Fragment fragment2 = new SignUp2Fragment();
                 FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -216,8 +213,9 @@ public class SignUp1Fragment extends Fragment {
         });
     }
 
-    private static class SpinnerAdapter extends  ArrayAdapter<ShopType>{
 
+
+    private static class SpinnerAdapter extends  ArrayAdapter<ShopType>{
 
         public SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<ShopType> objects) {
             super(context, resource, objects);

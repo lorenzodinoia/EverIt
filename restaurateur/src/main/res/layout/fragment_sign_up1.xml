@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/first_fragment_signup">
@@ -10,10 +9,12 @@
     <Spinner
         android:id="@+id/spinnerShopType"
         style="@style/spinnerCustom"
-        android:layout_width="312dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewShopType" />
 
@@ -26,6 +27,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="50dp"
         android:hint="@string/shop_name"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/colorWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +50,8 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:hint="@string/phone_number"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/colorWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +74,8 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:hint="@string/address"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/colorWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +98,8 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:hint="@string/piva"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/colorWarning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,6 +125,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextAddressContainer" />
 
+
     <TextView
         android:id="@+id/textViewInfo"
         style="@style/TextViewSmall"
@@ -124,10 +134,9 @@
         android:layout_marginTop="32dp"
         android:text="@string/signup_part_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNext" />
-
 
     <Button
         android:id="@+id/btnNext"

@@ -38,12 +38,16 @@ public class SignUp3Fragment extends Fragment {
 
     private SignUpActivity signUpActivity;
     private  Restaurateur.Builder restaurateurBuilder;
+
     private TextInputLayout editTextEmailContainer;
     private TextInputEditText editTextEmail;
+
     private TextInputLayout editTextPasswordContainer;
     private TextInputEditText editTextPassword;
+
     private TextInputLayout editTextConfirmPasswordContainer;
     private TextInputEditText editTextConfirmPassword;
+
     private MaterialButton btnSignUp;
     private MaterialButton btnBack;
     private Context context;

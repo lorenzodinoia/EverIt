@@ -102,6 +102,10 @@
     <string name="title_doneorder_list">DoneOrders</string>
     <string name="title_doneorder_detail">DoneOrder Detail</string>
     <string name="title_activity_opening_date_time">OpeningDateTimeActivity</string>
+    <string name="wrong_value_error">This value is not valid</string>
+    <string name="You_will_delete">"You are going to delete "</string>
+    <string name="are_you_sure">are you sure ?</string>
+    <string name="modProduct">MODIFY PRODUCT</string>
 
 
 </resources>

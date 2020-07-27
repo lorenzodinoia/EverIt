@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 
@@ -60,16 +61,21 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 dialogModItem.setTitle(R.string.addNewProduct);
 
                 TextInputEditText newName = dialogModItem.findViewById(R.id.editTextProductName);
+                TextInputLayout newNameLayout = dialogModItem.findViewById(R.id.editTextProductNameContainer);
+
                 TextInputEditText newDescription = dialogModItem.findViewById(R.id.editTextProductDescription);
+                TextInputLayout newDescriptionLayout = dialogModItem.findViewById(R.id.editTextProductDescriptionContainer);
+
                 TextInputEditText newPrice = dialogModItem.findViewById(R.id.editTextProductPrice);
+                TextInputLayout newPriceLayout = dialogModItem.findViewById(R.id.editTextProductPriceContainer);
 
                 MaterialButton confirm = dialogModItem.findViewById(R.id.BtnConfirm);
                 MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
                 confirm.setOnClickListener(v1 -> {
-                    if(!newName.getText().toString().isEmpty()) {
-                        if (!newDescription.getText().toString().isEmpty()) {
-                            if (!newPrice.getText().toString().isEmpty()) {
+                    if(Utility.isValidProductName(newName.getText().toString(), newNameLayout, context)){
+                        if(Utility.isValidProductDescription(newDescription.getText().toString(), newDescriptionLayout, context)){
+                            if(Utility.isValidProductPrice(Float.parseFloat(newPrice.getText().toString()), newPriceLayout, context)){
                                 Product newProduct = new Product(
                                         newName.getText().toString(),
                                         Float.parseFloat(newPrice.getText().toString()),
@@ -81,17 +87,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                                 menuActivity.addCategoryItem(listPosition, newProduct);
                                 dialogModItem.dismiss();
                             }
-                            else {
-                                TextInputLayout newPriceLayout = dialogModItem.findViewById(R.id.editTextProductPriceContainer);
-                                newPriceLayout.setError(String.valueOf(R.string.emptyFieldError));
-                            }
-                        }else{
-                            TextInputLayout newDescriptionLayout = dialogModItem.findViewById(R.id.editTextProductDescriptionContainer);
-                            newDescriptionLayout.setError(String.valueOf(R.string.emptyFieldError));
                         }
-                    }else {
-                        TextInputLayout newNameLayout = dialogModItem.findViewById(R.id.editTextProductNameContainer);
-                        newNameLayout.setError(String.valueOf(R.string.emptyFieldError));
                     }
 
                 });
@@ -119,28 +115,40 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             btnModItem.setOnClickListener(v -> {
                 Dialog dialogModItem = new Dialog(context);
                 dialogModItem.setContentView(R.layout.dialog_mod_item);
-                dialogModItem.setTitle(R.string.modProductName);
+                dialogModItem.setTitle(R.string.modProduct);
 
                 TextInputEditText newName = dialogModItem.findViewById(R.id.editTextProductName);
+                TextInputLayout newNameLayout = dialogModItem.findViewById(R.id.editTextProductPriceContainer);
+
                 TextInputEditText newDescription = dialogModItem.findViewById(R.id.editTextProductDescription);
+                TextInputLayout newDescriptionLayout = dialogModItem.findViewById(R.id.editTextProductDescriptionContainer);
+
                 TextInputEditText newPrice = dialogModItem.findViewById(R.id.editTextProductPrice);
+                TextInputLayout newPriceLayout = dialogModItem.findViewById(R.id.editTextProductPriceContainer);
 
                 MaterialButton confirm = dialogModItem.findViewById(R.id.BtnConfirm);
                 MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
                 confirm.setOnClickListener(v1 -> {
 
-                    Product temp = new Product(
-                            product.getId(),
-                            newName.getText().toString(),
-                            Float.parseFloat(newPrice.getText().toString()),
-                            newDescription.getText().toString(),
-                            new ProductCategory(category.getId(), category.getName()),
-                            null);
+                    if(Utility.isValidProductName(newName.getText().toString(), newNameLayout, context)){
+                        if(Utility.isValidProductDescription(newDescription.getText().toString(), newDescriptionLayout, context)){
+                            if(Utility.isValidProductPrice(Float.parseFloat(newPrice.getText().toString()), newPriceLayout, context)){
+                                Product temp = new Product(
+                                        product.getId(),
+                                        newName.getText().toString(),
+                                        Float.parseFloat(newPrice.getText().toString()),
+                                        newDescription.getText().toString(),
+                                        new ProductCategory(category.getId(), category.getName()),
+                                        null);
 
-                    menuActivity.updateCategoryItem(temp, listPosition);
+                                menuActivity.updateCategoryItem(temp, listPosition);
 
-                    dialogModItem.dismiss();
+                                dialogModItem.dismiss();
+                            }
+                        }
+                    }
+
                 });
 
                 cancel.setOnClickListener(v1 -> dialogModItem.dismiss());
@@ -157,7 +165,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 dialogYN.setTitle(R.string.deleteCategory);
 
                 TextView newName = dialogYN.findViewById(R.id.TextViewMessage);
-                newName.setText(String.valueOf("You are going to delete " + expandedListText + ". Are you sure ?"));
+                newName.setText(context.getString(R.string.You_will_delete) + expandedListText + context.getString(R.string.are_you_sure));
 
                 MaterialButton confirm = dialogYN.findViewById(R.id.BtnConfirm);
                 MaterialButton cancel = dialogYN.findViewById(R.id.BtnCancel);
@@ -213,23 +221,22 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             dialogModName.setTitle(R.string.modCategoryName);
 
             TextInputEditText newName = dialogModName.findViewById(R.id.editTextCategoryName);
+            TextInputLayout newNameLayout = dialogModName.findViewById(R.id.editTextCategoryNameContainer);
+
             MaterialButton confirm = dialogModName.findViewById(R.id.BtnConfirm);
             MaterialButton cancel = dialogModName.findViewById(R.id.BtnCancel);
 
             confirm.setOnClickListener(v1 -> {
-                if(!newName.getText().toString().isEmpty()) {
+                if(Utility.isValidCategoryName(newName.getText().toString(), newNameLayout, context)) {
                     ProductCategory modCat = new ProductCategory(
                             group.getId(),
                             newName.getText().toString()
                     );
 
                     menuActivity.updateProductCategory(modCat, listPosition);
+                    dialogModName.dismiss();
 
-                }else{
-                    TextInputLayout newNameLayout = dialogModName.findViewById(R.id.editTextCategoryNameContainer);
-                    newNameLayout.setError(String.valueOf(R.string.emptyFieldError));
                 }
-                dialogModName.dismiss();
             });
 
             cancel.setOnClickListener(v1 -> dialogModName.dismiss());
@@ -246,7 +253,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
             TextView newName = dialogYN.findViewById(R.id.TextViewMessage);
             newName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            newName.setText(String.valueOf("You are going to delete " + listTitle + ", are you sure ?"));
+            newName.setText(context.getString(R.string.You_will_delete) + listTitle + context.getString(R.string.are_you_sure));
 
             MaterialButton confirm = dialogYN.findViewById(R.id.BtnConfirm);
             MaterialButton cancel = dialogYN.findViewById(R.id.BtnCancel);
@@ -298,17 +305,22 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public void addCategory(){
         Dialog dialogNewCategory = new Dialog(context);
         dialogNewCategory.setContentView(R.layout.dialog_new_category);
-        dialogNewCategory.setTitle("NEW CATEGORY");
+        dialogNewCategory.setTitle(R.string.addNewCat);
 
         TextInputEditText newName = dialogNewCategory.findViewById(R.id.editTextCategoryName);
+        TextInputLayout newNameLayout = dialogNewCategory.findViewById(R.id.editTextCategoryNameContainer);
+
         MaterialButton cancel = dialogNewCategory.findViewById(R.id.BtnCancel);
         MaterialButton confirm = dialogNewCategory.findViewById(R.id.BtnConfirm);
 
         confirm.setOnClickListener(v1 -> {
-            ProductCategory newCat = new ProductCategory(newName.getText().toString());
+            if(Utility.isValidCategoryName(newName.getText().toString(), newNameLayout, context)){
+                ProductCategory newCat = new ProductCategory(newName.getText().toString());
 
-            menuActivity.addNewProductCategory(newCat);
-            dialogNewCategory.dismiss();
+                menuActivity.addNewProductCategory(newCat);
+                dialogNewCategory.dismiss();
+            }
+
         });
 
         cancel.setOnClickListener(v1 -> dialogNewCategory.dismiss());

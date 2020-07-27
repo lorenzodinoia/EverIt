@@ -206,7 +206,7 @@ public class MenuActivity extends AppCompatActivity {
             public void successResponse(Product response) {
                 expandableListDetail.get(listPosition).getProductByIndex(modifiedProduct.getId()).setName(modifiedProduct.getName());
                 expandableListDetail.get(listPosition).getProductByIndex(modifiedProduct.getId()).setDetails(modifiedProduct.getDetails());
-                expandableListDetail.get(listPosition).getProductByIndex(modifiedProduct.getId()).setName(modifiedProduct.getName());
+                expandableListDetail.get(listPosition).getProductByIndex(modifiedProduct.getId()).setPrice(modifiedProduct.getPrice());
                 expandableListAdapter.notifyDataSetChanged();
             }
 

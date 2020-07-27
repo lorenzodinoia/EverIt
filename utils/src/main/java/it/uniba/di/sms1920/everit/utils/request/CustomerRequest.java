@@ -4,15 +4,22 @@ import com.android.volley.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.threeten.bp.LocalTime;
 
 import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
+import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.core.ArrayRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.ObjectRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestExceptionFactory;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -70,5 +77,27 @@ public final class CustomerRequest extends CRUDRequest<Customer> implements CRUD
             e.printStackTrace();
         }
     }
+
+    public void getAvaibleDeliveryTime(long restaurateurId, RequestListener<Collection<OpeningTime>> requestListener){
+        Adapter<OpeningTime> adapter = AdapterProvider.getAdapterFor(OpeningTime.class);
+
+
+        //TODO cambiare da OpeningTime in altro
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%d/%s/%s", Constants.SERVER_HOST, "restaurateur", restaurateurId, "order", "availableTimes"), null,
+                response -> {
+                    try {
+                        Collection<OpeningTime> collection = adapter.fromJSONArray(response, OpeningTime.class);
+                        requestListener.successResponse(collection);
+                    }
+                    catch (JSONException e) {
+                        requestListener.errorResponse(new RequestException(e.getMessage()));
+                    }
+                },
+                error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)), null);
+
+        Providers.getRequestProvider().addToQueue(request);
+
+    }
+
 }
 

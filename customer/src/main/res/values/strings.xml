@@ -86,6 +86,9 @@
     <string name="sub_total">Sub-total:</string>
     <string name="total">Total</string>
     <string name="DeleteCart">Delete cart</string>
+    <string name="hint_spinner_delivery">Choose the delivery time.</string>
+    <string name="HOME_DELIVERY">HOME DELIVERY</string>
+    <string name="CUSTOMER_PICKUP">CUSTOMER PICKUP</string>
 
 
 </resources>

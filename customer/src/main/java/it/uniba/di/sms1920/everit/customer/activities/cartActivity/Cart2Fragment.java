@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -48,6 +49,11 @@ public class Cart2Fragment extends Fragment  {
         buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
         buttonNext = (MaterialButton) viewRoot.findViewById(R.id.buttonNextOrder);
+        buttonNext.setOnClickListener(v -> {
+            Cart3Fragment fragment3 = new Cart3Fragment();
+            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.containerCartFragment, fragment3).addToBackStack(null).commit();
+        });
     }
 
     private void setupComponent(){
