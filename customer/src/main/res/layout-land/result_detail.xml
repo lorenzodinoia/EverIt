@@ -34,7 +34,7 @@
                     android:id="@+id/imageViewAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_location_on_accent_40dp" />
+                    app:srcCompat="@drawable/ic_location_on_accent_24dp" />
 
                 <TextView
                     android:id="@+id/textViewAddress"
@@ -57,7 +57,7 @@
                     android:id="@+id/imageViewOpenClosed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_event_note_accent_40dp" />
+                    app:srcCompat="@drawable/ic_event_note_accent_24dp" />
 
                 <TextView
                     android:id="@+id/textViewOpenClosed"
@@ -88,7 +88,7 @@
                     android:id="@+id/imageViewCall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_local_phone_accent_40dp" />
+                    app:srcCompat="@drawable/ic_local_phone_accent_24dp" />
 
                 <TextView
                     android:id="@+id/textViewCall"
@@ -112,7 +112,7 @@
                     android:id="@+id/imageViewMinPurchase"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_baseline_attach_money_accent_40" />
+                    app:srcCompat="@drawable/ic_baseline_attach_money_accent_24dp" />
 
                 <TextView
                     android:id="@+id/textViewMinPurchaseInfo"
@@ -145,7 +145,7 @@
                     android:id="@+id/imageViewDeliveryCost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_baseline_directions_bike_accent_40" />
+                    app:srcCompat="@drawable/ic_baseline_directions_bike_accent_24dp" />
 
                 <TextView
                     android:id="@+id/textViewDeliveryCostInfo"

@@ -14,7 +14,7 @@ public class PartialOrder {
     private String deliveryNotes;
     private Restaurateur restaurateur;
     private Map<Product, Integer> products = new HashMap<>();
-    private OpeningTime deliveryTime;
+    private String deliveryTime;
     private int orderType;
 
     public PartialOrder(Restaurateur restaurateur, Address deliveryAddress) {
@@ -22,9 +22,9 @@ public class PartialOrder {
         this.restaurateur = restaurateur;
     }
 
-    public OpeningTime getDeliveryTime(){return deliveryTime;}
+    public String getDeliveryTime(){return deliveryTime;}
 
-    public void setDeliveryTime(OpeningTime devTime){ this.deliveryTime = devTime; }
+    public void setDeliveryTime(String devTime){ this.deliveryTime = devTime; }
 
     public int getOrderType() { return orderType; }
 
@@ -108,7 +108,7 @@ public class PartialOrder {
         private String deliveryNotes;
         private long restaurateurId;
         private Map<Long, Integer> products = new HashMap<>();
-        private OpeningTime deliveryTime;
+        private String deliveryTime;
         private int orderType;
 
         SerializableItem(PartialOrder partialOrder) {
@@ -144,7 +144,7 @@ public class PartialOrder {
             return products;
         }
 
-        OpeningTime getDeliveryTime(){return  deliveryTime;}
+        String getDeliveryTime(){return  deliveryTime;}
 
         int getOrderType(){return orderType;}
 

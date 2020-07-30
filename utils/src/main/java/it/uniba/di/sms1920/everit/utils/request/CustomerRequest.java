@@ -78,20 +78,19 @@ public final class CustomerRequest extends CRUDRequest<Customer> implements CRUD
         }
     }
 
-    public void getAvaibleDeliveryTime(long restaurateurId, RequestListener<Collection<OpeningTime>> requestListener){
-        Adapter<OpeningTime> adapter = AdapterProvider.getAdapterFor(OpeningTime.class);
+    public void getAvaibleDeliveryTime(long restaurateurId, RequestListener<Collection<String>> requestListener){
 
-
-        //TODO cambiare da OpeningTime in altro
         ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%d/%s/%s", Constants.SERVER_HOST, "restaurateur", restaurateurId, "order", "availableTimes"), null,
                 response -> {
+            /**
                     try {
-                        Collection<OpeningTime> collection = adapter.fromJSONArray(response, OpeningTime.class);
-                        requestListener.successResponse(collection);
+                        //TODO cerca modo per convertire json array to array string
+                        //requestListener.successResponse();
                     }
                     catch (JSONException e) {
                         requestListener.errorResponse(new RequestException(e.getMessage()));
                     }
+             */
                 },
                 error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)), null);
 

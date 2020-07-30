@@ -89,6 +89,7 @@
     <string name="hint_spinner_delivery">Choose the delivery time.</string>
     <string name="HOME_DELIVERY">HOME DELIVERY</string>
     <string name="CUSTOMER_PICKUP">CUSTOMER PICKUP</string>
+    <string name="menu">Menù</string>
 
 
 </resources>

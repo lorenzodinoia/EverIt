@@ -31,7 +31,7 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     private CartConnector cartConnector;
     private List<ProductCategory> expandableListDetail;
 
-    CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector ,List<ProductCategory> expandableListDetail) {
+    public CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector, List<ProductCategory> expandableListDetail) {
         this.context = context;
         this.cartConnector = cartConnector;
         this.expandableListDetail = expandableListDetail;
@@ -109,12 +109,14 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
         MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
         btnAddItem.setOnClickListener(v -> {
-            cartConnector.getPartialOrder().addProduct(values.get(expandedListPosition));
-            editTextNumber.setText(String.valueOf(counter.incrementAndGet()));
+            if(counter.get() <= 999) {
+                cartConnector.getPartialOrder().addProduct(values.get(expandedListPosition));
+                editTextNumber.setText(String.valueOf(counter.incrementAndGet()));
+            }
         });
 
-        MaterialButton btnRemovelItem = convertView.findViewById(R.id.btnDelItem);
-        btnRemovelItem.setOnClickListener(v -> {
+        MaterialButton btnRemoveItem = convertView.findViewById(R.id.btnDelItem);
+        btnRemoveItem.setOnClickListener(v -> {
             if(counter.get() >= 0 ) {
                 cartConnector.getPartialOrder().removeProduct(values.get(expandedListPosition));
                 editTextNumber.setText(String.valueOf(counter.decrementAndGet()));

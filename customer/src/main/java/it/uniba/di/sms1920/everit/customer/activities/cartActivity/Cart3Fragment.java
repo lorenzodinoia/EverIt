@@ -77,6 +77,7 @@ public class Cart3Fragment extends Fragment {
         homeDelivery = viewRoot.findViewById(R.id.home_delivery);
         customerPickup = viewRoot.findViewById(R.id.customer_pickup);
 
+        /**
         CustomerRequest customerRequest = new CustomerRequest();
         customerRequest.getAvaibleDeliveryTime(cart.getPartialOrder().getRestaurateur().getId(), new RequestListener<Collection<OpeningTime>>() {
             @Override
@@ -111,10 +112,11 @@ public class Cart3Fragment extends Fragment {
             }
         });
 
+         */
 
         buttonFinishOrder = (MaterialButton) viewRoot.findViewById(R.id.buttonFinishOrder);
         buttonFinishOrder.setOnClickListener(v -> {
-            cart.getPartialOrder().setDeliveryTime(openingTimeSelected);
+            //cart.getPartialOrder().setDeliveryTime(openingTimeSelected);
 
             if(homeDelivery.isChecked()){
                 cart.getPartialOrder().setOrderType(HOME_DELIVERY);
