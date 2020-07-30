@@ -122,21 +122,22 @@ public class ResultListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Restaurateur item = (Restaurateur) view.getTag();
+                /**
                 if (towPaneMode) {
                     Bundle arguments = new Bundle();
-                    arguments.putLong(ResultDetailFragment.ARG_ITEM_ID, item.getId());
+                    arguments.putLong(ResultDetailActivity.ARG_ITEM_ID, item.getId());
                     ResultDetailFragment fragment = new ResultDetailFragment();
                     fragment.setArguments(arguments);
                     parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.result_detail_container, fragment).commit();
                 }
                 else {
+                 */
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ResultDetailActivity.class);
-                    intent.putExtra(ResultDetailFragment.ARG_ITEM_ID, item.getId());
+                    intent.putExtra(ResultDetailActivity.ARG_ITEM_ID, item.getId());
 
                     context.startActivity(intent);
                 }
-            }
         };
 
         RestaurateurRecyclerViewAdapter(ResultListActivity parentActivity, List<Restaurateur> results, boolean twoPaneMode) {

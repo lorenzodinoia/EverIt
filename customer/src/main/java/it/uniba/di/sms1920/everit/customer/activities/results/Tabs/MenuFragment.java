@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -23,7 +22,6 @@ import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
 import it.uniba.di.sms1920.everit.customer.activities.results.CustomExpandibleMenuAdapter;
 import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailActivity;
-import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailFragment;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
 import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;

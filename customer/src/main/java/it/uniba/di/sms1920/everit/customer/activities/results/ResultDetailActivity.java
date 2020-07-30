@@ -34,6 +34,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class ResultDetailActivity extends AppCompatActivity {
+    public static final String ARG_ITEM_ID = "item_id";
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -47,7 +48,7 @@ public class ResultDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_detail);
 
-        long resultId = getIntent().getLongExtra(ResultDetailFragment.ARG_ITEM_ID, 0);
+        long resultId = getIntent().getLongExtra(ARG_ITEM_ID, 0);
         this.restaurateur = ResultListActivity.getResultById(resultId);
 
         Toolbar toolbar = findViewById(R.id.toolbar_default);
