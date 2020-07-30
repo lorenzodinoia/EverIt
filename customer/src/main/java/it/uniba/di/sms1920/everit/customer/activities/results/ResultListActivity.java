@@ -122,6 +122,8 @@ public class ResultListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Restaurateur item = (Restaurateur) view.getTag();
+
+                //TODO controllare se bisogna fare qualcosa per la 2pane mode. ResultDeatil non esiste più
                 /**
                 if (towPaneMode) {
                     Bundle arguments = new Bundle();
