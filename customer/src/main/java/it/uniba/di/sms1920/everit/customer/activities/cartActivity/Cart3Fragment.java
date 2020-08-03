@@ -39,7 +39,6 @@ public class Cart3Fragment extends Fragment {
     private final static int CUSTOMER_PICKUP = 1;
 
     private Cart cart;
-
     private CartActivity mParent;
 
     private MaterialButton buttonFinishOrder;
@@ -47,10 +46,10 @@ public class Cart3Fragment extends Fragment {
 
     private RadioButton homeDelivery, customerPickup;
 
-    private List<OpeningTime> deliveryTime = new ArrayList<>();
+    private List<String> deliveryTime = new ArrayList<>();
     private Spinner spinnerDeliveryTime;
     private SpinnerAdapter spinnerDeliveryTimeAdapter;
-    private OpeningTime openingTimeSelected;
+    private String openingTimeSelected;
 
     public Cart3Fragment() {
     }
@@ -59,77 +58,68 @@ public class Cart3Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cart = Cart.getInstance();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_cart3, parent, false);
 
-        this.initComponent(viewRoot);
+        CustomerRequest customerRequest = new CustomerRequest();
+        customerRequest.getAvaibleDeliveryTime(cart.getPartialOrder().getRestaurateur().getId(), new RequestListener<Collection<String>>() {
+            @Override
+            public void successResponse(Collection<String> response) {
+                spinnerDeliveryTime = viewRoot.findViewById(R.id.spinnerDeliveryTime);
+                homeDelivery = viewRoot.findViewById(R.id.home_delivery);
+                customerPickup = viewRoot.findViewById(R.id.customer_pickup);
+
+                 deliveryTime.addAll(response);
+
+                 spinnerDeliveryTimeAdapter = new SpinnerAdapter(mParent, android.R.layout.simple_spinner_dropdown_item, deliveryTime);
+                 spinnerDeliveryTime.setAdapter(spinnerDeliveryTimeAdapter);
+
+                 spinnerDeliveryTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                 @Override
+                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                     if(position != 0){
+                     openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
+                     } else{
+                     openingTimeSelected = null;
+                    }
+                 }
+
+                 @Override
+                 public void onNothingSelected(AdapterView<?> parent) { }
+                 });
+
+                buttonFinishOrder = (MaterialButton) viewRoot.findViewById(R.id.buttonFinishOrder);
+                buttonFinishOrder.setOnClickListener(v -> {
+
+                    if(homeDelivery.isChecked()){
+                        cart.getPartialOrder().setOrderType(HOME_DELIVERY);
+                    }else if(customerPickup.isChecked()) {
+                        cart.getPartialOrder().setOrderType(CUSTOMER_PICKUP);
+                    }
+
+                    cart.getPartialOrder().setDeliveryTime(openingTimeSelected);
+
+                });
+
+                buttonBack =  (MaterialButton) viewRoot.findViewById(R.id.buttonBack);
+                buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
+            }
+
+             @Override
+             public void errorResponse(RequestException error) {
+             //TODO gestire risposta problema json
+             }
+
+        });
+
+
         return viewRoot;
     }
 
-
-    private void initComponent(View viewRoot){
-        spinnerDeliveryTime = viewRoot.findViewById(R.id.spinnerDeliveryTime);
-
-
-        homeDelivery = viewRoot.findViewById(R.id.home_delivery);
-        customerPickup = viewRoot.findViewById(R.id.customer_pickup);
-
-        /**
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.getAvaibleDeliveryTime(cart.getPartialOrder().getRestaurateur().getId(), new RequestListener<Collection<OpeningTime>>() {
-            @Override
-            public void successResponse(Collection<OpeningTime> response) {
-                deliveryTime.addAll(response);
-
-                spinnerDeliveryTimeAdapter = new SpinnerAdapter(mParent, android.R.layout.simple_spinner_dropdown_item, deliveryTime);
-                spinnerDeliveryTime.setAdapter(spinnerDeliveryTimeAdapter);
-
-                spinnerDeliveryTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(position != 0){
-                            openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
-                        }
-                        else{
-                            openingTimeSelected = null;
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-                Log.d("test", error.toString());
-                //TODO gestire risposta problema json
-            }
-        });
-
-         */
-
-        buttonFinishOrder = (MaterialButton) viewRoot.findViewById(R.id.buttonFinishOrder);
-        buttonFinishOrder.setOnClickListener(v -> {
-            //cart.getPartialOrder().setDeliveryTime(openingTimeSelected);
-
-            if(homeDelivery.isChecked()){
-                cart.getPartialOrder().setOrderType(HOME_DELIVERY);
-            }else if(customerPickup.isChecked()) {
-                cart.getPartialOrder().setOrderType(CUSTOMER_PICKUP);
-            }
-
-        });
-
-        buttonBack =  (MaterialButton) viewRoot.findViewById(R.id.buttonBack);
-        buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
-
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -141,9 +131,9 @@ public class Cart3Fragment extends Fragment {
     }
 
 
-    private static class SpinnerAdapter extends ArrayAdapter<OpeningTime> {
+    private static class SpinnerAdapter extends ArrayAdapter<String> {
 
-        public SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<OpeningTime> objects) {
+        public SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
             super(context, resource, objects);
         }
 
@@ -154,7 +144,7 @@ public class Cart3Fragment extends Fragment {
 
         @Nullable
         @Override
-        public OpeningTime getItem(int position) {
+        public String getItem(int position) {
             return super.getItem(position);
         }
 

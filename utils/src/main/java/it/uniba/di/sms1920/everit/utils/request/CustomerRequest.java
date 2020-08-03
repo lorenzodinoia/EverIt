@@ -1,12 +1,20 @@
 package it.uniba.di.sms1920.everit.utils.request;
 
 import com.android.volley.Request;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.threeten.bp.LocalTime;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
@@ -79,18 +87,19 @@ public final class CustomerRequest extends CRUDRequest<Customer> implements CRUD
     }
 
     public void getAvaibleDeliveryTime(long restaurateurId, RequestListener<Collection<String>> requestListener){
-
+        Gson gson = new Gson();
         ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%d/%s/%s", Constants.SERVER_HOST, "restaurateur", restaurateurId, "order", "availableTimes"), null,
                 response -> {
-            /**
-                    try {
-                        //TODO cerca modo per convertire json array to array string
-                        //requestListener.successResponse();
+                    try{
+
+                        Type collectionType = new TypeToken<Collection<String>>(){}.getType();
+                        Collection<String> fin = gson.fromJson(response.toString(), collectionType);
+
+                        requestListener.successResponse(fin);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    catch (JSONException e) {
-                        requestListener.errorResponse(new RequestException(e.getMessage()));
-                    }
-             */
                 },
                 error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)), null);
 

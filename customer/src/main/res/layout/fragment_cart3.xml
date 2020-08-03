@@ -49,7 +49,7 @@
 
     <Spinner
         android:id="@+id/spinnerDeliveryTime"
-        style="@style/spinnerCustom"
+        style="@style/spinnerDeliveryTime"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
