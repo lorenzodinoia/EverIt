@@ -36,4 +36,5 @@
     <string name="error_value_notValid">Questo valore non è valido</string>
     <string name="error_value_empty">Questo campo non può essere vuoto</string>
     <string name="error_value_VAT">La P.IVA è composta da 11 cifre</string>
+    <string name="currency_type">€</string>
 </resources>

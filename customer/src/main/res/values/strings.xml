@@ -76,7 +76,6 @@
     <string name="cart_ic_toolbar">cart_ic_toolbar</string>
     <string name="Order">ORDER</string>
     <string name="your_products">Your products</string>
-    <string name="Currency_symbol">$</string>
     <string name="Continue">Continue</string>
     <string name="order_notes">Order notes</string>
     <string name="delivery_notes">Delivery notes</string>
@@ -90,6 +89,9 @@
     <string name="HOME_DELIVERY">HOME DELIVERY</string>
     <string name="CUSTOMER_PICKUP">CUSTOMER PICKUP</string>
     <string name="menu">Menù</string>
+    <string name="review_hint">Write your review here</string>
+    <string name="make_review">Write a review</string>
+    <string name="modify_review">Modify review</string>
 
 
 </resources>

@@ -37,7 +37,6 @@
     <string name="cart_ic_toolbar">cart_ic_toolbar</string>
     <string name="Order">ORDINA</string>
     <string name="your_products">I tuoi prodotti</string>
-    <string name="Currency_symbol">€</string>
     <string name="Continue">Continua</string>
     <string name="order_notes">Note sull\' ordine</string>
     <string name="delivery_notes">Note sulla consegna</string>
@@ -79,6 +78,9 @@
     <string name="HOME_DELIVERY">CONSEGNA A DOMICILIO</string>
     <string name="CUSTOMER_PICKUP">RITIRO ORDINE PRESSO LOCALE</string>
     <string name="menu">Menù</string>
+    <string name="review_hint">Scrivi qui la tua recensione</string>
+    <string name="make_review">Scrivi una recensione</string>
+    <string name="modify_review">Modifica la tua recensione</string>
 
 
 </resources>

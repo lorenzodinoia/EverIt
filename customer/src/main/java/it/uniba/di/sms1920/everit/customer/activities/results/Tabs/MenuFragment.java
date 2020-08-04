@@ -65,6 +65,7 @@ public class MenuFragment extends Fragment implements CartConnector{
         buttonOrder.setOnClickListener(v -> {
             if(!getCart().isEmpty()) {
                 Intent goIntent = new Intent(getActivity(), CartActivity.class);
+                goIntent.putExtra("MIN_PURCHASE", restaurateur.getMinPrice());
                 startActivity(goIntent);
             }
         });

@@ -28,8 +28,10 @@ import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
+import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.ShopType;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
+import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -102,6 +104,15 @@ public class Cart3Fragment extends Fragment {
                     }
 
                     cart.getPartialOrder().setDeliveryTime(openingTimeSelected);
+
+                    /**
+                    Order order;
+
+
+
+                    OrderRequest orderRequest = new OrderRequest();
+                    orderRequest.create(cart);
+                     */
 
                 });
 

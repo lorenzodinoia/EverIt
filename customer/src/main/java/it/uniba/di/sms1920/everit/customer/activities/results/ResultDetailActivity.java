@@ -131,7 +131,6 @@ public class ResultDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-
             navigateUpTo(new Intent(this, ResultListActivity.class));
             return true;
         }
@@ -144,27 +143,10 @@ public class ResultDetailActivity extends AppCompatActivity {
         return  this.restaurateur;
     }
 
-    public List<Review> passRestaurateurReviews() { return this.reviews; }
+    public List<Review> passRestaurateurReviews() {
+        return this.reviews;
+    }
 
-    /**
-     *                 <com.google.android.material.tabs.TabItem
-     *                     android:id="@+id/tabInfo"
-     *                     android:layout_width="wrap_content"
-     *                     android:layout_height="wrap_content"
-     *                     android:text="@string/info" />
-     *
-     *                 <com.google.android.material.tabs.TabItem
-     *                     android:id="@+id/tabMenu"
-     *                     android:layout_width="wrap_content"
-     *                     android:layout_height="wrap_content"
-     *                     android:text="@string/Menu" />
-     *
-     *                 <com.google.android.material.tabs.TabItem
-     *                     android:id="@+id/tabReview"
-     *                     android:layout_width="wrap_content"
-     *                     android:layout_height="wrap_content"
-     *                     android:text="@string/reviews" />
-     */
 
 
 }

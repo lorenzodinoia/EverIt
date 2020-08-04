@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="@string/delivery_address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,11 +25,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text=""
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/labelDeliveryAddress"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/labelMinPurchase"
+        style="@style/TextViewSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/minimum_purchase"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelDeliveryAddress" />
 
+    <TextView
+        android:id="@+id/textViewMinPurchase"
+        style="@style/TextViewMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/labelMinPurchase"
+        app:layout_constraintTop_toBottomOf="@+id/TextViewDeliveryAddress" />
+
+    <TextView
+        android:id="@+id/textViewSymbol4"
+        style="@style/TextViewMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/currency_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewMinPurchase"
+        app:layout_constraintTop_toBottomOf="@+id/TextViewDeliveryAddress" />
 
     <TextView
         android:id="@+id/textViewRecapOrder"
@@ -40,7 +76,7 @@
         android:text="@string/your_products"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextViewDeliveryAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/labelMinPurchase" />
 
     <View
         android:id="@+id/view5"
@@ -85,7 +121,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/Currency_symbol"
+        android:text="@string/currency_type"
         app:layout_constraintBottom_toTopOf="@+id/textViewSymbol2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view6"
@@ -98,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="32dp"
-        android:text="@string/Currency_symbol"
+        android:text="@string/currency_type"
         app:layout_constraintBottom_toTopOf="@+id/textViewSymbol3"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -109,7 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="32dp"
-        android:text="@string/Currency_symbol"
+        android:text="@string/currency_type"
         app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -28,21 +28,6 @@ public class ResultTabPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         return mFragmentList.get(position);
-        /**
-        switch (position) {
-            case 0:
-                return new InfoFragment();
-
-            case 1:
-                return new MenuFragment();
-
-            case 2:
-                return new ReviewListFragment();
-
-            default:
-                return null;
-        }
-         */
 
     }
 
