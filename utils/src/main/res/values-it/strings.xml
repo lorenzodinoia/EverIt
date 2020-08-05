@@ -28,4 +28,8 @@
     <string name="friday">Venerdi</string>
     <string name="saturday">Sabato</string>
     <string name="sunday">Domenica</string>
+
+    <string name="error_password">Formato password errato</string>
+
+
 </resources>

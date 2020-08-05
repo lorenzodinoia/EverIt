@@ -50,6 +50,11 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
     private final String URL = "restaurateur";
     private final String IMAGE = "image";
 
+    private static class Keys{
+        private static final String KEY_OLD_PASSWORD = "old_password";
+        private static final String KEY_NEW_PASSWORD = "new_password";
+    }
+
     //TODO implementare altre funzioni
 
     @Override
@@ -69,12 +74,12 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
 
     @Override
     public void update(Restaurateur model, RequestListener<Restaurateur> RequestListener) {
-        throw new UnsupportedOperationException();
+        super.update(model, URL+"/update", RequestListener, Restaurateur.class, true);
     }
 
     @Override
     public void delete(long id, RequestListener<Boolean> RequestListener) {
-        throw new UnsupportedOperationException();
+        super.delete(id, URL+"/delete", RequestListener, true);
     }
 
     public void search(double latitude, double longitude, RequestListener<Collection<Restaurateur>> requestListener) {
@@ -125,6 +130,7 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
                     @Override
                     public void onResponse(NetworkResponse response) {
                         Log.d("test", new String(response.data));
+                        requestListener.successResponse(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -176,6 +182,70 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
             Providers.getRequestProvider().addToQueue(request);
         }
         catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setShopName(Restaurateur model, RequestListener requestListener){
+        Adapter<Restaurateur> adapter = AdapterProvider.getAdapterFor(Restaurateur.class);
+
+        try {
+            JSONObject jsonObject = adapter.toJSON(model);
+
+            ObjectRequest request = new ObjectRequest(Request.Method.PUT, String.format("%s/api/%s/update/shopName", Constants.SERVER_HOST, URL), jsonObject,
+                    response -> {
+                        Restaurateur data = adapter.fromJSON(response, Restaurateur.class);
+                        requestListener.successResponse(data);
+                    },
+                    error ->requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                    Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setEmail(Restaurateur model, RequestListener requestListener){
+        Adapter<Restaurateur> adapter = AdapterProvider.getAdapterFor(Restaurateur.class);
+
+        try {
+            JSONObject jsonObject = adapter.toJSON(model);
+
+            ObjectRequest request = new ObjectRequest(Request.Method.PUT, String.format("%s/api/%s/update/email", Constants.SERVER_HOST, URL), jsonObject,
+                    response -> {
+                        Restaurateur data = adapter.fromJSON(response, Restaurateur.class);
+                        requestListener.successResponse(data);
+                    },
+                    error ->requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                    Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changePassword(String oldPassword, String newPassword, RequestListener<Boolean> requestListener) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put(RestaurateurRequest.Keys.KEY_OLD_PASSWORD, oldPassword);
+            jsonObject.put(RestaurateurRequest.Keys.KEY_NEW_PASSWORD, newPassword);
+
+            ObjectRequest request = new ObjectRequest(Request.Method. PUT, String.format("%s/api/%s/update/changePassword", Constants.SERVER_HOST, URL), jsonObject,
+                    response -> {
+                        requestListener.successResponse(true);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
     }

@@ -40,6 +40,8 @@ public class PrivacySecurityFragment extends Fragment {
     private MaterialButton buttonDeleteAccount;
     private MaterialButton buttonChangePassword;
 
+    //TODO fix prompt errore
+
     public PrivacySecurityFragment() {}
 
     @Override

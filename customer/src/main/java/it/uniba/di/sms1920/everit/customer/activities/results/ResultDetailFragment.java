@@ -86,7 +86,7 @@ public class ResultDetailFragment extends Fragment implements CartConnector {
                     expandableListView.setAdapter(expandableListAdapter);
 
                     ReviewRequest reviewRequest = new ReviewRequest();
-                    reviewRequest.readRestaurateurReviews(restaurateur.getId(), new RequestListener<Collection<Review>>() {
+                    reviewRequest.readRestaurateurReviewsFromCustomer(restaurateur.getId(), new RequestListener<Collection<Review>>() {
                         @Override
                         public void successResponse(Collection<Review> response) {
                             reviews = new ArrayList<>(response);

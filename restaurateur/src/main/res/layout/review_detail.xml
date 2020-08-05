@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textViewCustomerNameReviewDetail"
+        style="@style/TextViewMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textViewDateReviewDetail"
+        style="@style/TextViewSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCustomerNameReviewDetail"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"/>
+
+    <RatingBar
+        android:id="@+id/ratingBarReviewDetail"
+        style="@style/Widget.AppCompat.RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:numStars="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewDateReviewDetail" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textViewratingBarReviewDetailIndicator"
+        style="@style/TextViewSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDateReviewDetail"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/ratingBarReviewDetail"
+        android:layout_marginStart="16dp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textViewReviewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextViewMedium"
+        app:layout_constraintTop_toBottomOf="@id/ratingBarReviewDetail"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

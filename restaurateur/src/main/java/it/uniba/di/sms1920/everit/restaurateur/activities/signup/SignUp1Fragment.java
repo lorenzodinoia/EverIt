@@ -12,12 +12,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,6 +29,7 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.AddressChooserActivity;
+import it.uniba.di.sms1920.everit.restaurateur.SpinnerShopTypeAdapter;
 import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -57,7 +56,7 @@ public class SignUp1Fragment extends Fragment {
     private MaterialButton btnNext;
 
     private Spinner spinnerShopType;
-    private SpinnerAdapter spinnerAdapter;
+    private SpinnerShopTypeAdapter spinnerAdapter;
     private List<ShopType> shopTypes = new ArrayList<>();
     private ShopType shopTypeSelected;
     private TextView textViewEmptyShopType;
@@ -121,7 +120,7 @@ public class SignUp1Fragment extends Fragment {
         }
         textViewEmptyShopType = viewRoot.findViewById(R.id.textViewEmptyShopType);
         spinnerShopType = viewRoot.findViewById(R.id.spinnerShopType);
-        spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shopTypes);
+        spinnerAdapter = new SpinnerShopTypeAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shopTypes);
         spinnerShopType.setAdapter(spinnerAdapter);
         spinnerShopType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -146,8 +145,6 @@ public class SignUp1Fragment extends Fragment {
         });
         btnNext = viewRoot.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
-            Address addressFake = new Address(16.305676, 41.13449, "via Piave, 20", "Andria");
-            editTextAddress.setText(addressFake.getFullAddress());
             boolean flag = true;
 
             String shopName = editTextShopName.getText().toString();
@@ -202,7 +199,7 @@ public class SignUp1Fragment extends Fragment {
                 restaurateurBuilder.setVatNumber(editTextVAT.getText().toString());
                 restaurateurBuilder.setShopType(shopTypeSelected);
 
-                restaurateurBuilder.setAddress(addressFake);
+                restaurateurBuilder.setAddress(address);
                 restaurateurBuilder.setMaxDeliveryPerTimeSlot(0);
                 restaurateurBuilder.setDeliveryCost(0);
                 restaurateurBuilder.setMinPrice(0);
@@ -214,34 +211,6 @@ public class SignUp1Fragment extends Fragment {
         });
     }
 
-    private static class SpinnerAdapter extends  ArrayAdapter<ShopType>{
-
-
-        public SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<ShopType> objects) {
-            super(context, resource, objects);
-        }
-
-        @Override
-        public int getCount() {
-            return super.getCount();
-        }
-
-        @Nullable
-        @Override
-        public ShopType getItem(int position) {
-            return super.getItem(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return super.getItemId(position);
-        }
-
-        @Override
-        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            return super.getDropDownView(position, convertView, parent);
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -260,7 +229,7 @@ public class SignUp1Fragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if(context instanceof  SignUpActivity){
+        if(context instanceof SignUpActivity){
             signUpActivity = (SignUpActivity) context;
             restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }

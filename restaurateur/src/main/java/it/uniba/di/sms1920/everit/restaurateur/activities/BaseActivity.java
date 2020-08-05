@@ -21,6 +21,8 @@ import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrdersActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail.AccountDetailActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.review.ReviewListActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
@@ -127,6 +129,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             }
+            case R.id.review:{
+                Intent intent = new Intent(this.getApplicationContext(), ReviewListActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.sign_up: {
                 Intent goIntent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(goIntent);
@@ -134,6 +141,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.Menu: {
                 Intent goIntent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(goIntent);
+                break;
+            }
+            case R.id.account_detail: {
+                Intent goIntent = new Intent(getApplicationContext(), AccountDetailActivity.class);
                 startActivity(goIntent);
                 break;
             }

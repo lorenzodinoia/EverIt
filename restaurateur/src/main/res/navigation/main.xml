@@ -10,4 +10,9 @@
         android:label="@string/home"
         tools:layout="@layout/fragment_home"/>
 
+    <fragment android:id="@+id/accountDetailFragmentRestaurateur"
+        android:name="it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail.AccountDetailFragment"
+        android:label="@string/account_detail"
+        tools:layout="@layout/fragment_account_detail"/>
+
 </navigation>

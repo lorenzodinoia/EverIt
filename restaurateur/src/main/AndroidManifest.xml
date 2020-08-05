@@ -21,9 +21,26 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".activities.review.ReviewListActivity"
+            android:label="@string/title_review_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.review.ReviewDetailActivity"
+            android:label="@string/title_review_detail"
+            android:parentActivityName=".activities.review.ReviewListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.uniba.di.sms1920.everit.restaurateur.activities.review.ReviewListActivity" />
+        </activity>
+        <activity
+            android:name=".activities.accountDetail.AccountDetailActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.openingTime.OpeningDateTimeActivity"
             android:label="@string/title_activity_opening_date_time"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.orderHistory.DoneOrderListActivity"
             android:label="@string/title_doneorder_list"
