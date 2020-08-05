@@ -1,8 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -14,10 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeFragment;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
-//implements  OpeningDateTimeFragment.OnFragmentInteractionListener, OpeningTimeSelectionFragment.OnFragmentInteractionListener
 public class SignUpActivity extends AppCompatActivity {
 
     private Restaurateur.Builder restaurateur = new Restaurateur.Builder();
@@ -70,13 +66,4 @@ public class SignUpActivity extends AppCompatActivity {
         return restaurateur;
     }
 
-    /*@Override
-    public void messageFromChildFragment(Uri uri) {
-        Log.i("TAG", "received communication from parent fragment");
-    }
-
-    @Override
-    public void messageFromParentFragment(Uri uri) {
-        Log.i("TAG", "received communication from child fragment");
-    }*/
 }

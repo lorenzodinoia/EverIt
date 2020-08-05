@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +26,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -42,7 +40,6 @@ public class AccountDetailFragment extends Fragment {
     private LinearLayout linearLayoutChangePassword;
     private TextView textViewShopName;
     private TextView textViewEmail;
-    private Button buttonDeleteAccount;
 
     private ImageView imageProfile;
     private String imagePath;
@@ -192,30 +189,13 @@ public class AccountDetailFragment extends Fragment {
         linearLayoutChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+                PrivacyAndSecurityFragment privacyAndSecurityFragment = new PrivacyAndSecurityFragment();
                 FragmentManager fragmentManager = mParent.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.containerSettings, changePasswordFragment).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerSettings, privacyAndSecurityFragment).addToBackStack(null).commit();
             }
         });
 
-        buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
-        buttonDeleteAccount.setOnClickListener(v -> {
-            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-            restaurateurRequest.delete(restaurateur.getId(), new RequestListener<Boolean>() {
-                @Override
-                public void successResponse(Boolean response) {
-                    //TODO aggiungere messaggio di feedback
-                    Intent intent = new Intent(mParent, LoginActivity.class);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void errorResponse(RequestException error) {
-                    //TODO gestire error response
-                }
-            });
-        });
         return view;
     }
 

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +18,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Utility;
-import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-public class ChangePasswordFragment extends Fragment {
+public class PrivacyAndSecurityFragment extends Fragment {
 
     private AccountDetailActivity mParent;
+    private Restaurateur restaurateur;
 
     private TextInputLayout editTextOldPasswordContainer;
     private TextInputEditText editTextOldPassword;
@@ -35,8 +35,9 @@ public class ChangePasswordFragment extends Fragment {
     private TextInputLayout editTextConfirmNewPasswordContainer;
     private TextInputEditText editTextConfirmNewPassword;
     private MaterialButton buttonChangePassword;
+    private MaterialButton buttonDeleteAccount;
 
-    public ChangePasswordFragment() {
+    public PrivacyAndSecurityFragment() {
         // Required empty public constructor
     }
 
@@ -97,6 +98,23 @@ public class ChangePasswordFragment extends Fragment {
             }
         });
 
+        buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
+        buttonDeleteAccount.setOnClickListener(v -> {
+            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+            restaurateurRequest.delete(restaurateur.getId(), new RequestListener<Boolean>() {
+                @Override
+                public void successResponse(Boolean response) {
+                    //TODO aggiungere messaggio di feedback
+                    Intent intent = new Intent(mParent, LoginActivity.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void errorResponse(RequestException error) {
+                    //TODO gestire error response
+                }
+            });
+        });
 
         return view;
     }
@@ -106,6 +124,7 @@ public class ChangePasswordFragment extends Fragment {
         super.onAttach(context);
         if(context instanceof AccountDetailActivity){
             mParent = (AccountDetailActivity) context;
+            restaurateur = mParent.getRestaurateur();
         }
     }
 }
