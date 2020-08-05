@@ -45,10 +45,13 @@ public class SignUp2Fragment extends Fragment {
 
     private SignUpActivity signUpActivity;
     private Restaurateur.Builder restaurateurBuilder;
+
     private TextInputEditText editTextMaxDeliveryPerTimeSlot;
     private TextInputLayout editTextMaxDeliveryPerTimeSlotContainer;
+
     private TextInputEditText editTextDeliveryCost;
     private TextInputLayout editTextDeliveryCostContainer;
+
     private TextInputEditText editTextMinPrice;
     private TextInputLayout editTextMinPriceContainer;
 
@@ -80,8 +83,10 @@ public class SignUp2Fragment extends Fragment {
     private void initComponent(View viewRoot) {
         editTextMaxDeliveryPerTimeSlotContainer = viewRoot.findViewById(R.id.editTextNumDeliveryPerTimeSlotContainer);
         editTextMaxDeliveryPerTimeSlot = viewRoot.findViewById(R.id.editTextNumDeliveryPerTimeSlot);
+
         editTextDeliveryCostContainer = viewRoot.findViewById(R.id.editTextDeliveryCostContainer);
         editTextDeliveryCost = viewRoot.findViewById(R.id.editTextDeliveryCost);
+
         editTextMinPriceContainer = viewRoot.findViewById(R.id.editTextMinPriceContainer);
         editTextMinPrice = viewRoot.findViewById(R.id.editTextMinPrice);
 
@@ -117,20 +122,18 @@ public class SignUp2Fragment extends Fragment {
             if(!Utility.isMaxDeliveryTimeSlot(maxDeliveryTimeSlot)){
                 flag = false;
                 editTextMaxDeliveryPerTimeSlotContainer.setError(getString(R.string.error_num_delivery_time_slot));
-            } else{
+            } else {
                 editTextMaxDeliveryPerTimeSlotContainer.setError(null);
             }
 
-            if (!Utility.isDeliveryCostValid(deliveryCost)) {
+            if (!Utility.isDeliveryCostValid(deliveryCost, editTextDeliveryCostContainer, getActivity())) {
                 flag = false;
-                editTextDeliveryCostContainer.setError(getString(R.string.error_delivery_cost));
             } else {
                 editTextDeliveryCostContainer.setError(null);
             }
 
-            if (!Utility.isMinPriceValid(minPrice)) {
+            if (!Utility.isMinPriceValid(minPrice, editTextMinPriceContainer, getActivity())) {
                 flag = false;
-                editTextMinPriceContainer.setError(getString(R.string.error_min_price));
             } else {
                 editTextMinPriceContainer.setError(null);
             }

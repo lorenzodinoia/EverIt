@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.customer.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -36,12 +37,16 @@ public class ProfileFragment extends Fragment {
     private TextInputLayout editTextMailContainer;
     private MaterialButton buttonEditConfirm;
 
+    private Context context;
+
     public ProfileFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = getActivity();
     }
 
     @Override
@@ -100,37 +105,31 @@ public class ProfileFragment extends Fragment {
             } else {
                 boolean flag = true;
                 //TODO aggiungere messaggi errore ai campi errati
-                if(!Utility.isNameValid(editTextName.getText().toString())){
+                if(!Utility.isNameValid(editTextName.getText().toString(), editTextNameContainer, context)){
                     flag = false;
-                    editTextNameContainer.setError("Mettere messaggio di errore");
-                    editTextNameContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
                 } else{
                     editTextNameContainer.setError(null);
                     editTextNameContainer.clearFocus();
                 }
 
-                if(!Utility.isSurnameValid(editTextSurname.getText().toString())){
+                if(!Utility.isSurnameValid(editTextSurname.getText().toString(), editTextSurnameContainer, context)){
                     flag = false;
-                    editTextSurnameContainer.setError("Mettere messaggio di errore");
-                    editTextSurnameContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
                 } else{
                     editTextNameContainer.setError(null);
                     editTextNameContainer.clearFocus();
                 }
 
-                if(!Utility.isPhoneValid(editTextPhone.getText().toString())){
+                if(!Utility.isPhoneValid(editTextPhone.getText().toString(), editTextPhoneContainer, context)){
                     flag = false;
-                    editTextPhoneContainer.setError("Mettere messaggio di errore");
-                    editTextPhoneContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
                 } else{
                     editTextNameContainer.setError(null);
                     editTextNameContainer.clearFocus();
                 }
 
+                //TODO ricorda il controllo della mail diverso dal check
                 if(!Utility.isEmailValid(editTextMail.getText().toString())){
                     flag = false;
-                    editTextMailContainer.setError("Mettere messaggio di errore");
-                    editTextMailContainer.setBoxStrokeColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorWarning));
+
                 } else{
                     editTextNameContainer.setError(null);
                     editTextNameContainer.clearFocus();

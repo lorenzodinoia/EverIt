@@ -1,5 +1,6 @@
-package it.uniba.di.sms1920.everit.customer.activities;
+package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -12,13 +13,14 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.cartFragments.Cart1Fragment;
-import it.uniba.di.sms1920.everit.customer.activities.cartFragments.CartEmptyFragment;
+import it.uniba.di.sms1920.everit.customer.activities.cartActivity.Cart1Fragment;
+import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartEmptyFragment;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 
 public class CartActivity extends AppCompatActivity {
 
     private Cart cart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,9 @@ public class CartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        Intent intent = getIntent();
+        Float minPurchase = intent.getFloatExtra("MIN_PURCHASE", 1);
+
         cart = Cart.getInstance();
 
         if(cart.isEmpty()){
@@ -39,12 +44,13 @@ public class CartActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.containerCartFragment, cartEmptyFragment).addToBackStack(null).commit();
         }else{
+            Bundle bundle = new Bundle();
+            bundle.putFloat("MIN_PURCHASE", minPurchase);
             Cart1Fragment cart1Fragment = new Cart1Fragment();
+            cart1Fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.containerCartFragment, cart1Fragment).addToBackStack(null).commit();
         }
-
-        //bottone torna menu ristorante
     }
 
     @Override

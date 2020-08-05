@@ -42,14 +42,18 @@ import static android.app.Activity.RESULT_OK;
 
 public class SignUp1Fragment extends Fragment {
 
-    private  SignUpActivity signUpActivity;
+    private SignUpActivity signUpActivity;
     private Restaurateur.Builder restaurateurBuilder;
+
     private TextInputLayout editTextShopNameContainer;
     private TextInputEditText editTextShopName;
+
     private TextInputLayout editTextPhoneNumberContainer;
     private TextInputEditText editTextPhoneNumber;
+
     private TextInputLayout editTextVATContainer;
     private TextInputEditText editTextVAT;
+
     private TextInputLayout editTextAddressContainer;
     private TextInputEditText editTextAddress;
     private Address address;
@@ -151,27 +155,21 @@ public class SignUp1Fragment extends Fragment {
             String VAT = editTextVAT.getText().toString();
             String phoneNumber = editTextPhoneNumber.getText().toString();
 
-            if(!Utility.isShopNameValid(shopName)){
+            if(!Utility.isShopNameValid(shopName, editTextShopNameContainer, getActivity())){
                 flag = false;
-                editTextShopNameContainer.setError(getString(R.string.error_shop_name));
-            }
-            else{
+            } else{
                 editTextShopNameContainer.setError(null);
             }
 
-            if(!Utility.isPhoneValid(phoneNumber)){
+            if(!Utility.isPhoneValid(phoneNumber, editTextPhoneNumberContainer, getActivity())){
                 flag = false;
-                editTextPhoneNumberContainer.setError(getString(R.string.error_phone_number));
-            }
-            else{
+            } else{
                 editTextPhoneNumberContainer.setError(null);
             }
 
-            if(!Utility.isVATValid(VAT)){
+            if(!Utility.isVATValid(VAT, editTextVATContainer, getActivity())){
                 flag = false;
-                editTextVATContainer.setError(getString(R.string.error_VAT_number));
-            }
-            else{
+            } else{
                 editTextVATContainer.setError(null);
             }
 
@@ -179,16 +177,13 @@ public class SignUp1Fragment extends Fragment {
                 flag = false;
                 textViewEmptyShopType.setText(R.string.error_shop_type);
                 textViewEmptyShopType.setTextColor(Color.parseColor("#ae0022"));
-            }
-            else{
+            } else{
                 textViewEmptyShopType.setText("");
             }
 
-            if(editTextAddress.getText() == null){
+            if(!Utility.isAddressValid(address, editTextAddressContainer, getActivity())){
                 flag = false;
-                editTextAddressContainer.setError(getString(R.string.error_address));
-            }
-            else{
+            } else{
                 editTextAddressContainer.setError(null);
             }
 
@@ -210,7 +205,6 @@ public class SignUp1Fragment extends Fragment {
             }
         });
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

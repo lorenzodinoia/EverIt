@@ -4,17 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.InvalidPropertiesFormatException;
 import java.util.Objects;
@@ -54,9 +57,15 @@ public class SignUpActivity extends AppCompatActivity {
     private void initComponents() {
         editTextMail =  findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextMail);
         editTextPassword = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPassword);
+
         editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
+        TextInputLayout editTextPhoneContainer = findViewById(R.id.editTextPhoneContainer);
+
         editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
+        TextInputLayout editTextNameContainer = findViewById(R.id.editTextNameContainer);
+
         editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
+        TextInputLayout editTextSurnameContainer = findViewById(R.id.editTextSurnameContainer);
 
         //TODO inizializzare button di login
 
@@ -67,27 +76,40 @@ public class SignUpActivity extends AppCompatActivity {
             String name = editTextName.getText().toString();
             String surname = editTextSurname.getText().toString();
             String phone = editTextPhoneNumber.getText().toString();
-            try {
-                Customer newCustomer = new Customer.CustomerBuilder(name, surname, phone, email)
-                        .setPassword(password)
-                        .build();
-                CustomerRequest customerRequest = new CustomerRequest();
-                customerRequest.create(newCustomer, new RequestListener<Customer>() {
-                    @Override
-                    public void successResponse(Customer response) {
-                        Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
-                        //launchLoginActivity();
-                    }
 
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            //TODO controlli su eamil e password diversi da quelli di match
+
+            if(Utility.isNameValid(name, editTextNameContainer, this)){
+                if(Utility.isSurnameValid(surname, editTextSurnameContainer, this)){
+                    if(Utility.isPhoneValid(phone, editTextPhoneContainer, this)){
+
+                        try {
+                            Customer newCustomer = new Customer.CustomerBuilder(name, surname, phone, email)
+                                    .setPassword(password)
+                                    .build();
+                            CustomerRequest customerRequest = new CustomerRequest();
+                            customerRequest.create(newCustomer, new RequestListener<Customer>() {
+                                @Override
+                                public void successResponse(Customer response) {
+                                    Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
+                                    //launchLoginActivity();
+                                }
+
+                                @Override
+                                public void errorResponse(RequestException error) {
+                                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                        catch (InvalidPropertiesFormatException e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+
                     }
-                });
+                }
             }
-            catch (InvalidPropertiesFormatException e) {
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            }
+
+
         });
 
     }

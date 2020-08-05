@@ -25,7 +25,7 @@
     <string name="privacySecurity">Privacy e sicurezza</string>
     <string name="newPassword">Nuova Password</string>
     <string name="info">Info</string>
-    <string name="ShowOnMaps">Show position on Maps</string>
+    <string name="ShowOnMaps">Mostra la posizione sulla mappa</string>
     <string name="ChooseApp">Choose App</string>
     <string name="title_result_list">Results</string>
     <string name="title_result_detail">Result Detail</string>
@@ -37,15 +37,14 @@
     <string name="cart_ic_toolbar">cart_ic_toolbar</string>
     <string name="Order">ORDINA</string>
     <string name="your_products">I tuoi prodotti</string>
-    <string name="Currency_symbol">€</string>
     <string name="Continue">Continua</string>
     <string name="order_notes">Note sull\' ordine</string>
     <string name="delivery_notes">Note sulla consegna</string>
     <string name="Back">Indietro</string>
     <string name="empty_cart_message">Sembra che il tuo carrello sia vuoto! Devi selezionare dei prodotti prima di poter procedere!</string>
-    <string name="delivery_address">Delivery address:</string>
-    <string name="sub_total">Sub-total:</string>
-    <string name="total">Total</string>
+    <string name="delivery_address">Indirizzo di consegna:</string>
+    <string name="sub_total">Sub-totale:</string>
+    <string name="total">Totale</string>
 
 
     <!-- Review Strings -->
@@ -74,7 +73,14 @@
     <string name="delivey_cost">"Costo di consegna: "</string>
     <string name="gps_permission_explanation">L\'app ha bisogno di accedere alla tua posizione per migliorare la ricerca dei ristoranti nelle tue vicinanze</string>
     <string name="message_no_gps_permission">L\'app non può accedere alla tua posizione attuale</string>
-    <string name="DeleteCart">Delete cart</string>
+    <string name="DeleteCart">Cancella carrello</string>
+    <string name="hint_spinner_delivery">Scegli l\'orario di consegna</string>
+    <string name="HOME_DELIVERY">CONSEGNA A DOMICILIO</string>
+    <string name="CUSTOMER_PICKUP">RITIRO ORDINE PRESSO LOCALE</string>
+    <string name="menu">Menù</string>
+    <string name="review_hint">Scrivi qui la tua recensione</string>
+    <string name="make_review">Scrivi una recensione</string>
+    <string name="modify_review">Modifica la tua recensione</string>
 
     <string name="no_orders">Nessun ordine</string>
     <string name="no_reviews">Nessuna recensione</string>

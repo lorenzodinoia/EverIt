@@ -104,6 +104,10 @@
     <string name="empty_order_not_confirmed">Nessun ordine da confermare</string>
     <string name="empty_order_to_do">Nessun ordine da evadere</string>
     <string name="empty_order_history">Nessu ordine completato</string>
+    <string name="wrong_value_error">Il valore inserito non è valido</string>
+    <string name="You_will_delete">"Stai per cancellare "</string>
+    <string name="are_you_sure">sei sicuro ?</string>
+    <string name="modProduct">MODIFICA PRODOTTO</string>
 
     <string name="account_details">Dettagli Account</string>
     <string name="account_info">Info Account</string>

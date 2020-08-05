@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
@@ -56,8 +57,10 @@ public class LoginActivity extends AppCompatActivity {
     private void initComponents() {
         this.editTextEmail = findViewById(R.id.editTextEmail);
         this.editTextPassword = findViewById(R.id.editTextPassword);
+
         this.buttonGoToSignUp = this.findViewById(R.id.buttonGoToSignUp);
         this.buttonGoToSignUp.setOnClickListener(view -> launchSignUpActivity());
+
         this.buttonLogin = this.findViewById(R.id.buttonLoginAL);
         this.buttonLogin.setOnClickListener(view -> {
             String email = this.editTextEmail.getText().toString();
@@ -66,9 +69,11 @@ public class LoginActivity extends AppCompatActivity {
             if(Utility.isEmailValid(email)){
                 if(Utility.isPasswordValid(password)){
                     this.login(email, password);
-                }else{ }
+                }else{
+                    editTextPassword.setError(getApplicationContext().getString(R.string.passwordError));
+                }
             }else {
-                editTextEmail.setError(String.valueOf(it.uniba.di.sms1920.everit.utils.R.string.emailError));
+                editTextEmail.setError(getApplicationContext().getString(R.string.emailError));
             }
 
         });

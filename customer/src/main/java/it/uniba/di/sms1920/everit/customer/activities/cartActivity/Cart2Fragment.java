@@ -1,15 +1,15 @@
-package it.uniba.di.sms1920.everit.customer.activities.cartFragments;
+package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -19,6 +19,7 @@ import it.uniba.di.sms1920.everit.customer.cart.Cart;
 public class Cart2Fragment extends Fragment  {
 
     private Cart cart;
+    private CartActivity mParent;
     private MaterialButton buttonNext, buttonBack;
     private EditText editTextOrderNotes, editTextDeliveryNotes;
 
@@ -51,6 +52,11 @@ public class Cart2Fragment extends Fragment  {
         buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
         buttonNext = (MaterialButton) viewRoot.findViewById(R.id.buttonNextOrder);
+        buttonNext.setOnClickListener(v -> {
+            Cart3Fragment fragment3 = new Cart3Fragment();
+            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.containerCartFragment, fragment3).addToBackStack(null).commit();
+        });
     }
 
     private void setupComponent(){
@@ -63,6 +69,15 @@ public class Cart2Fragment extends Fragment  {
         cart.getPartialOrder().setDeliveryNotes(editTextDeliveryNotes.getText().toString());
         cart.getPartialOrder().setOrderNotes(editTextOrderNotes.getText().toString());
         super.onPause();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if(context instanceof CartActivity){
+            mParent = (CartActivity) context;
+        }
     }
 
 }
