@@ -155,19 +155,19 @@ public class SignUp1Fragment extends Fragment {
             String VAT = editTextVAT.getText().toString();
             String phoneNumber = editTextPhoneNumber.getText().toString();
 
-            if(!Utility.isShopNameValid(shopName, editTextShopNameContainer, getActivity())){
+            if(!Utility.isShopNameValid(shopName, editTextShopNameContainer, signUpActivity)){
                 flag = false;
             } else{
                 editTextShopNameContainer.setError(null);
             }
 
-            if(!Utility.isPhoneValid(phoneNumber, editTextPhoneNumberContainer, getActivity())){
+            if(!Utility.isPhoneValid(phoneNumber, editTextPhoneNumberContainer, signUpActivity)){
                 flag = false;
             } else{
                 editTextPhoneNumberContainer.setError(null);
             }
 
-            if(!Utility.isVATValid(VAT, editTextVATContainer, getActivity())){
+            if(!Utility.isVATValid(VAT, editTextVATContainer, signUpActivity)){
                 flag = false;
             } else{
                 editTextVATContainer.setError(null);

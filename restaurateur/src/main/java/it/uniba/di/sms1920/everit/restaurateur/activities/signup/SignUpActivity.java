@@ -17,11 +17,10 @@ import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeFragment;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
-
-public class SignUpActivity extends AppCompatActivity implements  OpeningDateTimeFragment.OnFragmentInteractionListener, OpeningTimeSelectionFragment.OnFragmentInteractionListener{
+//implements  OpeningDateTimeFragment.OnFragmentInteractionListener, OpeningTimeSelectionFragment.OnFragmentInteractionListener
+public class SignUpActivity extends AppCompatActivity {
 
     private Restaurateur.Builder restaurateur = new Restaurateur.Builder();
-    private int state = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
         return restaurateur;
     }
 
-    @Override
+    /*@Override
     public void messageFromChildFragment(Uri uri) {
         Log.i("TAG", "received communication from parent fragment");
     }
@@ -79,5 +78,5 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
     @Override
     public void messageFromParentFragment(Uri uri) {
         Log.i("TAG", "received communication from child fragment");
-    }
+    }*/
 }

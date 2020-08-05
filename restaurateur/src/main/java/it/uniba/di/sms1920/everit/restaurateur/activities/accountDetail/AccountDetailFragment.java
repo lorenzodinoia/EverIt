@@ -100,7 +100,7 @@ public class AccountDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     String shopName = newName.getText().toString();
-                    if(!shopName.equals("") || Utility.isShopNameValid(shopName)){
+                    if(!shopName.equals("") || Utility.isShopNameValid(shopName, newNameContainer, mParent)){
                         restaurateur.setShopName(shopName);
                         RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
                         restaurateurRequest.setShopName(restaurateur, new RequestListener<Restaurateur>() {
@@ -116,9 +116,6 @@ public class AccountDetailFragment extends Fragment {
                                 //TODO gestire error response
                             }
                         });
-                    }
-                    else{
-                        newNameContainer.setError(getString(R.string.error_shop_name));
                     }
                 }
             });

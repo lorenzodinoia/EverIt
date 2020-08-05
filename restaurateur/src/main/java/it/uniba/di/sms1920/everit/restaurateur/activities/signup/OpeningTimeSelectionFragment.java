@@ -27,7 +27,7 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 public class OpeningTimeSelectionFragment extends Fragment {
 
-    private OnFragmentInteractionListener listener;
+    //private OnFragmentInteractionListener listener;
     private SignUpActivity signUpActivity;
     private OpeningDateTimeFragment openingDateTimeFragment;
     private Restaurateur.Builder restaurateurBuilder;
@@ -92,17 +92,17 @@ public class OpeningTimeSelectionFragment extends Fragment {
             signUpActivity = (SignUpActivity) context;
         }
 
-        if(context instanceof OnFragmentInteractionListener){
+        /*if(context instanceof OnFragmentInteractionListener){
             listener = (OnFragmentInteractionListener) context;
         }else{
             throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
-        }
+        }*/
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        //listener = null;
     }
 
     @Override
@@ -112,8 +112,8 @@ public class OpeningTimeSelectionFragment extends Fragment {
         transaction.replace(R.id.opening_time_container, openingDateTimeFragment).addToBackStack(null).commit(); 
     }
 
-    public interface OnFragmentInteractionListener {
+    /*public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void messageFromParentFragment(Uri uri);
-    }
+    }*/
 }

@@ -11,24 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Utility;
-import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
-import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
-import it.uniba.di.sms1920.everit.utils.request.OpeningTimeRequest;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;

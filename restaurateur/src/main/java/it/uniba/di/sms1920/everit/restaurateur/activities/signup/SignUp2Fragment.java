@@ -87,13 +87,13 @@ public class SignUp2Fragment extends Fragment {
                 editTextMaxDeliveryPerTimeSlotContainer.setError(null);
             }
 
-            if (!Utility.isDeliveryCostValid(deliveryCost, editTextDeliveryCostContainer, getActivity())) {
+            if (!Utility.isDeliveryCostValid(deliveryCost, editTextDeliveryCostContainer, signUpActivity)) {
                 flag = false;
             } else {
                 editTextDeliveryCostContainer.setError(null);
             }
 
-            if (!Utility.isMinPriceValid(minPrice, editTextMinPriceContainer, getActivity())) {
+            if (!Utility.isMinPriceValid(minPrice, editTextMinPriceContainer, signUpActivity)) {
                 flag = false;
             } else {
                 editTextMinPriceContainer.setError(null);

@@ -149,11 +149,11 @@ public class ProfileFragment extends Fragment {
                 }
                 else{
                     boolean flag = true;
-                    if(!Utility.isVATValid(editTextVATProfile.getText().toString())){
+                    if(!Utility.isVATValid(editTextVATProfile.getText().toString(), editTextVATProfileContainer, mParent)){
                         editTextVATProfileContainer.setError(getString(R.string.error_VAT_number));
                         flag = false;
                     }
-                    if(!Utility.isPhoneValid(editTextPhoneNumberProfile.getText().toString())){
+                    if(!Utility.isPhoneValid(editTextPhoneNumberProfile.getText().toString(), editTextPhoneNumberProfileContainer, mParent)){
                         editTextPhoneNumberProfileContainer.setError(getString(R.string.error_phone_number));
                         flag = false;
                     }
