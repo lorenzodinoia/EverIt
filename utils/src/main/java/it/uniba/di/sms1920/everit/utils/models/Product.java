@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import android.os.Parcel;
+
 public class Product extends Model {
 
     private String name;
@@ -7,6 +9,18 @@ public class Product extends Model {
     private String details;
     private ProductCategory category;
     private Restaurateur restaurateur;
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public Product(String name, float price, String details, ProductCategory category, Restaurateur restaurateur) {
         this.name = name;
@@ -23,6 +37,15 @@ public class Product extends Model {
         this.details = details;
         this.category = category;
         this.restaurateur = restaurateur;
+    }
+
+    public Product(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        this.price = in.readFloat();
+        this.details = in.readString();
+        this.category = in.readParcelable(ProductCategory.class.getClassLoader());
+        this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
     }
 
     public String getName() {
@@ -63,6 +86,21 @@ public class Product extends Model {
 
     public void setRestaurateur(Restaurateur restaurateur) {
         this.restaurateur = restaurateur;
+    }
+
+    @Override
+    public int describeContents() {
+        return super.describeContents();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.name);
+        dest.writeFloat(this.price);
+        dest.writeString(this.details);
+        dest.writeParcelable(this.category, flags);
+        dest.writeParcelable(this.restaurateur, flags);
     }
 }
 

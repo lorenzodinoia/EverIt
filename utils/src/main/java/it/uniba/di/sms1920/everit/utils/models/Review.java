@@ -1,10 +1,24 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import android.os.Parcel;
+
 public class Review extends Model {
     private int vote;
     private String text;
     private Customer customer;
     private Restaurateur restaurateur;
+
+    public static final Creator<Review> CREATOR = new Creator<Review>() {
+        @Override
+        public Review createFromParcel(Parcel in) {
+            return new Review(in);
+        }
+
+        @Override
+        public Review[] newArray(int size) {
+            return new Review[size];
+        }
+    };
 
     public Review(int vote, String text, Customer customer, Restaurateur restaurateur) {
         this.vote = vote;
@@ -19,6 +33,14 @@ public class Review extends Model {
         this.text = text;
         this.customer = customer;
         this.restaurateur = restaurateur;
+    }
+
+    public Review(Parcel in) {
+        super(in);
+        this.vote = in.readInt();
+        this.text = in.readString();
+        this.customer = in.readParcelable(Customer.class.getClassLoader());
+        this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
     }
 
     public int getVote() {
@@ -51,5 +73,19 @@ public class Review extends Model {
 
     public void setRestaurateur(Restaurateur restaurateur) {
         this.restaurateur = restaurateur;
+    }
+
+    @Override
+    public int describeContents() {
+        return super.describeContents();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.vote);
+        dest.writeString(this.text);
+        dest.writeParcelable(this.customer, flags);
+        dest.writeParcelable(this.restaurateur, flags);
     }
 }
