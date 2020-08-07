@@ -22,6 +22,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -189,10 +192,9 @@ public class ReviewListActivity extends AppCompatActivity {
             if(item != null){
                 String restaurateurLogoPath = item.getRestaurateur().getImagePath();
                 if(restaurateurLogoPath != null){
-                    String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, restaurateurLogoPath);
+                    String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, restaurateurLogoPath);
                     Picasso.get()
                             .load(imageUrl)
-                            .error(R.mipmap.icon)
                             .placeholder(R.mipmap.icon)
                             .transform(new CropCircleTransformation())
                             .fit()
@@ -202,6 +204,11 @@ public class ReviewListActivity extends AppCompatActivity {
                 holder.textViewShopName.setText(item.getRestaurateur().getShopName());
                 holder.ratingBarReviewPreview.setRating(item.getVote());
                 holder.textViewRatingIndicator.setText(String.format("%d/5", item.getVote()));
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
+                LocalDateTime reviewDate = item.getCreatedAt();
+                String dateAsString = reviewDate.format(formatter);
+                holder.textViewReviewDate.setText(dateAsString);
 
                 holder.itemView.setTag(results.get(position));
                 holder.itemView.setOnClickListener(mOnClickListener);
@@ -218,13 +225,17 @@ public class ReviewListActivity extends AppCompatActivity {
             final TextView textViewShopName;
             final RatingBar ratingBarReviewPreview;
             final TextView textViewRatingIndicator;
+            final TextView textViewReviewDate;
+
+            //TODO non compare l'immagine
 
             ViewHolder(View view) {
                 super(view);
-                imageViewRestaurantLogo = (ImageView) view.findViewById(R.id.imageViewRestaurantLogoReviewListContent);
-                textViewShopName = (TextView) view.findViewById(R.id.textViewShopNameReviewListContent);
-                ratingBarReviewPreview = (RatingBar) view.findViewById(R.id.ratingBarReviewListContent);
-                textViewRatingIndicator = (TextView) view.findViewById(R.id.textViewRatingIndicatorReviewListContent);
+                imageViewRestaurantLogo = view.findViewById(R.id.imageViewRestaurateurLogoReviewListContent);
+                textViewShopName = view.findViewById(R.id.textViewShopNameReviewListContent);
+                ratingBarReviewPreview = view.findViewById(R.id.ratingBarReviewListContent);
+                textViewRatingIndicator = view.findViewById(R.id.textViewRatingIndicatorReviewListContent);
+                textViewReviewDate = view.findViewById(R.id.textViewReviewDate);
             }
         }
     }

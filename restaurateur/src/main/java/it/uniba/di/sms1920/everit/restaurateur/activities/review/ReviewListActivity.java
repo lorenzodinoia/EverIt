@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -164,7 +165,6 @@ public class ReviewListActivity extends AppCompatActivity {
             Review item = mValues.get(position);
             holder.textViewCustomerName.setText(item.getCustomer().getName());
 
-            //TODO aggiungere data?
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
             LocalDateTime estimatedDeliveryTime = item.getCreatedAt();
             String dateAsString = estimatedDeliveryTime.format(formatter);
@@ -189,10 +189,10 @@ public class ReviewListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                textViewCustomerName = (TextView) view.findViewById(R.id.textViewCustomerName);
-                textViewReviewDate = (TextView) view.findViewById(R.id.textViewReviewDate);
-                ratingBar = (RatingBar) view.findViewById(R.id.ratingBarReview);
-                textViewRatingIndicator = (TextView) view.findViewById(R.id.textViewRatingIndicatorReview);
+                textViewCustomerName = view.findViewById(R.id.textViewCustomerName);
+                textViewReviewDate = view.findViewById(R.id.textViewReviewDate);
+                ratingBar = view.findViewById(R.id.ratingBarReview);
+                textViewRatingIndicator = view.findViewById(R.id.textViewRatingIndicatorReview);
             }
         }
     }

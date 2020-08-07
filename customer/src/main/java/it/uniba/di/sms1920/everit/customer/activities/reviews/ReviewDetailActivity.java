@@ -38,10 +38,9 @@ public class ReviewDetailActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.imageViewRestaurantLogoReviewListContent);
         String restaurateurLogoPath = review.getRestaurateur().getImagePath();
         if(restaurateurLogoPath != null){
-            String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, restaurateurLogoPath);
+            String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, restaurateurLogoPath);
             Picasso.get()
                     .load(imageUrl)
-                    .error(R.mipmap.icon)
                     .placeholder(R.mipmap.icon)
                     .fit()
                     .into(imageView);

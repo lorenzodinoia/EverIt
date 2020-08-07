@@ -37,6 +37,8 @@
     <string name="no_reviews">No reviews</string>
     <string name="no_results">No results</string>
 
+    <string name="review_date">Review date</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="search">Search</string>
