@@ -30,7 +30,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"  >
+                app:layout_constraintTop_toTopOf="parent"  >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextName"
@@ -61,27 +61,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/editTextMailContainer"
-                style="@style/EditTextMain"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="50dp"
-                android:hint="@string/email"
-                android:importantForAutofill="no"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextSurnameContainer">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextMail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editTextPhoneContainer"
                 style="@style/EditTextMain"
                 android:layout_width="match_parent"
@@ -93,13 +72,34 @@
                 android:importantForAutofill="no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextMailContainer">
+                app:layout_constraintTop_toBottomOf="@+id/editTextSurnameContainer">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editTextMailContainer"
+                style="@style/EditTextMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="50dp"
+                android:hint="@string/email"
+                android:importantForAutofill="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPhoneContainer">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -115,7 +115,7 @@
                 app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextPhoneContainer">
+                app:layout_constraintTop_toBottomOf="@+id/editTextMailContainer">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextPassword"
@@ -179,18 +179,6 @@
                 app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/questionRegistered" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/app_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/icon_foreground" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

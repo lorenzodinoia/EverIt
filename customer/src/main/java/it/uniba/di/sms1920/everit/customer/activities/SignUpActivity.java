@@ -11,6 +11,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -67,7 +68,12 @@ public class SignUpActivity extends AppCompatActivity {
         editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
         TextInputLayout editTextSurnameContainer = findViewById(R.id.editTextSurnameContainer);
 
-        //TODO inizializzare button di login
+        MaterialButton buttonLogin = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonLogin);
+        buttonLogin.setOnClickListener(v -> {
+            finish();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        });
 
         MaterialButton buttonSignUp = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonSignUp); //si rompe qui per un NPE perchè non vede il cazzo di bottone
         buttonSignUp.setOnClickListener(view -> {
@@ -92,7 +98,9 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void successResponse(Customer response) {
                                     Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
-                                    //launchLoginActivity();
+                                    finish();
+                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                    startActivity(intent);
                                 }
 
                                 @Override
