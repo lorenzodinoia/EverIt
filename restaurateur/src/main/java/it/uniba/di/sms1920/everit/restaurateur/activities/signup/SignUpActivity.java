@@ -16,6 +16,7 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    //TODO si rompe quando viene girata la view
     private Restaurateur.Builder restaurateur = new Restaurateur.Builder();
 
     @Override

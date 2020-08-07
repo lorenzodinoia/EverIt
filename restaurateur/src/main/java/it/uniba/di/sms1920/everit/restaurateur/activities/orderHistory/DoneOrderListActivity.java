@@ -17,11 +17,9 @@ import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
-import org.w3c.dom.Text;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
-import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderListFragment;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;

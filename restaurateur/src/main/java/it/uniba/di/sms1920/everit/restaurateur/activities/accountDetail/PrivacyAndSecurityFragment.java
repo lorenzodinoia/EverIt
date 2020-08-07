@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -100,20 +102,42 @@ public class PrivacyAndSecurityFragment extends Fragment {
 
         buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
         buttonDeleteAccount.setOnClickListener(v -> {
-            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-            restaurateurRequest.delete(restaurateur.getId(), new RequestListener<Boolean>() {
-                @Override
-                public void successResponse(Boolean response) {
-                    //TODO aggiungere messaggio di feedback
-                    Intent intent = new Intent(mParent, LoginActivity.class);
-                    startActivity(intent);
-                }
+            Dialog dialog = new Dialog(mParent);
+            dialog.setContentView(R.layout.alert_dialog_message_y_n);
 
+            TextView title = dialog.findViewById(R.id.textViewTitle);
+            title.setText(R.string.delete_account);
+            TextView message = dialog.findViewById(R.id.textViewMessage);
+            message.setText(R.string.message_confirm_delete);
+            MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+            btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void errorResponse(RequestException error) {
-                    //TODO gestire error response
+                public void onClick(View v) {
+                    RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                    restaurateurRequest.delete(restaurateur.getId(), new RequestListener<Boolean>() {
+                        @Override
+                        public void successResponse(Boolean response) {
+                            //TODO aggiungere messaggio di feedback
+                            Intent intent = new Intent(mParent, LoginActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            //TODO gestire error response
+                        }
+                    });
                 }
             });
+            MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
         });
 
         return view;

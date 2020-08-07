@@ -9,9 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +40,7 @@ public class ReviewListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     public static final List<Review> reviewList = new ArrayList<>();
+    private TextView textViewEmptyDataReviewRestaurateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +61,7 @@ public class ReviewListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        textViewEmptyDataReviewRestaurateur = findViewById(R.id.textViewEmptyDataReviewRestaurateur);
         View recyclerView = findViewById(R.id.review_list);
         assert recyclerView != null;
         ReviewRequest reviewRequest = new ReviewRequest();
@@ -70,7 +69,15 @@ public class ReviewListActivity extends AppCompatActivity {
             @Override
             public void successResponse(Collection<Review> response) {
                 reviewList.clear();
-                reviewList.addAll(response);
+                if(!response.isEmpty()){
+                    textViewEmptyDataReviewRestaurateur.setVisibility(View.INVISIBLE);
+                    reviewList.addAll(response);
+                }
+                else{
+                    textViewEmptyDataReviewRestaurateur.setVisibility(View.VISIBLE);
+                    textViewEmptyDataReviewRestaurateur.setText(R.string.empty_review);
+                }
+
                 setupRecyclerView((RecyclerView) recyclerView);
             }
 
