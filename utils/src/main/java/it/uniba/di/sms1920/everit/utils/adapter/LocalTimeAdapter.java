@@ -38,7 +38,7 @@ public class LocalTimeAdapter implements JsonSerializer<LocalTime>, JsonDeserial
     public LocalTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         String timeAsString = json.getAsString();
         if ((timeAsString != null) && (timeAsString.length() > 0)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Adapter.JSON_TIME_FORMAT);
             return LocalTime.parse(timeAsString, formatter);
         } else {
             return null;
