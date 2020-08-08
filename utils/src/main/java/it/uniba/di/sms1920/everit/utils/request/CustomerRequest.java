@@ -107,5 +107,23 @@ public final class CustomerRequest extends CRUDRequest<Customer> implements CRUD
 
     }
 
+    public void getCurrentUser(RequestListener requestListener){
+        Adapter<Customer> adapter = AdapterProvider.getAdapterFor(Customer.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s/read/current", Constants.SERVER_HOST, URL), null,
+                    response -> {
+                        Customer data = adapter.fromJSON(response, Customer.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 

@@ -44,6 +44,10 @@
     <string name="delete_account">Delete Account</string>
     <string name="message_confirm_delete">Are you sure you want to delete the account? All data will be deleted</string>
 
+    <string name="account_detail">Account detail</string>
+    <string name="account_info">Account info</string>
+    <string name="privacy_and_security">Privacy and security</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="search">Search</string>

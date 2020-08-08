@@ -1,11 +1,13 @@
-package it.uniba.di.sms1920.everit.customer.activities;
+package it.uniba.di.sms1920.everit.customer.activities.accountDetail;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -22,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
@@ -35,7 +38,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
  */
 public class PrivacySecurityFragment extends Fragment {
     private Customer customer;
-    private Activity parentActivity;
+    private AccountDetailActivity parentActivity;
     private TextInputEditText editTextOldPassword;
     private TextInputLayout editTextOldPasswordContainer;
     private TextInputEditText editTextNewPassword;
@@ -53,9 +56,7 @@ public class PrivacySecurityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.parentActivity = getActivity();
-
-        this.customer = (Customer) Providers.getAuthProvider().getUser();
+        customer = parentActivity.getCustomer();
         if (this.customer == null) {
             showErrorMessage(this.parentActivity.getString(R.string.message_generic_error), true);
         }
@@ -232,5 +233,13 @@ public class PrivacySecurityFragment extends Fragment {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof AccountDetailActivity){
+            parentActivity = (AccountDetailActivity) context;
+        }
     }
 }

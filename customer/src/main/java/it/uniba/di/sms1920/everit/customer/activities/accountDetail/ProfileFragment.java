@@ -1,12 +1,11 @@
-package it.uniba.di.sms1920.everit.customer.activities;
+package it.uniba.di.sms1920.everit.customer.activities.accountDetail;
 
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
-import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -37,7 +35,7 @@ public class ProfileFragment extends Fragment {
     private TextInputLayout editTextMailContainer;
     private MaterialButton buttonEditConfirm;
 
-    private Context context;
+    private AccountDetailActivity mParent;
 
     public ProfileFragment() {
     }
@@ -45,27 +43,15 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        context = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_profile, parent, false);
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.read(Providers.getAuthProvider().getUser().getId(), new RequestListener<Customer>() {
-            @Override
-            public void successResponse(Customer response) {
-                customer = response;
-                initComponent(viewRoot);
-            }
+        customer = mParent.getCustomer();
+        mParent.toolbar.setTitle(R.string.account_info);
+        initComponent(viewRoot);
 
-            @Override
-            public void errorResponse(RequestException error) {
-                //TODO implementare errore risposta
-                Log.d("test", error.toString());
-            }
-        });
         return viewRoot;
     }
 
@@ -105,34 +91,34 @@ public class ProfileFragment extends Fragment {
             } else {
                 boolean flag = true;
                 //TODO aggiungere messaggi errore ai campi errati
-                if(!Utility.isNameValid(editTextName.getText().toString(), editTextNameContainer, context)){
+                if(!Utility.isNameValid(editTextName.getText().toString(), editTextNameContainer, mParent)){
                     flag = false;
                 } else{
                     editTextNameContainer.setError(null);
                     editTextNameContainer.clearFocus();
                 }
 
-                if(!Utility.isSurnameValid(editTextSurname.getText().toString(), editTextSurnameContainer, context)){
+                if(!Utility.isSurnameValid(editTextSurname.getText().toString(), editTextSurnameContainer, mParent)){
                     flag = false;
                 } else{
-                    editTextNameContainer.setError(null);
-                    editTextNameContainer.clearFocus();
+                    editTextSurnameContainer.setError(null);
+                    editTextSurnameContainer.clearFocus();
                 }
 
-                if(!Utility.isPhoneValid(editTextPhone.getText().toString(), editTextPhoneContainer, context)){
+                if(!Utility.isPhoneValid(editTextPhone.getText().toString(), editTextPhoneContainer, mParent)){
                     flag = false;
                 } else{
-                    editTextNameContainer.setError(null);
-                    editTextNameContainer.clearFocus();
+                    editTextPhoneContainer.setError(null);
+                    editTextPhoneContainer.clearFocus();
                 }
 
-                //TODO ricorda il controllo della mail diverso dal check
+                //TODO ricorda il controllo della mail diverso dal check quindi aggiungere errore a mano
                 if(!Utility.isEmailValid(editTextMail.getText().toString())){
                     flag = false;
 
                 } else{
-                    editTextNameContainer.setError(null);
-                    editTextNameContainer.clearFocus();
+                    editTextMailContainer.setError(null);
+                    editTextMailContainer.clearFocus();
                 }
 
                 if(flag){
@@ -168,6 +154,12 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof  AccountDetailActivity){
+            mParent = (AccountDetailActivity) context;
+        }
+    }
 }
 
