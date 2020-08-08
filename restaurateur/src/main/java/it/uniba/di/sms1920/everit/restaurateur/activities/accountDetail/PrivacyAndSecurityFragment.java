@@ -71,20 +71,25 @@ public class PrivacyAndSecurityFragment extends Fragment {
                 if(Utility.isPasswordValid(oldPassword)) {
                     if (Utility.isPasswordValid(newPassword)) {
                         if (newPassword.equals(confirmNewPassword)) {
-                            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-                            restaurateurRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
-                                @Override
-                                public void successResponse(Boolean response) {
-                                    mParent.finishAffinity();
-                                    Intent intent = new Intent(mParent, LoginActivity.class);
-                                    startActivity(intent);
-                                }
+                            if(newPassword.equals(oldPassword)) {
+                                RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                                restaurateurRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
+                                    @Override
+                                    public void successResponse(Boolean response) {
+                                        mParent.finishAffinity();
+                                        Intent intent = new Intent(mParent, LoginActivity.class);
+                                        startActivity(intent);
+                                    }
 
-                                @Override
-                                public void errorResponse(RequestException error) {
-                                    //TODO gestire error response
-                                }
-                            });
+                                    @Override
+                                    public void errorResponse(RequestException error) {
+                                        //TODO gestire error response
+                                    }
+                                });
+                            }
+                            else{
+                                editTextNewPasswordContainer.setError(getString(R.string.new_password_equals_old));
+                            }
                         } else {
                             editTextNewPasswordContainer.setError(getString(R.string.error_match_password));
                             editTextConfirmNewPasswordContainer.setError(getString(R.string.error_match_password));

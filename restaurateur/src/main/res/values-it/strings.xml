@@ -131,4 +131,6 @@
     <string name="empty_review">Nessuna recensione</string>
 
     <string name="message_confirm_delete">Sei sicuro di voler eliminare il profilo? Tutti i dati verranno eliminati</string>
+
+    <string name="new_password_equals_old">La nuova password deve essere diversa dalla vecchia</string>
 </resources>

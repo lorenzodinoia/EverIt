@@ -103,6 +103,8 @@
 
     <string name="message_confirm_delete">Are you sure you want to delete the account? All data will be deleted</string>
 
+    <string name="new_password_equals_old">New password cannot be equals to the old password</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="loadImage">Load profile image</string>
