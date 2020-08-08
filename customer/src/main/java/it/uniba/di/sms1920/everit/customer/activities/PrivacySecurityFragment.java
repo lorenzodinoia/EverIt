@@ -2,8 +2,11 @@ package it.uniba.di.sms1920.everit.customer.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.Gravity;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,6 +26,7 @@ import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
+import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -88,22 +93,30 @@ public class PrivacySecurityFragment extends Fragment {
             if (this.checkFieldsFilled(editTextOldPasswordContainer, editTextNewPasswordContainer, editTextPasswordConfirmContainer)) {
                 if (newPassword.equals(newPasswordConfirm)) {
                     if (Utility.isPasswordValid(newPassword)) {
-                        CustomerRequest customerRequest = new CustomerRequest();
-                        customerRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
-                            @Override
-                            public void successResponse(Boolean response) {
-                                if (response) {
-                                    //The password has been changed, now all user's local data is removed to force a new login. The fragment will be closed
-                                    Providers.getAuthProvider().removeAllUserData();
-                                    showFeedbackMessage(parentActivity.getString(R.string.message_password_changed), true);
+                        if(!newPassword.equals(oldPassword)) {
+                            CustomerRequest customerRequest = new CustomerRequest();
+                            customerRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
+                                @Override
+                                public void successResponse(Boolean response) {
+                                    if (response) {
+                                        //The password has been changed, now all user's local data is removed to force a new login. The fragment will be closed
+                                        Providers.getAuthProvider().removeAllUserData();
+                                        showFeedbackMessage(parentActivity.getString(R.string.message_password_changed), true);
+                                        parentActivity.finishAffinity();
+                                        Intent intent = new Intent(parentActivity, LoginActivity.class);
+                                        startActivity(intent);
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void errorResponse(RequestException error) {
-                                showErrorMessage(error.getMessage(), false);
-                            }
-                        });
+                                @Override
+                                public void errorResponse(RequestException error) {
+                                    showErrorMessage(error.getMessage(), false);
+                                }
+                            });
+                        }
+                        else{
+                            editTextNewPasswordContainer.setError(getString(R.string.new_password_equals_old));
+                        }
                     }
                     else {
                         this.editTextNewPasswordContainer.setError(this.parentActivity.getString(R.string.message_password_wrong));
@@ -117,38 +130,46 @@ public class PrivacySecurityFragment extends Fragment {
 
         buttonDeleteAccount = viewRoot.findViewById(R.id.buttonDeleteAccount);
         buttonDeleteAccount.setOnClickListener(view -> {
-            //Popup used to confirm the operation
-            View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_window_confirm, null);
-            PopupWindow popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-            popupWindow.setElevation(20);
-            popupWindow.setOverlapAnchor(true);
 
-            MaterialButton buttonYes = popupView.findViewById(R.id.btnYes);
-            MaterialButton buttonNo = popupView.findViewById(R.id.btnNo);
+            Dialog dialog = new Dialog(parentActivity);
+            dialog.setContentView(R.layout.alert_dialog_message_y_n);
 
-            buttonNo.setOnClickListener(v -> popupWindow.dismiss()); //If the user abort the popup will be closed
-            buttonYes.setOnClickListener(v -> {
-                CustomerRequest customerRequest = new CustomerRequest();
-                customerRequest.delete(this.customer.getId(), new RequestListener<Boolean>() {
-                    @Override
-                    public void successResponse(Boolean response) {
-                        if (response) {
-                            //The account has been canceled, now all user's local data is removed and the fragment will be closed
-                            Providers.getAuthProvider().removeAllUserData();
-                            showFeedbackMessage(parentActivity.getString(R.string.message_account_deleted), true);
+            TextView title = dialog.findViewById(R.id.textViewTitle);
+            title.setText(R.string.delete_account);
+            TextView message = dialog.findViewById(R.id.textViewMessage);
+            message.setText(R.string.message_confirm_delete);
+            MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+            btnOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    CustomerRequest customerRequest = new CustomerRequest();
+                    customerRequest.delete(customer.getId(), new RequestListener<Boolean>() {
+                        @Override
+                        public void successResponse(Boolean response) {
+                            parentActivity.finishAffinity();
+                            Intent intent = new Intent(parentActivity, LoginActivity.class);
+                            startActivity(intent);
                         }
-                    }
 
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        showErrorMessage(error.getMessage(), false);
-                    }
-                });
-                popupWindow.dismiss(); //Anyway the popup is closed
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            //TODO gestire error response
+                        }
+                    });
+                }
+            });
+            MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
             });
 
-            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0); //Shows the popup
+            dialog.show();
         });
+
     }
 
     /**
