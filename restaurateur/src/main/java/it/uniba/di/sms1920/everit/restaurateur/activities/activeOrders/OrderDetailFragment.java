@@ -8,8 +8,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,9 +44,12 @@ public class OrderDetailFragment extends Fragment {
     public static final String INDEX = "fragment_index";
 
 
-    //TODO capire come chiudere il fragment alla pressione del button
+    //TODO crasha alla pressione del button late
+    private OrderDetailActivity mParent;
     private Order order;
     private int index;
+
+    private MaterialButton confirmButton;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,12 +66,6 @@ public class OrderDetailFragment extends Fragment {
             index = getArguments().getInt(INDEX);
             long id = getArguments().getLong(ARG_ITEM_ID);
             order = OrderListFragment.getOrderById(id);
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
-            /*if (appBarLayout != null) {
-                //appBarLayout.setTitle(order.content);
-            }*/
         }
     }
 
@@ -85,7 +82,7 @@ public class OrderDetailFragment extends Fragment {
             TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewOrderDeliveryPrice);
             TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewOrderSubTotalPrice);
             TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewOrderTotalPrice);
-            MaterialButton confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
+            confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
             if(index != 0){
                 confirmButton.setText(R.string.late_button);
             }
@@ -105,6 +102,10 @@ public class OrderDetailFragment extends Fragment {
             textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
             setupRecyclerView(recyclerView);
 
+            if((index == 1) && (order.isLate())){
+                disableConfirmButton();
+            }
+
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -114,7 +115,7 @@ public class OrderDetailFragment extends Fragment {
                         orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
                             @Override
                             public void successResponse(Order response) {
-                                Log.d("test", "Edited");
+                                mParent.finish();
                             }
 
                             @Override
@@ -127,7 +128,7 @@ public class OrderDetailFragment extends Fragment {
                         orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
                             @Override
                             public void successResponse(Order response) {
-                                Log.d("test", "Late");
+                                disableConfirmButton();
                             }
 
                             @Override
@@ -144,12 +145,26 @@ public class OrderDetailFragment extends Fragment {
         return rootView;
     }
 
+    private void disableConfirmButton(){
+        confirmButton.setFocusable(false);
+        confirmButton.setClickable(false);
+        confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.lightGreyAccent));
+    }
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         List<Product> products = new ArrayList<>(order.getProducts().keySet());
         List<Integer> quantity = new ArrayList<>(order.getProducts().values());
         ProductsRecyclerViewAdapter adapter = new OrderDetailFragment.ProductsRecyclerViewAdapter(this, products, quantity);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof OrderDetailActivity){
+            mParent = (OrderDetailActivity) context;
+        }
     }
 
     public static class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<OrderDetailFragment.ProductsRecyclerViewAdapter.ViewHolder> {

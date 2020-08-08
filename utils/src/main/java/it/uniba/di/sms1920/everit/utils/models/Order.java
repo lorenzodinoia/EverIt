@@ -18,6 +18,7 @@ public class Order extends Model {
     private String deliveryNotes;
     private String validationCode;
     private Status status;
+    private Boolean late;
     private Map<Product, Integer> products;
     private Restaurateur restaurateur;
     private LocalDateTime createdAt;
@@ -78,6 +79,14 @@ public class Order extends Model {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Boolean isLate() {
+        return late;
+    }
+
+    public void setLate(boolean late){
+        this.late = late;
     }
 
     public Map<Product, Integer> getProducts() {
