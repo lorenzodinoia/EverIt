@@ -178,7 +178,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
             holder.textViewOrderDeliveryTime.setText(dateAsString);
 
             Restaurateur restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
-            holder.textViewOrderPrice.setText(mValues.get(position).getTotalCost()+restaurateur.getDeliveryCost() + "€");
+            holder.textViewOrderPrice.setText(mValues.get(position).getTotalCost()+restaurateur.getDeliveryCost() + "");
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
