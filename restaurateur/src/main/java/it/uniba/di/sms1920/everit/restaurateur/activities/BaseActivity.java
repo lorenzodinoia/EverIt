@@ -12,13 +12,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrdersActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderListFragment;
+import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.ui.main.OrderTabAdapter;
 import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail.AccountDetailActivity;
@@ -114,11 +118,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_home:{
-                Intent intent = new Intent(this.getApplicationContext(), OrdersActivity.class);
-                startActivity(intent);
-                break;
-            }
             case R.id.order_history:{
                 Intent intent = new Intent(this.getApplicationContext(), DoneOrderListActivity.class);
                 startActivity(intent);
@@ -178,4 +177,37 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return dest != Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId();
     }
 
+    private void initTabs(){
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        ViewPager viewPager = findViewById(R.id.view_pager);
+
+        OrderTabAdapter adapter = new OrderTabAdapter(getSupportFragmentManager(), 0);
+        OrderListFragment fragment1 = new OrderListFragment();
+        fragment1.setIndex(0);
+        OrderListFragment fragment2 = new OrderListFragment();
+        fragment2.setIndex(1);
+
+        adapter.addFragment(fragment1, getString(R.string.not_confirmed));
+        adapter.addFragment(fragment2, getString(R.string.to_do));
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                OrderListFragment orderListFragment = (OrderListFragment) adapter.getItem(tab.getPosition());
+                orderListFragment.updateData();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
 }

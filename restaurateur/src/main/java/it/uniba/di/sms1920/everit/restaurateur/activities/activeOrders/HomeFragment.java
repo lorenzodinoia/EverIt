@@ -1,37 +1,47 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.Objects;
-
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.restaurateur.activities.BaseActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderListFragment;
 import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.ui.main.OrderTabAdapter;
 
-public class OrdersActivity extends AppCompatActivity {
+
+public class HomeFragment extends Fragment {
+
+    private BaseActivity mParent;
+
+    public HomeFragment() {
+        // Required empty public constructor
+    }
+
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders);
+    }
 
-        Toolbar toolbar =  findViewById(R.id.toolbar_default);
-        setSupportActionBar(toolbar);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        TabLayout tabLayout = view.findViewById(R.id.tabs);
+        ViewPager viewPager = view.findViewById(R.id.view_pager);
 
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        ViewPager viewPager = findViewById(R.id.view_pager);
-
-        OrderTabAdapter adapter = new OrderTabAdapter(getSupportFragmentManager(), 0);
+        OrderTabAdapter adapter = new OrderTabAdapter(mParent.getSupportFragmentManager(), 0);
         OrderListFragment fragment1 = new OrderListFragment();
         fragment1.setIndex(0);
         OrderListFragment fragment2 = new OrderListFragment();
@@ -59,14 +69,15 @@ public class OrdersActivity extends AppCompatActivity {
 
             }
         });
+        return view;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
 
-        return super.onOptionsItemSelected(item);
+        if(context instanceof BaseActivity){
+            mParent = (BaseActivity) context;
+        }
     }
 }

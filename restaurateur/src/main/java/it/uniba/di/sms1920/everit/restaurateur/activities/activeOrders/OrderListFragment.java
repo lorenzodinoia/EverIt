@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.restaurateur.activities.BaseActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -36,7 +37,7 @@ public class OrderListFragment extends Fragment {
 
     private  boolean mTwoPane;
     public static final List<Order> orderList = new ArrayList<>();
-    private OrdersActivity mParent;
+    private BaseActivity mParent;
     private int index;
     private OrderRecyclerViewAdapter adapter;
     View recyclerView;
@@ -122,8 +123,8 @@ public class OrderListFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof OrdersActivity){
-            mParent = (OrdersActivity) context;
+        if(context instanceof BaseActivity){
+            //mParent = (BaseActivity) context;
         }
     }
 
@@ -160,7 +161,6 @@ public class OrderListFragment extends Fragment {
                         orderList.addAll(response);
                     }
                     else{
-                        //TODO gestire caso in cui non ci sono ordini
                         textViewEmptyData.setVisibility(View.VISIBLE);
                         textViewEmptyData.setText(R.string.empty_order_not_confirmed);
                     }
@@ -190,7 +190,6 @@ public class OrderListFragment extends Fragment {
                         orderList.addAll(response);
                     }
                     else{
-                        //TODO gestire caso in cui non ci sono ordini
                         textViewEmptyData.setVisibility(View.VISIBLE);
                         textViewEmptyData.setText(R.string.empty_order_to_do);
                     }

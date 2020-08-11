@@ -55,17 +55,9 @@
                 android:value="it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity" />
         </activity>
         <activity
-            android:name=".activities.activeOrders.OrdersActivity"
-            android:label="@string/title_orders"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activities.activeOrders.OrderDetailActivity"
             android:label="@string/title_order_detail"
-            android:parentActivityName=".activities.activeOrders.OrdersActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrdersActivity" />
         </activity>
         <activity
             android:name=".activities.AddressChooserActivity"
