@@ -8,10 +8,19 @@ import android.widget.ImageView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.orders.tab.NotesFragment;
+import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabPagerAdapter;
+import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.InfoFragment;
+import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.MenuFragment;
+import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.ResultTabPagerAdapter;
+import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.ReviewListFragment;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 
@@ -23,27 +32,21 @@ import it.uniba.di.sms1920.everit.utils.models.Order;
  */
 public class OrderDetailActivity extends AppCompatActivity {
 
+    private Order order;
+    private TabLayout tabLayout;
+    private OrderTabPagerAdapter pagerAdapter;
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
         long idObj = getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0);
-        Order item = OrderListActivity.getOrderById(idObj);
+        order = OrderListActivity.getOrderById(idObj);
 
-        ImageView imageView = findViewById(R.id.imageViewDetailOrder);
-        if(item.getRestaurateur().getImagePath() != null){
-            String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
-            Picasso.get()
-                    .load(imageUrl)
-                    .error(R.mipmap.icon)
-                    .placeholder(R.mipmap.icon)
-                    .fit()
-                    .into(imageView);
-        }
-
-        if (item != null) {
-            toolbar.setTitle(item.getRestaurateur().getShopName());
+        if (order != null) {
+            toolbar.setTitle(order.getRestaurateur().getShopName());
         }
 
         setSupportActionBar(toolbar);
@@ -55,26 +58,36 @@ public class OrderDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
         if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putLong(OrderDetailFragment.ARG_ITEM_ID,
-                    getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0));
-            OrderDetailFragment fragment = new OrderDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.order_detail_container, fragment)
-                    .commit();
+            tabLayout = findViewById(R.id.tabs);
+            viewPager = findViewById(R.id.viewPager);
+
+            pagerAdapter = new OrderTabPagerAdapter(getSupportFragmentManager(), 0);
+            OrderDetailFragment detailFragment = new OrderDetailFragment();
+            NotesFragment notesFragment = new NotesFragment();
+
+            pagerAdapter.addFragment(detailFragment, getString(R.string.order_detail));
+            pagerAdapter.addFragment(notesFragment, getString(R.string.notes));
+
+            viewPager.setAdapter(pagerAdapter);
+            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         }
     }
 
@@ -82,15 +95,22 @@ public class OrderDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
             navigateUpTo(new Intent(this, OrderListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public Order getOrder(){
+        /*if(order.getDeliveryNotes().isEmpty()){
+            order.setDeliveryNotes("");
+        }
+
+        if(order.getOrderNotes().isEmpty()){
+            order.setOrderNotes("");
+        }*/
+
+        return order;
+    }
+
 }

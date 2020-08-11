@@ -204,6 +204,7 @@ public class OrderListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             Order item = this.orders.get(position);
             if (item != null) {
+                holder.textViewOrderNumber.setText("#"+item.getId());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
                 String dateAsString = "";
@@ -217,7 +218,8 @@ public class OrderListActivity extends AppCompatActivity {
                 }
 
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
-                holder.textViewPrice.setText(String.format(Locale.getDefault(), "€ %.2f", item.getTotalCost()));
+                float totalCost = item.getTotalCost() + item.getRestaurateur().getDeliveryCost();
+                holder.textViewPrice.setText(String.format(Locale.getDefault(), "€ %.2f", totalCost));
                 holder.textViewDeliveryDate.setText(dateAsString);
                 if(item.getRestaurateur().getImagePath() != null){
                     String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
@@ -253,6 +255,7 @@ public class OrderListActivity extends AppCompatActivity {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView textViewOrderNumber;
             final TextView textViewActivityName;
             final TextView textViewPrice;
             final TextView textViewDeliveryDate;
@@ -261,6 +264,7 @@ public class OrderListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
+                textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
                 textViewActivityName = view.findViewById(R.id.textViewActivityName);
                 textViewPrice = view.findViewById(R.id.textViewPrice);
                 textViewDeliveryDate = view.findViewById(R.id.textViewOrderDate);

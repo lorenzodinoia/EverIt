@@ -38,7 +38,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         String productText = (productItem.getQuantity() > 1) ? String.format(Locale.getDefault(),"%s (x %d)", productItem.getProduct().getName(), productItem.getQuantity())
                 : productItem.getProduct().getName();
         holder.textViewProductName.setText(productText);
-        holder.textViewPrice.setText(String.format(Locale.getDefault(),"€ %.2f", productItem.getProduct().getPrice()*productItem.getQuantity()));
+        holder.textViewPrice.setText(String.format(Locale.getDefault(),"%.2f", productItem.getProduct().getPrice()*productItem.getQuantity()));
 
         holder.itemView.setTag(productItem);
     }

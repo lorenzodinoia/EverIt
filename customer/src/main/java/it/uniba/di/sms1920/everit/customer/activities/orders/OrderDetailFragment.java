@@ -1,11 +1,13 @@
 package it.uniba.di.sms1920.everit.customer.activities.orders;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,18 +28,18 @@ import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 
 public class OrderDetailFragment extends Fragment {
+
     static final String ARG_ITEM_ID = "item_id";
     private Order order;
+    private OrderDetailActivity mParent;
+
     public OrderDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ((getArguments() != null) && (getArguments().containsKey(ARG_ITEM_ID))) {
-            long id = getArguments().getLong(ARG_ITEM_ID);
-            this.order = OrderListActivity.getOrderById(id);
-        }
+        order = mParent.getOrder();
     }
 
     @Override
@@ -45,14 +47,20 @@ public class OrderDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (order != null) {
+            TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
             TextView textViewDeliveryAddress = rootView.findViewById(R.id.textViewDeliveryAddress);
-            TextView textViewTotalPrice = rootView.findViewById(R.id.textViewPrice);
             TextView textViewOrderTime = rootView.findViewById(R.id.textViewOrderDateTime);
             TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
-            TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotesBox);
-            TextView textViewDeliveryNotes = rootView.findViewById(R.id.textViewDeliveryNotesBox);
+            TextView textViewOrderStatus = rootView.findViewById(R.id.textViewOrderStatus);
+
+            TextView textViewSubTotal = rootView.findViewById(R.id.textViewSubTotal);
+            TextView textViewDeliveryCost = rootView.findViewById(R.id.textViewDeliveryCost);
+            TextView textViewTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+
+
             RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
 
+            textViewOrderNumber.setText("#"+order.getId());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
             LocalDateTime createdAt = order.getCreatedAt();
             LocalDateTime estimatedDeliveryTime = order.getEstimatedDeliveryTime();
@@ -69,16 +77,30 @@ public class OrderDetailFragment extends Fragment {
                 }
             }
             else {
-                //TODO Aggiungere un simbolo per segnalare che l'ordine è ancora da consegnare
                 deliveryTimeAsString = estimatedDeliveryTime.format(formatter);
             }
 
-            textViewDeliveryAddress.setText(order.getDeliveryAddress().getAddress());
+            textViewDeliveryAddress.setText(order.getDeliveryAddress().getFullAddress());
             textViewOrderTime.setText(orderTimeAsString);
             textViewDeliveryTime.setText(deliveryTimeAsString);
-            textViewOrderNotes.setText(order.getOrderNotes());
-            textViewDeliveryNotes.setText(order.getDeliveryNotes());
-            textViewTotalPrice.setText(String.format(Locale.getDefault(), "€ %.2f", order.getTotalCost()));
+            Order.Status orderStatus = order.getStatus();
+            if (orderStatus.equals(Order.Status.ORDERED)) {
+                textViewOrderStatus.setText(R.string.ordered);
+            }
+            else if (orderStatus.equals(Order.Status.IN_PROGRESS)) {
+                textViewOrderStatus.setText(R.string.in_preparation);
+            }
+            else if (orderStatus.equals(Order.Status.DELIVERING)) {
+                textViewOrderStatus.setText(R.string.delivering);
+            }
+            else if (orderStatus.equals(Order.Status.DELIVERED)) {
+                textViewOrderStatus.setText(R.string.delivered);
+            }
+
+            textViewSubTotal.setText(Float.toString(order.getTotalCost()));
+            float deliveryCost = order.getRestaurateur().getDeliveryCost();
+            textViewDeliveryCost.setText(Float.toString(deliveryCost));
+            textViewTotalPrice.setText(Float.toString(order.getTotalCost()+deliveryCost));
 
             recyclerView.setAdapter(new ProductRecyclerViewAdapter(order.getProducts()));
         }
@@ -86,4 +108,12 @@ public class OrderDetailFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if(context instanceof OrderDetailActivity){
+            mParent = (OrderDetailActivity) context;
+        }
+    }
 }

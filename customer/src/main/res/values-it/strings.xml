@@ -98,4 +98,14 @@
     <string name="privacy_and_security">Privacy e sicurezza</string>
 
     <string name="error_min_cost_cart">Il valore dei tuoi prodotti non raggiunge il minimo per proseguire</string>
+
+    <string name="order_date_label">Data ordine</string>
+    <string name="order_status_label">Stato ordine</string>
+    <string name="total_price_label">Prezzo totale</string>
+
+    <string name="order_detail">Dettaglio ordine</string>
+    <string name="notes">Note</string>
+
+    <string name="delivery_date_label">Data consegna</string>
+    <string name="order_number">Numero ordine</string>
 </resources>

@@ -23,11 +23,7 @@
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/whiteAccent"
         app:tabTextAppearance="@style/TextViewSmall"
-        app:tabTextColor="@color/whiteAccent">
-
-
-    </com.google.android.material.tabs.TabLayout>
-
+        app:tabTextColor="@color/whiteAccent"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"

@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
         auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Customer>() {
             @Override
             public void successResponse(Customer response) {
-                Toast.makeText(getApplicationContext(), "Login completato", Toast.LENGTH_LONG ).show();
                 //TODO agguingere refresh schermata home
                 Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
@@ -95,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG ).show();
             }
         });
     }
@@ -105,21 +104,4 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(goIntent);
     }
 
-    private void promptErrorMessage(String message){
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
-
-        TextView title = dialog.findViewById(R.id.textViewTitle);
-        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
-
-        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
-        textViewMessage.setText(message);
-
-        Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
-        });
-
-        dialog.show();
-    }
 }

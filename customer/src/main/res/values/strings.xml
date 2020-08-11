@@ -109,4 +109,14 @@
     <string name="modify_review">Modify review</string>
 
     <string name="error_min_cost_cart">The order cost does not reach the min value</string>
+
+    <string name="order_date_label">Order date</string>
+    <string name="order_status_label">Order status</string>
+    <string name="total_price_label">Total price</string>
+
+    <string name="order_detail">Order detail</string>
+    <string name="notes">Notes</string>
+
+    <string name="delivery_date_label">Delivery date</string>
+    <string name="order_number">Order number</string>
 </resources>
