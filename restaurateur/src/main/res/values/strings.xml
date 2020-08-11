@@ -105,6 +105,13 @@
 
     <string name="new_password_equals_old">New password cannot be equals to the old password</string>
 
+    <string name="order_date_label">Order date</string>
+
+    <string name="order_detail">Order detail</string>
+
+    <string name="delivery_date_label">Delivery date</string>
+    <string name="order_number">Order number</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="loadImage">Load profile image</string>

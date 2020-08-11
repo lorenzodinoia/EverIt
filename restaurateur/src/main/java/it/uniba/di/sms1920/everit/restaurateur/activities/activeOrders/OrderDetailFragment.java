@@ -1,10 +1,8 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.annotation.NonNull;
@@ -36,25 +34,16 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class OrderDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
+
     public static final String ARG_ITEM_ID = "item_id";
     public static final String INDEX = "fragment_index";
 
-
-    //TODO crasha alla pressione del button late
     private OrderDetailActivity mParent;
     private Order order;
     private int index;
 
     private MaterialButton confirmButton;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public OrderDetailFragment() {
     }
 
@@ -75,19 +64,19 @@ public class OrderDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (order != null) {
-            TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumberProduct);
-            TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewOrderDeliveryTime);
-            RecyclerView recyclerView = rootView.findViewById(R.id.productsRecyclerView);
+            TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
+            TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
+            RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
             TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotes);
-            TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewOrderDeliveryPrice);
-            TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewOrderSubTotalPrice);
-            TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewOrderTotalPrice);
+            TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewDeliveryCost);
+            TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewSubTotal);
+            TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
             confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
             if(index != 0){
                 confirmButton.setText(R.string.late_button);
             }
 
-            textViewOrderNumber.setText(Long.toString(order.getId()));
+            textViewOrderNumber.setText("#"+order.getId());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
             LocalDateTime estimatedDeliveryTime = order.getEstimatedDeliveryTime();
@@ -106,37 +95,34 @@ public class OrderDetailFragment extends Fragment {
                 disableConfirmButton();
             }
 
-            confirmButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    OrderRequest orderRequest = new OrderRequest();
-                    //TODO gestire risposte
-                    if(index == 0){
-                        orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
-                            @Override
-                            public void successResponse(Order response) {
-                                mParent.finish();
-                            }
+            confirmButton.setOnClickListener(v -> {
+                OrderRequest orderRequest = new OrderRequest();
+                //TODO gestire risposte
+                if(index == 0){
+                    orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
+                        @Override
+                        public void successResponse(Order response) {
+                            mParent.finish();
+                        }
 
-                            @Override
-                            public void errorResponse(RequestException error) {
-                                Log.d("test", "Not edited");
-                            }
-                        });
-                    }
-                    else if(index == 1){
-                        orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
-                            @Override
-                            public void successResponse(Order response) {
-                                disableConfirmButton();
-                            }
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            Log.d("test", "Not edited");
+                        }
+                    });
+                }
+                else if(index == 1){
+                    orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
+                        @Override
+                        public void successResponse(Order response) {
+                            disableConfirmButton();
+                        }
 
-                            @Override
-                            public void errorResponse(RequestException error) {
-                                Log.d("test", "Not late");
-                            }
-                        });
-                    }
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            Log.d("test", "Not late");
+                        }
+                    });
                 }
             });
 
@@ -197,7 +183,11 @@ public class OrderDetailFragment extends Fragment {
             int productQuantity = this.quantity.get(position);
             if (item != null) {
                 holder.textViewProductName.setText(item.getName());
-                holder.textViewQuantity.setText(String.format("x %d", productQuantity));
+                if(productQuantity > 1) {
+                    holder.textViewQuantity.setText(String.format("(x %d)", productQuantity));
+                }else{
+                    holder.textViewQuantity.setText("");
+                }
 
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);

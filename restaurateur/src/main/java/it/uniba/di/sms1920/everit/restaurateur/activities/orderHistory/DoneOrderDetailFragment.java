@@ -70,15 +70,15 @@ public class DoneOrderDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            TextView textViewOrderNumber = rootView.findViewById(R.id.textViewDoneOrderNumberProduct);
-            TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDoneOrderDeliveryTime);
-            RecyclerView recyclerView = rootView.findViewById(R.id.productsOrderDoneRecyclerView);
-            TextView textViewOrderNotes = rootView.findViewById(R.id.textViewDoneOrderNotes);
-            TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewDoneOrderDeliveryPrice);
-            TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewDoneOrderSubTotalPrice);
-            TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewDoneOrderTotalPrice);
+            TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
+            TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
+            RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
+            TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotes);
+            TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewSubTotal);
+            TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewDeliveryCost);
+            TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
 
-            textViewOrderNumber.setText(Long.toString(mItem.getId()));
+            textViewOrderNumber.setText("#"+mItem.getId());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
             LocalDateTime estimatedDeliveryTime = mItem.getEstimatedDeliveryTime();

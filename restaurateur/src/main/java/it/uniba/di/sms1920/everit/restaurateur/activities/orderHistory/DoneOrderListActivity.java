@@ -196,9 +196,9 @@ public class DoneOrderListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                textViewOrderNumber = view.findViewById(R.id.textViewDoneOrderNumber);
-                textViewOrderDeliveryTime = view.findViewById(R.id.textViewDeliveryTimeDoneOrder);
-                textViewOrderPrice = view.findViewById(R.id.textViewDoneOrderPrice);
+                textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
+                textViewOrderDeliveryTime = view.findViewById(R.id.textViewDeliveryTimeOrder);
+                textViewOrderPrice = view.findViewById(R.id.textViewOrderPrice);
             }
         }
     }

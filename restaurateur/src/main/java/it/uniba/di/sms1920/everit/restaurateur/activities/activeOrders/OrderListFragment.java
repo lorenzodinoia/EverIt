@@ -263,7 +263,7 @@ public class OrderListFragment extends Fragment {
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
                 String dateAsString = estimatedDeliveryTime.format(formatter);
                 holder.textViewDeliveryDate.setText(dateAsString);
-                holder.textViewPrice.setText((item.getTotalCost() + restaurateur.getDeliveryCost()) + "€");
+                holder.textViewPrice.setText((item.getTotalCost() + restaurateur.getDeliveryCost()) + "");
 
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);

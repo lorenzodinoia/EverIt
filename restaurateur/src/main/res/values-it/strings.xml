@@ -133,4 +133,11 @@
     <string name="message_confirm_delete">Sei sicuro di voler eliminare il profilo? Tutti i dati verranno eliminati</string>
 
     <string name="new_password_equals_old">La nuova password deve essere diversa dalla vecchia</string>
+
+    <string name="order_date_label">Data ordine</string>
+
+    <string name="order_detail">Dettaglio ordine</string>
+
+    <string name="delivery_date_label">Data consegna</string>
+    <string name="order_number">Numero ordine</string>
 </resources>
