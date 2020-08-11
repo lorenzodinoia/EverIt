@@ -30,7 +30,7 @@ public final class ReviewRequest extends CRUDRequest<Review> implements CRUD<Rev
 
     @Override
     public void update(Review model, RequestListener<Review> RequestListener) {
-        super.update(model, String.format("$s/%s/%d", CUSTOMER, REVIEW, model.getId()), RequestListener, Review.class, true);
+        super.update(model, String.format("%s/%s/%d", CUSTOMER, REVIEW, model.getId()), RequestListener, Review.class, true);
     }
 
     @Override

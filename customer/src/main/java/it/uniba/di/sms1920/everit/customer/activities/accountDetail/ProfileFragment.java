@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.customer.activities.accountDetail;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -145,7 +148,7 @@ public class ProfileFragment extends Fragment {
 
                         @Override
                         public void errorResponse(RequestException error) {
-                            Toast.makeText(getActivity().getApplicationContext(), R.string.account_not_updated, Toast.LENGTH_LONG).show();
+                            promptErrorMessage(error.getMessage());
                         }
                     });
                 }
@@ -160,6 +163,24 @@ public class ProfileFragment extends Fragment {
         if(context instanceof  AccountDetailActivity){
             mParent = (AccountDetailActivity) context;
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(mParent);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }
 

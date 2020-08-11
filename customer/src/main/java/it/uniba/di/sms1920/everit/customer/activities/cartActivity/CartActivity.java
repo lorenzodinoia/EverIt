@@ -20,7 +20,7 @@ import it.uniba.di.sms1920.everit.customer.cart.Cart;
 public class CartActivity extends AppCompatActivity {
 
     private Cart cart;
-
+    private static final String TAG = "MIN_PURCHASE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +28,14 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         //TODO sta toolbar è messa da xml e non inclusa perchè altrimenti si rompe a caso
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCart);
+        Toolbar toolbar = findViewById(R.id.toolbarCart);
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        Float minPurchase = intent.getFloatExtra("MIN_PURCHASE", 1);
+        Float minPurchase = intent.getFloatExtra(TAG, 1);
 
         cart = Cart.getInstance();
 
@@ -45,7 +45,7 @@ public class CartActivity extends AppCompatActivity {
             fragmentTransaction.add(R.id.containerCartFragment, cartEmptyFragment).addToBackStack(null).commit();
         }else{
             Bundle bundle = new Bundle();
-            bundle.putFloat("MIN_PURCHASE", minPurchase);
+            bundle.putFloat(TAG, minPurchase);
             Cart1Fragment cart1Fragment = new Cart1Fragment();
             cart1Fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

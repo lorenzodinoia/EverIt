@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -7,18 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,12 +26,7 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
-import it.uniba.di.sms1920.everit.utils.models.Customer;
-import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
-import it.uniba.di.sms1920.everit.utils.models.Order;
-import it.uniba.di.sms1920.everit.utils.models.ShopType;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
-import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -94,7 +89,7 @@ public class Cart3Fragment extends Fragment {
                  public void onNothingSelected(AdapterView<?> parent) { }
                  });
 
-                buttonFinishOrder = (MaterialButton) viewRoot.findViewById(R.id.buttonFinishOrder);
+                buttonFinishOrder = viewRoot.findViewById(R.id.buttonFinishOrder);
                 buttonFinishOrder.setOnClickListener(v -> {
 
                     if(homeDelivery.isChecked()){
@@ -116,13 +111,14 @@ public class Cart3Fragment extends Fragment {
 
                 });
 
-                buttonBack =  (MaterialButton) viewRoot.findViewById(R.id.buttonBack);
+                buttonBack = viewRoot.findViewById(R.id.buttonBack);
                 buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
             }
 
              @Override
              public void errorResponse(RequestException error) {
              //TODO gestire risposta problema json
+                 promptErrorMessage(error.getMessage());
              }
 
         });
@@ -170,4 +166,22 @@ public class Cart3Fragment extends Fragment {
         }
     }
 
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(mParent);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            mParent.finish();
+        });
+
+        dialog.show();
+    }
 }

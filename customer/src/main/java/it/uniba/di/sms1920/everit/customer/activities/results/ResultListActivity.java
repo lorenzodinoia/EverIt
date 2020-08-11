@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.customer.activities.results;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +49,7 @@ public class ResultListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_default);
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
         toolbar.setTitle("Ristoranti"); //TODO Impostare stringa multi lingua
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //TODO Gestire ritorno indietro
@@ -102,7 +104,7 @@ public class ResultListActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -122,6 +124,25 @@ public class ResultListActivity extends AppCompatActivity {
         }
 
         return restaurateur;
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
     }
 
     public static class RestaurateurRecyclerViewAdapter extends RecyclerView.Adapter<RestaurateurRecyclerViewAdapter.ViewHolder> {

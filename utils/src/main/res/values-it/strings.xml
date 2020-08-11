@@ -17,6 +17,7 @@
     <string name="surname">Cognome</string>
     <string name="ok_default">OK</string>
     <string name="cancel_default">Annulla</string>
+    <string name="confirm">Conferma</string>
     <string name="emailError">Email errata !</string>
     <string name="passwordError">Password errata !</string>
 
@@ -41,4 +42,5 @@
     <string name="error_value_VAT">La P.IVA è composta da 11 cifre</string>
     <string name="currency_type">€</string>
 
+    <string name="error">Errore</string>
 </resources>

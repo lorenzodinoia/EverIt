@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
@@ -161,14 +164,16 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             btnDelItem.setIcon(iconDel);
             btnDelItem.setOnClickListener(v -> {
                 Dialog dialogYN = new Dialog(context);
-                dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_choice_yn);
-                dialogYN.setTitle(R.string.deleteCategory);
+                dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
 
-                TextView newName = dialogYN.findViewById(R.id.TextViewMessage);
+                TextView title = dialogYN.findViewById(R.id.textViewTitle);
+                title.setText(R.string.deleteCategory);
+
+                TextView newName = dialogYN.findViewById(R.id.textViewMessage);
                 newName.setText(context.getString(R.string.You_will_delete) + expandedListText + context.getString(R.string.are_you_sure));
 
-                MaterialButton confirm = dialogYN.findViewById(R.id.BtnConfirm);
-                MaterialButton cancel = dialogYN.findViewById(R.id.BtnCancel);
+                MaterialButton confirm = dialogYN.findViewById(R.id.btnOk);
+                MaterialButton cancel = dialogYN.findViewById(R.id.btnCancel);
 
                 confirm.setOnClickListener(v1 -> {
                     menuActivity.deleteCategoryItem(listPosition, product.getId());
@@ -248,15 +253,17 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         btnDelGroup.setFocusable(false);
         btnDelGroup.setOnClickListener(v -> {
             Dialog dialogYN = new Dialog(context);
-            dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_choice_yn);
-            dialogYN.setTitle(R.string.deleteCategory);
+            dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
 
-            TextView newName = dialogYN.findViewById(R.id.TextViewMessage);
+            TextView title = dialogYN.findViewById(R.id.textViewTitle);
+            title.setText(R.string.deleteCategory);
+
+            TextView newName = dialogYN.findViewById(R.id.textViewMessage);
             newName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             newName.setText(context.getString(R.string.You_will_delete) + listTitle + context.getString(R.string.are_you_sure));
 
-            MaterialButton confirm = dialogYN.findViewById(R.id.BtnConfirm);
-            MaterialButton cancel = dialogYN.findViewById(R.id.BtnCancel);
+            Button confirm = dialogYN.findViewById(R.id.btnOk);
+            Button cancel = dialogYN.findViewById(R.id.btnCancel);
 
             confirm.setOnClickListener(v1 -> {
                menuActivity.deleteProductCategory(group);

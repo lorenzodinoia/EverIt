@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -23,9 +23,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.threeten.bp.LocalDateTime;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
@@ -107,7 +104,7 @@ public class ReviewListFragment extends Fragment {
         TextInputEditText editTextReview = dialogMakeReview.findViewById(R.id.editTextReview);
         editTextReview.setHint(String.valueOf(R.string.review_hint));
 
-        RatingBar ratingBarDialog = (RatingBar) dialogMakeReview.findViewById(R.id.ratingBarReviewDialog);
+        RatingBar ratingBarDialog = dialogMakeReview.findViewById(R.id.ratingBarReviewDialog);
 
         MaterialButton buttonConfirmReview = dialogMakeReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
@@ -124,13 +121,12 @@ public class ReviewListFragment extends Fragment {
                 @Override
                 public void successResponse(Review response) {
                     dialogMakeReview.dismiss();
-                    /** Manca aggiornamento automatico */
+                    //TODO Manca aggiornamento automatico
                 }
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    Log.d("test", error.toString());
-                    //TODO gestire
+                    promptErrorMessage(error.getMessage());
                 }
             });
         });
@@ -149,7 +145,7 @@ public class ReviewListFragment extends Fragment {
         TextInputEditText editTextReview = dialogModifyReview.findViewById(R.id.editTextReview);
         editTextReview.setText(review.getText());
 
-        RatingBar ratingBarDialog = (RatingBar) dialogModifyReview.findViewById(R.id.ratingBarReviewDialog);
+        RatingBar ratingBarDialog = dialogModifyReview.findViewById(R.id.ratingBarReviewDialog);
         ratingBarDialog.setRating((float) review.getVote());
 
         MaterialButton buttonConfirmReview = dialogModifyReview.findViewById(R.id.buttonConfirmReview);
@@ -167,13 +163,12 @@ public class ReviewListFragment extends Fragment {
                 @Override
                 public void successResponse(Review response) {
                     dialogModifyReview.dismiss();
-                    /** Manca aggiornamento automatico */
+                    //TODO Manca aggiornamento automatico
                 }
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    Log.d("test", error.toString());
-                    //TODO gestire
+                    promptErrorMessage(error.getMessage());
                 }
             });
         });
@@ -254,15 +249,31 @@ public class ReviewListFragment extends Fragment {
 
             ViewHolder(View view) {
                 super(view);
-                textViewCustomerName = (TextView) view.findViewById(R.id.textViewCustomerName);
-                ratingBarReview = (RatingBar) view.findViewById(R.id.ratingBarReview);
-                textViewRatingIndicator = (TextView) view.findViewById(R.id.textViewRatingIndicator);
-                textViewDescription = (TextView) view.findViewById(R.id.textViewReviewDescription);
+                textViewCustomerName = view.findViewById(R.id.textViewCustomerName);
+                ratingBarReview = view.findViewById(R.id.ratingBarReview);
+                textViewRatingIndicator = view.findViewById(R.id.textViewRatingIndicator);
+                textViewDescription = view.findViewById(R.id.textViewReviewDescription);
             }
         }
 
     }
 
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(resultDetailActivity);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
 
 }

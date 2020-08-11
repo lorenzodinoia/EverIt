@@ -1,18 +1,16 @@
 package it.uniba.di.sms1920.everit.customer.activities.results;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -25,7 +23,6 @@ import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.InfoFragment;
 import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.MenuFragment;
 import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.ResultTabPagerAdapter;
 import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.ReviewListFragment;
-import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Review;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
@@ -111,14 +108,14 @@ public class ResultDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        //TODO gestire
+                        promptErrorMessage(error.getMessage());
                     }
                 });
             }
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire
+                promptErrorMessage(error.getMessage());
             }
 
              });
@@ -147,6 +144,23 @@ public class ResultDetailActivity extends AppCompatActivity {
         return this.reviews;
     }
 
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
+    }
 
 }

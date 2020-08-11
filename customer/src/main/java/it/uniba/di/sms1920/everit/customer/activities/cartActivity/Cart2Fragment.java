@@ -48,10 +48,10 @@ public class Cart2Fragment extends Fragment  {
         editTextOrderNotes = viewRoot.findViewById(R.id.editTextOrderNotes);
         editTextDeliveryNotes = viewRoot.findViewById(R.id.editTextDeliveryNotes);
 
-        buttonBack =  (MaterialButton) viewRoot.findViewById(R.id.buttonBackOrder);
+        buttonBack =  viewRoot.findViewById(R.id.buttonBackOrder);
         buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
-        buttonNext = (MaterialButton) viewRoot.findViewById(R.id.buttonNextOrder);
+        buttonNext = viewRoot.findViewById(R.id.buttonNextOrder);
         buttonNext.setOnClickListener(v -> {
             Cart3Fragment fragment3 = new Cart3Fragment();
             FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();

@@ -1,8 +1,11 @@
 package it.uniba.di.sms1920.everit.customer.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +13,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
@@ -93,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG ).show();
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -101,5 +103,23 @@ public class LoginActivity extends AppCompatActivity {
     private void launchSignUpActivity() {
         Intent goIntent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(goIntent);
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

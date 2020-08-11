@@ -3,8 +3,11 @@ package it.uniba.di.sms1920.everit.customer.activities.accountDetail;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -40,7 +43,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         customerRequest.read(Providers.getAuthProvider().getUser().getId(), new RequestListener<Customer>() {
             @Override
             public void successResponse(Customer response) {
-                customer = (Customer) response;
+                customer = response;
                 AccountDetailFragment accountDetailFragment = new AccountDetailFragment();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -49,7 +52,7 @@ public class AccountDetailActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire error response
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -70,5 +73,24 @@ public class AccountDetailActivity extends AppCompatActivity {
 
     public Customer getCustomer(){
         return customer;
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
     }
 }

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -83,7 +84,8 @@ public class PrivacyAndSecurityFragment extends Fragment {
 
                                     @Override
                                     public void errorResponse(RequestException error) {
-                                        //TODO gestire error response
+                                        //TODO usa il layout del dialog errato
+                                        promptErrorMessage(error.getMessage());
                                     }
                                 });
                             }
@@ -108,13 +110,15 @@ public class PrivacyAndSecurityFragment extends Fragment {
         buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
         buttonDeleteAccount.setOnClickListener(v -> {
             Dialog dialog = new Dialog(mParent);
-            dialog.setContentView(R.layout.alert_dialog_message_y_n);
+            dialog.setContentView(R.layout.dialog_message_y_n);
 
             TextView title = dialog.findViewById(R.id.textViewTitle);
             title.setText(R.string.delete_account);
+
             TextView message = dialog.findViewById(R.id.textViewMessage);
             message.setText(R.string.message_confirm_delete);
-            MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+
+            Button btnOk = dialog.findViewById(R.id.btnOk);
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -129,12 +133,14 @@ public class PrivacyAndSecurityFragment extends Fragment {
 
                         @Override
                         public void errorResponse(RequestException error) {
-                            //TODO gestire error response
+                            //TODO non compare il dialog
+                            dialog.dismiss();
+                            promptErrorMessage(error.getMessage());
                         }
                     });
                 }
             });
-            MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
+            Button btnCancel = dialog.findViewById(R.id.btnCancel);
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -155,5 +161,23 @@ public class PrivacyAndSecurityFragment extends Fragment {
             mParent = (AccountDetailActivity) context;
             restaurateur = mParent.getRestaurateur();
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(mParent);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

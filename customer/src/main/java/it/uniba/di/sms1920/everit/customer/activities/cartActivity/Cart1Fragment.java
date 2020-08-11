@@ -1,10 +1,12 @@
 package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -81,12 +83,11 @@ public class Cart1Fragment extends Fragment {
                 FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.containerCartFragment, fragment2).addToBackStack(null).commit();
             }else {
-                //TODO add custom dialog
-                new AlertDialog.Builder(getActivity()).setTitle("Errore costo").setMessage("Il valore dei tuoi prodotti non raggiunge il minimo per proseguire con l'ordine").show();
+                promptErrorMessage(getString(R.string.error_min_cost_cart));
             }
         });
 
-        buttonEmptyCart = (MaterialButton) viewRoot.findViewById(R.id.buttonEmptyOrder);
+        buttonEmptyCart = viewRoot.findViewById(R.id.buttonEmptyOrder);
         buttonEmptyCart.setOnClickListener(v -> {
             cart.clear();
             getActivity().finish();
@@ -125,4 +126,21 @@ public class Cart1Fragment extends Fragment {
         }
     }
 
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(mParent);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
 }

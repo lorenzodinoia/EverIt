@@ -1,14 +1,17 @@
 package it.uniba.di.sms1920.everit.customer.activities.reviews;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -30,6 +33,7 @@ public class ReviewDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
     private Review review;
+    private ReviewDetailActivity mParent;
 
     public ReviewDetailFragment() {
     }
@@ -50,9 +54,9 @@ public class ReviewDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.review_detail, container, false);
 
         if (review != null) {
-            RatingBar ratingBarDF = (RatingBar) rootView.findViewById(R.id.ratingBarReviewDetail);
-            TextView textViewIndicatorRate = (TextView) rootView.findViewById(R.id.textViewRatingIndicatorReviewDetail);
-            TextView textViewRateDescription = (TextView) rootView.findViewById(R.id.textViewReviewDescription);
+            RatingBar ratingBarDF = rootView.findViewById(R.id.ratingBarReviewDetail);
+            TextView textViewIndicatorRate = rootView.findViewById(R.id.textViewRatingIndicatorReviewDetail);
+            TextView textViewRateDescription = rootView.findViewById(R.id.textViewReviewDescription);
             MaterialButton btnEditReview = rootView.findViewById(R.id.buttonEditReview);
 
             ratingBarDF.setRating(review.getVote());
@@ -92,13 +96,13 @@ public class ReviewDetailFragment extends Fragment {
                 @Override
                 public void successResponse(Review response) {
                     dialogModifyReview.dismiss();
-                    /** Manca aggiornamento automatico */
+                    //TODO Manca aggiornamento automatico
                 }
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    Log.d("test", error.toString());
-                    //TODO gestire
+                    dialogModifyReview.dismiss();
+                    promptErrorMessage(error.getMessage());
                 }
             });
         });
@@ -107,5 +111,31 @@ public class ReviewDetailFragment extends Fragment {
         buttonClose.setOnClickListener(v1 -> dialogModifyReview.dismiss());
 
         dialogModifyReview.show();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof  ReviewDetailActivity){
+            mParent = (ReviewDetailActivity) context;
+        }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog errorDialog = new Dialog(mParent);
+        errorDialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = errorDialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = errorDialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = errorDialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            errorDialog.dismiss();
+        });
+
+        errorDialog.show();
     }
 }

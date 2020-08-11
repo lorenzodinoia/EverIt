@@ -96,4 +96,6 @@
     <string name="account_detail">Dettagli account</string>
     <string name="account_info">Informaizoni account</string>
     <string name="privacy_and_security">Privacy e sicurezza</string>
+
+    <string name="error_min_cost_cart">Il valore dei tuoi prodotti non raggiunge il minimo per proseguire</string>
 </resources>

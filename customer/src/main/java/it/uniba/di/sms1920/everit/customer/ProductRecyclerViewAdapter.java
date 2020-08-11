@@ -53,8 +53,8 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
         ViewHolder(View view) {
             super(view);
-            textViewProductName = (TextView) view.findViewById(R.id.textViewProductName);
-            textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
+            textViewProductName = view.findViewById(R.id.textViewProductName);
+            textViewPrice = view.findViewById(R.id.textViewPrice);
         }
     }
 

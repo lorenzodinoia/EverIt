@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Address;
-import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 

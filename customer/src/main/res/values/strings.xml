@@ -108,5 +108,5 @@
     <string name="make_review">Write a review</string>
     <string name="modify_review">Modify review</string>
 
-
+    <string name="error_min_cost_cart">The order cost does not reach the min value</string>
 </resources>
