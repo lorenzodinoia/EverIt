@@ -23,7 +23,6 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class AccountDetailActivity extends AppCompatActivity {
 
-    //TODO creare il layout landscape a tutti
     Toolbar toolbar;
     Restaurateur restaurateur;
 

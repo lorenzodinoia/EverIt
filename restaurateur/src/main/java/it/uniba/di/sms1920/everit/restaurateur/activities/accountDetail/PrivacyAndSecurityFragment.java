@@ -125,7 +125,6 @@ public class PrivacyAndSecurityFragment extends Fragment {
                     restaurateurRequest.delete(restaurateur.getId(), new RequestListener<Boolean>() {
                         @Override
                         public void successResponse(Boolean response) {
-                            //TODO aggiungere messaggio di feedback
                             Intent intent = new Intent(mParent, LoginActivity.class);
                             startActivity(intent);
                         }

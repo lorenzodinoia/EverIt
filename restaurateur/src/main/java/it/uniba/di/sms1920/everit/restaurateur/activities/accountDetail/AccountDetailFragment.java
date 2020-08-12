@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,6 +49,9 @@ public class AccountDetailFragment extends Fragment {
     private Restaurateur restaurateur;
 
     private static int PICK_IMAGE = 1;
+
+    //TODO crasha se si chiude il server e si aggiorna immagine
+    //TODO crasha se si clicca fuori dalla sezione di selezione dell'image picker
 
     public AccountDetailFragment() {
         // Required empty public constructor
@@ -93,36 +97,28 @@ public class AccountDetailFragment extends Fragment {
             MaterialButton confirm = dialogNewShopName.findViewById(R.id.BtnConfirm);
             MaterialButton cancel = dialogNewShopName.findViewById(R.id.BtnCancel);
 
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String shopName = newName.getText().toString();
-                    if(!shopName.equals("") || Utility.isShopNameValid(shopName, newNameContainer, mParent)){
-                        restaurateur.setShopName(shopName);
-                        RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-                        restaurateurRequest.setShopName(restaurateur, new RequestListener<Restaurateur>() {
-                            @Override
-                            public void successResponse(Restaurateur response) {
-                                dialogNewShopName.dismiss();
-                                textViewShopName.setText(response.getShopName());
-                            }
+            confirm.setOnClickListener(v14 -> {
+                String shopName = newName.getText().toString();
+                if(!shopName.equals("") || Utility.isShopNameValid(shopName, newNameContainer, mParent)){
+                    restaurateur.setShopName(shopName);
+                    RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                    restaurateurRequest.setShopName(restaurateur, new RequestListener<Restaurateur>() {
+                        @Override
+                        public void successResponse(Restaurateur response) {
+                            dialogNewShopName.dismiss();
+                            textViewShopName.setText(response.getShopName());
+                        }
 
-                            @Override
-                            public void errorResponse(RequestException error) {
-                                Log.d("test", error.toString());
-                                //TODO gestire error response
-                            }
-                        });
-                    }
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            dialogNewShopName.dismiss();
+                            promptErrorMessage(error.getMessage());
+                        }
+                    });
                 }
             });
 
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialogNewShopName.dismiss();
-                }
-            });
+            cancel.setOnClickListener(v13 -> dialogNewShopName.dismiss());
 
             dialogNewShopName.show();
         });
@@ -138,62 +134,48 @@ public class AccountDetailFragment extends Fragment {
             MaterialButton confirm = dialogNewEmail.findViewById(R.id.BtnConfirm);
             MaterialButton cancel = dialogNewEmail.findViewById(R.id.BtnCancel);
 
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String email = newEmail.getText().toString();
-                    if(!email.equals("") || Utility.isEmailValid(email)){
-                        restaurateur.setEmail(email);
-                        RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-                        restaurateurRequest.setEmail(restaurateur, new RequestListener<Restaurateur>() {
-                            @Override
-                            public void successResponse(Restaurateur response) {
-                                dialogNewEmail.dismiss();
-                                textViewEmail.setText(response.getEmail());
-                            }
+            confirm.setOnClickListener(v12 -> {
+                String email = newEmail.getText().toString();
+                if(!email.equals("") || Utility.isEmailValid(email)){
+                    restaurateur.setEmail(email);
+                    RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                    restaurateurRequest.setEmail(restaurateur, new RequestListener<Restaurateur>() {
+                        @Override
+                        public void successResponse(Restaurateur response) {
+                            dialogNewEmail.dismiss();
+                            textViewEmail.setText(response.getEmail());
+                        }
 
-                            @Override
-                            public void errorResponse(RequestException error) {
-                                Log.d("test", error.toString());
-                                //TODO gestire error response
-                            }
-                        });
-                    }
-                    else{
-                        newEmailContainer.setError(getString(R.string.error_email));
-                    }
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            dialogNewEmail.dismiss();
+                            promptErrorMessage(error.getMessage());
+                        }
+                    });
+                }
+                else{
+                    newEmailContainer.setError(getString(R.string.error_email));
                 }
             });
 
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialogNewEmail.dismiss();
-                }
-            });
+            cancel.setOnClickListener(v1 -> dialogNewEmail.dismiss());
 
             dialogNewEmail.show();
         });
 
         linearLayoutAccountInfo = view.findViewById(R.id.linearLayoutAccountInfo);
-        linearLayoutAccountInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProfileFragment profileFragment = new ProfileFragment();
-                FragmentManager fragmentManager = mParent.getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.containerSettings, profileFragment).addToBackStack(null).commit();
-            }
+        linearLayoutAccountInfo.setOnClickListener(v -> {
+            ProfileFragment profileFragment = new ProfileFragment();
+            FragmentManager fragmentManager = mParent.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.containerSettings, profileFragment).addToBackStack(null).commit();
         });
         linearLayoutChangePassword = view.findViewById(R.id.linearLayoutChangePassword);
-        linearLayoutChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PrivacyAndSecurityFragment privacyAndSecurityFragment = new PrivacyAndSecurityFragment();
-                FragmentManager fragmentManager = mParent.getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.containerSettings, privacyAndSecurityFragment).addToBackStack(null).commit();
-            }
+        linearLayoutChangePassword.setOnClickListener(v -> {
+            PrivacyAndSecurityFragment privacyAndSecurityFragment = new PrivacyAndSecurityFragment();
+            FragmentManager fragmentManager = mParent.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.containerSettings, privacyAndSecurityFragment).addToBackStack(null).commit();
         });
 
         return view;
@@ -245,10 +227,28 @@ public class AccountDetailFragment extends Fragment {
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    //TODO gestire errore
+                    promptErrorMessage(error.getMessage());
                 }
             });
 
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(mParent);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

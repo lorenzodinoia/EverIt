@@ -117,7 +117,6 @@ public class Cart3Fragment extends Fragment {
 
              @Override
              public void errorResponse(RequestException error) {
-             //TODO gestire risposta problema json
                  promptErrorMessage(error.getMessage());
              }
 

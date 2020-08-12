@@ -10,10 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -246,8 +243,6 @@ public class ReviewListActivity extends AppCompatActivity {
             final RatingBar ratingBarReviewPreview;
             final TextView textViewRatingIndicator;
             final TextView textViewReviewDate;
-
-            //TODO non compare l'immagine
 
             ViewHolder(View view) {
                 super(view);
