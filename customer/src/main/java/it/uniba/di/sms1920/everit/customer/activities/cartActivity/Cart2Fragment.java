@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import com.google.android.material.button.MaterialButton;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
+import it.uniba.di.sms1920.everit.utils.Utility;
 
 public class Cart2Fragment extends Fragment  {
 
@@ -27,6 +29,16 @@ public class Cart2Fragment extends Fragment  {
     public Cart2Fragment() {
         // Required empty public constructor
     }
+
+    /**
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getParentFragmentManager().popBackStack();
+        }
+
+        return super.onOptionsItemSelected(item);
+    } */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,9 +65,14 @@ public class Cart2Fragment extends Fragment  {
 
         buttonNext = viewRoot.findViewById(R.id.buttonNextOrder);
         buttonNext.setOnClickListener(v -> {
-            Cart3Fragment fragment3 = new Cart3Fragment();
-            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.containerCartFragment, fragment3).addToBackStack(null).commit();
+            if(Utility.isValidOrderNote(editTextOrderNotes.getText().toString(), editTextOrderNotes, getContext())){
+                if(Utility.isValidDeliveryNote(editTextDeliveryNotes.getText().toString(), editTextDeliveryNotes, getContext())){
+                    Cart3Fragment fragment3 = new Cart3Fragment();
+                    FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.containerCartFragment, fragment3).addToBackStack(null).commit();
+                }
+            }
+
         });
     }
 

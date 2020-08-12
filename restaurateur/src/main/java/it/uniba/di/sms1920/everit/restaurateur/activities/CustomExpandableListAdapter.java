@@ -11,14 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
@@ -121,19 +118,21 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 dialogModItem.setTitle(R.string.modProduct);
 
                 TextInputEditText newName = dialogModItem.findViewById(R.id.editTextProductName);
+                newName.setText(product.getName());
                 TextInputLayout newNameLayout = dialogModItem.findViewById(R.id.editTextProductPriceContainer);
 
                 TextInputEditText newDescription = dialogModItem.findViewById(R.id.editTextProductDescription);
+                newDescription.setText(product.getDetails());
                 TextInputLayout newDescriptionLayout = dialogModItem.findViewById(R.id.editTextProductDescriptionContainer);
 
                 TextInputEditText newPrice = dialogModItem.findViewById(R.id.editTextProductPrice);
+                newPrice.setText(String.valueOf(product.getPrice()));
                 TextInputLayout newPriceLayout = dialogModItem.findViewById(R.id.editTextProductPriceContainer);
 
                 MaterialButton confirm = dialogModItem.findViewById(R.id.BtnConfirm);
                 MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
                 confirm.setOnClickListener(v1 -> {
-
                     if(Utility.isValidProductName(newName.getText().toString(), newNameLayout, context)){
                         if(Utility.isValidProductDescription(newDescription.getText().toString(), newDescriptionLayout, context)){
                             if(Utility.isValidProductPrice(Float.parseFloat(newPrice.getText().toString()), newPriceLayout, context)){
@@ -163,26 +162,26 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             Drawable iconDel = this.context.getDrawable(android.R.drawable.ic_menu_delete);
             btnDelItem.setIcon(iconDel);
             btnDelItem.setOnClickListener(v -> {
-                Dialog dialogYN = new Dialog(context);
-                dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
+                Dialog dialog = new Dialog(context);
+                dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
 
-                TextView title = dialogYN.findViewById(R.id.textViewTitle);
-                title.setText(R.string.deleteCategory);
+                TextView title = dialog.findViewById(R.id.textViewTitle);
+                title.setText(R.string.deleteProduct);
 
-                TextView newName = dialogYN.findViewById(R.id.textViewMessage);
-                newName.setText(context.getString(R.string.You_will_delete) + expandedListText + context.getString(R.string.are_you_sure));
+                TextView message = dialog.findViewById(R.id.textViewMessage);
+                message.setText(R.string.message_confirm_deleteProduct);
 
-                MaterialButton confirm = dialogYN.findViewById(R.id.btnOk);
-                MaterialButton cancel = dialogYN.findViewById(R.id.btnCancel);
+                MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+                btnOk.setOnClickListener(v1 -> {
+                            menuActivity.deleteCategoryItem(listPosition, product.getId());
+                            dialog.dismiss();
+                        }
+                );
 
-                confirm.setOnClickListener(v1 -> {
-                    menuActivity.deleteCategoryItem(listPosition, product.getId());
-                    dialogYN.dismiss();
-                });
+                MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
+                btnCancel.setOnClickListener(v1 -> dialog.dismiss());
 
-                cancel.setOnClickListener(v1 -> dialogYN.dismiss());
-
-                dialogYN.show();
+                dialog.show();
             });
         }
 
@@ -226,6 +225,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             dialogModName.setTitle(R.string.modCategoryName);
 
             TextInputEditText newName = dialogModName.findViewById(R.id.editTextCategoryName);
+            newName.setText(listTitle);
             TextInputLayout newNameLayout = dialogModName.findViewById(R.id.editTextCategoryNameContainer);
 
             MaterialButton confirm = dialogModName.findViewById(R.id.BtnConfirm);
@@ -252,27 +252,27 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         MaterialButton btnDelGroup = convertView.findViewById(R.id.btnDelGroup);
         btnDelGroup.setFocusable(false);
         btnDelGroup.setOnClickListener(v -> {
-            Dialog dialogYN = new Dialog(context);
-            dialogYN.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
 
-            TextView title = dialogYN.findViewById(R.id.textViewTitle);
+            Dialog dialog = new Dialog(context);
+            dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
+
+            TextView title = dialog.findViewById(R.id.textViewTitle);
             title.setText(R.string.deleteCategory);
 
-            TextView newName = dialogYN.findViewById(R.id.textViewMessage);
-            newName.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            newName.setText(context.getString(R.string.You_will_delete) + listTitle + context.getString(R.string.are_you_sure));
+            TextView message = dialog.findViewById(R.id.textViewMessage);
+            message.setText(R.string.message_confirm_deleteCategory);
 
-            Button confirm = dialogYN.findViewById(R.id.btnOk);
-            Button cancel = dialogYN.findViewById(R.id.btnCancel);
+            MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+            btnOk.setOnClickListener(v1 -> {
+                        menuActivity.deleteProductCategory(group);
+                        dialog.dismiss();
+                    }
+            );
 
-            confirm.setOnClickListener(v1 -> {
-               menuActivity.deleteProductCategory(group);
-               dialogYN.dismiss();
-            });
+            MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
+            btnCancel.setOnClickListener(v1 -> dialog.dismiss());
 
-            cancel.setOnClickListener(v1 -> dialogYN.dismiss());
-
-            dialogYN.show();
+            dialog.show();
         });
 
         listTitleTextView.setText(listTitle);
