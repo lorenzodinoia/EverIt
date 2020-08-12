@@ -78,7 +78,6 @@ public class DoneOrderListActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire error response
                 promptErrorMessage(error.getMessage());
             }
         });
@@ -159,7 +158,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
             holder.textViewOrderNumber.setText("#" + mValues.get(position).getId());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
-            //TODO fare il controllo per mettere actual delivery time?
+
             LocalDateTime estimatedDeliveryTime = mValues.get(position).getEstimatedDeliveryTime();
             String dateAsString = estimatedDeliveryTime.format(formatter);
             holder.textViewOrderDeliveryTime.setText(dateAsString);

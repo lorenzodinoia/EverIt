@@ -1,10 +1,12 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,20 +16,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderListFragment;
-import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.ui.main.OrderTabAdapter;
 import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail.AccountDetailActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.review.ReviewListActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
-import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -36,7 +33,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private Restaurateur restaurateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +147,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Providers.getAuthProvider().logout(new RequestListener<Boolean>() {
                     @Override
                     public void successResponse(Boolean response) {
-                        //TODO creare stringa in string
-                        Toast.makeText(getApplicationContext(), "Logout effettuato", Toast.LENGTH_LONG);
                         Intent goIntent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(goIntent);
                         finish();
@@ -160,8 +154,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
-                        //TODO gestire error response
+                        promptErrorMessage(error.getMessage());
                     }
                 });
 
@@ -173,41 +166,21 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    private boolean isValidDestination(int dest){
-        return dest != Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId();
-    }
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
-    private void initTabs(){
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
 
-        OrderTabAdapter adapter = new OrderTabAdapter(getSupportFragmentManager(), 0);
-        OrderListFragment fragment1 = new OrderListFragment();
-        fragment1.setIndex(0);
-        OrderListFragment fragment2 = new OrderListFragment();
-        fragment2.setIndex(1);
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
 
-        adapter.addFragment(fragment1, getString(R.string.not_confirmed));
-        adapter.addFragment(fragment2, getString(R.string.to_do));
-
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                OrderListFragment orderListFragment = (OrderListFragment) adapter.getItem(tab.getPosition());
-                orderListFragment.updateData();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
         });
+
+        dialog.show();
     }
 }

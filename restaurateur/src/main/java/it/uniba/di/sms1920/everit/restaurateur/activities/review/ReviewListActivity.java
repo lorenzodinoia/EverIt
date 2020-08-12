@@ -157,6 +157,7 @@ public class ReviewListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             Review item = mValues.get(position);
+            holder.textViewOrderNumber.setText("#"+item.getId());
             holder.textViewCustomerName.setText(item.getCustomer().getName());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
@@ -176,6 +177,7 @@ public class ReviewListActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView textViewOrderNumber;
             final TextView textViewCustomerName;
             final TextView textViewReviewDate;
             final RatingBar ratingBar;
@@ -183,10 +185,11 @@ public class ReviewListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                textViewCustomerName = view.findViewById(R.id.textViewCustomerName);
+                textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
+                textViewCustomerName = view.findViewById(R.id.textViewCustomerNameListElement);
                 textViewReviewDate = view.findViewById(R.id.textViewReviewDate);
-                ratingBar = view.findViewById(R.id.ratingBarReview);
-                textViewRatingIndicator = view.findViewById(R.id.textViewRatingIndicatorReview);
+                ratingBar = view.findViewById(R.id.ratingBarReviewListContent);
+                textViewRatingIndicator = view.findViewById(R.id.textViewRatingIndicatorReviewListContent);
             }
         }
     }

@@ -47,16 +47,16 @@ public class ReviewDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.textViewCustomerNameReviewDetail)).setText(mItem.getCustomer().getName());
+            ((TextView) rootView.findViewById(R.id.textViewOrderNumberDetail)).setText("#"+mItem.getId());
+            ((TextView) rootView.findViewById(R.id.textViewCustomerNameDetail)).setText(mItem.getCustomer().getName());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
             LocalDateTime estimatedDeliveryTime = mItem.getCreatedAt();
             String dateAsString = estimatedDeliveryTime.format(formatter);
-            ((TextView) rootView.findViewById(R.id.textViewDateReviewDetail)).setText(dateAsString);
-            //TODO add review date
+            ((TextView) rootView.findViewById(R.id.textViewReviewDate)).setText(dateAsString);
             ((RatingBar) rootView.findViewById(R.id.ratingBarReviewDetail)).setRating(mItem.getVote());
-            ((TextView) rootView.findViewById(R.id.textViewratingBarReviewDetailIndicator)).setText(String.format("%d/5", mItem.getVote()));
-            ((TextView) rootView.findViewById(R.id.textViewReviewText)).setText(mItem.getText());
+            ((TextView) rootView.findViewById(R.id.textViewRatingIndicatorReviewDetail)).setText(String.format("%d/5", mItem.getVote()));
+            ((TextView) rootView.findViewById(R.id.textViewReviewDescription)).setText(mItem.getText());
         }
 
         return rootView;

@@ -93,7 +93,6 @@ public class ProfileFragment extends Fragment {
                 v.setTag("Confirm");
             } else {
                 boolean flag = true;
-                //TODO aggiungere messaggi errore ai campi errati
                 if(!Utility.isNameValid(editTextName.getText().toString(), editTextNameContainer, mParent)){
                     flag = false;
                 } else{
@@ -115,10 +114,9 @@ public class ProfileFragment extends Fragment {
                     editTextPhoneContainer.clearFocus();
                 }
 
-                //TODO ricorda il controllo della mail diverso dal check quindi aggiungere errore a mano
                 if(!Utility.isEmailValid(editTextMail.getText().toString())){
                     flag = false;
-
+                    editTextMailContainer.setError(getString(R.string.error_email));
                 } else{
                     editTextMailContainer.setError(null);
                     editTextMailContainer.clearFocus();

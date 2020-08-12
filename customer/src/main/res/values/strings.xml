@@ -107,6 +107,7 @@
     <string name="review_hint">Write your review here</string>
     <string name="make_review">Write a review</string>
     <string name="modify_review">Modify review</string>
+    <string name="delete_review">Delete review</string>
 
     <string name="error_min_cost_cart">The order cost does not reach the min value</string>
 

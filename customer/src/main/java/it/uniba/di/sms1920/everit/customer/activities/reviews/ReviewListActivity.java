@@ -44,10 +44,11 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class ReviewListActivity extends AppCompatActivity {
 
-    private ReviewListActivity.ReviewRecyclerViewAdapter recyclerViewAdapter;
+    private ReviewRecyclerViewAdapter recyclerViewAdapter;
     public static final List<Review> resultList = new ArrayList<>();
     private boolean mTwoPane;
     private TextView textViewEmptyReview;
+    View recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +70,10 @@ public class ReviewListActivity extends AppCompatActivity {
         }
 
         textViewEmptyReview = findViewById(R.id.textViewEmptyReviewCustomer);
-        View recyclerView = findViewById(R.id.review_list);
+        recyclerView = findViewById(R.id.review_list);
         if(recyclerView != null){
             setupRecyclerView((RecyclerView) recyclerView);
+
         }
                 ReviewRequest reviewRequest = new ReviewRequest();
                 reviewRequest.readCustomerReviews(new RequestListener<Collection<Review>>() {
@@ -232,6 +234,8 @@ public class ReviewListActivity extends AppCompatActivity {
             }
         }
 
+
+
         @Override
         public int getItemCount() {
             return results.size();
@@ -255,5 +259,37 @@ public class ReviewListActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateData();
+    }
 
+
+    private void updateData(){
+        ReviewRequest reviewRequest = new ReviewRequest();
+        reviewRequest.readCustomerReviews(new RequestListener<Collection<Review>>() {
+            @Override
+            public void successResponse(Collection<Review> response) {
+                resultList.clear();
+                if(!response.isEmpty()){
+                    textViewEmptyReview.setVisibility(View.INVISIBLE);
+                    resultList.addAll(response);
+                }
+                else{
+                    textViewEmptyReview.setVisibility(View.VISIBLE);
+                    textViewEmptyReview.setText(R.string.no_reviews);
+                    textViewEmptyReview.bringToFront();
+                }
+
+                setupRecyclerView((RecyclerView) recyclerView);
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                promptErrorMessage(error.getMessage());
+            }
+        });
+
+    }
 }

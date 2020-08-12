@@ -10,6 +10,8 @@ import androidx.appcompat.app.ActionBar;
 
 import android.view.MenuItem;
 
+import java.util.Objects;
+
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
 public class ReviewDetailActivity extends AppCompatActivity {
@@ -18,13 +20,11 @@ public class ReviewDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_detail);
-        Toolbar toolbar = findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();

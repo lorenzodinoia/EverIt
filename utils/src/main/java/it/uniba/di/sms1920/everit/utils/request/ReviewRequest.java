@@ -35,7 +35,7 @@ public final class ReviewRequest extends CRUDRequest<Review> implements CRUD<Rev
 
     @Override
     public void delete(long id, RequestListener<Boolean> RequestListener) {
-        super.delete(id, String.format("%s/%s/%d", CUSTOMER, id, REVIEW), RequestListener, true);
+        super.delete(id, String.format("%s/%s/%d", CUSTOMER, REVIEW, id), RequestListener, true);
     }
 
     public void readCustomerReviews(RequestListener<Collection<Review>> requestListener) {

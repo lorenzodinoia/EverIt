@@ -51,7 +51,6 @@ public class AccountDetailFragment extends Fragment {
     private static int PICK_IMAGE = 1;
 
     //TODO crasha se si chiude il server e si aggiorna immagine
-    //TODO crasha se si clicca fuori dalla sezione di selezione dell'image picker
 
     public AccountDetailFragment() {
         // Required empty public constructor
@@ -208,13 +207,14 @@ public class AccountDetailFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE) {
-            //TODO aggiungere controllo immagine solo per jpg
-            Uri selectedImageURI = data.getData();
-            imagePath = selectedImageURI.getPath();
+        if(data != null) {
+            if (requestCode == PICK_IMAGE) {
+                //TODO aggiungere controllo immagine solo per jpg
+                Uri selectedImageURI = data.getData();
+                imagePath = selectedImageURI.getPath();
 
-            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-            restaurateurRequest.saveImage(selectedImageURI, mParent, new RequestListener<String>() {
+                RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                restaurateurRequest.saveImage(selectedImageURI, mParent, new RequestListener<String>() {
                     @Override
                     public void successResponse(String response) {
                         Picasso.get().
@@ -225,12 +225,13 @@ public class AccountDetailFragment extends Fragment {
                                 .into(imageProfile);
                     }
 
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
-                }
-            });
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
 
+            }
         }
     }
 

@@ -81,6 +81,7 @@
     <string name="review_hint">Scrivi qui la tua recensione</string>
     <string name="make_review">Scrivi una recensione</string>
     <string name="modify_review">Modifica la tua recensione</string>
+    <string name="delete_review">Elimina recensione</string>
 
     <string name="no_orders">Nessun ordine</string>
     <string name="no_reviews">Nessuna recensione</string>

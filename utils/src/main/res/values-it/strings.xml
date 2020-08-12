@@ -46,4 +46,7 @@
     <string name="error_orderNotes_maxChar">Il numero massimo di caratteri è 250</string>
     <string name="error_deliveryNotes_maxChar">Il numero massimo di caratteri è 250</string>
     <string name="error_valueReview_long">Le recensioni possono essere lunghe massimo 250 caratteri</string>
+
+    <string name="error_email">Formato email errato</string>
+
 </resources>
