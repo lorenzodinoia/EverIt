@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.utils;
 
 import android.content.Context;
 import android.util.Patterns;
+import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -215,6 +216,50 @@ public final class Utility {
             return false;
         }
     }
+
+
+    /** Cart controls */
+
+    public static boolean isValidOrderNote(String notes, EditText editText, Context context){
+        if(notes.length() <=  250){
+            return true;
+        }else {
+            editText.setError(context.getString(R.string.error_orderNotes_maxChar));
+            return false;
+        }
+
+    }
+
+    public static boolean isValidDeliveryNote(String notes, EditText editText, Context context){
+        if(notes.length() <=  250){
+            return true;
+        }else {
+            editText.setError(context.getString(R.string.error_deliveryNotes_maxChar));
+            return false;
+        }
+
+    }
+
+
+    /** Reviews controls */
+
+    public static boolean isValidReview(String review, TextInputLayout layout, Context context){
+
+        if(review.length() >= 1){
+            if(review.length()  <= 250){
+                return  true;
+            }else {
+                layout.setError(context.getString(R.string.error_valueReview_long));
+                return false;
+            }
+        }else {
+            layout.setError(context.getString(R.string.error_value_short));
+            return false;
+        }
+
+    }
+
+
 
 
 }

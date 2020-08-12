@@ -115,7 +115,7 @@ public class PrivacyAndSecurityFragment extends Fragment {
             title.setText(R.string.delete_account);
 
             TextView message = dialog.findViewById(R.id.textViewMessage);
-            message.setText(R.string.message_confirm_delete);
+            message.setText(R.string.message_confirm_deleteAccount);
 
             Button btnOk = dialog.findViewById(R.id.btnOk);
             btnOk.setOnClickListener(new View.OnClickListener() {

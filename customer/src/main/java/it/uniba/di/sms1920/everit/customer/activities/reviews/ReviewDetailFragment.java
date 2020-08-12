@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.threeten.bp.LocalDateTime;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Review;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
@@ -83,28 +84,30 @@ public class ReviewDetailFragment extends Fragment {
 
         MaterialButton buttonConfirmReview = dialogModifyReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
-            Review modReview = new Review(
-                    review.getId(),
-                    (int) ratingBarDialog.getRating(),
-                    editTextReview.getText().toString(),
-                    LocalDateTime.now(),
-                    (Customer) Providers.getAuthProvider().getUser(),
-                    review.getRestaurateur());
+            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, getActivity())) {
+                Review modReview = new Review(
+                        review.getId(),
+                        (int) ratingBarDialog.getRating(),
+                        editTextReview.getText().toString(),
+                        LocalDateTime.now(),
+                        (Customer) Providers.getAuthProvider().getUser(),
+                        review.getRestaurateur());
 
-            ReviewRequest reviewRequest = new ReviewRequest();
-            reviewRequest.update(modReview, new RequestListener<Review>() {
-                @Override
-                public void successResponse(Review response) {
-                    dialogModifyReview.dismiss();
-                    //TODO Manca aggiornamento automatico
-                }
+                ReviewRequest reviewRequest = new ReviewRequest();
+                reviewRequest.update(modReview, new RequestListener<Review>() {
+                    @Override
+                    public void successResponse(Review response) {
+                        dialogModifyReview.dismiss();
+                        //TODO Manca aggiornamento automatico
+                    }
 
-                @Override
-                public void errorResponse(RequestException error) {
-                    dialogModifyReview.dismiss();
-                    promptErrorMessage(error.getMessage());
-                }
-            });
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        dialogModifyReview.dismiss();
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
+            }
         });
 
         MaterialButton buttonClose = dialogModifyReview.findViewById(R.id.BtnCancel);

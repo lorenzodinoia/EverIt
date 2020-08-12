@@ -13,7 +13,7 @@
     <string name="price">Costo</string>
     <string name="description">Descrizione</string>
     <string name="productName">Nome prodotto</string>
-    <string name="home">home</string>
+    <string name="home">Home</string>
     <string name="order_history">Storico ordini</string>
     <string name="loadImage">Carica immagine profilo</string>
     <string name="logout">Logout</string>
@@ -130,7 +130,9 @@
 
     <string name="empty_review">Nessuna recensione</string>
 
-    <string name="message_confirm_delete">Sei sicuro di voler eliminare il profilo? Tutti i dati verranno eliminati</string>
+    <string name="message_confirm_deleteAccount">Sei sicuro di voler eliminare il profilo? Tutti i dati verranno eliminati</string>
+    <string name="message_confirm_deleteCategory">Questa categoria e tutti i suoi prodotti saranno cancellati. Ne sei sicuro?</string>
+    <string name="message_confirm_deleteProduct">Questo prodotto sarà cancellato. Ne sei sicuro?</string>
 
     <string name="new_password_equals_old">La nuova password deve essere diversa dalla vecchia</string>
 
@@ -140,4 +142,6 @@
 
     <string name="delivery_date_label">Data consegna</string>
     <string name="order_number">Numero ordine</string>
+
+
 </resources>

@@ -108,4 +108,5 @@
 
     <string name="delivery_date_label">Data consegna</string>
     <string name="order_number">Numero ordine</string>
+
 </resources>

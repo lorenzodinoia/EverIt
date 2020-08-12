@@ -132,34 +132,26 @@ public class PrivacySecurityFragment extends Fragment {
             TextView message = dialog.findViewById(R.id.textViewMessage);
             message.setText(R.string.message_confirm_delete);
             MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
-            btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            btnOk.setOnClickListener(v -> {
 
-                    CustomerRequest customerRequest = new CustomerRequest();
-                    customerRequest.delete(customer.getId(), new RequestListener<Boolean>() {
-                        @Override
-                        public void successResponse(Boolean response) {
-                            parentActivity.finishAffinity();
-                            Intent intent = new Intent(parentActivity, LoginActivity.class);
-                            startActivity(intent);
-                        }
+                CustomerRequest customerRequest = new CustomerRequest();
+                customerRequest.delete(customer.getId(), new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        parentActivity.finishAffinity();
+                        Intent intent = new Intent(parentActivity, LoginActivity.class);
+                        startActivity(intent);
+                    }
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            dialog.dismiss();
-                            promptMessage(error.getMessage());
-                        }
-                    });
-                }
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        dialog.dismiss();
+                        promptMessage(error.getMessage());
+                    }
+                });
             });
             MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+            btnCancel.setOnClickListener(v -> dialog.dismiss());
 
             dialog.show();
         });

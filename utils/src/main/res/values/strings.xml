@@ -51,4 +51,7 @@
     <string name="currency_type">$</string>
 
     <string name="error">Error</string>
+    <string name="error_orderNotes_maxChar">Maximum number of characters is 250</string>
+    <string name="error_deliveryNotes_maxChar">Maximum number of characters is 250</string>
+    <string name="error_valueReview_long">Reviews can be up to 250 characters long</string>
 </resources>

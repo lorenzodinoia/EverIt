@@ -27,6 +27,7 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailActivity;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Review;
@@ -102,33 +103,35 @@ public class ReviewListFragment extends Fragment {
 
         TextInputLayout reviewLayout = dialogMakeReview.findViewById(R.id.editTextReviewContainer);
         TextInputEditText editTextReview = dialogMakeReview.findViewById(R.id.editTextReview);
-        editTextReview.setHint(String.valueOf(R.string.review_hint));
+        editTextReview.setHint(getString(R.string.review_hint));
 
         RatingBar ratingBarDialog = dialogMakeReview.findViewById(R.id.ratingBarReviewDialog);
 
         MaterialButton buttonConfirmReview = dialogMakeReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
-            Review review = new Review(
-                    (int)ratingBarDialog.getRating(),
-                    editTextReview.getText().toString(),
-                    LocalDateTime.now(),
-                    (Customer) Providers.getAuthProvider().getUser(),
-                    restaurateur
-            );
+            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, getActivity())){
+                Review review = new Review(
+                        (int)ratingBarDialog.getRating(),
+                        editTextReview.getText().toString(),
+                        LocalDateTime.now(),
+                        (Customer) Providers.getAuthProvider().getUser(),
+                        restaurateur
+                );
 
-            ReviewRequest reviewRequest = new ReviewRequest();
-            reviewRequest.create(review, new RequestListener<Review>() {
-                @Override
-                public void successResponse(Review response) {
-                    dialogMakeReview.dismiss();
-                    //TODO Manca aggiornamento automatico
-                }
+                ReviewRequest reviewRequest = new ReviewRequest();
+                reviewRequest.create(review, new RequestListener<Review>() {
+                    @Override
+                    public void successResponse(Review response) {
+                        dialogMakeReview.dismiss();
+                        //TODO Manca aggiornamento automatico
+                    }
 
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
-                }
-            });
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
+            }
         });
 
         MaterialButton buttonClose = dialogMakeReview.findViewById(R.id.BtnCancel);
@@ -150,27 +153,29 @@ public class ReviewListFragment extends Fragment {
 
         MaterialButton buttonConfirmReview = dialogModifyReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
-            Review modReview = new Review(
-                    review.getId(),
-                    (int) ratingBarDialog.getRating(),
-                    editTextReview.getText().toString(),
-                    LocalDateTime.now(),
-                    (Customer) Providers.getAuthProvider().getUser(),
-                    restaurateur);
+            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, getActivity())) {
+                Review modReview = new Review(
+                        review.getId(),
+                        (int) ratingBarDialog.getRating(),
+                        editTextReview.getText().toString(),
+                        LocalDateTime.now(),
+                        (Customer) Providers.getAuthProvider().getUser(),
+                        restaurateur);
 
-            ReviewRequest reviewRequest = new ReviewRequest();
-            reviewRequest.update(modReview, new RequestListener<Review>() {
-                @Override
-                public void successResponse(Review response) {
-                    dialogModifyReview.dismiss();
-                    //TODO Manca aggiornamento automatico
-                }
+                ReviewRequest reviewRequest = new ReviewRequest();
+                reviewRequest.update(modReview, new RequestListener<Review>() {
+                    @Override
+                    public void successResponse(Review response) {
+                        dialogModifyReview.dismiss();
+                        //TODO Manca aggiornamento automatico
+                    }
 
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
-                }
-            });
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
+            }
         });
 
         MaterialButton buttonClose = dialogModifyReview.findViewById(R.id.BtnCancel);

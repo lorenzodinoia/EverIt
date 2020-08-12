@@ -119,4 +119,6 @@
 
     <string name="delivery_date_label">Delivery date</string>
     <string name="order_number">Order number</string>
+
+
 </resources>
