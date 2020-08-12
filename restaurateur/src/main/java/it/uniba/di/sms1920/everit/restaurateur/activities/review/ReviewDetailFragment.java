@@ -21,18 +21,12 @@ import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Review;
 
 public class ReviewDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
+
     public static final String ARG_ITEM_ID = "item_id";
 
     private Review mItem;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+
     public ReviewDetailFragment() {
     }
 
@@ -43,12 +37,6 @@ public class ReviewDetailFragment extends Fragment {
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             long id =  getArguments().getLong(ARG_ITEM_ID);
             mItem = ReviewListActivity.getReviewById(id);
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            /*if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
-            }*/
         }
     }
 

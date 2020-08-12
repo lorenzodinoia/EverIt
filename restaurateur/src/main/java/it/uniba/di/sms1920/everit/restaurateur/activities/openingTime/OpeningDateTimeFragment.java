@@ -1,18 +1,19 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.openingTime;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import org.threeten.bp.LocalTime;
 
@@ -67,7 +68,7 @@ public class OpeningDateTimeFragment extends Fragment {
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    Log.d("test", "error");
+                    promptErrorMessageWithClousure(error.getMessage());
                 }
             });
         }
@@ -155,8 +156,7 @@ public class OpeningDateTimeFragment extends Fragment {
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    //TODO gestire errorResponse OpeningDateTime
-                    Log.d("test", error.getMessage());
+                    promptErrorMessage(error.getMessage());
                 }
             });
         }
@@ -182,8 +182,7 @@ public class OpeningDateTimeFragment extends Fragment {
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    //TODO gestire errorResponse OpeningDateTime
-                    Log.d("test", error.toString());
+                    promptErrorMessage(error.getMessage());
                 }
             });
         }
@@ -227,12 +226,40 @@ public class OpeningDateTimeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public interface OnFragmentInteractionListener {
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
-        void messageFromChildFragment(Uri uri);
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
-    public void updateEditText(LocalTime time){
+    private void promptErrorMessageWithClousure(String message){
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            getActivity().finish();
+        });
+
+        dialog.show();
     }
 }

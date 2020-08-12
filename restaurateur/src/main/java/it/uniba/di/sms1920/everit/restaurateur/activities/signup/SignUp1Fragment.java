@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -91,7 +93,7 @@ public class SignUp1Fragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire errore
+                promptErrorMessage(error.getMessage());
             }
         });
 
@@ -227,5 +229,24 @@ public class SignUp1Fragment extends Fragment {
             signUpActivity = (SignUpActivity) context;
             restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(signUpActivity);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            signUpActivity.finish();
+        });
+
+        dialog.show();
     }
 }

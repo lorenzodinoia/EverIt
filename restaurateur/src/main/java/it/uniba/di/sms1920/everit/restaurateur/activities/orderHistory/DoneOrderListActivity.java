@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
@@ -33,20 +35,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * An activity representing a list of DoneOrders. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link DoneOrderDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 public class DoneOrderListActivity extends AppCompatActivity {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private boolean mTwoPane;
     public static final List<Order> orders = new ArrayList<>();
     private TextView textViewEmptyOrders;
@@ -63,10 +53,6 @@ public class DoneOrderListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (findViewById(R.id.doneorder_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
             mTwoPane = true;
         }
 
@@ -93,6 +79,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
             @Override
             public void errorResponse(RequestException error) {
                 //TODO gestire error response
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -201,5 +188,24 @@ public class DoneOrderListActivity extends AppCompatActivity {
                 textViewOrderPrice = view.findViewById(R.id.textViewOrderPrice);
             }
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
     }
 }

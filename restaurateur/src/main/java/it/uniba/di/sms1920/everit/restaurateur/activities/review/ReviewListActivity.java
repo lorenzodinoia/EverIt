@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.review;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -35,10 +37,6 @@ import java.util.Objects;
 
 public class ReviewListActivity extends AppCompatActivity {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private boolean mTwoPane;
     public static final List<Review> reviewList = new ArrayList<>();
     private TextView textViewEmptyDataReviewRestaurateur;
@@ -48,17 +46,13 @@ public class ReviewListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (findViewById(R.id.review_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
             mTwoPane = true;
         }
 
@@ -84,7 +78,7 @@ public class ReviewListActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire errorResponse
+                promptErrorMessage(error.getMessage());
             }
         });
 
@@ -195,5 +189,24 @@ public class ReviewListActivity extends AppCompatActivity {
                 textViewRatingIndicator = view.findViewById(R.id.textViewRatingIndicatorReview);
             }
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
     }
 }

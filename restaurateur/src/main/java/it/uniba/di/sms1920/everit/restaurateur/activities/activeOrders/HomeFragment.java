@@ -15,7 +15,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.BaseActivity;
-import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderListFragment;
 import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.ui.main.OrderTabAdapter;
 
 

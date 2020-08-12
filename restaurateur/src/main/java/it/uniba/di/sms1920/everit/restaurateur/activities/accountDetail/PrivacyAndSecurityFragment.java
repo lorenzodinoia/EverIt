@@ -72,7 +72,7 @@ public class PrivacyAndSecurityFragment extends Fragment {
                 if(Utility.isPasswordValid(oldPassword)) {
                     if (Utility.isPasswordValid(newPassword)) {
                         if (newPassword.equals(confirmNewPassword)) {
-                            if(newPassword.equals(oldPassword)) {
+                            if(!newPassword.equals(oldPassword)) {
                                 RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
                                 restaurateurRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
                                     @Override
@@ -84,7 +84,6 @@ public class PrivacyAndSecurityFragment extends Fragment {
 
                                     @Override
                                     public void errorResponse(RequestException error) {
-                                        //TODO usa il layout del dialog errato
                                         promptErrorMessage(error.getMessage());
                                     }
                                 });
@@ -133,7 +132,6 @@ public class PrivacyAndSecurityFragment extends Fragment {
 
                         @Override
                         public void errorResponse(RequestException error) {
-                            //TODO non compare il dialog
                             dialog.dismiss();
                             promptErrorMessage(error.getMessage());
                         }

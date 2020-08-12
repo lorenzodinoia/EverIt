@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -84,7 +87,22 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire error response
+                Dialog dialog = new Dialog(mParent);
+                dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+                TextView title = dialog.findViewById(R.id.textViewTitle);
+                title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+                TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+                textViewMessage.setText(error.getMessage());
+
+                Button btnOk = dialog.findViewById(R.id.btnOk);
+                btnOk.setOnClickListener(v ->{
+                    mParent.getSupportFragmentManager().popBackStack();
+                    dialog.dismiss();
+                });
+
+                dialog.show();
             }
         });
         return view;
@@ -184,8 +202,22 @@ public class ProfileFragment extends Fragment {
 
                             @Override
                             public void errorResponse(RequestException error) {
-                                //TODO gestire error response
                                 Log.d("test", error.toString());
+                                Dialog dialog = new Dialog(mParent);
+                                dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+                                TextView title = dialog.findViewById(R.id.textViewTitle);
+                                title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+                                TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+                                textViewMessage.setText(error.getMessage());
+
+                                Button btnOk = dialog.findViewById(R.id.btnOk);
+                                btnOk.setOnClickListener(v ->{
+                                    dialog.dismiss();
+                                });
+
+                                dialog.show();
                             }
                         });
                     }
@@ -218,4 +250,5 @@ public class ProfileFragment extends Fragment {
             }
         }
     }
+
 }

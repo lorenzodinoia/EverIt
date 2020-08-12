@@ -12,7 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.ViewPager;
@@ -162,6 +161,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void errorResponse(RequestException error) {
                         Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                        //TODO gestire error response
                     }
                 });
 

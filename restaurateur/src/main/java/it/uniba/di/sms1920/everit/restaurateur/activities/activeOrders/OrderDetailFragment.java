@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -11,10 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
@@ -97,7 +98,6 @@ public class OrderDetailFragment extends Fragment {
 
             confirmButton.setOnClickListener(v -> {
                 OrderRequest orderRequest = new OrderRequest();
-                //TODO gestire risposte
                 if(index == 0){
                     orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
                         @Override
@@ -107,7 +107,7 @@ public class OrderDetailFragment extends Fragment {
 
                         @Override
                         public void errorResponse(RequestException error) {
-                            Log.d("test", "Not edited");
+                            promptErrorMessage(error.getMessage());
                         }
                     });
                 }
@@ -120,7 +120,7 @@ public class OrderDetailFragment extends Fragment {
 
                         @Override
                         public void errorResponse(RequestException error) {
-                            Log.d("test", "Not late");
+                            promptErrorMessage(error.getMessage());
                         }
                     });
                 }
@@ -209,5 +209,23 @@ public class OrderDetailFragment extends Fragment {
                 textViewQuantity = view.findViewById(R.id.textViewQuantity);
             }
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(mParent);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Objects;
 
@@ -47,7 +50,7 @@ public class AccountDetailActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire errorResponse
+                promptErrorMessage(error.getMessage());
             }
         });
 
@@ -71,4 +74,22 @@ public class AccountDetailActivity extends AppCompatActivity {
         return restaurateur;
     }
 
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
+    }
 }
