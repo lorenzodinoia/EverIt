@@ -283,10 +283,8 @@ public class ReviewListFragment extends Fragment {
             reviewRequest.delete(review.getId(), new RequestListener<Boolean>() {
                 @Override
                 public void successResponse(Boolean response) {
-                    //TODO aggiornare la lista
                     dialog.dismiss();
                     updateData();
-                    //setupRecyclerView(reviewRecycleView);
                 }
 
                 @Override
