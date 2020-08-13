@@ -1,7 +1,5 @@
 package it.uniba.di.sms1920.everit.utils.adapter;
 
-import android.util.Log;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,6 +18,7 @@ import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.models.Model;
 import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
+import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
