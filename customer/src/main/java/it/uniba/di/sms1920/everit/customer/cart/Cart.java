@@ -1,6 +1,9 @@
 package it.uniba.di.sms1920.everit.customer.cart;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -13,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
 
+import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -26,7 +30,7 @@ public class Cart {
 
     private static Cart instance;
 
-    private Context context;
+    private static Context context;
     private PartialOrder partialOrder;
 
     private Cart(Context context) {
@@ -76,7 +80,10 @@ public class Cart {
             }
 
             @Override
-            public void errorResponse(RequestException error) {}
+            public void errorResponse(RequestException error) {
+                //TODO verificare prompt messaggio errore
+                promptErrorMessage(error.getMessage());
+            }
         });
     }
 
@@ -165,5 +172,23 @@ public class Cart {
         catch (FileNotFoundException ignored) { }
 
         return serializedItem;
+    }
+
+    private static void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

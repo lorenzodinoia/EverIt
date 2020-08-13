@@ -1,8 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -14,14 +12,12 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeFragment;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
+public class SignUpActivity extends AppCompatActivity {
 
-public class SignUpActivity extends AppCompatActivity implements  OpeningDateTimeFragment.OnFragmentInteractionListener, OpeningTimeSelectionFragment.OnFragmentInteractionListener{
-
+    //TODO si rompe quando viene girata la view
     private Restaurateur.Builder restaurateur = new Restaurateur.Builder();
-    private int state = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +33,6 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
         SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
-        /*OpeningTimeSelectionFragment fragmentSignUp1 = new OpeningTimeSelectionFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();*/
-
     }
 
     @Override
@@ -75,13 +67,4 @@ public class SignUpActivity extends AppCompatActivity implements  OpeningDateTim
         return restaurateur;
     }
 
-    @Override
-    public void messageFromChildFragment(Uri uri) {
-        Log.i("TAG", "received communication from parent fragment");
-    }
-
-    @Override
-    public void messageFromParentFragment(Uri uri) {
-        Log.i("TAG", "received communication from child fragment");
-    }
 }

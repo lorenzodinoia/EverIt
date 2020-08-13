@@ -10,7 +10,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp">
 
@@ -19,7 +19,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageViewRestaurantLogoReviewListContent"
+                android:id="@+id/imageViewRestaurateurLogoReviewListContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -39,8 +39,38 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?attr/textAppearanceListItem"
-                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogoReviewListContent"
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateurLogoReviewListContent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewLabelReviewDate"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/review_date"
+                app:layout_constraintStart_toEndOf="@id/imageViewRestaurateurLogoReviewListContent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewShopNameReviewListContent" />
+
+            <TextView
+                android:id="@+id/textViewTwoPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/textViewLabelReviewDate"
+                app:layout_constraintTop_toBottomOf="@+id/textViewShopNameReviewListContent"/>
+
+            <TextView
+                android:id="@+id/textViewReviewDate"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/textViewTwoPoints"
+                app:layout_constraintTop_toBottomOf="@+id/textViewShopNameReviewListContent" />
 
             <RatingBar
                 android:id="@+id/ratingBarReviewListContent"
@@ -48,18 +78,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:numStars="5"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogoReviewListContent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewShopNameReviewListContent" />
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateurLogoReviewListContent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelReviewDate" />
 
             <TextView
                 android:id="@+id/textViewRatingIndicatorReviewListContent"
                 style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ratingBarReviewListContent" />

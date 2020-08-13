@@ -20,11 +20,6 @@
             android:title="@string/My_profile" />
 
         <item
-            android:id="@+id/nav_privacyNsecurity"
-            android:icon="@android:drawable/ic_partial_secure"
-            android:title="@string/privacySecurity" />
-
-        <item
             android:id="@+id/nav_order"
             android:icon="@android:drawable/ic_menu_today"
             android:title="@string/order" />
@@ -33,15 +28,15 @@
             android:id="@+id/nav_review"
             android:icon="@android:drawable/ic_menu_edit"
             android:title="@string/My_review" />
+
+        <item
+            android:id="@+id/nav_account_detail"
+            android:icon="@drawable/ic_baseline_person_outline_24"
+            android:title="@string/account_detail" />
     </group>
 
     <group android:checkableBehavior="single"
         android:id="@+id/section_settings">
-        <item
-            android:id="@+id/nav_setting"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="@string/settings" />
-
         <item android:id="@+id/exit"
             android:title="@string/logout"/>
     </group>

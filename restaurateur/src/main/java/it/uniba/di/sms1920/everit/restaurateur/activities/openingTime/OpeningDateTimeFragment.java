@@ -1,19 +1,19 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.openingTime;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import org.threeten.bp.LocalTime;
 
@@ -22,29 +22,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.signup.OpeningTimeSelectionFragment;
 import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
 import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
 import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
-import it.uniba.di.sms1920.everit.utils.models.Product;
-import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
-import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.OpeningTimeRequest;
+import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 
 public class OpeningDateTimeFragment extends Fragment {
 
-    private OnFragmentInteractionListener listener;
     private SignUpActivity signUpActivity;
     private ExpandableListView expandableListView;
     private OpeningDateTimeExpandibleListAdapter expandableListAdapter;
     private List<OpeningDay> expandableListDetail = new LinkedList<>();
     private Restaurateur.Builder restaurateurBuilder;
     private Restaurateur restaurateur;
-    private OpeningTime lastItem = new OpeningTime(LocalTime.now(), LocalTime.now());
+    private OpeningTime lastItem = new OpeningTime(-1, LocalTime.now(), LocalTime.now());
     private List<OpeningDay> days = new ArrayList<>();
 
     public OpeningDateTimeFragment() {
@@ -61,17 +57,29 @@ public class OpeningDateTimeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View viewRoot = inflater.inflate(R.layout.fragment_opening_date_time, parent, false);
-        initComponent(viewRoot);
+        if(restaurateurBuilder == null) {
+            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+            restaurateurRequest.getCurrentUser(new RequestListener() {
+                @Override
+                public void successResponse(Object response) {
+                    restaurateur = (Restaurateur) response;
+                    initComponent(viewRoot);
+                }
+
+                @Override
+                public void errorResponse(RequestException error) {
+                    promptErrorMessageWithClousure(error.getMessage());
+                }
+            });
+        }
+        else{
+            initComponent(viewRoot);
+        }
 
         return viewRoot;
     }
 
     private void initComponent(View view) {
-        /*if((restaurateurBuilder != null) && (restaurateurBuilder.getOpeningDays() != null)){
-            for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
-                day.getOpeningTimes().remove(day.getOpeningTimes().size()-1);
-            }
-        }*/
         expandableListView = view.findViewById(R.id.expandableMenuOpening);
         //add data to expandible list detail
         fillListDetail();
@@ -94,8 +102,13 @@ public class OpeningDateTimeFragment extends Fragment {
 
     private void fillListDetail(){
         if(restaurateurBuilder == null){
-            restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
-            expandableListDetail = restaurateur.getOpeningDays();
+            setExpandableListData();
+            for(OpeningDay day : restaurateur.getOpeningDays()){
+                for(OpeningTime time : day.getOpeningTimes()){
+                    expandableListDetail.get((int) day.getId()-1).getOpeningTimes().add(time);
+                }
+
+            }
         }
         else{
             if(restaurateurBuilder.getOpeningDays() == null) {
@@ -108,28 +121,42 @@ public class OpeningDateTimeFragment extends Fragment {
             }
         }
         for(OpeningDay item : expandableListDetail){
-            item.getOpeningTimes().add(lastItem);
+            boolean fakeItem = false;
+            if(item.getOpeningTimes().isEmpty()){
+                item.getOpeningTimes().add(lastItem);
+            }
+            else{
+                for(OpeningTime time : item.getOpeningTimes()){
+                    if(time.getId() == lastItem.getId()){
+                        fakeItem = true;
+                    }
+                }
+                if(!fakeItem) {
+                    item.getOpeningTimes().add(lastItem);
+                }
+            }
+
         }
     }
 
-
-    //TODO verificare dati del restaurateur
-    //TODO verificare efficacia richieste
 
     public void createOpeningTime(int listPosition, OpeningTime openingTime){
 
         if(restaurateurBuilder == null){
             OpeningTimeRequest openingTimeRequest = new OpeningTimeRequest();
-            openingTimeRequest.create(openingTime, new RequestListener<OpeningTime>() {
+            openingTimeRequest.createOpeningTime(expandableListDetail.get(listPosition).getId(), openingTime, new RequestListener<OpeningTime>() {
                 @Override
                 public void successResponse(OpeningTime response) {
-                    expandableListDetail.get(listPosition).getOpeningTimes().add(response);
+                    expandableListDetail.get(listPosition).getOpeningTimes().remove(expandableListDetail.get(listPosition).getOpeningTimes().size()-1);
+                    openingTime.setId(response.getId());
+                    expandableListDetail.get(listPosition).getOpeningTimes().add(openingTime);
+                    expandableListDetail.get(listPosition).getOpeningTimes().add(lastItem);
                     notifyDataSetChanged();
                 }
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    //TODO gestire errorResponse OpeningDateTime
+                    promptErrorMessage(error.getMessage());
                 }
             });
         }
@@ -155,7 +182,7 @@ public class OpeningDateTimeFragment extends Fragment {
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    //TODO gestire errorResponse OpeningDateTime
+                    promptErrorMessage(error.getMessage());
                 }
             });
         }
@@ -187,17 +214,11 @@ public class OpeningDateTimeFragment extends Fragment {
             restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
 
-        if(context instanceof OpeningTimeSelectionFragment.OnFragmentInteractionListener){
-            listener = (OnFragmentInteractionListener) context;
-        }else{
-            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
     }
 
     @Override
@@ -205,12 +226,40 @@ public class OpeningDateTimeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void messageFromChildFragment(Uri uri);
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
-    public void updateEditText(LocalTime time){
+    private void promptErrorMessageWithClousure(String message){
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            getActivity().finish();
+        });
+
+        dialog.show();
     }
 }

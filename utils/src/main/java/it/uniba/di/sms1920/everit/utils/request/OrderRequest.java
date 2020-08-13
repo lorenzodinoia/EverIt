@@ -3,24 +3,27 @@ package it.uniba.di.sms1920.everit.utils.request;
 import com.android.volley.Request;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.models.Order;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.models.User;
 import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.ArrayRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.ObjectRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestExceptionFactory;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order> {
 
-    //private final String URL = "customer/order";
     private final String CUSTOMER = "customer";
     private final String RESTAURATEUR = "restaurateur";
     private final String ORDER = "order";
@@ -68,4 +71,83 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
 
         Providers.getRequestProvider().addToQueue(request);
     }
+
+    public void readDoneOrders(RequestListener<Collection<Order>> requestListener){
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%s/done", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
+                response -> {
+                    try {
+                        Collection<Order> collection = adapter.fromJSONArray(response, Order.class);
+                        requestListener.successResponse(collection);
+                    }
+                    catch (JSONException e) {
+                        requestListener.errorResponse(new RequestException(e.getMessage()));
+                    }
+                },
+                error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                Providers.getAuthProvider().getAuthToken());
+
+        Providers.getRequestProvider().addToQueue(request);
+    }
+
+    public void readToDoOrders(RequestListener<Collection<Order>> requestListener){
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%s/toDo", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
+                response -> {
+                    try {
+                        Collection<Order> collection = adapter.fromJSONArray(response, Order.class);
+                        requestListener.successResponse(collection);
+                    }
+                    catch (JSONException e) {
+                        requestListener.errorResponse(new RequestException(e.getMessage()));
+                    }
+                },
+                error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                Providers.getAuthProvider().getAuthToken());
+
+        Providers.getRequestProvider().addToQueue(request);
+    }
+
+    public void markAsConfirmed(long orderId, RequestListener<Order> requestListener) {
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s/%s/%d/markAsConfirmed", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+                    response -> {
+                        Order data = adapter.fromJSON(response, Order.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void markAsLate(long orderId, RequestListener<Order> requestListener){
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s/%s/%d/markAsLate", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+                    response -> {
+                        Order data = adapter.fromJSON(response, Order.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
 }

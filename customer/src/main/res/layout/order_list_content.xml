@@ -26,55 +26,115 @@
                 style="@style/TextViewLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
-                android:text="Nome negozio"
+                android:text="Nome Negozio"
                 app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewPrice"
-                style="@style/TextViewMedium"
+                android:id="@+id/textViewOrderNumber"
+                style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
-                android:text="prezzo"
-                app:layout_constraintStart_toEndOf="@+id/textViewOrderDate"
-                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/greyAccent"
+                app:layout_constraintBottom_toTopOf="@+id/textViewLabelPrice"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewActivityName" />
 
             <TextView
-                android:id="@+id/textViewOrderDate"
-                style="@style/TextViewMedium"
+                android:id="@+id/textViewLabelPrice"
+                style="@style/TextViewVerySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewActivityName"
+                app:layout_constraintStart_toEndOf="@id/textViewOrderStatus"
+                android:text="@string/total_price_label"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="20dp"/>
+
+            <TextView
+                android:id="@+id/textViewPrice"
+                style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="prezzo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewOrderStatus"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelPrice"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textViewLableOrderDate"
+                style="@style/TextViewVerySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_date_label"
+                app:layout_constraintStart_toEndOf="@id/imageViewRestaurateur"
+                app:layout_constraintTop_toBottomOf="@id/textViewActivityName"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="12dp"/>
+
+            <TextView
+                android:id="@+id/textViewOrderDate"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
                 android:text="data ordine"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
-                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewLableOrderDate"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/imageViewRestaurateur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@mipmap/icon" />
 
             <TextView
-                android:id="@+id/textViewOrderStatus"
+                android:id="@+id/textViewLabelOrderStatus"
+                style="@style/TextViewVerySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/order_status_label"
+                app:layout_constraintStart_toEndOf="@+id/textViewOrderDate"
+                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
+
+            <TextView
+                android:id="@+id/textViewOrderStatus"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
                 android:text="stato ordine"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
-                app:layout_constraintTop_toBottomOf="@+id/textViewOrderDate"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintStart_toEndOf="@+id/textViewOrderDate"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelOrderStatus"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

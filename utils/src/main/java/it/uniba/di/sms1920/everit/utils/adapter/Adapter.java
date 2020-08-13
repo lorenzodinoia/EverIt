@@ -41,6 +41,7 @@ public class Adapter<T extends Model> {
             .registerTypeAdapter(PRODUCT_MAP_TYPE, new ProductMapAdapter())
             .registerTypeAdapter(OPENING_DAY_ARRAY_TYPE, new OpeningDayArrayAdapter())
             .registerTypeAdapter(Product.class, new ProductAdapter())
+            .registerTypeAdapter(OpeningTime.class, new OpeningTimeAdapter())
             .create();
 
     public JSONObject toJSON(T object) throws JSONException {

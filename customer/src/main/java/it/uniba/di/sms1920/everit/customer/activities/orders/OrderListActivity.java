@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.customer.activities.orders;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +33,7 @@ import java.util.List;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.CartActivity;
+import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
 import it.uniba.di.sms1920.everit.customer.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
@@ -43,15 +48,14 @@ public class OrderListActivity extends AppCompatActivity {
     private boolean twoPaneMode;
     @SuppressLint("UseSparseArrays")
     public static final List<Order> orderList = new ArrayList<>();
-
-    //TODO aggiungere gestione se non ci sono dati (anche nelle review)
+    private TextView textViewEmptyOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_default);
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
         toolbar.setTitle(getTitle());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,6 +69,7 @@ public class OrderListActivity extends AppCompatActivity {
             this.twoPaneMode = true;
         }
 
+        textViewEmptyOrders = findViewById(R.id.textViewEmptyOrderHistoryCustomer);
         View recyclerView = findViewById(R.id.order_list);
         assert recyclerView != null;
 
@@ -72,19 +77,24 @@ public class OrderListActivity extends AppCompatActivity {
         orderRequest.readAll(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
+                orderList.clear();
                 if(!response.isEmpty()) {
-                    orderList.clear();
+                    textViewEmptyOrders.setVisibility(View.INVISIBLE);
                     orderList.addAll(response);
-                    setupRecyclerView((RecyclerView) recyclerView);
                 }
                 else{
-
+                    textViewEmptyOrders.setVisibility(View.VISIBLE);
+                    textViewEmptyOrders.setText(R.string.no_orders);
+                    textViewEmptyOrders.bringToFront();
                 }
+
+                setupRecyclerView((RecyclerView) recyclerView);
             }
 
             @Override
             public void errorResponse(RequestException error) {
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                promptErrorMessage(error.getMessage());
+
             }
         });
 
@@ -134,6 +144,25 @@ public class OrderListActivity extends AppCompatActivity {
         return order;
     }
 
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
+    }
+
     public static class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecyclerViewAdapter.ViewHolder> {
         private final OrderListActivity parentActivity;
         private final List<Order> orders;
@@ -175,19 +204,22 @@ public class OrderListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             Order item = this.orders.get(position);
             if (item != null) {
+                holder.textViewOrderNumber.setText("#"+item.getId());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
+                LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
                 String dateAsString = "";
-                DateFormat dateFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT, Locale.getDefault());
                 if (item.isDelivered()) {
                     if (item.getActualDeliveryTime() != null) {
-                        dateAsString = dateFormat.format(item.getActualDeliveryTime());
+                        dateAsString = estimatedDeliveryTime.format(formatter);
                     }
                 }
                 else {
-                    dateAsString = dateFormat.format(item.getEstimatedDeliveryTime());
+                    dateAsString = estimatedDeliveryTime.format(formatter);
                 }
 
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
-                holder.textViewPrice.setText(String.format(Locale.getDefault(), "€ %.2f", item.getTotalCost()));
+                float totalCost = item.getTotalCost() + item.getRestaurateur().getDeliveryCost();
+                holder.textViewPrice.setText(String.format(Locale.getDefault(), "€ %.2f", totalCost));
                 holder.textViewDeliveryDate.setText(dateAsString);
                 if(item.getRestaurateur().getImagePath() != null){
                     String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
@@ -223,6 +255,7 @@ public class OrderListActivity extends AppCompatActivity {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView textViewOrderNumber;
             final TextView textViewActivityName;
             final TextView textViewPrice;
             final TextView textViewDeliveryDate;
@@ -231,11 +264,12 @@ public class OrderListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                textViewActivityName = (TextView) view.findViewById(R.id.textViewActivityName);
-                textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
-                textViewDeliveryDate = (TextView) view.findViewById(R.id.textViewOrderDate);
-                textViewOrderStatus = (TextView) view.findViewById(R.id.textViewOrderStatus);
-                imageViewRestaurateur = (ImageView) view.findViewById(R.id.imageViewRestaurateur);
+                textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
+                textViewActivityName = view.findViewById(R.id.textViewActivityName);
+                textViewPrice = view.findViewById(R.id.textViewPrice);
+                textViewDeliveryDate = view.findViewById(R.id.textViewOrderDate);
+                textViewOrderStatus = view.findViewById(R.id.textViewOrderStatus);
+                imageViewRestaurateur = view.findViewById(R.id.imageViewRestaurateur);
             }
         }
     }

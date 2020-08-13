@@ -1,19 +1,16 @@
 package it.uniba.di.sms1920.everit.utils.request;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,13 +32,16 @@ import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
+import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.models.User;
 import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.ArrayRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
 import it.uniba.di.sms1920.everit.utils.request.core.MultipartRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.ObjectRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestExceptionFactory;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -50,6 +50,11 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
 
     private final String URL = "restaurateur";
     private final String IMAGE = "image";
+
+    private static class Keys{
+        private static final String KEY_OLD_PASSWORD = "old_password";
+        private static final String KEY_NEW_PASSWORD = "new_password";
+    }
 
     //TODO implementare altre funzioni
 
@@ -70,12 +75,12 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
 
     @Override
     public void update(Restaurateur model, RequestListener<Restaurateur> RequestListener) {
-        throw new UnsupportedOperationException();
+        super.update(model, URL+"/update", RequestListener, Restaurateur.class, true);
     }
 
     @Override
     public void delete(long id, RequestListener<Boolean> RequestListener) {
-        throw new UnsupportedOperationException();
+        super.delete(id, URL+"/delete", RequestListener, true);
     }
 
     public void search(double latitude, double longitude, RequestListener<Collection<Restaurateur>> requestListener) {
@@ -126,6 +131,7 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
                     @Override
                     public void onResponse(NetworkResponse response) {
                         Log.d("test", new String(response.data));
+                        requestListener.successResponse(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -162,5 +168,86 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         return image;
     }
 
+    public void getCurrentUser(RequestListener requestListener){
+        Adapter<Restaurateur> adapter = AdapterProvider.getAdapterFor(Restaurateur.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s/read/current", Constants.SERVER_HOST, URL), null,
+                    response -> {
+                        Restaurateur data = adapter.fromJSON(response, Restaurateur.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
 
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setShopName(Restaurateur model, RequestListener requestListener){
+        Adapter<Restaurateur> adapter = AdapterProvider.getAdapterFor(Restaurateur.class);
+
+        try {
+            JSONObject jsonObject = adapter.toJSON(model);
+
+            ObjectRequest request = new ObjectRequest(Request.Method.PUT, String.format("%s/api/%s/update/shopName", Constants.SERVER_HOST, URL), jsonObject,
+                    response -> {
+                        Restaurateur data = adapter.fromJSON(response, Restaurateur.class);
+                        requestListener.successResponse(data);
+                    },
+                    error ->requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                    Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setEmail(Restaurateur model, RequestListener requestListener){
+        Adapter<Restaurateur> adapter = AdapterProvider.getAdapterFor(Restaurateur.class);
+
+        try {
+            JSONObject jsonObject = adapter.toJSON(model);
+
+            ObjectRequest request = new ObjectRequest(Request.Method.PUT, String.format("%s/api/%s/update/email", Constants.SERVER_HOST, URL), jsonObject,
+                    response -> {
+                        Restaurateur data = adapter.fromJSON(response, Restaurateur.class);
+                        requestListener.successResponse(data);
+                    },
+                    error ->requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),
+                    Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changePassword(String oldPassword, String newPassword, RequestListener<Boolean> requestListener) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put(RestaurateurRequest.Keys.KEY_OLD_PASSWORD, oldPassword);
+            jsonObject.put(RestaurateurRequest.Keys.KEY_NEW_PASSWORD, newPassword);
+
+            ObjectRequest request = new ObjectRequest(Request.Method. PUT, String.format("%s/api/%s/update/changePassword", Constants.SERVER_HOST, URL), jsonObject,
+                    response -> {
+                        requestListener.successResponse(true);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

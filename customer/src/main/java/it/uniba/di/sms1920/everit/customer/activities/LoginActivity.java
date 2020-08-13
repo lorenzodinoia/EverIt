@@ -56,8 +56,10 @@ public class LoginActivity extends AppCompatActivity {
     private void initComponents() {
         this.editTextEmail = findViewById(R.id.editTextEmail);
         this.editTextPassword = findViewById(R.id.editTextPassword);
+
         this.buttonGoToSignUp = this.findViewById(R.id.buttonGoToSignUp);
         this.buttonGoToSignUp.setOnClickListener(view -> launchSignUpActivity());
+
         this.buttonLogin = this.findViewById(R.id.buttonLoginAL);
         this.buttonLogin.setOnClickListener(view -> {
             String email = this.editTextEmail.getText().toString();
@@ -66,9 +68,11 @@ public class LoginActivity extends AppCompatActivity {
             if(Utility.isEmailValid(email)){
                 if(Utility.isPasswordValid(password)){
                     this.login(email, password);
-                }else{ }
+                }else{
+                    editTextPassword.setError(getApplicationContext().getString(R.string.passwordError));
+                }
             }else {
-                editTextEmail.setError(String.valueOf(it.uniba.di.sms1920.everit.utils.R.string.emailError));
+                editTextEmail.setError(getApplicationContext().getString(R.string.emailError));
             }
 
         });
@@ -79,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
         auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Customer>() {
             @Override
             public void successResponse(Customer response) {
-                Toast.makeText(getApplicationContext(), "Login completato", Toast.LENGTH_LONG ).show();
                 //TODO agguingere refresh schermata home
                 Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
@@ -97,4 +100,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent goIntent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(goIntent);
     }
+
 }

@@ -11,17 +11,17 @@
         tools:layout="@layout/fragment_home"/>
 
     <fragment android:id="@+id/profileFragment"
-        android:name="it.uniba.di.sms1920.everit.customer.activities.ProfileFragment"
+        android:name="it.uniba.di.sms1920.everit.customer.activities.accountDetail.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile"/>
 
-    <fragment android:id="@+id/settingsFragment"
-        android:name="it.uniba.di.sms1920.everit.customer.activities.SettingsFragment"
+    <fragment android:id="@+id/accountDetailFragment"
+        android:name="it.uniba.di.sms1920.everit.customer.activities.accountDetail.AccountDetailFragment"
         android:label="@string/settings"
-        tools:layout="@layout/fragment_settings"/>
+        tools:layout="@layout/fragment_account_detail"/>
 
     <fragment android:id="@+id/privacySecurityFragment"
-        android:name="it.uniba.di.sms1920.everit.customer.activities.PrivacySecurityFragment"
+        android:name="it.uniba.di.sms1920.everit.customer.activities.accountDetail.PrivacySecurityFragment"
         android:label="@string/privacySecurity"
         tools:layout="@layout/fragment_privacy_security"/>
 

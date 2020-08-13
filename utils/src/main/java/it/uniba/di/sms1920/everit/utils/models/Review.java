@@ -2,9 +2,12 @@ package it.uniba.di.sms1920.everit.utils.models;
 
 import android.os.Parcel;
 
+import org.threeten.bp.LocalDateTime;
+
 public class Review extends Model {
     private int vote;
     private String text;
+    private LocalDateTime createdAt;
     private Customer customer;
     private Restaurateur restaurateur;
 
@@ -20,17 +23,18 @@ public class Review extends Model {
         }
     };
 
-    public Review(int vote, String text, Customer customer, Restaurateur restaurateur) {
+    public Review(int vote, String text, LocalDateTime createdAt, Customer customer, Restaurateur restaurateur) {
         this.vote = vote;
         this.text = text;
         this.customer = customer;
         this.restaurateur = restaurateur;
     }
 
-    public Review(long id, int vote, String text, Customer customer, Restaurateur restaurateur) {
+    public Review(long id, int vote, String text, LocalDateTime createdAt, Customer customer, Restaurateur restaurateur) {
         super(id);
         this.vote = vote;
         this.text = text;
+        this.createdAt = createdAt;
         this.customer = customer;
         this.restaurateur = restaurateur;
     }
@@ -39,6 +43,7 @@ public class Review extends Model {
         super(in);
         this.vote = in.readInt();
         this.text = in.readString();
+        this.createdAt = in.readParcelable(LocalDateTime.class.getClassLoader());
         this.customer = in.readParcelable(Customer.class.getClassLoader());
         this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
     }
@@ -57,6 +62,15 @@ public class Review extends Model {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public Review setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+        return this;
     }
 
     public Customer getCustomer() {
@@ -85,6 +99,7 @@ public class Review extends Model {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.vote);
         dest.writeString(this.text);
+        dest.writeSerializable(this.createdAt);
         dest.writeParcelable(this.customer, flags);
         dest.writeParcelable(this.restaurateur, flags);
     }

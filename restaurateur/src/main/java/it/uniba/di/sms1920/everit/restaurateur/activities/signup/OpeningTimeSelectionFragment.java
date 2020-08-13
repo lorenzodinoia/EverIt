@@ -2,7 +2,6 @@ package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,13 +20,11 @@ import com.google.android.material.button.MaterialButton;
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeFragment;
 import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
-import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 
 public class OpeningTimeSelectionFragment extends Fragment {
 
-    private OnFragmentInteractionListener listener;
     private SignUpActivity signUpActivity;
     private OpeningDateTimeFragment openingDateTimeFragment;
     private Restaurateur.Builder restaurateurBuilder;
@@ -92,17 +89,11 @@ public class OpeningTimeSelectionFragment extends Fragment {
             signUpActivity = (SignUpActivity) context;
         }
 
-        if(context instanceof OnFragmentInteractionListener){
-            listener = (OnFragmentInteractionListener) context;
-        }else{
-            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
     }
 
     @Override
@@ -112,8 +103,4 @@ public class OpeningTimeSelectionFragment extends Fragment {
         transaction.replace(R.id.opening_time_container, openingDateTimeFragment).addToBackStack(null).commit(); 
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void messageFromParentFragment(Uri uri);
-    }
 }

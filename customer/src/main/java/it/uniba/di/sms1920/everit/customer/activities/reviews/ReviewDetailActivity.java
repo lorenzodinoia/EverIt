@@ -15,6 +15,8 @@ import androidx.appcompat.app.ActionBar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import java.util.Objects;
+
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Review;
@@ -35,30 +37,32 @@ public class ReviewDetailActivity extends AppCompatActivity {
         long reviewId = getIntent().getLongExtra(ReviewDetailFragment.ARG_ITEM_ID, 0);
         Review review = ReviewListActivity.getReviewById(reviewId);
 
-        ImageView imageView = findViewById(R.id.imageViewRestaurantLogoReviewListContent);
+        /*ImageView imageView = findViewById(R.id.imageViewRestaurantLogoReviewListContent);
         String restaurateurLogoPath = review.getRestaurateur().getImagePath();
         if(restaurateurLogoPath != null){
-            String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, restaurateurLogoPath);
+            String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, restaurateurLogoPath);
             Picasso.get()
                     .load(imageUrl)
-                    .error(R.mipmap.icon)
                     .placeholder(R.mipmap.icon)
                     .fit()
                     .into(imageView);
-        }
+        }*/
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
         if(review != null){
             toolbar.setTitle(review.getRestaurateur().getShopName());
         }
 
         setSupportActionBar(toolbar);
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         // Show the Up button in the action bar.
-        ActionBar actionBar = getSupportActionBar();
+        /*ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        }*/
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity

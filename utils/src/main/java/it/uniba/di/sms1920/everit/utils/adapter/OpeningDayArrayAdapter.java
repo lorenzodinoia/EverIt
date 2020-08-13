@@ -28,7 +28,7 @@ public class OpeningDayArrayAdapter implements JsonDeserializer<List<OpeningDay>
 
     private static final Gson jsonConverter = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .registerTypeAdapter(LocalTime.class, new LocalDateTimeAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
             .setDateFormat(Adapter.JSON_DATETIME_FORMAT)
             .create();
 

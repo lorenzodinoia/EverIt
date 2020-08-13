@@ -33,6 +33,23 @@
     <string name="search_autocomplete_error">Unable to suggests places</string>
     <string name="search_autocomplete_empty">No suggestions</string>
 
+    <string name="no_orders">No orders</string>
+    <string name="no_reviews">No reviews</string>
+    <string name="no_results">No results</string>
+
+    <string name="review_date">Review date</string>
+
+    <string name="new_password_equals_old">New password cannot be equals to the old password</string>
+
+    <string name="delete_account">Delete Account</string>
+    <string name="message_confirm_delete">Are you sure you want to delete the account? All data will be deleted</string>
+    <string name="message_confirm_delete_review">Are you sure you want to delete the review?</string>
+
+    <string name="account_detail">Account detail</string>
+    <string name="account_info">Account info</string>
+    <string name="privacy_and_security">Privacy and security</string>
+
+    <string name="review_number">Review number:</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="search">Search</string>
@@ -67,8 +84,8 @@
     <string name="message_done">Done</string>
     <string name="Menu">Menu</string>
     <string name="ShowMeMenu">Show me the menu</string>
-    <string name="minimum_purchase">Minimum purchase: </string>
-    <string name="delivey_cost">Delivery cost: </string>
+    <string name="minimum_purchase">Min purchase:</string>
+    <string name="delivey_cost">Delivery cost:</string>
     <string name="gps_permission_explanation">The app needs access to your location to improve the search for restaurants near you</string>
     <string name="message_no_gps_permission">The app can\'t access your current position</string>
 
@@ -76,7 +93,6 @@
     <string name="cart_ic_toolbar">cart_ic_toolbar</string>
     <string name="Order">ORDER</string>
     <string name="your_products">Your products</string>
-    <string name="Currency_symbol">$</string>
     <string name="Continue">Continue</string>
     <string name="order_notes">Order notes</string>
     <string name="delivery_notes">Delivery notes</string>
@@ -85,7 +101,30 @@
     <string name="delivery_address">Delivery address:</string>
     <string name="sub_total">Sub-total:</string>
     <string name="total">Total</string>
+    <string name="DeleteCart">Delete cart</string>
+    <string name="hint_spinner_delivery">Choose the delivery time.</string>
+    <string name="HOME_DELIVERY">HOME DELIVERY</string>
+    <string name="CUSTOMER_PICKUP">CUSTOMER PICKUP</string>
+    <string name="menu">Menù</string>
+    <string name="review_hint">Write your review here</string>
+    <string name="make_review">Write a review</string>
+    <string name="modify_review">Modify review</string>
+    <string name="delete_review">Delete review</string>
 
+    <string name="error_min_cost_cart">The order cost does not reach the min value</string>
 
+    <string name="order_date_label">Order date</string>
+    <string name="order_status_label">Order status</string>
+    <string name="total_price_label">Total price</string>
 
+    <string name="order_detail">Order detail</string>
+    <string name="notes">Notes</string>
+
+    <string name="delivery_date_label">Delivery date</string>
+    <string name="order_number">Order number</string>
+
+    <string name="address">Address:</string>
+
+    <string name="open_shop">Open</string>
+    <string name="closed_shop">Closed</string>
 </resources>

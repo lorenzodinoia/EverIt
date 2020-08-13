@@ -65,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                Log.d("test", error.toString());
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

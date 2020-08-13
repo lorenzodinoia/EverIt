@@ -17,7 +17,7 @@
     <string name="surname">Cognome</string>
     <string name="ok_default">OK</string>
     <string name="cancel_default">Annulla</string>
-    <string name="message_server_unreachable">Servizio non disponibile</string>
+    <string name="confirm">Conferma</string>
     <string name="emailError">Email errata !</string>
     <string name="passwordError">Password errata !</string>
 
@@ -28,4 +28,25 @@
     <string name="friday">Venerdi</string>
     <string name="saturday">Sabato</string>
     <string name="sunday">Domenica</string>
+
+    <string name="error_password">Formato password errato</string>
+
+    <string name="error_value_short">Questo valore è troppo corto</string>
+    <string name="error_valueName_long">The \"Name\" field can have max 50 char</string>
+    <string name="error_valueSurname_long">The \"Surname\" field can have max 50 char</string>
+    <string name="error_value_long">Questo valore è troppo lungo</string>
+    <string name="error_valueMinPrice_max">Questo campo può contenere masssimo 3 cifre</string>
+    <string name="error_valueDeliveryCost_max">Il costo di consegna può contenere masssimo 3 cifre</string>
+    <string name="error_value_notValid">Questo valore non è valido</string>
+    <string name="error_value_empty">Questo campo non può essere vuoto</string>
+    <string name="error_value_VAT">La P.IVA è composta da 11 cifre</string>
+    <string name="currency_type">€</string>
+
+    <string name="error">Errore</string>
+    <string name="error_orderNotes_maxChar">Il numero massimo di caratteri è 250</string>
+    <string name="error_deliveryNotes_maxChar">Il numero massimo di caratteri è 250</string>
+    <string name="error_valueReview_long">Le recensioni possono essere lunghe massimo 250 caratteri</string>
+
+    <string name="error_email">Formato email errato</string>
+
 </resources>

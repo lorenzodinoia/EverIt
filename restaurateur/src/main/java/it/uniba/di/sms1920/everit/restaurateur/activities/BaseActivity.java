@@ -1,10 +1,12 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,16 +14,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.orders.OrderListActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.openingTime.OpeningDateTimeActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail.AccountDetailActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.review.ReviewListActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
-import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -30,7 +33,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private Restaurateur restaurateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +113,18 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_home:{
-                /*NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.main, true).build();
-                Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.homeFragment, null, navOptions);*/
-                Intent intent = new Intent(this.getApplicationContext(), OrderListActivity.class);
+            case R.id.order_history:{
+                Intent intent = new Intent(this.getApplicationContext(), DoneOrderListActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.datetime_opening:{
+                Intent intent = new Intent(this.getApplicationContext(), OpeningDateTimeActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.review:{
+                Intent intent = new Intent(this.getApplicationContext(), ReviewListActivity.class);
                 startActivity(intent);
                 break;
             }
@@ -128,12 +138,15 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(goIntent);
                 break;
             }
+            case R.id.account_detail: {
+                Intent goIntent = new Intent(getApplicationContext(), AccountDetailActivity.class);
+                startActivity(goIntent);
+                break;
+            }
             case R.id.logout: {
                 Providers.getAuthProvider().logout(new RequestListener<Boolean>() {
                     @Override
                     public void successResponse(Boolean response) {
-                        //TODO creare stringa in string
-                        Toast.makeText(getApplicationContext(), "Logout effettuato", Toast.LENGTH_LONG);
                         Intent goIntent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(goIntent);
                         finish();
@@ -141,7 +154,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                        promptErrorMessage(error.getMessage());
                     }
                 });
 
@@ -153,8 +166,21 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    private boolean isValidDestination(int dest){
-        return dest != Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId();
-    }
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
 }

@@ -19,6 +19,8 @@ import java.lang.reflect.Type;
 import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
+import static it.uniba.di.sms1920.everit.utils.adapter.Adapter.OPENING_DAY_ARRAY_TYPE;
+
 public class RestaurateurAdapter implements JsonDeserializer<Restaurateur>, JsonSerializer<Restaurateur> {
 
     private static final class Keys {
@@ -26,15 +28,15 @@ public class RestaurateurAdapter implements JsonDeserializer<Restaurateur>, Json
         private static final String LONGITUDE_KEY = "longitude";
         private static final String LATITUDE_KEY = "latitude";
         private static final String SHOP_TYPE_KEY = "shop_type_id";
-        private static final String OPENING_TIMES_KEY = "opening_times";
     }
 
     private static final Gson restaurateurJsonConverter = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .setDateFormat(Adapter.JSON_DATETIME_FORMAT)
             .registerTypeAdapter(boolean.class, new BooleanAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .registerTypeAdapter(OPENING_DAY_ARRAY_TYPE, new OpeningDayArrayAdapter())
             .create();
 
     @Override

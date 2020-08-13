@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,28 +8,20 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Utility;
-import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
-import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
-import it.uniba.di.sms1920.everit.utils.request.OpeningTimeRequest;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -38,12 +31,16 @@ public class SignUp3Fragment extends Fragment {
 
     private SignUpActivity signUpActivity;
     private  Restaurateur.Builder restaurateurBuilder;
+
     private TextInputLayout editTextEmailContainer;
     private TextInputEditText editTextEmail;
+
     private TextInputLayout editTextPasswordContainer;
     private TextInputEditText editTextPassword;
+
     private TextInputLayout editTextConfirmPasswordContainer;
     private TextInputEditText editTextConfirmPassword;
+
     private MaterialButton btnSignUp;
     private MaterialButton btnBack;
     private Context context;
@@ -122,8 +119,7 @@ public class SignUp3Fragment extends Fragment {
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        //TODO gestire errorResponse
-                        Log.d("test", error.getMessage());
+                        promptErrorMessage(error.getMessage());
                     }
                 });
             }
@@ -140,5 +136,23 @@ public class SignUp3Fragment extends Fragment {
             this.context = context;
             restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(signUpActivity);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

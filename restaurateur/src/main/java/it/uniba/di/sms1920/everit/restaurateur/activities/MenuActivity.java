@@ -1,9 +1,12 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -86,7 +89,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO il fragment dell'errore
+                promptErrorMessageWithClosure(error.getMessage());
             }
 
         });
@@ -113,7 +116,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire risposta errore
+                promptErrorMessage(error.getMessage());
             }
         });
 
@@ -130,8 +133,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO da fare
-                Log.d("Error Response", error.toString());
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -147,7 +149,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO vedere
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -168,6 +170,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -193,7 +196,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
-                Log.d("QUESTO", error.toString());
+                promptErrorMessage(error.getMessage());
             }
         });
 
@@ -206,21 +209,52 @@ public class MenuActivity extends AppCompatActivity {
             public void successResponse(Product response) {
                 expandableListDetail.get(listPosition).getProductByIndex(modifiedProduct.getId()).setName(modifiedProduct.getName());
                 expandableListDetail.get(listPosition).getProductByIndex(modifiedProduct.getId()).setDetails(modifiedProduct.getDetails());
-                expandableListDetail.get(listPosition).getProductByIndex(modifiedProduct.getId()).setName(modifiedProduct.getName());
+                expandableListDetail.get(listPosition).getProductByIndex(modifiedProduct.getId()).setPrice(modifiedProduct.getPrice());
                 expandableListAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire
+                promptErrorMessage(error.getMessage());
             }
         });
     }
 
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
 
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
 
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
 
+        dialog.show();
+    }
 
+    private void promptErrorMessageWithClosure(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
+    }
 }
 

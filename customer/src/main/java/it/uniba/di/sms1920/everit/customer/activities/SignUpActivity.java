@@ -4,17 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.InvalidPropertiesFormatException;
 import java.util.Objects;
@@ -53,12 +60,26 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void initComponents() {
         editTextMail =  findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextMail);
-        editTextPassword = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPassword);
-        editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
-        editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
-        editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
+        TextInputLayout editTextMailContainer = findViewById(R.id.editTextMailContainer);
 
-        //TODO inizializzare button di login
+        editTextPassword = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPassword);
+        TextInputLayout editTextPasswordContainer = findViewById(R.id.editTextPasswordContainer);
+
+        editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
+        TextInputLayout editTextPhoneContainer = findViewById(R.id.editTextPhoneContainer);
+
+        editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
+        TextInputLayout editTextNameContainer = findViewById(R.id.editTextNameContainer);
+
+        editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
+        TextInputLayout editTextSurnameContainer = findViewById(R.id.editTextSurnameContainer);
+
+        MaterialButton buttonLogin = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonLogin);
+        buttonLogin.setOnClickListener(v -> {
+            finish();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        });
 
         MaterialButton buttonSignUp = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonSignUp); //si rompe qui per un NPE perchè non vede il cazzo di bottone
         buttonSignUp.setOnClickListener(view -> {
@@ -67,29 +88,67 @@ public class SignUpActivity extends AppCompatActivity {
             String name = editTextName.getText().toString();
             String surname = editTextSurname.getText().toString();
             String phone = editTextPhoneNumber.getText().toString();
-            try {
-                Customer newCustomer = new Customer.CustomerBuilder(name, surname, phone, email)
-                        .setPassword(password)
-                        .build();
-                CustomerRequest customerRequest = new CustomerRequest();
-                customerRequest.create(newCustomer, new RequestListener<Customer>() {
-                    @Override
-                    public void successResponse(Customer response) {
-                        Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
-                        //launchLoginActivity();
-                    }
 
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            if(Utility.isNameValid(name, editTextNameContainer, this)){
+                if(Utility.isSurnameValid(surname, editTextSurnameContainer, this)){
+                    if(Utility.isPhoneValid(phone, editTextPhoneContainer, this)){
+                        if(Utility.isEmailValid(email)) {
+                            if(Utility.isPasswordValid(password)) {
+                                try {
+                                    Customer newCustomer = new Customer.CustomerBuilder(name, surname, phone, email)
+                                            .setPassword(password)
+                                            .build();
+                                    CustomerRequest customerRequest = new CustomerRequest();
+                                    customerRequest.create(newCustomer, new RequestListener<Customer>() {
+                                        @Override
+                                        public void successResponse(Customer response) {
+                                            Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
+                                            finish();
+                                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                            startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void errorResponse(RequestException error) {
+                                            promptErrorMessage(error.getMessage());
+                                        }
+                                    });
+                                } catch (InvalidPropertiesFormatException e) {
+                                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            else{
+                                editTextPasswordContainer.setError(getString(R.string.error_password));
+                            }
+                        }
+                        else{
+                            editTextMailContainer.setError(getString(R.string.error_email));
+                        }
                     }
-                });
+                }
             }
-            catch (InvalidPropertiesFormatException e) {
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            }
+
+
         });
 
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
 }

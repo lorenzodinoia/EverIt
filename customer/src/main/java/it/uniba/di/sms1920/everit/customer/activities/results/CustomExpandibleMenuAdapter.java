@@ -31,7 +31,7 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     private CartConnector cartConnector;
     private List<ProductCategory> expandableListDetail;
 
-    CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector ,List<ProductCategory> expandableListDetail) {
+    public CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector, List<ProductCategory> expandableListDetail) {
         this.context = context;
         this.cartConnector = cartConnector;
         this.expandableListDetail = expandableListDetail;
@@ -83,43 +83,44 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int listPosition, int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Product child = (Product) getChild(listPosition, expandedListPosition);
-        final String expandedListText = child.getName();
-        AtomicInteger counter = new AtomicInteger();
+        Product currentProduct = (Product) getChild(listPosition, expandedListPosition);
+        int quantity;
+
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        List<Product> values = new ArrayList<>(expandableListDetail.get(listPosition).getProducts());
-
         convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
 
         TextInputLayout editTextNumberContainer = convertView.findViewById(R.id.editTextNumberContainer);
         TextInputEditText editTextNumber = convertView.findViewById(R.id.editTextNumber);
-        editTextNumber.setText(String.valueOf(counter.get()));
+
+        quantity = cartConnector.getPartialOrder().getProductQuantity(currentProduct);
+        editTextNumber.setText(String.valueOf(quantity));
         editTextNumberContainer.setVisibility(View.VISIBLE);
 
-
         TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
-        expandedListTextView.setText(values.get(expandedListPosition).getName());
+        expandedListTextView.setText(currentProduct.getName());
 
         TextView productDescription = convertView.findViewById(R.id.textViewDescription);
-        productDescription.setText(values.get(expandedListPosition).getDetails());
+        productDescription.setText(currentProduct.getDetails());
 
         TextView productPrice = convertView.findViewById(R.id.textViewPrice);
-        productPrice.setText(String.valueOf(values.get(expandedListPosition).getPrice()));
+        productPrice.setText(String.valueOf(currentProduct.getPrice()));
 
         MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
         btnAddItem.setOnClickListener(v -> {
-            cartConnector.getPartialOrder().addProduct(values.get(expandedListPosition));
-            editTextNumber.setText(String.valueOf(counter.incrementAndGet()));
-        });
-
-        MaterialButton btnRemovelItem = convertView.findViewById(R.id.btnDelItem);
-        btnRemovelItem.setOnClickListener(v -> {
-            if(counter.get() >= 0 ) {
-                cartConnector.getPartialOrder().removeProduct(values.get(expandedListPosition));
-                editTextNumber.setText(String.valueOf(counter.decrementAndGet()));
+            if(quantity <= 999) {
+                cartConnector.getPartialOrder().addProduct(currentProduct);
+                editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
             }
         });
+
+        MaterialButton btnRemoveItem = convertView.findViewById(R.id.btnDelItem);
+        btnRemoveItem.setOnClickListener(v -> {
+            if(quantity >= 0 ) {
+                cartConnector.getPartialOrder().removeProduct(currentProduct);
+                editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
+            }
+        });
+
         return convertView;
     }
 
@@ -138,6 +139,7 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) { return false; }
+
 
     private void removeEmptyGroups(){
 

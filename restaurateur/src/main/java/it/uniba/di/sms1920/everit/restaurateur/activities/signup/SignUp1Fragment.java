@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,12 +13,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,6 +31,7 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.AddressChooserActivity;
+import it.uniba.di.sms1920.everit.restaurateur.SpinnerShopTypeAdapter;
 import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -43,21 +44,25 @@ import static android.app.Activity.RESULT_OK;
 
 public class SignUp1Fragment extends Fragment {
 
-    private  SignUpActivity signUpActivity;
+    private SignUpActivity signUpActivity;
     private Restaurateur.Builder restaurateurBuilder;
+
     private TextInputLayout editTextShopNameContainer;
     private TextInputEditText editTextShopName;
+
     private TextInputLayout editTextPhoneNumberContainer;
     private TextInputEditText editTextPhoneNumber;
+
     private TextInputLayout editTextVATContainer;
     private TextInputEditText editTextVAT;
+
     private TextInputLayout editTextAddressContainer;
     private TextInputEditText editTextAddress;
     private Address address;
     private MaterialButton btnNext;
 
     private Spinner spinnerShopType;
-    private SpinnerAdapter spinnerAdapter;
+    private SpinnerShopTypeAdapter spinnerAdapter;
     private List<ShopType> shopTypes = new ArrayList<>();
     private ShopType shopTypeSelected;
     private TextView textViewEmptyShopType;
@@ -88,7 +93,7 @@ public class SignUp1Fragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire errore
+                promptErrorMessage(error.getMessage());
             }
         });
 
@@ -115,14 +120,13 @@ public class SignUp1Fragment extends Fragment {
             if (restaurateurBuilder.getPhoneNumber() != null) {
                 editTextPhoneNumber.setText(restaurateurBuilder.getPhoneNumber());
             }
-            //TODO fix update after back arrow press
             if (restaurateurBuilder.getShopType() != null) {
                 spinnerShopType.setSelection((int) restaurateurBuilder.getShopType().getId());
             }
         }
         textViewEmptyShopType = viewRoot.findViewById(R.id.textViewEmptyShopType);
         spinnerShopType = viewRoot.findViewById(R.id.spinnerShopType);
-        spinnerAdapter = new SpinnerAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shopTypes);
+        spinnerAdapter = new SpinnerShopTypeAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shopTypes);
         spinnerShopType.setAdapter(spinnerAdapter);
         spinnerShopType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -147,35 +151,27 @@ public class SignUp1Fragment extends Fragment {
         });
         btnNext = viewRoot.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
-            Address addressFake = new Address(16.305676, 41.13449, "via Piave, 20", "Andria");
-            editTextAddress.setText(addressFake.getFullAddress());
             boolean flag = true;
 
             String shopName = editTextShopName.getText().toString();
             String VAT = editTextVAT.getText().toString();
             String phoneNumber = editTextPhoneNumber.getText().toString();
 
-            if(!Utility.isShopNameValid(shopName)){
+            if(!Utility.isShopNameValid(shopName, editTextShopNameContainer, signUpActivity)){
                 flag = false;
-                editTextShopNameContainer.setError(getString(R.string.error_shop_name));
-            }
-            else{
+            } else{
                 editTextShopNameContainer.setError(null);
             }
 
-            if(!Utility.isPhoneValid(phoneNumber)){
+            if(!Utility.isPhoneValid(phoneNumber, editTextPhoneNumberContainer, signUpActivity)){
                 flag = false;
-                editTextPhoneNumberContainer.setError(getString(R.string.error_phone_number));
-            }
-            else{
+            } else{
                 editTextPhoneNumberContainer.setError(null);
             }
 
-            if(!Utility.isVATValid(VAT)){
+            if(!Utility.isVATValid(VAT, editTextVATContainer, signUpActivity)){
                 flag = false;
-                editTextVATContainer.setError(getString(R.string.error_VAT_number));
-            }
-            else{
+            } else{
                 editTextVATContainer.setError(null);
             }
 
@@ -183,16 +179,13 @@ public class SignUp1Fragment extends Fragment {
                 flag = false;
                 textViewEmptyShopType.setText(R.string.error_shop_type);
                 textViewEmptyShopType.setTextColor(Color.parseColor("#ae0022"));
-            }
-            else{
+            } else{
                 textViewEmptyShopType.setText("");
             }
 
-            if(editTextAddress.getText() == null){
+            if(!Utility.isAddressValid(address, editTextAddressContainer, getActivity())){
                 flag = false;
-                editTextAddressContainer.setError(getString(R.string.error_address));
-            }
-            else{
+            } else{
                 editTextAddressContainer.setError(null);
             }
 
@@ -203,46 +196,16 @@ public class SignUp1Fragment extends Fragment {
                 restaurateurBuilder.setVatNumber(editTextVAT.getText().toString());
                 restaurateurBuilder.setShopType(shopTypeSelected);
 
-                restaurateurBuilder.setAddress(addressFake);
+                restaurateurBuilder.setAddress(address);
                 restaurateurBuilder.setMaxDeliveryPerTimeSlot(0);
                 restaurateurBuilder.setDeliveryCost(0);
                 restaurateurBuilder.setMinPrice(0);
-                restaurateurBuilder.setDescription("");
                 SignUp2Fragment fragment2 = new SignUp2Fragment();
                 FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containerSignUp, fragment2).addToBackStack(null).commit();
             }
         });
-    }
-
-    private static class SpinnerAdapter extends  ArrayAdapter<ShopType>{
-
-
-        public SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<ShopType> objects) {
-            super(context, resource, objects);
-        }
-
-        @Override
-        public int getCount() {
-            return super.getCount();
-        }
-
-        @Nullable
-        @Override
-        public ShopType getItem(int position) {
-            return super.getItem(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return super.getItemId(position);
-        }
-
-        @Override
-        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            return super.getDropDownView(position, convertView, parent);
-        }
     }
 
     @Override
@@ -262,9 +225,28 @@ public class SignUp1Fragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if(context instanceof  SignUpActivity){
+        if(context instanceof SignUpActivity){
             signUpActivity = (SignUpActivity) context;
             restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(signUpActivity);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            signUpActivity.finish();
+        });
+
+        dialog.show();
     }
 }

@@ -1,10 +1,12 @@
 package it.uniba.di.sms1920.everit.customer.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.accountDetail.AccountDetailActivity;
+import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
 import it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity;
 import it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewListActivity;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
@@ -93,18 +97,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.homeFragment, null, navOptions);
                 break;
             }
-            case R.id.nav_profile: {
-                if(isValidDestination(R.id.profileFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.profileFragment);
-                }
-                break;
-            }
-            case R.id.nav_privacyNsecurity: {
-                if(isValidDestination(R.id.privacySecurityFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.privacySecurityFragment);
-                }
-                break;
-            }
             case R.id.nav_order: {
                 Intent intent = new Intent(getApplicationContext(), OrderListActivity.class);
                 startActivity(intent);
@@ -115,10 +107,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             }
-            case R.id.nav_setting: {
-                if(isValidDestination(R.id.settingsFragment)) {
-                    Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.settingsFragment);
-                }
+            case R.id.nav_account_detail: {
+                Intent intent = new Intent(getApplicationContext(), AccountDetailActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.nav_signUp: {
@@ -132,6 +123,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.exit: {
+                //TODO logout fa chiudere l'app
                 Providers.getAuthProvider().logout(new RequestListener<Boolean>() {
                     @Override
                     public void successResponse(Boolean response) {
@@ -142,6 +134,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void errorResponse(RequestException error) {
                         Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                        //TODO controllare se funziona prompt errore
+                        promptErrorMessage(error.getMessage());
                     }
                 });
 
@@ -209,5 +203,23 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
 
         super.onDestroy();
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

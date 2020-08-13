@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.BaseActivity" >
 
     <group android:checkableBehavior="single"
         android:id="@+id/section_home">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@android:drawable/ic_menu_search"
-            android:title="@string/home" />
+            android:id="@+id/order_history"
+            android:title="@string/order_history" />
+
+        <item
+            android:id="@+id/datetime_opening"
+            android:title="@string/date_time_opening"/>
+
+        <item
+            android:id="@+id/review"
+            android:title="@string/title_review_list"/>
 
         <item
             android:id="@+id/sign_up"
@@ -20,6 +26,10 @@
             android:id="@+id/Menu"
             android:icon="@android:drawable/ic_menu_agenda"
             android:title="Menu" />
+
+        <item
+            android:id="@+id/account_detail"
+            android:title="@string/account_detail" />
     </group>
 
     <group android:checkableBehavior="single"

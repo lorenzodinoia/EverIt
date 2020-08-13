@@ -13,7 +13,8 @@
     <string name="price">Costo</string>
     <string name="description">Descrizione</string>
     <string name="productName">Nome prodotto</string>
-    <string name="home">home</string>
+    <string name="home">Home</string>
+    <string name="order_history">Storico ordini</string>
     <string name="loadImage">Carica immagine profilo</string>
     <string name="logout">Logout</string>
     <string name="VATnumber">VAT number</string>
@@ -22,6 +23,7 @@
     <string name="addNewCat">Aggiungi nuova categoria</string>
     <string name="newCategoryName">Nome nuova categoria</string>
     <string name="confirm">Conferma</string>
+    <string name="close">Chiudi</string>
     <string name="newProductDescription">Nuova descrizione</string>
     <string name="newProductPrice">Nuovo prezzo</string>
     <string name="newProductName">Nuovo nome prodotto</string>
@@ -63,7 +65,6 @@
 
     <string name="confirm_password">Confirm Password</string>
     <string name="error_email">Formato email errato</string>
-    <string name="error_password">Formato password errato</string>
     <string name="error_match_password">Le due password non coincidono</string>
 
     <string name="account_created">Account creato</string>
@@ -74,11 +75,73 @@
     <string name="title_address_chooser">Scegli indirizzo</string>
 
     <string name="not_confirmed">Non confermato</string>
-    <string name="confirmed">Confermato</string>
+    <string name="to_do">Da preparare</string>
+    <string name="order_number_label">Numero ordine</string>
+    <string name="order_delivery_time_label">Orario consegna</string>
+    <string name="delivery_cost_label">Costo consegna</string>
+    <string name="subtotal_price_label">SubTotale</string>
+    <string name="total_price_label">Prezzo totale</string>
+    <string name="order_notes_label">Note ordine</string>
+    <string name="order_products_label">Prodotti</string>
+    <string name="confirm_order_button">Conferma ordine</string>
+    <string name="late_button">In ritardo</string>
+
+    <string name="date_time_opening">Orari di apertura</string>
 
     <string name="title_order_list">Ordini</string>
     <string name="title_order_detail">Dettaglio Ordine</string>
 
     <string name="gps_permission_explanation">L\'app ha bisogno di accedere alla tua posizione per migliorare la ricerca dei ristoranti nelle tue vicinanze</string>
     <string name="message_no_gps_permission">L\'app non può accedere alla tua posizione attuale</string>
+
+    <string name="title_orders">Orders</string>
+
+    <string name="title_doneorder_list">Ordini evasi</string>
+    <string name="title_doneorder_detail">DoneOrder Detail</string>
+
+    <string name="title_activity_opening_date_time">OpeningDateTimeActivity</string>
+
+    <string name="empty_order_not_confirmed">Nessun ordine da confermare</string>
+    <string name="empty_order_to_do">Nessun ordine da evadere</string>
+    <string name="empty_order_history">Nessu ordine completato</string>
+    <string name="wrong_value_error">Il valore inserito non è valido</string>
+    <string name="You_will_delete">"Stai per cancellare "</string>
+    <string name="are_you_sure">sei sicuro ?</string>
+    <string name="modProduct">MODIFICA PRODOTTO</string>
+
+    <string name="account_details">Dettagli Account</string>
+    <string name="account_info">Info Account</string>
+    <string name="privacy_and_security">Privacy e Sicurezza</string>
+    <string name="change_password">Cambia Password</string>
+
+    <string name="account_detail">Dettagli Account</string>
+    <string name="edit">Edit</string>
+    <string name="new_shop_name">Nuovo nome attività</string>
+    <string name="new_email">Nuova email</string>
+
+    <string name="old_password">Vecchia Password</string>
+    <string name="new_password">Nuova password</string>
+    <string name="confirm_new_password">Conferma nuova password</string>
+
+    <string name="delete_account">Elimina Account</string>
+    <string name="title_activity_settings">Impostazioni</string>
+    <string name="title_review_list">Recensioni</string>
+    <string name="title_review_detail">Recensione</string>
+
+    <string name="empty_review">Nessuna recensione</string>
+
+    <string name="message_confirm_deleteAccount">Sei sicuro di voler eliminare il profilo? Tutti i dati verranno eliminati</string>
+    <string name="message_confirm_deleteCategory">Questa categoria e tutti i suoi prodotti saranno cancellati. Ne sei sicuro?</string>
+    <string name="message_confirm_deleteProduct">Questo prodotto sarà cancellato. Ne sei sicuro?</string>
+
+    <string name="new_password_equals_old">La nuova password deve essere diversa dalla vecchia</string>
+
+    <string name="order_date_label">Data ordine</string>
+
+    <string name="order_detail">Dettaglio ordine</string>
+
+    <string name="delivery_date_label">Data consegna</string>
+    <string name="order_number">Numero ordine</string>
+
+    <string name="review_date">Data recensione</string>
 </resources>

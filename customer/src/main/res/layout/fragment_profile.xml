@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
-                    android:inputType="phone" />
+                    android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
@@ -117,14 +117,13 @@
             style="@style/ButtonMain"
             android:layout_width="312dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="48dp"
             android:background="@drawable/btn_bg"
             android:text="@string/edit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view7" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
