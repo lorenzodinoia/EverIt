@@ -3,10 +3,14 @@ package it.uniba.di.sms1920.everit.utils.models;
 import android.os.Parcel;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.temporal.ChronoUnit;
 
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Address;
+import it.uniba.di.sms1920.everit.utils.Constants;
 
 public class Order extends Model {
     public enum Status {
@@ -21,6 +25,7 @@ public class Order extends Model {
     private String validationCode;
     private Status status;
     private Map<Product, Integer> products;
+    private LocalTime pickupTime;
     private Restaurateur restaurateur;
     private LocalDateTime createdAt;
 
@@ -116,6 +121,19 @@ public class Order extends Model {
         this.products = products;
     }
 
+    public LocalTime getPickupTime() {
+        return pickupTime;
+    }
+
+    public void setPickupTime(LocalTime pickupTime) {
+        this.pickupTime = pickupTime;
+    }
+
+    public String getPickupTimeAsString() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
+        return timeFormatter.format(this.pickupTime);
+    }
+
     public Restaurateur getRestaurateur() {
         return restaurateur;
     }
@@ -150,6 +168,12 @@ public class Order extends Model {
 
         return cost;
     }
+
+    public int getRemainingTime() {
+        LocalTime currentTime = LocalTime.now();
+        return (int) currentTime.until(pickupTime, ChronoUnit.MINUTES);
+    }
+
 
     @Override
     public int describeContents() {

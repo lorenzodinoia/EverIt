@@ -14,4 +14,36 @@
     <string name="text_service_start">Inizia a lavorare</string>
     <string name="text_service_stop">Finisci di lavorare</string>
     <string name="gps_permission_explanation">L\'applicazione deve conoscere la tua posizione, anche quando non la si utilizza, per ricevere proposte di consegna</string>
+    <string name="proposal_accept">Accetta</string>
+    <string name="proposal_refuse">Rifiuta</string>
+    <string name="pickup_by">Ritira entro</string>
+
+    <plurals name="pickup_minutes">
+        <item quantity="one">Ritira entro %d minuto</item>
+        <item quantity="other">Ritira entro %d minuti</item>
+    </plurals>
+
+    <string name="pickup_now">Adesso</string>
+    <string name="pickup_late">In ritardo</string>
+    <string name="proposal_accept_long">Accetta proposta</string>
+    <string name="proposal_refuse_long">Rifiuta proposta</string>
+    <string name="proposal_accept_explanation">Sei sicuro di voler accettare la proposta di consegna? L\'operazione è irreversibile</string>
+    <string name="proposal_refuse_explanation">Sei sicuro di voler rifiutare la proposta di consegna? L\'operazione è irreversibile</string>
+    <string name="proposal_accepted">Proposta accettata</string>
+
+    <plurals name="proposal_accepted_explanation">
+        <item quantity="one">La proposta di consegna è stata accettata. Ritira l\'ordine dal ristorante entro %d minuto</item>
+        <item quantity="other">La proposta di consegna è stata accettata. Ritira l\'ordine dal ristorante entro %d minuti</item>
+    </plurals>
+    <string name="proposal_refused">Proposta rifiutata</string>
+    <string name="label_proposal">Proposte</string>
+    <string name="label_assigned_orders">Ordini assegnati</string>
+    <string name="label_deliveries">Consegne</string>
+    <string name="activity_my_works">I miei lavori</string>
+    <string name="label_delivery_notes">Note per la consegna</string>
+    <string name="pickup_button">Ritira l\'ordine</string>
+    <string name="deliver_button">Consegna l\'ordine</string>
+    <string name="label_order_number">Ordine N°</string>
+    <string name="order_withdrawn">Ordine ritirato</string>
+    <string name="order_withdrawn_explanation">Ora puoi consegnare l\'ordine all\'indirizzo specificato</string>
 </resources>

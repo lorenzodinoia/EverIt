@@ -14,4 +14,39 @@
     <string name="text_service_start">Start working</string>
     <string name="text_service_stop">Stop working</string>
     <string name="gps_permission_explanation">The application needs to know your position, even while you are not using it, to receive delivery proposals</string>
+    <string name="proposal_accept">Accept</string>
+    <string name="proposal_refuse">Refuse</string>
+    <string name="pickup_by">Pickup by</string>
+
+    <plurals name="pickup_minutes">
+        <item quantity="one">Pickup within %d minute</item>
+        <item quantity="other">Pickup within %d minutes</item>
+    </plurals>
+
+    <string name="pickup_now">Now</string>
+    <string name="pickup_late">Late</string>
+    <string name="proposal_accept_long">Accept proposal</string>
+    <string name="proposal_refuse_long">Refuse proposal</string>
+    <string name="proposal_accept_explanation">Are you sure you want to accept the delivery proposal? The operation is irreversible</string>
+    <string name="proposal_refuse_explanation">Are you sure you want to refuse the delivery proposal? The operation is irreversible</string>
+    <string name="proposal_accepted">Proposal accepted</string>
+
+    <plurals name="proposal_accepted_explanation">
+        <item quantity="one">The delivery proposal has been accepted. Pickup your order from the restaurant within %d minute</item>
+        <item quantity="other">The delivery proposal has been accepted. Pickup your order from the restaurant within %d minutes</item>
+    </plurals>
+    <string name="proposal_refused">Proposal refused</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="label_proposal">Proposal</string>
+    <string name="label_assigned_orders">Assigned orders</string>
+    <string name="label_deliveries">Deliveries</string>
+    <string name="activity_my_works">My works</string>
+    <string name="label_delivery_notes">Delivery notes</string>
+    <string name="pickup_button">Pickup the order</string>
+    <string name="deliver_button">Deliver the order</string>
+    <string name="label_order_number">Order N°</string>
+    <string name="order_withdrawn">Order withdrawn</string>
+    <string name="order_withdrawn_explanation">Now you can deliver the order to the specified address</string>
 </resources>
+
+

@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 
 import java.lang.reflect.Type;
 
@@ -29,6 +30,7 @@ public class OrderAdapter implements JsonDeserializer<Order> {
             .setDateFormat(Adapter.JSON_DATETIME_FORMAT)
             .registerTypeAdapter(boolean.class, new BooleanAdapter())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
             .registerTypeAdapter(Restaurateur.class, new RestaurateurAdapter())
             .registerTypeAdapter(Adapter.PRODUCT_MAP_TYPE, new ProductMapAdapter())
             .create();
