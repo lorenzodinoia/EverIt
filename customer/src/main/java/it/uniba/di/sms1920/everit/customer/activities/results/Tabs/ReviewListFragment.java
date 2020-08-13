@@ -5,11 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +46,16 @@ public class ReviewListFragment extends Fragment {
 
     private RecyclerView reviewRecycleView;
     private TextView textViewReviewNumber;
+    private TextView textViewRatingNumber;
+    private TextView textViewPlaceholder;
     private List<Review> reviews;
     private Review review;
     private RatingBar ratingBar;
+    private View divider;
+    private ConstraintLayout constraintLayout;
 
     private MaterialButton buttonReview;
+    private MaterialButton buttonDelete;
 
     
     public ReviewListFragment() {
@@ -67,14 +73,34 @@ public class ReviewListFragment extends Fragment {
 
         boolean flag = false;
 
+        textViewPlaceholder = rootView.findViewById(R.id.textViewPlaceholder);
+        constraintLayout = rootView.findViewById(R.id.constraintLayoutReviewListResult);
         textViewReviewNumber = rootView.findViewById(R.id.textViewReviewNumber);
         reviewRecycleView = rootView.findViewById(R.id.review_complete_card_list);
         ratingBar = rootView.findViewById(R.id.ratingBarReviewDetail);
         ratingBar.setStepSize(1);
+        textViewRatingNumber = rootView.findViewById(R.id.textViewRatingNumber);
         buttonReview = rootView.findViewById(R.id.buttonReview);
+        divider = rootView.findViewById(R.id.view);
+        buttonDelete = rootView.findViewById(R.id.buttonDeleteReviewFragment);
 
         setupRecyclerView(reviewRecycleView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        //TODO aggiungere funzione media
+        //textViewRatingNumber.setText(String.format("%d/5", ));
+        if(reviews.size() > 0) {
+            textViewPlaceholder.setVisibility(View.GONE);
+            textViewReviewNumber.setText(Integer.toString(reviews.size()));
+            int avg = calculateAvg();
+            ratingBar.setRating(avg);
+            textViewRatingNumber.setText(String.format("%d/5", avg));
+        }
+        else{
+            textViewPlaceholder.setVisibility(View.VISIBLE);
+            textViewPlaceholder.setText(R.string.no_reviews);
+            textViewRatingNumber.setVisibility(View.INVISIBLE);
+        }
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(resultDetailActivity);
         reviewRecycleView.setLayoutManager(linearLayoutManager);
 
 
@@ -88,9 +114,21 @@ public class ReviewListFragment extends Fragment {
         if(!flag){
             buttonReview.setText(R.string.make_review);
             buttonReview.setOnClickListener(v ->  makeReview() );
+
+            buttonDelete.setVisibility(View.GONE);
+            divider.setVisibility(View.GONE);
+
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraintLayout);
+            constraintSet.connect(R.id.buttonReview, constraintSet.BOTTOM, R.id.constraintLayoutReviewListResult, constraintSet.BOTTOM, 8);
+            constraintSet.applyTo(constraintLayout);
         }else {
             buttonReview.setText(R.string.modify_review);
             buttonReview.setOnClickListener(v -> modifyReview());
+
+            buttonDelete.setOnClickListener(v -> {
+                deleteReview();
+            });
         }
 
 
@@ -98,7 +136,7 @@ public class ReviewListFragment extends Fragment {
     }
 
     private void makeReview(){
-        Dialog dialogMakeReview = new Dialog(getActivity());
+        Dialog dialogMakeReview = new Dialog(resultDetailActivity);
         dialogMakeReview.setContentView(R.layout.dialog_make_review);
 
         TextInputLayout reviewLayout = dialogMakeReview.findViewById(R.id.editTextReviewContainer);
@@ -109,7 +147,7 @@ public class ReviewListFragment extends Fragment {
 
         MaterialButton buttonConfirmReview = dialogMakeReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
-            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, getActivity())){
+            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, resultDetailActivity)){
                 Review review = new Review(
                         (int)ratingBarDialog.getRating(),
                         editTextReview.getText().toString(),
@@ -141,7 +179,7 @@ public class ReviewListFragment extends Fragment {
     }
 
     private void modifyReview(){
-        Dialog dialogModifyReview = new Dialog(getActivity());
+        Dialog dialogModifyReview = new Dialog(resultDetailActivity);
         dialogModifyReview.setContentView(R.layout.dialog_make_review);
 
         TextInputLayout reviewLayout = dialogModifyReview.findViewById(R.id.editTextReviewContainer);
@@ -153,7 +191,7 @@ public class ReviewListFragment extends Fragment {
 
         MaterialButton buttonConfirmReview = dialogModifyReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
-            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, getActivity())) {
+            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, resultDetailActivity)) {
                 Review modReview = new Review(
                         review.getId(),
                         (int) ratingBarDialog.getRating(),
@@ -182,6 +220,54 @@ public class ReviewListFragment extends Fragment {
         buttonClose.setOnClickListener(v1 -> dialogModifyReview.dismiss());
 
         dialogModifyReview.show();
+    }
+
+    private void deleteReview(){
+        Dialog dialog = new Dialog(resultDetailActivity);
+        dialog.setContentView(R.layout.dialog_message_y_n);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(R.string.delete_review);
+        TextView message = dialog.findViewById(R.id.textViewMessage);
+        message.setText(R.string.message_confirm_delete_review);
+
+        MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v -> {
+            ReviewRequest reviewRequest = new ReviewRequest();
+            reviewRequest.delete(review.getId(), new RequestListener<Boolean>() {
+                @Override
+                public void successResponse(Boolean response) {
+                    //TODO aggiornare la lista
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void errorResponse(RequestException error) {
+                    dialog.dismiss();
+                    promptErrorMessage(error.getMessage());
+                }
+            });
+        });
+
+        MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private int calculateAvg(){
+
+        float avg;
+        int sumReviewVote = 0;
+
+        for(Review item : reviews){
+            sumReviewVote += item.getVote();
+        }
+        //TODO arrotonda sempre per difetto
+        avg = sumReviewVote/reviews.size();
+        return Math.round(avg);
     }
 
 

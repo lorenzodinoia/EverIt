@@ -93,6 +93,7 @@
 
     <string name="delete_account">Elimina Account</string>
     <string name="message_confirm_delete">Sei sicuro di voler eliminare il profilo? Tutti i dati verranno eliminati</string>
+    <string name="message_confirm_delete_review">Sei sicuro di voler eliminare la recensione?</string>
 
     <string name="account_detail">Dettagli account</string>
     <string name="account_info">Informaizoni account</string>
@@ -110,4 +111,5 @@
     <string name="delivery_date_label">Data consegna</string>
     <string name="order_number">Numero ordine</string>
 
+    <string name="review_number">Numero recensioni:</string>
 </resources>

@@ -151,7 +151,7 @@ public class ReviewDetailFragment extends Fragment {
         title.setText(getString(R.string.delete_review));
 
         TextView message = dialog.findViewById(R.id.textViewMessage);
-        message.setText(getString(R.string.message_confirm_delete));
+        message.setText(getString(R.string.message_confirm_delete_review));
 
         MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
         btnOk.setOnClickListener(v ->{
