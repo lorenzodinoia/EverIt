@@ -40,6 +40,11 @@ public class ReviewDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     private Review review;
     private ReviewDetailActivity mParent;
+    private TextView textViewShopNameReviewDetail;
+    private RatingBar ratingBarDF;
+    private TextView textViewIndicatorRate;
+    private TextView textViewRateDescription;
+    private TextView textViewReviewDate;
 
     public ReviewDetailFragment() {
     }
@@ -61,11 +66,11 @@ public class ReviewDetailFragment extends Fragment {
 
         if (review != null) {
             ImageView imageViewRestaurateur = rootView.findViewById(R.id.imageViewRestaurateur);
-            TextView textViewShopNameReviewDetail = rootView.findViewById(R.id.textViewShopNameReviewDetail);
-            RatingBar ratingBarDF = rootView.findViewById(R.id.ratingBarReviewDetail);
-            TextView textViewIndicatorRate = rootView.findViewById(R.id.textViewRatingIndicatorReviewDetail);
-            TextView textViewRateDescription = rootView.findViewById(R.id.textViewReviewDescription);
-            TextView textViewReviewDate = rootView.findViewById(R.id.textViewReviewDate);
+            textViewShopNameReviewDetail = rootView.findViewById(R.id.textViewShopNameReviewDetail);
+            ratingBarDF = rootView.findViewById(R.id.ratingBarReviewDetail);
+            textViewIndicatorRate = rootView.findViewById(R.id.textViewRatingIndicatorReviewDetail);
+            textViewRateDescription = rootView.findViewById(R.id.textViewReviewDescription);
+            textViewReviewDate = rootView.findViewById(R.id.textViewReviewDate);
             MaterialButton btnEditReview = rootView.findViewById(R.id.buttonEditReview);
             MaterialButton btnDeleteReview = rootView.findViewById(R.id.buttonDeleteReview);
 
@@ -124,7 +129,13 @@ public class ReviewDetailFragment extends Fragment {
                     @Override
                     public void successResponse(Review response) {
                         dialogModifyReview.dismiss();
-                        //TODO Manca aggiornamento automatico
+                        review = new Review(response.getId(),
+                                response.getVote(),
+                                response.getText(),
+                                response.getCreatedAt(),
+                                review.getCustomer(),
+                                review.getRestaurateur());
+                        updateData();
                     }
 
                     @Override
@@ -142,6 +153,12 @@ public class ReviewDetailFragment extends Fragment {
         dialogModifyReview.show();
     }
 
+    private void updateData(){
+        textViewShopNameReviewDetail.setText(review.getRestaurateur().getShopName());
+        ratingBarDF.setRating(review.getVote());
+        textViewIndicatorRate.setText(String.format("%d/5", review.getVote()));
+        textViewRateDescription.setText(review.getText());
+    }
 
     private void deleteReview(){
         Dialog dialog = new Dialog(mParent);

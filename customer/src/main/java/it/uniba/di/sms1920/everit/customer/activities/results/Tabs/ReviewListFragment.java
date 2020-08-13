@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.threeten.bp.LocalDateTime;
 
+import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
@@ -48,6 +49,7 @@ public class ReviewListFragment extends Fragment {
     private TextView textViewReviewNumber;
     private TextView textViewRatingNumber;
     private TextView textViewPlaceholder;
+    private TextView textViewLableNumberReview;
     private List<Review> reviews;
     private Review review;
     private RatingBar ratingBar;
@@ -71,10 +73,9 @@ public class ReviewListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_review_list, container, false);
 
-        boolean flag = false;
-
         textViewPlaceholder = rootView.findViewById(R.id.textViewPlaceholder);
         constraintLayout = rootView.findViewById(R.id.constraintLayoutReviewListResult);
+        textViewLableNumberReview = rootView.findViewById(R.id.textViewLableNumberReview);
         textViewReviewNumber = rootView.findViewById(R.id.textViewReviewNumber);
         reviewRecycleView = rootView.findViewById(R.id.review_complete_card_list);
         ratingBar = rootView.findViewById(R.id.ratingBarReviewDetail);
@@ -85,10 +86,24 @@ public class ReviewListFragment extends Fragment {
         buttonDelete = rootView.findViewById(R.id.buttonDeleteReviewFragment);
 
         setupRecyclerView(reviewRecycleView);
-        //TODO aggiungere funzione media
-        //textViewRatingNumber.setText(String.format("%d/5", ));
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(resultDetailActivity);
+        reviewRecycleView.setLayoutManager(linearLayoutManager);
+
+        setLayoutElements();
+
+        return rootView;
+    }
+
+    private void setLayoutElements(){
+
+        boolean flag = false;
+
         if(reviews.size() > 0) {
             textViewPlaceholder.setVisibility(View.GONE);
+            textViewRatingNumber.setVisibility(View.VISIBLE);
+            textViewLableNumberReview.setVisibility(View.VISIBLE);
+            textViewReviewNumber.setVisibility(View.VISIBLE);
             textViewReviewNumber.setText(Integer.toString(reviews.size()));
             int avg = calculateAvg();
             ratingBar.setRating(avg);
@@ -98,11 +113,9 @@ public class ReviewListFragment extends Fragment {
             textViewPlaceholder.setVisibility(View.VISIBLE);
             textViewPlaceholder.setText(R.string.no_reviews);
             textViewRatingNumber.setVisibility(View.INVISIBLE);
+            textViewLableNumberReview.setVisibility(View.INVISIBLE);
+            textViewReviewNumber.setVisibility(View.INVISIBLE);
         }
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(resultDetailActivity);
-        reviewRecycleView.setLayoutManager(linearLayoutManager);
-
 
         for(int i=0; i<reviews.size(); i++){
             if((reviews.get(i).getCustomer().getId() == Providers.getAuthProvider().getUser().getId())) {
@@ -123,6 +136,14 @@ public class ReviewListFragment extends Fragment {
             constraintSet.connect(R.id.buttonReview, constraintSet.BOTTOM, R.id.constraintLayoutReviewListResult, constraintSet.BOTTOM, 8);
             constraintSet.applyTo(constraintLayout);
         }else {
+            buttonDelete.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
+
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraintLayout);
+            constraintSet.connect(R.id.buttonReview, constraintSet.BOTTOM, R.id.view, constraintSet.TOP, 8);
+            constraintSet.applyTo(constraintLayout);
+
             buttonReview.setText(R.string.modify_review);
             buttonReview.setOnClickListener(v -> modifyReview());
 
@@ -130,10 +151,35 @@ public class ReviewListFragment extends Fragment {
                 deleteReview();
             });
         }
-
-
-        return rootView;
     }
+
+    private void updateData(){
+        ReviewRequest reviewRequest = new ReviewRequest();
+        reviewRequest.readRestaurateurReviewsFromCustomer(restaurateur.getId(), new RequestListener<Collection<Review>>() {
+            @Override
+            public void successResponse(Collection<Review> response) {
+                reviews.clear();
+
+                if(!response.isEmpty()) {
+                    reviews.addAll(response);
+                    int avg = calculateAvg();
+                    ratingBar.setRating(avg);
+                }
+                else{
+                    ratingBar.setRating(0);
+                }
+
+                setupRecyclerView((RecyclerView) reviewRecycleView);
+                setLayoutElements();
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                promptErrorMessage(error.getMessage());
+            }
+        });
+    }
+
 
     private void makeReview(){
         Dialog dialogMakeReview = new Dialog(resultDetailActivity);
@@ -161,7 +207,7 @@ public class ReviewListFragment extends Fragment {
                     @Override
                     public void successResponse(Review response) {
                         dialogMakeReview.dismiss();
-                        //TODO Manca aggiornamento automatico
+                        updateData();
                     }
 
                     @Override
@@ -205,7 +251,7 @@ public class ReviewListFragment extends Fragment {
                     @Override
                     public void successResponse(Review response) {
                         dialogModifyReview.dismiss();
-                        //TODO Manca aggiornamento automatico
+                        updateData();
                     }
 
                     @Override
@@ -239,6 +285,8 @@ public class ReviewListFragment extends Fragment {
                 public void successResponse(Boolean response) {
                     //TODO aggiornare la lista
                     dialog.dismiss();
+                    updateData();
+                    //setupRecyclerView(reviewRecycleView);
                 }
 
                 @Override
@@ -284,8 +332,8 @@ public class ReviewListFragment extends Fragment {
 
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        reviewCardRecyclerViewAdapter = new ReviewCardRecyclerViewAdapter(getActivity(), reviews);
-        recyclerView.setAdapter(reviewCardRecyclerViewAdapter);
+        this.reviewCardRecyclerViewAdapter = new ReviewCardRecyclerViewAdapter(resultDetailActivity, reviews);
+        recyclerView.setAdapter(this.reviewCardRecyclerViewAdapter);
     }
 
 

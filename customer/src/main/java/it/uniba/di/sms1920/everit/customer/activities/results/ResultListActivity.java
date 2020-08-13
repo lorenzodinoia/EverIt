@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -150,30 +153,26 @@ public class ResultListActivity extends AppCompatActivity {
         private final List<Restaurateur> results;
         private final boolean towPaneMode;
 
-        private final View.OnClickListener onClickListener = new View.OnClickListener() {
+        private final View.OnClickListener onClickListener = view -> {
+            Restaurateur item = (Restaurateur) view.getTag();
 
-            @Override
-            public void onClick(View view) {
-                Restaurateur item = (Restaurateur) view.getTag();
+            //TODO controllare se bisogna fare qualcosa per la 2pane mode. ResultDeatil non esiste più
+            /**
+            if (towPaneMode) {
+                Bundle arguments = new Bundle();
+                arguments.putLong(ResultDetailActivity.ARG_ITEM_ID, item.getId());
+                ResultDetailFragment fragment = new ResultDetailFragment();
+                fragment.setArguments(arguments);
+                parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.result_detail_container, fragment).commit();
+            }
+            else {
+             */
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ResultDetailActivity.class);
+                intent.putExtra(ResultDetailActivity.ARG_ITEM_ID, item.getId());
 
-                //TODO controllare se bisogna fare qualcosa per la 2pane mode. ResultDeatil non esiste più
-                /**
-                if (towPaneMode) {
-                    Bundle arguments = new Bundle();
-                    arguments.putLong(ResultDetailActivity.ARG_ITEM_ID, item.getId());
-                    ResultDetailFragment fragment = new ResultDetailFragment();
-                    fragment.setArguments(arguments);
-                    parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.result_detail_container, fragment).commit();
-                }
-                else {
-                 */
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, ResultDetailActivity.class);
-                    intent.putExtra(ResultDetailActivity.ARG_ITEM_ID, item.getId());
-
-                    context.startActivity(intent);
-                }
-        };
+                context.startActivity(intent);
+            };
 
         RestaurateurRecyclerViewAdapter(ResultListActivity parentActivity, List<Restaurateur> results, boolean twoPaneMode) {
             this.results = results;
@@ -194,18 +193,32 @@ public class ResultListActivity extends AppCompatActivity {
                 String restaurantLogoPath = item.getImagePath();
                 if (restaurantLogoPath != null) {
                     //Carica immagine dal server
-                    String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, restaurantLogoPath);
+                    String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, restaurantLogoPath);
                     Picasso.get()
                             .load(imageUrl)
                             .error(R.mipmap.icon)
                             .placeholder(R.mipmap.icon)
                             .fit()
+                            .transform(new CropCircleTransformation())
                             .into(holder.imageViewRestaurantLogo);
                 }
                 holder.textViewRestaurantName.setText(item.getShopName());
-                String minPrice = String.format(Locale.getDefault(), "Ordine minimo: € %.2f", item.getMinPrice());
-                holder.textViewMinPrice.setText(minPrice);
-                //TODO Gestire distanza del ristorante
+                //TODO aggiungere media nella risposta del getCurrentRestaurateur
+                //holder.ratingBarAvgReview.setRating();
+                //holder.textViewIndicatorAvgReview.setText();
+
+                holder.textViewMinPrice.setText(item.getMinPrice() + " " + parentActivity.getString(R.string.currency_type));
+                holder.textViewDeliveryCost.setText(item.getDeliveryCost() + " " + parentActivity.getString(R.string.currency_type));
+                holder.textViewAddress.setText(item.getAddress().getFullAddress());
+                if(item.isOpen()){
+                    holder.textViewShopStatus.setText(R.string.open_shop);
+                    holder.textViewShopStatus.setTextColor(ContextCompat.getColor(parentActivity, R.color.colorPrimary));
+                }
+                else{
+                    holder.textViewShopStatus.setText(R.string.closed_shop);
+                    holder.textViewShopStatus.setTextColor(ContextCompat.getColor(parentActivity, R.color.colorWarning));
+                }
+
 
                 holder.itemView.setTag(results.get(position));
                 holder.itemView.setOnClickListener(onClickListener);
@@ -221,14 +234,22 @@ public class ResultListActivity extends AppCompatActivity {
             final ImageView imageViewRestaurantLogo;
             final TextView textViewRestaurantName;
             final TextView textViewMinPrice;
-            final TextView textViewRestaurantDistance;
+            final TextView textViewDeliveryCost;
+            final TextView textViewAddress;
+            final RatingBar ratingBarAvgReview;
+            final TextView textViewIndicatorAvgReview;
+            final TextView textViewShopStatus;
 
             ViewHolder(View view) {
                 super(view);
                 imageViewRestaurantLogo = view.findViewById(R.id.imageViewRestaurantLogo);
                 textViewRestaurantName = view.findViewById(R.id.textViewRestaurantName);
                 textViewMinPrice = view.findViewById(R.id.textViewMinPrice);
-                textViewRestaurantDistance =  view.findViewById(R.id.textViewRestaurantDistance);
+                textViewDeliveryCost = view.findViewById(R.id.textViewDeliveryCost);
+                textViewAddress = view.findViewById(R.id.textViewAddress);
+                ratingBarAvgReview = view.findViewById(R.id.ratingBarAvgReview);
+                textViewIndicatorAvgReview = view.findViewById(R.id.textViewIndicatorAvgReview);
+                textViewShopStatus = view.findViewById(R.id.textViewShopStatus);
             }
         }
     }
