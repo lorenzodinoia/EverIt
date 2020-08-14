@@ -78,6 +78,7 @@ public class OrderDetailFragment extends Fragment {
             confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
             if(index != 0){
                 confirmButton.setText(R.string.late_button);
+                confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.colorWarning));
             }
 
             textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
