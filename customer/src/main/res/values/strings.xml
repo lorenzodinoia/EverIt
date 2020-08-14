@@ -25,7 +25,7 @@
     <string name="account_not_updated">Account not updated</string>
 
     <string name="ordered">Ordered</string>
-    <string name="in_preparation">In preparation</string>
+    <string name="in_preparation">In progress</string>
     <string name="delivering">Delivering</string>
     <string name="delivered">Delivered</string>
 
@@ -127,4 +127,6 @@
 
     <string name="open_shop">Open</string>
     <string name="closed_shop">Closed</string>
+
+    <string name="new_review">New review</string>
 </resources>

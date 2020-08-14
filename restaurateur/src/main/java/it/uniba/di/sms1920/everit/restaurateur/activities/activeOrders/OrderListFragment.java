@@ -45,8 +45,6 @@ public class OrderListFragment extends Fragment {
     View recyclerView;
     private TextView textViewEmptyData;
 
-    //TODO capire come aggiornare i dati alla chiusura dell'orderDetailFragment
-
     public OrderListFragment() {
         // Required empty public constructor
     }
@@ -70,53 +68,18 @@ public class OrderListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.order_list);
         assert recyclerView != null;
 
-        OrderRequest orderRequest = new OrderRequest();
-        if(index == NOT_CONFIRMED) {
-            orderRequest.readPendingOrders(new RequestListener<Collection<Order>>() {
-                @Override
-                public void successResponse(Collection<Order> response) {
-                    orderList.clear();
-                    if (!response.isEmpty()) {
-                        textViewEmptyData.setVisibility(View.INVISIBLE);
-                        orderList.addAll(response);
-                        setupRecyclerView((RecyclerView) recyclerView);
-                    } else {
-                        textViewEmptyData.setVisibility(View.VISIBLE);
-                        textViewEmptyData.setText(R.string.empty_order_not_confirmed);
-                    }
+        updateData();
 
-                }
-
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
-                }
-            });
-        }
-        else if(index == TO_DO){
-            orderRequest.readToDoOrders(new RequestListener<Collection<Order>>() {
-                @Override
-                public void successResponse(Collection<Order> response) {
-                    orderList.clear();
-                    if(response.isEmpty()){
-                        textViewEmptyData.setVisibility(View.INVISIBLE);
-                        orderList.addAll(response);
-                        setupRecyclerView((RecyclerView) recyclerView);
-                    }
-                    else{
-                        textViewEmptyData.setVisibility(View.VISIBLE);
-                        textViewEmptyData.setText(R.string.empty_order_to_do);
-                    }
-                }
-
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
-                }
-            });
-        }
         return view;
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateData();
+    }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -129,7 +92,7 @@ public class OrderListFragment extends Fragment {
     public static Order getOrderById(long id) {
         Order order = null;
 
-        for (Order o : OrderListFragment.orderList) {
+        for (Order o : orderList) {
             if (o.getId() == id) {
                 order = o;
                 break;

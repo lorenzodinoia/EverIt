@@ -219,7 +219,7 @@ public class OrderListActivity extends AppCompatActivity {
 
                 holder.textViewActivityName.setText(item.getRestaurateur().getShopName());
                 float totalCost = item.getTotalCost() + item.getRestaurateur().getDeliveryCost();
-                holder.textViewPrice.setText(String.format(Locale.getDefault(), "€ %.2f", totalCost));
+                holder.textViewPrice.setText(String.format(Locale.getDefault(), "%.2f", totalCost));
                 holder.textViewDeliveryDate.setText(dateAsString);
                 if(item.getRestaurateur().getImagePath() != null){
                     String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());

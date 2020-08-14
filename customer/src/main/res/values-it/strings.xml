@@ -68,7 +68,7 @@
     <string name="ordered">Ordinato</string>
     <string name="in_preparation">In preparazione</string>
     <string name="delivering">In Consegna</string>
-    <string name="delivered">Consegnat</string>
+    <string name="delivered">Consegnato</string>
     <string name="minimum_purchase">Spesa minima:</string>
     <string name="delivey_cost">Costo consegna:</string>
     <string name="gps_permission_explanation">L\'app ha bisogno di accedere alla tua posizione per migliorare la ricerca dei ristoranti nelle tue vicinanze</string>
@@ -117,4 +117,6 @@
 
     <string name="open_shop">Aperto</string>
     <string name="closed_shop">Chiuso</string>
+
+    <string name="new_review">Nuova recensione</string>
 </resources>

@@ -51,28 +51,40 @@
                 style="@style/TextViewVerySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/textViewActivityName"
-                app:layout_constraintStart_toEndOf="@id/textViewOrderStatus"
-                android:text="@string/total_price_label"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginStart="20dp"/>
+                android:text="@string/total_price_label"
+                app:layout_constraintStart_toEndOf="@id/textViewOrderStatus"
+                app:layout_constraintTop_toBottomOf="@id/textViewActivityName" />
 
             <TextView
                 android:id="@+id/textViewPrice"
                 style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="prezzo"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/textViewOrderStatus"
                 app:layout_constraintTop_toBottomOf="@+id/textViewLabelPrice"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/orderListCurrencyType"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/currency_type"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewPrice"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelPrice" />
+
 
             <TextView
                 android:id="@+id/textViewLableOrderDate"
@@ -116,7 +128,7 @@
                 style="@style/TextViewVerySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/order_status_label"
                 app:layout_constraintStart_toEndOf="@+id/textViewOrderDate"
@@ -127,7 +139,7 @@
                 style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
                 android:text="stato ordine"
