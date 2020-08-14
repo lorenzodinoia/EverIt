@@ -14,6 +14,7 @@ import org.threeten.bp.LocalTime;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.models.Model;
@@ -26,7 +27,7 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 public class Adapter<T extends Model> {
     static final String JSON_DATETIME_FORMAT =  "yyyy-MM-dd H:mm";
     static final String JSON_TIME_FORMAT =  "HH:mm:ss";
-    static final Type OPENING_DAY_ARRAY_TYPE = new TypeToken<Collection<OpeningDay>>() {}.getType();
+    static final Type OPENING_DAY_ARRAY_TYPE = new TypeToken<List<OpeningDay>>() {}.getType();
     static final Type PRODUCT_MAP_TYPE = new TypeToken<Map<Product, Integer>>() {}.getType();
 
     private static final Gson jsonConverter = new GsonBuilder()
