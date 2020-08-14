@@ -10,6 +10,7 @@ import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
+import it.uniba.di.sms1920.everit.utils.models.Proposal;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Review;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
@@ -28,6 +29,7 @@ public final class AdapterProvider {
         adapters.put(ProductCategory.class, new Adapter<ProductCategory>());
         adapters.put(ShopType.class, new Adapter<ShopType>());
         adapters.put(OpeningTime.class, new Adapter<OpeningTime>());
+        adapters.put(Proposal.class, new Adapter<Proposal>());
     }
 
     public static <T extends Model> Adapter<T> getAdapterFor(Class<T> modelClass) {

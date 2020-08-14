@@ -1,5 +1,8 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.InvalidPropertiesFormatException;
 
 import it.uniba.di.sms1920.everit.utils.Utility;
@@ -19,6 +22,14 @@ public abstract class User extends Model implements Authenticable {
         this.phoneNumber = userBuilder.phoneNumber;
         this.email = userBuilder.email;
         this.password = userBuilder.password;
+    }
+
+    protected User(Parcel in) {
+        this.name = in.readString();
+        this.surname = in.readString();
+        this.phoneNumber = in.readString();
+        this.email = in.readString();
+        this.password = in.readString();
     }
 
     public String getName() {
@@ -59,6 +70,21 @@ public abstract class User extends Model implements Authenticable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(name);
+        dest.writeString(surname);
+        dest.writeString(phoneNumber);
+        dest.writeString(email);
+        dest.writeString(password);
     }
 
     public static abstract class UserBuilder<T extends User> {

@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 public class Adapter<T extends Model> {
     static final String JSON_DATETIME_FORMAT =  "yyyy-MM-dd H:mm";
+    static final String JSON_TIME_FORMAT =  "HH:mm:ss";
     static final Type OPENING_DAY_ARRAY_TYPE = new TypeToken<List<OpeningDay>>() {}.getType();
     static final Type PRODUCT_MAP_TYPE = new TypeToken<Map<Product, Integer>>() {}.getType();
 
@@ -33,6 +35,7 @@ public class Adapter<T extends Model> {
             .setDateFormat(JSON_DATETIME_FORMAT)
             .registerTypeAdapter(boolean.class, new BooleanAdapter())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
             .registerTypeAdapter(Order.class, new OrderAdapter())
             .registerTypeAdapter(Restaurateur.class, new RestaurateurAdapter())
             .registerTypeAdapter(PRODUCT_MAP_TYPE, new ProductMapAdapter())

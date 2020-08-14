@@ -1,8 +1,11 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.Nullable;
 
-public abstract class Model {
+public abstract class Model implements Parcelable {
 
     private long id;
 
@@ -10,6 +13,10 @@ public abstract class Model {
 
     public Model(long id) {
         this.id = id;
+    }
+
+    public Model(Parcel in) {
+        this.id = in.readLong();
     }
 
     public long getId() {
@@ -30,5 +37,15 @@ public abstract class Model {
         }
 
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
     }
 }

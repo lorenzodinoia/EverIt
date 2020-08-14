@@ -1,10 +1,16 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import android.os.Parcel;
+
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.temporal.ChronoUnit;
 
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Address;
+import it.uniba.di.sms1920.everit.utils.Constants;
 
 public class Order extends Model {
     public enum Status {
@@ -20,10 +26,37 @@ public class Order extends Model {
     private Status status;
     private Boolean late;
     private Map<Product, Integer> products;
+    private LocalTime pickupTime;
     private Restaurateur restaurateur;
     private LocalDateTime createdAt;
 
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
+
     private Order() {}
+
+    public Order(Parcel in) {
+        super(in);
+        this.deliveryAddress = in.readParcelable(Address.class.getClassLoader());
+        this.estimatedDeliveryTime = (LocalDateTime) in.readSerializable();
+        this.actualDeliveryTime = (LocalDateTime) in.readSerializable();
+        this.orderNotes = in.readString();
+        this.deliveryNotes = in.readString();
+        this.validationCode = in.readString();
+        this.status = Status.valueOf(in.readString());
+        //TODO Leggere mappa dei prodotti
+        this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
+        this.createdAt = (LocalDateTime) in.readSerializable();
+    }
 
     public Address getDeliveryAddress() {
         return deliveryAddress;
@@ -97,6 +130,19 @@ public class Order extends Model {
         this.products = products;
     }
 
+    public LocalTime getPickupTime() {
+        return pickupTime;
+    }
+
+    public void setPickupTime(LocalTime pickupTime) {
+        this.pickupTime = pickupTime;
+    }
+
+    public String getPickupTimeAsString() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
+        return timeFormatter.format(this.pickupTime);
+    }
+
     public Restaurateur getRestaurateur() {
         return restaurateur;
     }
@@ -130,5 +176,31 @@ public class Order extends Model {
         }
 
         return cost;
+    }
+
+    public int getRemainingTime() {
+        LocalTime currentTime = LocalTime.now();
+        return (int) currentTime.until(pickupTime, ChronoUnit.MINUTES);
+    }
+
+
+    @Override
+    public int describeContents() {
+        return super.describeContents();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeParcelable(this.deliveryAddress, flags);
+        dest.writeSerializable(this.estimatedDeliveryTime);
+        dest.writeSerializable(this.actualDeliveryTime);
+        dest.writeString(this.orderNotes);
+        dest.writeString(this.deliveryNotes);
+        dest.writeString(this.validationCode);
+        dest.writeString(this.status.name());
+        //TODO Serializzare mappa dei prodotti
+        dest.writeParcelable(this.restaurateur, flags);
+        dest.writeSerializable(this.createdAt);
     }
 }

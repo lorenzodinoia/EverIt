@@ -8,6 +8,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
@@ -36,6 +38,8 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         this.initServices();
+
+        AndroidThreeTen.init(getApplicationContext());
 
         if (Providers.getAuthProvider().getUser() == null){
             try {

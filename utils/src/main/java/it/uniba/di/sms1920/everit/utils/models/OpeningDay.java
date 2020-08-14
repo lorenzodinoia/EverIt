@@ -1,5 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
+import android.os.Parcel;
+
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -11,6 +13,18 @@ public class OpeningDay extends Model implements Comparable<OpeningDay> {
     private String name;
     private List<OpeningTime> openingTimes = new ArrayList<>();
 
+    public static final Creator<OpeningDay> CREATOR = new Creator<OpeningDay>() {
+        @Override
+        public OpeningDay createFromParcel(Parcel in) {
+            return new OpeningDay(in);
+        }
+
+        @Override
+        public OpeningDay[] newArray(int size) {
+            return new OpeningDay[size];
+        }
+    };
+
     public OpeningDay(long id, String name) {
         super(id);
         this.name = name;
@@ -20,6 +34,12 @@ public class OpeningDay extends Model implements Comparable<OpeningDay> {
         super(id);
         this.name = name;
         this.openingTimes = openingTimes;
+    }
+
+    public OpeningDay(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        this.openingTimes = in.createTypedArrayList(OpeningTime.CREATOR);
     }
 
     public String getName() {
@@ -52,5 +72,17 @@ public class OpeningDay extends Model implements Comparable<OpeningDay> {
     @Override
     public int compareTo(OpeningDay o) {
         return Long.compare(super.getId(), o.getId());
+    }
+
+    @Override
+    public int describeContents() {
+        return super.describeContents();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.name);
+        dest.writeTypedList(this.openingTimes);
     }
 }

@@ -56,6 +56,7 @@ public class BackgroundLocationService extends Service {
     private static LocationRequest locationRequestSettings;
 
     private boolean working;
+    private Location lastLocation;
     private String authToken;
     private RequestQueue requestQueue;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -93,6 +94,28 @@ public class BackgroundLocationService extends Service {
             @Override
             public void stop() throws RemoteException {
                 BackgroundLocationService.this.stop();
+            }
+
+            @Override
+            public double getLastLatitude() throws RemoteException {
+                Location lastLocation = BackgroundLocationService.this.lastLocation;
+                if (lastLocation != null) {
+                    return lastLocation.getLatitude();
+                }
+                else {
+                    return 0;
+                }
+            }
+
+            @Override
+            public double getLastLongitude() throws RemoteException {
+                Location lastLocation = BackgroundLocationService.this.lastLocation;
+                if (lastLocation != null) {
+                    return lastLocation.getLongitude();
+                }
+                else {
+                    return 0;
+                }
             }
         };
     }
@@ -168,6 +191,7 @@ public class BackgroundLocationService extends Service {
     private void onNewLocation(Location location) {
         String logString = String.format(Locale.getDefault(), "%f, %f", location.getLatitude(), location.getLongitude());
         Log.d(CONSOLE_TAG, logString);
+        this.lastLocation = location;
         this.uploadNewLocation(location);
     }
 

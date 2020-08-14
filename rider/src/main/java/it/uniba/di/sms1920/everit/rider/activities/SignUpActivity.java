@@ -2,8 +2,6 @@ package it.uniba.di.sms1920.everit.rider.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +12,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.InvalidPropertiesFormatException;
 
 import it.uniba.di.sms1920.everit.rider.R;
-import it.uniba.di.sms1920.everit.utils.models.Customer;
-import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
+import it.uniba.di.sms1920.everit.utils.models.Rider;
+import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -53,13 +51,13 @@ public class SignUpActivity extends AppCompatActivity {
             String surname = editTextSurname.getText().toString();
             String phone = editTextPhoneNumber.getText().toString();
             try {
-                Customer newCustomer = new Customer.CustomerBuilder(name, surname, phone, email)
+                Rider newRider = new Rider.RiderBuilder(name, surname, phone, email)
                         .setPassword(password)
                         .build();
-                CustomerRequest customerRequest = new CustomerRequest();
-                customerRequest.create(newCustomer, new RequestListener<Customer>() {
+                RiderRequest customerRequest = new RiderRequest();
+                customerRequest.create(newRider, new RequestListener<Rider>() {
                     @Override
-                    public void successResponse(Customer response) {
+                    public void successResponse(Rider response) {
                         Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
                         launchLoginActivity();
                     }
