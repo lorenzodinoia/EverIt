@@ -117,4 +117,6 @@
 
     <string name="open_shop">Aperto</string>
     <string name="closed_shop">Chiuso</string>
+
+    <string name="new_review">Nuova recensione</string>
 </resources>

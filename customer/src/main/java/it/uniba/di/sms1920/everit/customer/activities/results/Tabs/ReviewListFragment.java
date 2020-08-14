@@ -187,9 +187,15 @@ public class ReviewListFragment extends Fragment {
 
         TextInputLayout reviewLayout = dialogMakeReview.findViewById(R.id.editTextReviewContainer);
         TextInputEditText editTextReview = dialogMakeReview.findViewById(R.id.editTextReview);
-        editTextReview.setHint(getString(R.string.review_hint));
+
+        TextView textViewRatingBarIndicator = dialogMakeReview.findViewById(R.id.textViewRatingBarIndicator);
 
         RatingBar ratingBarDialog = dialogMakeReview.findViewById(R.id.ratingBarReviewDialog);
+        ratingBarDialog.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+            textViewRatingBarIndicator.setText(String.format("%d/5", (int) ratingBarDialog.getRating()));
+        });
+
+        textViewRatingBarIndicator.setText(String.format("%d/5", (int) ratingBarDialog.getRating()));
 
         MaterialButton buttonConfirmReview = dialogMakeReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
@@ -232,8 +238,15 @@ public class ReviewListFragment extends Fragment {
         TextInputEditText editTextReview = dialogModifyReview.findViewById(R.id.editTextReview);
         editTextReview.setText(review.getText());
 
+        TextView textViewRatingBarIndicator = dialogModifyReview.findViewById(R.id.textViewRatingBarIndicator);
+
         RatingBar ratingBarDialog = dialogModifyReview.findViewById(R.id.ratingBarReviewDialog);
         ratingBarDialog.setRating((float) review.getVote());
+        ratingBarDialog.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+            textViewRatingBarIndicator.setText(String.format("%d/5", (int) ratingBarDialog.getRating()));
+        });
+
+        textViewRatingBarIndicator.setText(String.format("%d/5", (int) ratingBarDialog.getRating()));
 
         MaterialButton buttonConfirmReview = dialogModifyReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
