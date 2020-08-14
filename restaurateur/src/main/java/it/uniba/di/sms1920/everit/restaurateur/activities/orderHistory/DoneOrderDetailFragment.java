@@ -53,6 +53,8 @@ public class DoneOrderDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
+            TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
+            TextView textViewLabelOrderNumber = rootView.findViewById(R.id.textViewLabelOrderNumber);
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
             TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
             RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
@@ -60,6 +62,9 @@ public class DoneOrderDetailFragment extends Fragment {
             TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewSubTotal);
             TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewDeliveryCost);
             TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+
+            textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
+            labelDeliveryDate.setText(getString(R.string.delivery_date_label) + ":");
 
             textViewOrderNumber.setText("#"+mItem.getId());
 

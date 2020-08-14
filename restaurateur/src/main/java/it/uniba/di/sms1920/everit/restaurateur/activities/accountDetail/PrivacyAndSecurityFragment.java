@@ -55,6 +55,8 @@ public class PrivacyAndSecurityFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_change_password, container, false);
 
+        mParent.toolbar.setTitle(R.string.privacy_and_security);
+
         editTextOldPasswordContainer = view.findViewById(R.id.editTextOldPasswordContainer);
         editTextOldPassword = view.findViewById(R.id.editTextOldPassword);
         editTextNewPasswordContainer = view.findViewById(R.id.editTextNewPasswordContainer);
@@ -62,48 +64,45 @@ public class PrivacyAndSecurityFragment extends Fragment {
         editTextConfirmNewPasswordContainer = view.findViewById(R.id.editTextConfirmNewPasswordContainer);
         editTextConfirmNewPassword = view.findViewById(R.id.editTextConfirmNewPassword);
         buttonChangePassword = view.findViewById(R.id.buttonChangePassword);
-        buttonChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String oldPassword = editTextOldPassword.getText().toString();
-                String newPassword = editTextNewPassword.getText().toString();
-                String confirmNewPassword = editTextConfirmNewPassword.getText().toString();
+        buttonChangePassword.setOnClickListener(v -> {
+            String oldPassword = editTextOldPassword.getText().toString();
+            String newPassword = editTextNewPassword.getText().toString();
+            String confirmNewPassword = editTextConfirmNewPassword.getText().toString();
 
-                if(Utility.isPasswordValid(oldPassword)) {
-                    if (Utility.isPasswordValid(newPassword)) {
-                        if (newPassword.equals(confirmNewPassword)) {
-                            if(!newPassword.equals(oldPassword)) {
-                                RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-                                restaurateurRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
-                                    @Override
-                                    public void successResponse(Boolean response) {
-                                        mParent.finishAffinity();
-                                        Intent intent = new Intent(mParent, LoginActivity.class);
-                                        startActivity(intent);
-                                    }
+            if(Utility.isPasswordValid(oldPassword)) {
+                if (Utility.isPasswordValid(newPassword)) {
+                    if (newPassword.equals(confirmNewPassword)) {
+                        if(!newPassword.equals(oldPassword)) {
+                            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                            restaurateurRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
+                                @Override
+                                public void successResponse(Boolean response) {
+                                    mParent.finishAffinity();
+                                    Intent intent = new Intent(mParent, LoginActivity.class);
+                                    startActivity(intent);
+                                }
 
-                                    @Override
-                                    public void errorResponse(RequestException error) {
-                                        promptErrorMessage(error.getMessage());
-                                    }
-                                });
-                            }
-                            else{
-                                editTextNewPasswordContainer.setError(getString(R.string.new_password_equals_old));
-                            }
-                        } else {
-                            editTextNewPasswordContainer.setError(getString(R.string.error_match_password));
-                            editTextConfirmNewPasswordContainer.setError(getString(R.string.error_match_password));
+                                @Override
+                                public void errorResponse(RequestException error) {
+                                    promptErrorMessage(error.getMessage());
+                                }
+                            });
+                        }
+                        else{
+                            editTextNewPasswordContainer.setError(getString(R.string.new_password_equals_old));
                         }
                     } else {
-                        editTextNewPasswordContainer.setError(getString(R.string.error_password));
+                        editTextNewPasswordContainer.setError(getString(R.string.error_match_password));
+                        editTextConfirmNewPasswordContainer.setError(getString(R.string.error_match_password));
                     }
+                } else {
+                    editTextNewPasswordContainer.setError(getString(R.string.error_password));
                 }
-                else{
-                    editTextOldPasswordContainer.setError(getString(R.string.error_password));
-                }
-
             }
+            else{
+                editTextOldPasswordContainer.setError(getString(R.string.error_password));
+            }
+
         });
 
         buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
@@ -118,32 +117,24 @@ public class PrivacyAndSecurityFragment extends Fragment {
             message.setText(R.string.message_confirm_deleteAccount);
 
             Button btnOk = dialog.findViewById(R.id.btnOk);
-            btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-                    restaurateurRequest.delete(restaurateur.getId(), new RequestListener<Boolean>() {
-                        @Override
-                        public void successResponse(Boolean response) {
-                            Intent intent = new Intent(mParent, LoginActivity.class);
-                            startActivity(intent);
-                        }
+            btnOk.setOnClickListener(v12 -> {
+                RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                restaurateurRequest.delete(restaurateur.getId(), new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        Intent intent = new Intent(mParent, LoginActivity.class);
+                        startActivity(intent);
+                    }
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            dialog.dismiss();
-                            promptErrorMessage(error.getMessage());
-                        }
-                    });
-                }
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        dialog.dismiss();
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
             });
             Button btnCancel = dialog.findViewById(R.id.btnCancel);
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+            btnCancel.setOnClickListener(v1 -> dialog.dismiss());
 
             dialog.show();
         });

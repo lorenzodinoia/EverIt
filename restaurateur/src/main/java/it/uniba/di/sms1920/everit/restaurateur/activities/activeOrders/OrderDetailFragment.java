@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,8 @@ public class OrderDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (order != null) {
+            TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
+            TextView textViewLabelOrderNumber = rootView.findViewById(R.id.textViewLabelOrderNumber);
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
             TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
             RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
@@ -77,6 +80,8 @@ public class OrderDetailFragment extends Fragment {
                 confirmButton.setText(R.string.late_button);
             }
 
+            textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
+            labelDeliveryDate.setText(getString(R.string.delivery_date_label) + ":");
             textViewOrderNumber.setText("#"+order.getId());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
