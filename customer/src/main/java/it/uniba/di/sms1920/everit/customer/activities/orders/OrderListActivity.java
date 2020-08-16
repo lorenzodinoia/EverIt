@@ -222,7 +222,7 @@ public class OrderListActivity extends AppCompatActivity {
                 holder.textViewPrice.setText(String.format(Locale.getDefault(), "%.2f", totalCost));
                 holder.textViewDeliveryDate.setText(dateAsString);
                 if(item.getRestaurateur().getImagePath() != null){
-                    String imageUrl = String.format("%s/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
+                    String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
                     Picasso.get()
                             .load(imageUrl)
                             .error(R.mipmap.icon)
