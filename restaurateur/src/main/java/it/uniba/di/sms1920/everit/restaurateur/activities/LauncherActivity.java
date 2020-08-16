@@ -81,6 +81,7 @@ public class LauncherActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         try {
             Providers.init(context, Constants.Variants.RESTAURATEUR);
+            NotificationService.initNotificationChannel(getApplicationContext());
         }
         catch (Exception e) {
             e.printStackTrace();
