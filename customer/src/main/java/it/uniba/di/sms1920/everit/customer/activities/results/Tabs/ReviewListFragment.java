@@ -319,12 +319,12 @@ public class ReviewListFragment extends Fragment {
     private int calculateAvg(){
 
         float avg;
-        int sumReviewVote = 0;
+        float sumReviewVote = 0;
 
         for(Review item : reviews){
             sumReviewVote += item.getVote();
         }
-        //TODO arrotonda sempre per difetto
+
         avg = sumReviewVote/reviews.size();
         return Math.round(avg);
     }

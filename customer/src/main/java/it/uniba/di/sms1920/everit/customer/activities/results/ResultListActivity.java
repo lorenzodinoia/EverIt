@@ -80,7 +80,7 @@ public class ResultListActivity extends AppCompatActivity {
             this.search();
         }
         else {
-            Toast.makeText(getApplicationContext(), "No data", Toast.LENGTH_LONG).show(); //TODO Impostare stringa multi lingua
+            Toast.makeText(getApplicationContext(), getString(R.string.no_data), Toast.LENGTH_LONG).show();
             finish();
         }
     }
