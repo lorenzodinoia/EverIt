@@ -203,9 +203,8 @@ public class ResultListActivity extends AppCompatActivity {
                             .into(holder.imageViewRestaurantLogo);
                 }
                 holder.textViewRestaurantName.setText(item.getShopName());
-                //TODO aggiungere media nella risposta del getCurrentRestaurateur
-                //holder.ratingBarAvgReview.setRating();
-                //holder.textViewIndicatorAvgReview.setText();
+                holder.ratingBarAvgReview.setRating(item.getAvg());
+                holder.textViewIndicatorAvgReview.setText(String.format("%d/5", item.getAvg()));
 
                 holder.textViewMinPrice.setText(item.getMinPrice() + " " + parentActivity.getString(R.string.currency_type));
                 holder.textViewDeliveryCost.setText(item.getDeliveryCost() + " " + parentActivity.getString(R.string.currency_type));

@@ -20,12 +20,12 @@
         <item
             android:id="@+id/sign_up"
             android:icon="@android:drawable/ic_menu_edit"
-            android:title="Sign Up" />
+            android:title="@string/signup" />
 
         <item
             android:id="@+id/Menu"
             android:icon="@android:drawable/ic_menu_agenda"
-            android:title="Menu" />
+            android:title="@string/menu"/>
 
         <item
             android:id="@+id/account_detail"
