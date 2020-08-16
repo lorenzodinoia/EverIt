@@ -112,6 +112,7 @@ public class ReviewDetailFragment extends Fragment {
 
         RatingBar ratingBarDialog = dialogModifyReview.findViewById(R.id.ratingBarReviewDialog);
         ratingBarDialog.setRating((float) review.getVote());
+        ratingBarDialog.setStepSize(1);
 
         MaterialButton buttonConfirmReview = dialogModifyReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {

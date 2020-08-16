@@ -20,6 +20,7 @@ public class Restaurateur extends Model implements Authenticable{
     private int maxDeliveryPerTimeSlot;
     private float deliveryCost;
     private float minPrice;
+    private int avg;
     private String imagePath;
     private ShopType shopType;
     private boolean isOpen;
@@ -65,6 +66,7 @@ public class Restaurateur extends Model implements Authenticable{
         this.maxDeliveryPerTimeSlot = in.readInt();
         this.deliveryCost = in.readFloat();
         this.minPrice = in.readFloat();
+        this.avg = in.readInt();
         this.imagePath = in.readString();
         this.shopType = in.readParcelable(ShopType.class.getClassLoader());
         this.isOpen = (in.readInt() == 1);
@@ -144,6 +146,14 @@ public class Restaurateur extends Model implements Authenticable{
         this.minPrice = minPrice;
     }
 
+    public int getAvg(){
+        return avg;
+    }
+
+    public void setAvg(int avg){
+        this.avg = avg;
+    }
+
     public String getImagePath() {
         return imagePath;
     }
@@ -213,6 +223,7 @@ public class Restaurateur extends Model implements Authenticable{
         dest.writeInt(this.maxDeliveryPerTimeSlot);
         dest.writeFloat(this.deliveryCost);
         dest.writeFloat(this.minPrice);
+        dest.writeInt(this.avg);
         dest.writeString(this.imagePath);
         dest.writeParcelable(this.shopType, flags);
         dest.writeInt((this.isOpen) ? 1 : 0);
@@ -231,6 +242,7 @@ public class Restaurateur extends Model implements Authenticable{
         private int maxDeliveryPerTimeSlot;
         private float deliveryCost;
         private float minPrice;
+        private int avg;
         private String imagePath;
         private ShopType shopType;
         private boolean isOpen;
@@ -319,6 +331,15 @@ public class Restaurateur extends Model implements Authenticable{
 
         public Builder setMinPrice(float minPrice) {
             this.minPrice = minPrice;
+            return this;
+        }
+
+        public int getAvg(){
+            return avg;
+        }
+
+        public Builder setAvg(int avg){
+            this.avg = avg;
             return this;
         }
 

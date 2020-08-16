@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.utils.Address;
+import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
@@ -96,6 +97,25 @@ public class PartialOrder {
     public void deleteProduct(Product product) {
         this.products.remove(product);
     }
+
+
+    public Order partialOrderToOrder(){
+        Order order = new Order();
+
+        order.setDeliveryAddress(this.deliveryAddress);
+        order.setDeliveryNotes(this.deliveryNotes);
+        order.setOrderNotes(this.orderNotes);
+        order.setProducts(this.products);
+        order.setRestaurateur(this.restaurateur);
+
+        order.setLate(order.isLate());
+
+
+
+
+        return order;
+    }
+
 
     SerializableItem getSerializableItem() {
         return new SerializableItem(this);

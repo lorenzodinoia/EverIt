@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.restaurateur.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,8 @@ import it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrder
 import it.uniba.di.sms1920.everit.restaurateur.activities.accountDetail.AccountDetailActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.review.ReviewListActivity;
 import it.uniba.di.sms1920.everit.restaurateur.activities.signup.SignUpActivity;
+import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -73,7 +76,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 //TODO gestire
             }
         }
-         */
+        **/
 
         init();
     }

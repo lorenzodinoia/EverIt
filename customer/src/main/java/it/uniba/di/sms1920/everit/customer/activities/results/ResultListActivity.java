@@ -80,7 +80,7 @@ public class ResultListActivity extends AppCompatActivity {
             this.search();
         }
         else {
-            Toast.makeText(getApplicationContext(), "No data", Toast.LENGTH_LONG).show(); //TODO Impostare stringa multi lingua
+            Toast.makeText(getApplicationContext(), getString(R.string.no_data), Toast.LENGTH_LONG).show();
             finish();
         }
     }
@@ -203,9 +203,8 @@ public class ResultListActivity extends AppCompatActivity {
                             .into(holder.imageViewRestaurantLogo);
                 }
                 holder.textViewRestaurantName.setText(item.getShopName());
-                //TODO aggiungere media nella risposta del getCurrentRestaurateur
-                //holder.ratingBarAvgReview.setRating();
-                //holder.textViewIndicatorAvgReview.setText();
+                holder.ratingBarAvgReview.setRating(item.getAvg());
+                holder.textViewIndicatorAvgReview.setText(String.format("%d/5", item.getAvg()));
 
                 holder.textViewMinPrice.setText(item.getMinPrice() + " " + parentActivity.getString(R.string.currency_type));
                 holder.textViewDeliveryCost.setText(item.getDeliveryCost() + " " + parentActivity.getString(R.string.currency_type));
