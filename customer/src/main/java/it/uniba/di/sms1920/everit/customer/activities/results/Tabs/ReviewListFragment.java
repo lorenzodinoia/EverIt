@@ -118,6 +118,7 @@ public class ReviewListFragment extends Fragment {
         }
 
         for(int i=0; i<reviews.size(); i++){
+            //TODO crash se l'utente non è loggato, aggiungi avviso
             if((reviews.get(i).getCustomer().getId() == Providers.getAuthProvider().getUser().getId())) {
                 review = reviews.get(i);
                 flag = true;

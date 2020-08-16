@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,7 +85,6 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int listPosition, int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Product currentProduct = (Product) getChild(listPosition, expandedListPosition);
-        int quantity;
 
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
@@ -92,9 +92,8 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         TextInputLayout editTextNumberContainer = convertView.findViewById(R.id.editTextNumberContainer);
         TextInputEditText editTextNumber = convertView.findViewById(R.id.editTextNumber);
 
-        quantity = cartConnector.getPartialOrder().getProductQuantity(currentProduct);
-        editTextNumber.setText(String.valueOf(quantity));
         editTextNumberContainer.setVisibility(View.VISIBLE);
+        editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
 
         TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(currentProduct.getName());
@@ -106,22 +105,26 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         productPrice.setText(String.valueOf(currentProduct.getPrice()));
 
         MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
-        btnAddItem.setOnClickListener(v -> {
-            if(quantity <= 999) {
-                cartConnector.getPartialOrder().addProduct(currentProduct);
-                editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
-            }
-        });
+        btnAddItem.setOnClickListener(v -> addProduct(currentProduct, editTextNumber));
 
         MaterialButton btnRemoveItem = convertView.findViewById(R.id.btnDelItem);
-        btnRemoveItem.setOnClickListener(v -> {
-            if(quantity >= 0 ) {
-                cartConnector.getPartialOrder().removeProduct(currentProduct);
-                editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
-            }
-        });
+        btnRemoveItem.setOnClickListener(v -> removeProduct(currentProduct, editTextNumber));
 
         return convertView;
+    }
+
+    private void addProduct(Product product, EditText editText){
+        if(cartConnector.getPartialOrder().getProductQuantity(product) <= 999) {
+            cartConnector.getPartialOrder().addProduct(product);
+            editText.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(product)));
+        }
+    }
+
+    private void removeProduct(Product product, EditText editText){
+        if(cartConnector.getPartialOrder().getProductQuantity(product) > 0 ) {
+            cartConnector.getPartialOrder().removeProduct(product);
+            editText.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(product)));
+        }
     }
 
     @Override
