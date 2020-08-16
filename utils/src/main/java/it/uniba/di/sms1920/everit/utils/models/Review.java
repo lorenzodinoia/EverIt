@@ -25,6 +25,7 @@ public class Review extends Model {
 
     public Review(int vote, String text, LocalDateTime createdAt, Customer customer, Restaurateur restaurateur) {
         this.vote = vote;
+        this.createdAt = createdAt;
         this.text = text;
         this.customer = customer;
         this.restaurateur = restaurateur;

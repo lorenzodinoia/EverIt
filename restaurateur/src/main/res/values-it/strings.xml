@@ -143,5 +143,7 @@
     <string name="delivery_date_label">Data consegna</string>
     <string name="order_number">Numero ordine</string>
 
+    <string name="menu">Menu</string>
+
     <string name="review_date">Data recensione</string>
 </resources>
