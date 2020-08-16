@@ -122,7 +122,14 @@ public class DoneOrderDetailFragment extends Fragment {
             int productQuantity = this.quantity.get(position);
             if (item != null) {
                 holder.textViewProductName.setText(item.getName());
-                holder.textViewQuantity.setText(String.format("x %d", productQuantity));
+                if(productQuantity > 1) {
+                    holder.textViewQuantity.setText(String.format("(x %d)", productQuantity));
+                }else{
+                    holder.textViewQuantity.setText("");
+                }
+
+                float totalPrice = item.getPrice() * productQuantity;
+                holder.textViewPrice.setText(String.valueOf(totalPrice));
 
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);
@@ -137,11 +144,13 @@ public class DoneOrderDetailFragment extends Fragment {
         static class ViewHolder extends RecyclerView.ViewHolder {
             final TextView textViewProductName;
             final TextView textViewQuantity;
+            final TextView textViewPrice;
 
             ViewHolder(View view) {
                 super(view);
                 textViewProductName = view.findViewById(R.id.textViewProductName);
                 textViewQuantity = view.findViewById(R.id.textViewQuantity);
+                textViewPrice = view.findViewById(R.id.textViewPrice);
             }
         }
     }

@@ -195,6 +195,9 @@ public class OrderDetailFragment extends Fragment {
                     holder.textViewQuantity.setText("");
                 }
 
+                float totalPrice = item.getPrice() * productQuantity;
+                holder.textViewPrice.setText(String.valueOf(totalPrice));
+
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);
             }
@@ -208,11 +211,13 @@ public class OrderDetailFragment extends Fragment {
         static class ViewHolder extends RecyclerView.ViewHolder {
             final TextView textViewProductName;
             final TextView textViewQuantity;
+            final TextView textViewPrice;
 
             ViewHolder(View view) {
                 super(view);
                 textViewProductName = view.findViewById(R.id.textViewProductName);
                 textViewQuantity = view.findViewById(R.id.textViewQuantity);
+                textViewPrice = view.findViewById(R.id.textViewPrice);
             }
         }
     }

@@ -99,7 +99,7 @@ public class PartialOrder {
     }
 
 
-    public Order partialOrderToOrder(){
+    /*public Order partialOrderToOrder(){
         Order order = new Order();
 
         order.setDeliveryAddress(this.deliveryAddress);
@@ -114,7 +114,7 @@ public class PartialOrder {
 
 
         return order;
-    }
+    }*/
 
 
     SerializableItem getSerializableItem() {
