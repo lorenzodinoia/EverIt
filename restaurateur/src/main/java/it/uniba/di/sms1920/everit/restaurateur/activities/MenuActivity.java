@@ -65,7 +65,6 @@ public class MenuActivity extends AppCompatActivity {
         expandableListView = findViewById(R.id.expandableMenuOpening);
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListDetail, this);
         expandableListView.setAdapter(expandableListAdapter);
-
         btnAddNewCat = this.findViewById(R.id.btnAddCategory);
         btnAddNewCat.setOnClickListener(v -> expandableListAdapter.addCategory());
 
@@ -153,7 +152,6 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     public  void deleteCategoryItem(int listPosition, long idProd){

@@ -76,14 +76,21 @@ public class InfoFragment extends Fragment {
     private void initComponent(){
         textViewPhoneNumber.setText(restaurateur.getPhoneNumber());
         textViewAddress.setText(restaurateur.getAddress().getAddress());
-        textViewDeliveryCost.setText(String.valueOf(restaurateur.getDeliveryCost()) + " €");
-        textViewMinPurchase.setText(String.valueOf(restaurateur.getMinPrice()) + " €");
+        textViewDeliveryCost.setText(String.valueOf(restaurateur.getDeliveryCost()));
+        textViewMinPurchase.setText(String.valueOf(restaurateur.getMinPrice()));
 
         layoutCall.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + restaurateur.getPhoneNumber()));
             startActivity(intent);
         });
+
+        if(restaurateur.isOpen()){
+            textViewOpenClosed.setText(getString(R.string.open_shop));
+        }else{
+            textViewOpenClosed.setText(getString(R.string.closed_shop));
+        }
+
     }
 
 
