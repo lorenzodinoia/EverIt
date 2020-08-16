@@ -87,8 +87,8 @@ public class RiderRequest extends CRUDRequest<Rider> implements CRUD<Rider> {
     public void pickupOrder(long id, double riderLatitude, double riderLongitude, RequestListener<Boolean> requestListener) {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("latitude", 16.305676);
-            jsonObject.put("longitude", 41.13449);
+            jsonObject.put("latitude", riderLatitude);
+            jsonObject.put("longitude", riderLongitude);
 
             ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format(Locale.getDefault(), "%s/api/%s/order/%d/confirmLocation", Constants.SERVER_HOST, URL, id), jsonObject,
                     response -> {
