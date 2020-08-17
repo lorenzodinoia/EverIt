@@ -89,25 +89,9 @@ public class OrderListFragment extends Fragment {
         }
     }
 
-    public static Order getOrderById(long id) {
-        Order order = null;
-
-        for (Order o : orderList) {
-            if (o.getId() == id) {
-                order = o;
-                break;
-            }
-        }
-
-        return order;
-    }
 
     public void setIndex(int index){
         this.index = index;
-    }
-
-    public void refreshData(){
-        adapter.notifyDataSetChanged();
     }
 
     public void updateData(){

@@ -2,12 +2,14 @@ package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +27,19 @@ import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailActivity;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailFragment;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
+import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
+import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
+import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class Cart3Fragment extends Fragment {
 
+    private static final String ARG_ITEM_ID = "item_id";
     private final static int HOME_DELIVERY = 0;
     private final static int CUSTOMER_PICKUP = 1;
 
@@ -70,24 +78,29 @@ public class Cart3Fragment extends Fragment {
                 homeDelivery = viewRoot.findViewById(R.id.home_delivery);
                 customerPickup = viewRoot.findViewById(R.id.customer_pickup);
 
-                 deliveryTime.addAll(response);
+                if(!response.isEmpty()) {
+                    deliveryTime.clear();
+                    deliveryTime.addAll(response);
 
-                 spinnerDeliveryTimeAdapter = new SpinnerAdapter(mParent, android.R.layout.simple_spinner_dropdown_item, deliveryTime);
-                 spinnerDeliveryTime.setAdapter(spinnerDeliveryTimeAdapter);
+                    spinnerDeliveryTimeAdapter = new SpinnerAdapter(mParent, android.R.layout.simple_spinner_dropdown_item, deliveryTime);
+                    spinnerDeliveryTime.setAdapter(spinnerDeliveryTimeAdapter);
 
-                 spinnerDeliveryTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                 @Override
-                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                     if(position != 0){
-                     openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
-                     } else{
-                     openingTimeSelected = null;
-                    }
-                 }
+                    spinnerDeliveryTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
+                        }
 
-                 @Override
-                 public void onNothingSelected(AdapterView<?> parent) { }
-                 });
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(0);
+                        }
+                    });
+
+                }
+                else{
+                    promptErrorMessage(getString(R.string.no_delivery_time));
+                }
 
                 buttonFinishOrder = viewRoot.findViewById(R.id.buttonFinishOrder);
                 buttonFinishOrder.setOnClickListener(v -> {
@@ -100,14 +113,24 @@ public class Cart3Fragment extends Fragment {
 
                     cart.getPartialOrder().setDeliveryTime(openingTimeSelected);
 
-                    /**
-                    Order order;
-
-
+                    Order order = cart.getPartialOrder().partialOrderToOrder();
 
                     OrderRequest orderRequest = new OrderRequest();
-                    orderRequest.create(cart);
-                     */
+                    orderRequest.create(order, new RequestListener<Order>() {
+                        @Override
+                        public void successResponse(Order response) {
+                            cart.clear();
+                            mParent.finish();
+                            Intent intent = new Intent(mParent, OrderDetailActivity.class);
+                            intent.putExtra(ARG_ITEM_ID, response.getId());
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            promptErrorMessage(error.getMessage());
+                        }
+                    });
 
                 });
 

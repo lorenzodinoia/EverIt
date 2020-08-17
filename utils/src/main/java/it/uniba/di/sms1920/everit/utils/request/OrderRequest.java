@@ -26,21 +26,21 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
 
     private final String CUSTOMER = "customer";
     private final String RESTAURATEUR = "restaurateur";
-    private final String ORDER = "order";
+    private final String ORDER = "/order";
 
     @Override
     public void create(Order model, RequestListener<Order> RequestListener) {
-        super.create(model, CUSTOMER+"/"+ORDER, RequestListener, Order.class, true);
+        super.create(model, RESTAURATEUR+"/"+model.getRestaurateur().getId()+ORDER, RequestListener, Order.class, true);
     }
 
     @Override
     public void read(long id, RequestListener<Order> RequestListener) {
-        super.read(id, CUSTOMER+"/"+ORDER, RequestListener, Order.class, true);
+        super.read(id, CUSTOMER+ORDER, RequestListener, Order.class, true);
     }
 
     @Override
     public void readAll(RequestListener<Collection<Order>> RequestListener) {
-        super.readAll(CUSTOMER+"/"+ORDER+"/getAll", RequestListener, Order.class, true);
+        super.readAll(CUSTOMER+ORDER+"/getAll", RequestListener, Order.class, true);
     }
 
     @Override
@@ -56,7 +56,7 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
     public void readPendingOrders(RequestListener<Collection<Order>> requestListener){
         Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
 
-        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%s/pending", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s%s/pending", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
                 response -> {
                     try {
                         Collection<Order> collection = adapter.fromJSONArray(response, Order.class);
@@ -75,7 +75,7 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
     public void readDoneOrders(RequestListener<Collection<Order>> requestListener){
         Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
 
-        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%s/done", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s%s/done", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
                 response -> {
                     try {
                         Collection<Order> collection = adapter.fromJSONArray(response, Order.class);
@@ -94,7 +94,7 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
     public void readToDoOrders(RequestListener<Collection<Order>> requestListener){
         Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
 
-        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s/%s/toDo", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
+        ArrayRequest request = new ArrayRequest(Request.Method.GET, String.format("%s/api/%s%s/toDo", Constants.SERVER_HOST, RESTAURATEUR, ORDER), null,
                 response -> {
                     try {
                         Collection<Order> collection = adapter.fromJSONArray(response, Order.class);
@@ -113,7 +113,7 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
     public void markAsConfirmed(long orderId, RequestListener<Order> requestListener) {
         Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
         try {
-            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s/%s/%d/markAsConfirmed", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsConfirmed", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
                     response -> {
                         Order data = adapter.fromJSON(response, Order.class);
                         requestListener.successResponse(data);
@@ -131,7 +131,7 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
     public void markAsLate(long orderId, RequestListener<Order> requestListener){
         Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
         try {
-            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s/%s/%d/markAsLate", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsLate", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
                     response -> {
                         Order data = adapter.fromJSON(response, Order.class);
                         requestListener.successResponse(data);
@@ -146,8 +146,8 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
         }
     }
 
-
-
-
+    public void readAsRestaurauter(long id, RequestListener<Order> RequestListener){
+        super.read(id, RESTAURATEUR+ORDER, RequestListener, Order.class, true);
+    }
 
 }

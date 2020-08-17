@@ -56,8 +56,6 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         private static final String KEY_NEW_PASSWORD = "new_password";
     }
 
-    //TODO implementare altre funzioni
-
     @Override
     public void create(Restaurateur model, RequestListener<Restaurateur> RequestListener) {
         super.create(model, URL, RequestListener, Restaurateur.class, false);

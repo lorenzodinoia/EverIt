@@ -8,6 +8,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
@@ -18,7 +20,8 @@ import it.uniba.di.sms1920.everit.utils.Address;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
-public class OrderAdapter implements JsonDeserializer<Order> {
+public class OrderAdapter implements JsonSerializer<Order>, JsonDeserializer<Order> {
+
     private static final class Keys {
         private static final String ADDRESS_KEY = "delivery_address";
         private static final String LONGITUDE_KEY = "longitude";
@@ -35,7 +38,26 @@ public class OrderAdapter implements JsonDeserializer<Order> {
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
             .registerTypeAdapter(Restaurateur.class, new RestaurateurAdapter())
             .registerTypeAdapter(Adapter.PRODUCT_MAP_TYPE, new ProductMapAdapter())
+            .enableComplexMapKeySerialization()
             .create();
+
+    @Override
+    public JsonElement serialize(Order src, Type typeOfSrc, JsonSerializationContext context) {
+
+        JsonObject jsonObject = (JsonObject) orderJsonConverter.toJsonTree(src);
+
+        jsonObject.remove(Keys.ADDRESS_KEY);
+
+        String address = src.getDeliveryAddress().getFullAddress();
+        double latitude = src.getDeliveryAddress().getLatitude();
+        double longitude = src.getDeliveryAddress().getLongitude();
+
+        jsonObject.addProperty(Keys.ADDRESS_KEY, address);
+        jsonObject.addProperty(Keys.LATITUDE_KEY, latitude);
+        jsonObject.addProperty(Keys.LONGITUDE_KEY, longitude);
+
+        return jsonObject;
+    }
 
     @Override
     public Order deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

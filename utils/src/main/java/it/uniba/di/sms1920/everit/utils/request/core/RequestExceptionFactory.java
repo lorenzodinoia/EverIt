@@ -24,7 +24,7 @@ public final class RequestExceptionFactory {
         String translatedMessage = "";
 
         switch (errorCode) {
-            case 400:
+            case 404:
                 translatedMessage = Providers.getStringFromApplicationContext(R.string.message_404);
                 return new NotFoundException(translatedMessage);
             case 401:
