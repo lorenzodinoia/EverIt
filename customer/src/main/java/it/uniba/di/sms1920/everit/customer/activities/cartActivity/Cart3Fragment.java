@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailActivity;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailFragment;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
 import it.uniba.di.sms1920.everit.utils.models.Order;
@@ -36,6 +39,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class Cart3Fragment extends Fragment {
 
+    private static final String ARG_ITEM_ID = "item_id";
     private final static int HOME_DELIVERY = 0;
     private final static int CUSTOMER_PICKUP = 1;
 
@@ -118,7 +122,11 @@ public class Cart3Fragment extends Fragment {
                     orderRequest.create(order, new RequestListener<Order>() {
                         @Override
                         public void successResponse(Order response) {
-                            Log.d("test", "success");
+                            cart.clear();
+                            mParent.finish();
+                            Intent intent = new Intent(mParent, OrderDetailActivity.class);
+                            intent.putExtra(ARG_ITEM_ID, response.getId());
+                            startActivity(intent);
                         }
 
                         @Override
