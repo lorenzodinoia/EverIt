@@ -88,15 +88,12 @@ public class Cart3Fragment extends Fragment {
                     spinnerDeliveryTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            if (position != 0) {
-                                openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
-                            } else {
-                                openingTimeSelected = null;
-                            }
+                            openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
                         }
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
+                            openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(0);
                         }
                     });
 
