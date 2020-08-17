@@ -23,7 +23,7 @@
         <activity
             android:name=".activities.review.ReviewListActivity"
             android:label="@string/title_review_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.review.ReviewDetailActivity"
             android:label="@string/title_review_detail"
@@ -58,6 +58,10 @@
             android:name=".activities.activeOrders.OrderDetailActivity"
             android:label="@string/title_order_detail"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="everit.restaurateur.order.detail"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.AddressChooserActivity"

@@ -29,7 +29,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.ProposalDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="everit.rider.proposal.detail"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.WorksActivity"
             android:label="@string/activity_my_works"
