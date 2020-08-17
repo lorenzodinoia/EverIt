@@ -29,6 +29,7 @@ public class Order extends Model {
     private LocalTime pickupTime;
     private Restaurateur restaurateur;
     private LocalDateTime createdAt;
+    private int orderType;
 
     public static final Creator<Order> CREATOR = new Creator<Order>() {
         @Override
@@ -42,7 +43,9 @@ public class Order extends Model {
         }
     };
 
-    private Order() {}
+    public Order() {
+
+    }
 
     public Order(Parcel in) {
         super(in);
@@ -56,6 +59,7 @@ public class Order extends Model {
         //TODO Leggere mappa dei prodotti
         this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
         this.createdAt = (LocalDateTime) in.readSerializable();
+        this.orderType = in.readInt();
     }
 
     public Address getDeliveryAddress() {
@@ -159,6 +163,14 @@ public class Order extends Model {
         this.createdAt = createdAt;
     }
 
+    public int getOrderType(){
+        return  orderType;
+    }
+
+    public void setOrderType(int orderType){
+        this.orderType = orderType;
+    }
+
     public boolean isDelivered() {
         return (this.status.equals(Status.DELIVERED));
     }
@@ -202,5 +214,6 @@ public class Order extends Model {
         //TODO Serializzare mappa dei prodotti
         dest.writeParcelable(this.restaurateur, flags);
         dest.writeSerializable(this.createdAt);
+        dest.writeInt(this.orderType);
     }
 }

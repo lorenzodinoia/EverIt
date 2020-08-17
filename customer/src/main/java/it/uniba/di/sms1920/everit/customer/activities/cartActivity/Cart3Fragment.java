@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,10 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
+import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
+import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
+import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -70,24 +74,32 @@ public class Cart3Fragment extends Fragment {
                 homeDelivery = viewRoot.findViewById(R.id.home_delivery);
                 customerPickup = viewRoot.findViewById(R.id.customer_pickup);
 
-                 deliveryTime.addAll(response);
+                if(!response.isEmpty()) {
+                    deliveryTime.clear();
+                    deliveryTime.addAll(response);
 
-                 spinnerDeliveryTimeAdapter = new SpinnerAdapter(mParent, android.R.layout.simple_spinner_dropdown_item, deliveryTime);
-                 spinnerDeliveryTime.setAdapter(spinnerDeliveryTimeAdapter);
+                    spinnerDeliveryTimeAdapter = new SpinnerAdapter(mParent, android.R.layout.simple_spinner_dropdown_item, deliveryTime);
+                    spinnerDeliveryTime.setAdapter(spinnerDeliveryTimeAdapter);
 
-                 spinnerDeliveryTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                 @Override
-                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                     if(position != 0){
-                     openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
-                     } else{
-                     openingTimeSelected = null;
-                    }
-                 }
+                    spinnerDeliveryTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position != 0) {
+                                openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
+                            } else {
+                                openingTimeSelected = null;
+                            }
+                        }
 
-                 @Override
-                 public void onNothingSelected(AdapterView<?> parent) { }
-                 });
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                }
+                else{
+                    promptErrorMessage(getString(R.string.no_delivery_time));
+                }
 
                 buttonFinishOrder = viewRoot.findViewById(R.id.buttonFinishOrder);
                 buttonFinishOrder.setOnClickListener(v -> {
@@ -100,14 +112,20 @@ public class Cart3Fragment extends Fragment {
 
                     cart.getPartialOrder().setDeliveryTime(openingTimeSelected);
 
-                    /**
-                    Order order;
-
-
+                    Order order = cart.getPartialOrder().partialOrderToOrder();
 
                     OrderRequest orderRequest = new OrderRequest();
-                    orderRequest.create(cart);
-                     */
+                    orderRequest.create(order, new RequestListener<Order>() {
+                        @Override
+                        public void successResponse(Order response) {
+                            Log.d("test", "success");
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            promptErrorMessage(error.getMessage());
+                        }
+                    });
 
                 });
 

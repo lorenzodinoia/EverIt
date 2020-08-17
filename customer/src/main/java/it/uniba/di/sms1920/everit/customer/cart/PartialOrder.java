@@ -1,5 +1,9 @@
 package it.uniba.di.sms1920.everit.customer.cart;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,22 +103,26 @@ public class PartialOrder {
     }
 
 
-    /*public Order partialOrderToOrder(){
+    public Order partialOrderToOrder(){
         Order order = new Order();
 
+        LocalDate localDate = LocalDate.now();
+        String formattedDate = localDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        String completeDate = formattedDate + " " + this.deliveryTime;
+
+        DateTimeFormatter formatterDt = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+        LocalDateTime estimatedTime = LocalDateTime.parse(completeDate, formatterDt);
+
+        order.setEstimatedDeliveryTime(estimatedTime);
         order.setDeliveryAddress(this.deliveryAddress);
         order.setDeliveryNotes(this.deliveryNotes);
         order.setOrderNotes(this.orderNotes);
         order.setProducts(this.products);
         order.setRestaurateur(this.restaurateur);
-
-        order.setLate(order.isLate());
-
-
-
+        order.setOrderType(this.orderType);
 
         return order;
-    }*/
+    }
 
 
     SerializableItem getSerializableItem() {

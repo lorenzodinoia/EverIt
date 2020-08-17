@@ -131,4 +131,6 @@
     <string name="new_review">New review</string>
 
     <string name="no_data">No data</string>
+
+    <string name="no_delivery_time">There are not delivery time avaible for today</string>
 </resources>
