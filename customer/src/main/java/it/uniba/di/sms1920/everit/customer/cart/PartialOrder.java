@@ -72,6 +72,7 @@ public class PartialOrder {
         return quantity;
     }
 
+
     public void addProduct(Product product) {
         int savedQuantity = this.getProductQuantity(product);
 
