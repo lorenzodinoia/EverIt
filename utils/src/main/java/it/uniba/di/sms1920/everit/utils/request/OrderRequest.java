@@ -146,4 +146,8 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
         }
     }
 
+    public void readAsRestaurauter(long id, RequestListener<Order> RequestListener){
+        super.read(id, RESTAURATEUR+ORDER, RequestListener, Order.class, true);
+    }
+
 }

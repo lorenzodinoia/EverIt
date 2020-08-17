@@ -53,10 +53,9 @@ public class OrderDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        if (getArguments().containsKey(INDEX)) {
             index = getArguments().getInt(INDEX);
-            long id = getArguments().getLong(ARG_ITEM_ID);
-            order = OrderListFragment.getOrderById(id);
+            order = mParent.getOrder();
         }
     }
 
