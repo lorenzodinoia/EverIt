@@ -56,4 +56,7 @@
     <string name="error_valueReview_long">Reviews can be up to 250 characters long</string>
 
     <string name="error_email">Incorrect email format</string>
+
+    <string name="firebase_notification_channel" translatable="false">FirebaseNotificationChannel</string>
+    <string name="firebase_notification_channel_name">Server notification</string>
 </resources>

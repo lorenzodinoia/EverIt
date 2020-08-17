@@ -60,7 +60,13 @@
             android:name=".activities.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name="it.uniba.di.sms1920.everit.utils.NotificationService">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/firebase_notification_channel"/>
+
+        <service android:name="it.uniba.di.sms1920.everit.utils.NotificationService"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

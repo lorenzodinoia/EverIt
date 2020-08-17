@@ -15,8 +15,6 @@ import it.uniba.di.sms1920.everit.utils.provider.FirebaseTokenProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
 public final class NotificationService extends FirebaseMessagingService {
-    private static final String CHANNEL_ID = "EverIt-All";
-
     @Override
     public void onNewToken(@NonNull String s) {
         FirebaseTokenProvider firebaseTokenProvider = Providers.getFirebaseTokenProvider();
@@ -31,7 +29,7 @@ public final class NotificationService extends FirebaseMessagingService {
         String title = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Debug")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, this.getApplicationContext().getString(R.string.firebase_notification_channel))
                 .setSmallIcon(R.mipmap.icon_round)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -43,9 +41,10 @@ public final class NotificationService extends FirebaseMessagingService {
 
     public static void initNotificationChannel(Context applicationContext) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            final String channelName = applicationContext.getString(R.string.notification_channel_name);
+            final String channelId = applicationContext.getString(R.string.firebase_notification_channel);
+            final String channelName = applicationContext.getString(R.string.firebase_notification_channel_name);
             final int channelLevel = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, channelLevel);
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, channelLevel);
             NotificationManager notificationManager = applicationContext.getSystemService(NotificationManager.class);
             if (notificationManager != null) {
                notificationManager.createNotificationChannel(channel);
