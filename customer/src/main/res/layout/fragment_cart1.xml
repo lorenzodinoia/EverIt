@@ -1,269 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cart_product_list"
+<ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cart_product_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
-    <TextView
-        android:id="@+id/labelDeliveryAddress"
-        style="@style/TextViewSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/delivery_address"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/TextViewDeliveryAddress"
-        style="@style/TextViewMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/labelDeliveryAddress"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/labelMinPurchase"
-        style="@style/TextViewSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/minimum_purchase"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelDeliveryAddress" />
-
-    <TextView
-        android:id="@+id/textViewMinPurchase"
-        style="@style/TextViewMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/labelMinPurchase"
-        app:layout_constraintTop_toBottomOf="@+id/TextViewDeliveryAddress" />
-
-    <TextView
-        android:id="@+id/textViewSymbol4"
-        style="@style/TextViewMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/currency_type"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewMinPurchase"
-        app:layout_constraintTop_toBottomOf="@+id/TextViewDeliveryAddress" />
-
-    <TextView
-        android:id="@+id/textViewRecapOrder"
-        style="@style/TextViewSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/your_products"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelMinPurchase" />
-
-    <View
-        android:id="@+id/view5"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="#c0c0c0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRecapOrder" />
-
-
-    <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view5">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleViewProducts"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/labelDeliveryAddress"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layoutManager="LinearLayoutManager"
-            tools:context="it.uniba.di.sms1920.everit.masterDetailOrders.OrderDetailFragment"
-            tools:listitem="@layout/product_list_content" />
-    </FrameLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/delivery_address"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/textViewSymbol"
-        style="@style/TextViewMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/currency_type"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSymbol2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view6"
-        app:layout_constraintVertical_bias="1.0" />
+        <TextView
+            android:id="@+id/TextViewDeliveryAddress"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/labelDeliveryAddress"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewSymbol2"
-        style="@style/TextViewMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/currency_type"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSymbol3"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/labelMinPurchase"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/minimum_purchase"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelDeliveryAddress" />
 
-    <TextView
-        android:id="@+id/textViewSymbol3"
-        style="@style/TextViewLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/currency_type"
-        app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/textViewMinPurchase"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/labelMinPurchase"
+            app:layout_constraintTop_toBottomOf="@+id/TextViewDeliveryAddress" />
 
-    <View
-        android:id="@+id/view6"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="#c0c0c0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
+        <TextView
+            android:id="@+id/textViewSymbol4"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/currency_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textViewMinPurchase"
+            app:layout_constraintTop_toBottomOf="@+id/TextViewDeliveryAddress" />
 
-    <TextView
-        android:id="@+id/LabelSubTotal"
-        style="@style/TextViewSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/sub_total"
-        app:layout_constraintBottom_toTopOf="@+id/LabelDeliveryCost"
-        app:layout_constraintEnd_toStartOf="@+id/textViewSubTotal"
-        app:layout_constraintTop_toBottomOf="@+id/view6"
-        app:layout_constraintVertical_bias="1.0" />
+        <TextView
+            android:id="@+id/textViewRecapOrder"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/your_products"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelMinPurchase" />
 
-
-    <TextView
-        android:id="@+id/LabelDeliveryCost"
-        style="@style/TextViewSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="36dp"
-        android:text="@string/delivey_cost"
-        app:layout_constraintBottom_toTopOf="@+id/h"
-        app:layout_constraintEnd_toStartOf="@+id/textViewDeliveryCost" />
-
-    <TextView
-        android:id="@+id/h"
-        style="@style/TextViewLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/total"
-        app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
-        app:layout_constraintEnd_toStartOf="@+id/textViewTotalPrice" />
-
-    <TextView
-        android:id="@+id/textViewSubTotal"
-        style="@style/TextViewMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="16dp"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/textViewDeliveryCost"
-        app:layout_constraintEnd_toStartOf="@+id/textViewSymbol"
-        app:layout_constraintTop_toBottomOf="@+id/view6"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textViewDeliveryCost"
-        style="@style/TextViewMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="32dp"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/textViewTotalPrice"
-        app:layout_constraintEnd_toStartOf="@+id/textViewSymbol2" />
-
-    <TextView
-        android:id="@+id/textViewTotalPrice"
-        style="@style/TextViewLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="32dp"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
-        app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonEmptyOrder"
-        style="@style/ButtonImportant"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/btn_bg"
-        android:text="@string/DeleteCart"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonContinueOrder"
-        style="@style/ButtonMain"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/btn_bg"
-        android:text="@string/Continue"
-        app:layout_constraintBottom_toTopOf="@+id/buttonEmptyOrder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <View
+            android:id="@+id/view5"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="#c0c0c0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewRecapOrder" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <FrameLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view5">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleViewProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="LinearLayoutManager"
+                tools:context="it.uniba.di.sms1920.everit.masterDetailOrders.OrderDetailFragment"
+                tools:listitem="@layout/product_list_content" />
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/textViewSymbol"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/currency_type"
+            app:layout_constraintBottom_toTopOf="@+id/textViewSymbol2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textViewSymbol2"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/currency_type"
+            app:layout_constraintBottom_toTopOf="@+id/textViewSymbol3"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewSymbol3"
+            style="@style/TextViewLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/currency_type"
+            app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="#c0c0c0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
+
+        <TextView
+            android:id="@+id/LabelSubTotal"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/sub_total"
+            app:layout_constraintBottom_toTopOf="@+id/LabelDeliveryCost"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSubTotal"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+        <TextView
+            android:id="@+id/LabelDeliveryCost"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="36dp"
+            android:text="@string/delivey_cost"
+            app:layout_constraintBottom_toTopOf="@+id/h"
+            app:layout_constraintEnd_toStartOf="@+id/textViewDeliveryCost" />
+
+        <TextView
+            android:id="@+id/h"
+            style="@style/TextViewLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/total"
+            app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalPrice" />
+
+        <TextView
+            android:id="@+id/textViewSubTotal"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="16dp"
+            android:text=""
+            app:layout_constraintBottom_toTopOf="@+id/textViewDeliveryCost"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSymbol"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textViewDeliveryCost"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="32dp"
+            android:text=""
+            app:layout_constraintBottom_toTopOf="@+id/textViewTotalPrice"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSymbol2" />
+
+        <TextView
+            android:id="@+id/textViewTotalPrice"
+            style="@style/TextViewLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="32dp"
+            android:text=""
+            app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonEmptyOrder"
+            style="@style/ButtonImportant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/btn_bg"
+            android:text="@string/DeleteCart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonContinueOrder"
+            style="@style/ButtonMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/btn_bg"
+            android:text="@string/Continue"
+            app:layout_constraintBottom_toTopOf="@+id/buttonEmptyOrder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import it.uniba.di.sms1920.everit.customer.ProductRecyclerViewAdapter;
@@ -26,22 +28,25 @@ import it.uniba.di.sms1920.everit.utils.models.Product;
 
 public class Cart1Fragment extends Fragment {
 
+    private  Map<Product, Integer> map = null;
+
     private TextView textViewAddress;
     private TextView textViewTotal;
     private TextView textViewSubTotal;
     private TextView textViewMinPurchase;
-    private float subtotal = 0;
     private TextView textViewDeliveryCost;
-
     private RecyclerView recyclerViewProducts;
-
     private MaterialButton buttonOrder;
     private MaterialButton buttonEmptyCart;
+
+    private Float minPurchase;
+    private float subtotal=0;
+    private float total=0;
 
     private Cart cart;
     private CartActivity mParent;
 
-    private Float minPurchase;
+
 
     public Cart1Fragment() {
         // Required empty public constructor
@@ -53,6 +58,7 @@ public class Cart1Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         cart = Cart.getInstance();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -96,25 +102,51 @@ public class Cart1Fragment extends Fragment {
 
     }
 
-    private void setupComponent(){
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("MAP", (Serializable) map);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState != null){
+            map = (Map<Product, Integer>) savedInstanceState.getSerializable("MAP");
+        }else{
+            if(map != null){
+
+            }else {
+                calculateValue();
+            }
+        }
+    }
+
+    private void setupComponent() {
+
         textViewAddress.setText(cart.getPartialOrder().getDeliveryAddress().getFullAddress());
         textViewMinPurchase.setText(String.valueOf(minPurchase));
-
         textViewDeliveryCost.setText(String.valueOf(cart.getPartialOrder().getRestaurateur().getDeliveryCost()));
 
         recyclerViewProducts.setAdapter(new ProductRecyclerViewAdapter(cart.getPartialOrder().getProducts()));
 
-        Map<Product, Integer> map = cart.getPartialOrder().getProducts();
-
-        for (Map.Entry<Product, Integer> pair : map.entrySet()) {
-            subtotal = subtotal + ((pair.getKey().getPrice()) * (pair.getValue()));
-        }
+        calculateValue();
 
         textViewSubTotal.setText(String.valueOf(subtotal));
-        textViewTotal.setText(String.valueOf(subtotal + cart.getPartialOrder().getRestaurateur().getDeliveryCost()));
+        textViewTotal.setText(String.valueOf(total));
     }
 
-
+    private void  calculateValue(){
+        if(map != null){ } else {
+            map = cart.getPartialOrder().getProducts();
+            for (Map.Entry<Product, Integer> pair : map.entrySet()) {
+                subtotal = subtotal + ((pair.getKey().getPrice()) * (pair.getValue()));
+            }
+            total = subtotal + cart.getPartialOrder().getRestaurateur().getDeliveryCost();
+        }
+    }
 
 
     @Override

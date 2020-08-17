@@ -19,6 +19,7 @@ import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailActivity;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.NotificationService;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
 public class LauncherActivity extends AppCompatActivity {
@@ -47,6 +48,7 @@ public class LauncherActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         try {
             Providers.init(context, Constants.Variants.CUSTOMER);
+            NotificationService.initNotificationChannel(getApplicationContext());
             Cart.init(context);
         }
         catch (Exception e) {
