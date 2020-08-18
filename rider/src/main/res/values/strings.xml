@@ -47,6 +47,9 @@
     <string name="label_order_number">Order N°</string>
     <string name="order_withdrawn">Order withdrawn</string>
     <string name="order_withdrawn_explanation">Now you can deliver the order to the specified address</string>
+    <string name="proposal_empty_placeholder">There\'s no proposal</string>
+    <string name="assigned_order_empty_placeholder">There\'s no order to pickup</string>
+    <string name="delivery_empty_placeholder">There\'s no delivery in progress</string>
 </resources>
 
 

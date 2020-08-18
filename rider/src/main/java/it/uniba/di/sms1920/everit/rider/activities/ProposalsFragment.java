@@ -26,6 +26,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 public class ProposalsFragment extends Fragment {
     private RecyclerView proposalRecyclerView;
     private List<Proposal> proposalList = new ArrayList<>();
+    private TextView textViewEmpty;
 
     public ProposalsFragment() {
         // Required empty public constructor
@@ -39,26 +40,35 @@ public class ProposalsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_proposals, container, false);
+        this.initComponents(view);
+
         ProposalRequest proposalRequest = new ProposalRequest();
         proposalRequest.readAll(new RequestListener<Collection<Proposal>>() {
             @Override
             public void successResponse(Collection<Proposal> response) {
                 proposalList = new ArrayList<>(response);
-                setupRecyclerView();
+                if (proposalList.size() > 0) {
+                    textViewEmpty.setVisibility(View.INVISIBLE);
+                    setupRecyclerView();
+                }
+                else {
+                    textViewEmpty.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void errorResponse(RequestException error) {
                 //TODO Gestione errore richiesta
+                textViewEmpty.setVisibility(View.VISIBLE);
             }
         });
-        this.initComponents(view);
 
         return view;
     }
 
     private void initComponents(View view) {
         this.proposalRecyclerView = view.findViewById(R.id.proposal_list);
+        this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
     }
 
     private void setupRecyclerView() {

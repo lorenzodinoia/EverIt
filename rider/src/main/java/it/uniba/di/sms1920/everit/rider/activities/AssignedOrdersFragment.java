@@ -26,6 +26,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 public class AssignedOrdersFragment extends Fragment {
     private RecyclerView assignedOrdersRecyclerView;
     private List<Order> assignedOrderList = new ArrayList<>();
+    private TextView textViewEmpty;
 
     public AssignedOrdersFragment() {
         // Required empty public constructor
@@ -39,26 +40,35 @@ public class AssignedOrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_assigned_orders, container, false);
+        this.initComponents(view);
+
         RiderRequest riderRequest = new RiderRequest();
         riderRequest.readAssignedOrders(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
                 assignedOrderList = new ArrayList<>(response);
-                setupRecyclerView();
+                if (assignedOrderList.size() > 0) {
+                    textViewEmpty.setVisibility(View.INVISIBLE);
+                    setupRecyclerView();
+                }
+                else{
+                    textViewEmpty.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void errorResponse(RequestException error) {
                 //TODO Gestione errore richiesta
+                textViewEmpty.setVisibility(View.VISIBLE);
             }
         });
-        this.initComponents(view);
 
         return view;
     }
 
     private void initComponents(View view) {
         this.assignedOrdersRecyclerView = view.findViewById(R.id.assigned_order_list);
+        this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
     }
 
     private void setupRecyclerView() {

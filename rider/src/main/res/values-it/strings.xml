@@ -46,4 +46,7 @@
     <string name="label_order_number">Ordine N°</string>
     <string name="order_withdrawn">Ordine ritirato</string>
     <string name="order_withdrawn_explanation">Ora puoi consegnare l\'ordine all\'indirizzo specificato</string>
+    <string name="proposal_empty_placeholder">Non ci sono proposte</string>
+    <string name="assigned_order_empty_placeholder">Non ci sono ordini da ritirare</string>
+    <string name="delivery_empty_placeholder">Non ci sono consegne in corso</string>
 </resources>

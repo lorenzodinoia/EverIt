@@ -26,6 +26,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 public class DeliveriesFragment extends Fragment {
     private RecyclerView deliveriesRecyclerView;
     private List<Order> deliveryList = new ArrayList<>();
+    private TextView textViewEmpty;
 
     public DeliveriesFragment() {
         // Required empty public constructor
@@ -40,26 +41,35 @@ public class DeliveriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_deliveries, container, false);
+        this.initComponents(view);
+
         RiderRequest riderRequest = new RiderRequest();
         riderRequest.readDeliveries(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
                 deliveryList = new ArrayList<>(response);
-                setupRecyclerView();
+                if (deliveryList.size() > 0) {
+                    textViewEmpty.setVisibility(View.INVISIBLE);
+                    setupRecyclerView();
+                }
+                else {
+                    textViewEmpty.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void errorResponse(RequestException error) {
                 //TODO Gestione errore richiesta
+                textViewEmpty.setVisibility(View.VISIBLE);
             }
         });
-        this.initComponents(view);
 
         return view;
     }
 
     private void initComponents(View view) {
         this.deliveriesRecyclerView = view.findViewById(R.id.deliveries_list);
+        this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
     }
 
     private void setupRecyclerView() {
