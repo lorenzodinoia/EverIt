@@ -18,14 +18,16 @@ import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.utils.DataBinder;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
 import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-public class ProposalsFragment extends Fragment {
+public class ProposalsFragment extends Fragment implements DataBinder {
     private RecyclerView proposalRecyclerView;
+    private ProposalRecyclerViewAdapter proposalRecyclerViewAdapter;
     private List<Proposal> proposalList = new ArrayList<>();
     private TextView textViewEmpty;
 
@@ -42,15 +44,35 @@ public class ProposalsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_proposals, container, false);
         this.initComponents(view);
+        this.refreshData();
+        return view;
+    }
 
+    private void initComponents(View view) {
+        this.proposalRecyclerView = view.findViewById(R.id.proposal_list);
+        this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
+    }
+
+    private void setupRecyclerView() {
+        this.proposalRecyclerViewAdapter = new ProposalRecyclerViewAdapter(this, this.proposalList, false);
+        this.proposalRecyclerView.setAdapter(this.proposalRecyclerViewAdapter);
+    }
+
+    @Override
+    public void refreshData() {
         ProposalRequest proposalRequest = new ProposalRequest();
         proposalRequest.readAll(new RequestListener<Collection<Proposal>>() {
             @Override
             public void successResponse(Collection<Proposal> response) {
                 proposalList = new ArrayList<>(response);
+                if (proposalRecyclerViewAdapter == null) {
+                    setupRecyclerView();
+                }
+                else {
+                    proposalRecyclerViewAdapter.notifyDataSetChanged();
+                }
                 if (proposalList.size() > 0) {
                     textViewEmpty.setVisibility(View.INVISIBLE);
-                    setupRecyclerView();
                 }
                 else {
                     textViewEmpty.setVisibility(View.VISIBLE);
@@ -63,18 +85,6 @@ public class ProposalsFragment extends Fragment {
                 Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
             }
         });
-
-        return view;
-    }
-
-    private void initComponents(View view) {
-        this.proposalRecyclerView = view.findViewById(R.id.proposal_list);
-        this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
-    }
-
-    private void setupRecyclerView() {
-        ProposalRecyclerViewAdapter recyclerViewAdapter = new ProposalRecyclerViewAdapter(this, this.proposalList, false);
-        this.proposalRecyclerView.setAdapter(recyclerViewAdapter);
     }
 
     public static class ProposalRecyclerViewAdapter extends RecyclerView.Adapter<ProposalRecyclerViewAdapter.ViewHolder> {
