@@ -1,8 +1,11 @@
 package it.uniba.di.sms1920.everit.utils;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Patterns;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -260,6 +263,21 @@ public final class Utility {
     }
 
 
+    public static void showGenericMessage(Context context, String title, String message) {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
+        TextView textViewTitle = dialog.findViewById(R.id.textViewTitle);
+        textViewTitle.setText(title);
 
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button buttonOk = dialog.findViewById(R.id.btnOk);
+        buttonOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
 }

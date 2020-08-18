@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -62,7 +63,7 @@ public class DeliveryDetailFragment extends Fragment {
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        //TODO Gestione errore
+                        Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
                     }
                 });
             }

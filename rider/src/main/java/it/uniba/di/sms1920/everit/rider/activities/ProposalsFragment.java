@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
 import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -58,8 +59,8 @@ public class ProposalsFragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO Gestione errore richiesta
                 textViewEmpty.setVisibility(View.VISIBLE);
+                Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
             }
         });
 

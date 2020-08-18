@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
 import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
@@ -65,14 +66,7 @@ public class ProposalDetailFragment extends Fragment {
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-                        dialogBuilder.setTitle(R.string.message_generic_error)
-                                .setMessage(error.getMessage())
-                                .setPositiveButton(R.string.ok_default, (dialog, which) -> {
-                                    dialog.dismiss();
-                                    getActivity().finish();
-                                })
-                                .show();
+                        Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
                     }
                 });
             }
@@ -162,11 +156,7 @@ public class ProposalDetailFragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-                dialogBuilder.setTitle(R.string.message_generic_error)
-                        .setMessage(error.getMessage())
-                        .setPositiveButton(R.string.ok_default, (dialog, which) -> dialog.dismiss())
-                        .show();
+                Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
             }
         });
     }
@@ -189,11 +179,7 @@ public class ProposalDetailFragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-                dialogBuilder.setTitle(R.string.message_generic_error)
-                        .setMessage(error.getMessage())
-                        .setPositiveButton(R.string.ok_default, (dialog, which) -> dialog.dismiss())
-                        .show();
+                Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
             }
         });
     }
