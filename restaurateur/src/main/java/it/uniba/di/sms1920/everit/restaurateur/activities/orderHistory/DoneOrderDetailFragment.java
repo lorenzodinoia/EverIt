@@ -1,9 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory;
 
-import android.app.Activity;
 import android.os.Bundle;
-
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
