@@ -14,7 +14,11 @@ import it.uniba.di.sms1920.everit.utils.Constants;
 
 public class Order extends Model {
     public enum Status {
-        ORDERED, IN_PROGRESS, DELIVERING, DELIVERED
+        ORDERED, CONFIRMED, IN_PROGRESS, DELIVERING, READY, DELIVERED
+    }
+
+    public enum OrderType {
+        HOME_DELIVERY, TAKEAWAY
     }
 
     private Address deliveryAddress;
@@ -29,7 +33,7 @@ public class Order extends Model {
     private LocalTime pickupTime;
     private Restaurateur restaurateur;
     private LocalDateTime createdAt;
-    private int orderType;
+    private OrderType orderType;
 
     public static final Creator<Order> CREATOR = new Creator<Order>() {
         @Override
@@ -59,7 +63,7 @@ public class Order extends Model {
         //TODO Leggere mappa dei prodotti
         this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
         this.createdAt = (LocalDateTime) in.readSerializable();
-        this.orderType = in.readInt();
+        this.orderType = OrderType.valueOf(in.readString());
     }
 
     public Address getDeliveryAddress() {
@@ -163,11 +167,11 @@ public class Order extends Model {
         this.createdAt = createdAt;
     }
 
-    public int getOrderType(){
+    public OrderType getOrderType(){
         return  orderType;
     }
 
-    public void setOrderType(int orderType){
+    public void setOrderType(OrderType orderType){
         this.orderType = orderType;
     }
 
@@ -214,6 +218,6 @@ public class Order extends Model {
         //TODO Serializzare mappa dei prodotti
         dest.writeParcelable(this.restaurateur, flags);
         dest.writeSerializable(this.createdAt);
-        dest.writeInt(this.orderType);
+        dest.writeString(this.orderType.name());
     }
 }

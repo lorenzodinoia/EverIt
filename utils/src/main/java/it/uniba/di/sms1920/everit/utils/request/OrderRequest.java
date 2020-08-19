@@ -3,15 +3,12 @@ package it.uniba.di.sms1920.everit.utils.request;
 import com.android.volley.Request;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Collection;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.models.Order;
-import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
-import it.uniba.di.sms1920.everit.utils.models.User;
 import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.ArrayRequest;
@@ -146,8 +143,59 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
         }
     }
 
+    public void markAsInProgress(long orderId, RequestListener<Order> requestListener) {
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsInProgress", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+                    response -> {
+                        Order data = adapter.fromJSON(response, Order.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void markAsReady(long orderId, RequestListener<Order> requestListener) {
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsReady", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+                    response -> {
+                        Order data = adapter.fromJSON(response, Order.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void readAsRestaurauter(long id, RequestListener<Order> RequestListener){
         super.read(id, RESTAURATEUR+ORDER, RequestListener, Order.class, true);
     }
 
+    public void searchRider(long orderId, RequestListener<String> requestListener){
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsLate", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+                    response -> {
+                        requestListener.successResponse(response.toString());
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

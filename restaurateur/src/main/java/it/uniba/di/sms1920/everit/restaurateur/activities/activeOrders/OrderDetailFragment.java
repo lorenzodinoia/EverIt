@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +44,7 @@ public class OrderDetailFragment extends Fragment {
     private int index;
 
     private MaterialButton confirmButton;
+    private MaterialButton searchRider;
 
     public OrderDetailFragment() {
     }
@@ -74,11 +74,10 @@ public class OrderDetailFragment extends Fragment {
             TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewDeliveryCost);
             TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewSubTotal);
             TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+
             confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
-            if(index != 0){
-                confirmButton.setText(R.string.late_button);
-                confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.colorWarning));
-            }
+            searchRider = rootView.findViewById(R.id.btnSearchRider);
+            bindButton();
 
             textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
             labelDeliveryDate.setText(getString(R.string.delivery_date_label) + ":");
@@ -97,13 +96,18 @@ public class OrderDetailFragment extends Fragment {
             textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
             setupRecyclerView(recyclerView);
 
-            if((index == 1) && (order.isLate())){
-                disableConfirmButton();
-            }
+        }
 
+        return rootView;
+    }
+
+    private void bindButton(){
+
+        if(index == 0){
+            confirmButton.setVisibility(View.VISIBLE);
             confirmButton.setOnClickListener(v -> {
                 OrderRequest orderRequest = new OrderRequest();
-                if(index == 0){
+                if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
                     orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
                         @Override
                         public void successResponse(Order response) {
@@ -116,11 +120,11 @@ public class OrderDetailFragment extends Fragment {
                         }
                     });
                 }
-                else if(index == 1){
-                    orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
+                else{
+                    orderRequest.markAsInProgress(order.getId(), new RequestListener<Order>() {
                         @Override
                         public void successResponse(Order response) {
-                            disableConfirmButton();
+                            mParent.finish();
                         }
 
                         @Override
@@ -131,12 +135,91 @@ public class OrderDetailFragment extends Fragment {
                 }
             });
 
+            searchRider.setVisibility(View.GONE);
         }
+        else{
+            if(order.isLate()){
+                disableConfirmButton();
+            }
+            else{
+                confirmButton.setFocusable(true);
+                confirmButton.setClickable(true);
+                confirmButton.setVisibility(View.VISIBLE);
+                confirmButton.setText(R.string.late_button);
+                confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.colorWarning));
+                confirmButton.setOnClickListener(v -> {
+                    OrderRequest orderRequest = new OrderRequest();
+                    orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
+                        @Override
+                        public void successResponse(Order response) {
+                            order.setLate(true);
+                            disableConfirmButton();
+                        }
 
-        return rootView;
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            promptErrorMessage(error.getMessage());
+                        }
+                    });
+                });
+            }
+
+            if(order.getStatus().equals(Order.Status.CONFIRMED)){
+                searchRider.setText(R.string.search_rider);
+                searchRider.setOnClickListener(v -> {
+                    OrderRequest orderRequest = new OrderRequest();
+                    orderRequest.searchRider(order.getId(), new RequestListener<String>() {
+                        @Override
+                        public void successResponse(String response) {
+                            //TODO capire come gestire il button searchRider dopo la pressione
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            promptErrorMessage(error.getMessage());
+                        }
+                    });
+                });
+            }
+            else if(order.getStatus().equals(Order.Status.IN_PROGRESS)){
+                if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                    searchRider.setVisibility(View.GONE);
+                }
+                else{
+                    searchRider.setText(R.string.order_ready);
+                    searchRider.setOnClickListener(v -> {
+                        OrderRequest orderRequest = new OrderRequest();
+                        orderRequest.markAsReady(order.getId(), new RequestListener<Order>() {
+                            @Override
+                            public void successResponse(Order response) {
+                                confirmButton.setVisibility(View.GONE);
+                                setButtonDeliverOrder();
+                            }
+
+                            @Override
+                            public void errorResponse(RequestException error) {
+                                promptErrorMessage(error.getMessage());
+                            }
+                        });
+                    });
+                }
+            }
+            else{
+                confirmButton.setVisibility(View.GONE);
+                setButtonDeliverOrder();
+            }
+        }
+    }
+
+    private void setButtonDeliverOrder(){
+        searchRider.setText(R.string.deliver_order);
+        searchRider.setOnClickListener(v -> {
+            //TODO aggiungere metodo per consegna ordine takeaway
+        });
     }
 
     private void disableConfirmButton(){
+        confirmButton.setText(R.string.late_button);
         confirmButton.setFocusable(false);
         confirmButton.setClickable(false);
         confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.lightGreyAccent));
@@ -163,11 +246,8 @@ public class OrderDetailFragment extends Fragment {
         private final List<Product> products;
         private final List<Integer> quantity;
 
-        private final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                return;
-            }
+        private final View.OnClickListener itemOnClickListener = view -> {
+            return;
         };
 
         ProductsRecyclerViewAdapter(OrderDetailFragment parent, List<Product> products, List<Integer> quantity) {

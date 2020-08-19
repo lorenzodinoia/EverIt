@@ -40,8 +40,6 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 public class Cart3Fragment extends Fragment {
 
     private static final String ARG_ITEM_ID = "item_id";
-    private final static int HOME_DELIVERY = 0;
-    private final static int CUSTOMER_PICKUP = 1;
 
     private Cart cart;
     private CartActivity mParent;
@@ -106,9 +104,9 @@ public class Cart3Fragment extends Fragment {
                 buttonFinishOrder.setOnClickListener(v -> {
 
                     if(homeDelivery.isChecked()){
-                        cart.getPartialOrder().setOrderType(HOME_DELIVERY);
+                        cart.getPartialOrder().setOrderType(Order.OrderType.HOME_DELIVERY);
                     }else if(customerPickup.isChecked()) {
-                        cart.getPartialOrder().setOrderType(CUSTOMER_PICKUP);
+                        cart.getPartialOrder().setOrderType(Order.OrderType.TAKEAWAY);
                     }
 
                     cart.getPartialOrder().setDeliveryTime(openingTimeSelected);
