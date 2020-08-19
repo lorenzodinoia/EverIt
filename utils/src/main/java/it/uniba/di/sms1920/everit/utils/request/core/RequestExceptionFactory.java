@@ -30,7 +30,7 @@ public final class RequestExceptionFactory {
             case 401:
                 translatedMessage = Providers.getStringFromApplicationContext(R.string.message_401);
                 return new UnauthorizedException(translatedMessage);
-            case 500:
+            case 501:
                 translatedMessage = Providers.getStringFromApplicationContext(R.string.message_500);
                 return new ServerException(translatedMessage);
             default:

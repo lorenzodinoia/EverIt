@@ -149,4 +149,6 @@
     <string name="search_rider">Cerca rider</string>
     <string name="order_ready">Ordine pronto</string>
     <string name="deliver_order">Consegna ordine</string>
+
+    <string name="message_pickup_time_dialog">Indica al tuo rider tra quanti minuti sarà pronto il suo ordine</string>
 </resources>

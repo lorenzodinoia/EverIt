@@ -72,24 +72,18 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
             int mHourOfDay = Calendar.HOUR_OF_DAY;
             int mMinute = Calendar.MINUTE;
             editTextOpeningTime.get(listPosition).setOnClickListener(v -> {
-                TimePickerDialog timePickerDialogOpeningTime = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        openingTime = LocalTime.of(hourOfDay, minute);
-                        editTextOpeningTime.get(listPosition).setText(openingTime.toString());
-                    }
+                TimePickerDialog timePickerDialogOpeningTime = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
+                    openingTime = LocalTime.of(hourOfDay, minute);
+                    editTextOpeningTime.get(listPosition).setText(openingTime.toString());
                 }, mHourOfDay, mMinute, true);
 
                 timePickerDialogOpeningTime.setTitle(R.string.title_opening_time_selection);
                 timePickerDialogOpeningTime.show();
             });
             editTextClosingTime.get(listPosition).setOnClickListener(v -> {
-                TimePickerDialog timePickerDialogClosingTime = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        closingTime = LocalTime.of(hourOfDay, minute);
-                        editTextClosingTime.get(listPosition).setText(closingTime.toString());
-                    }
+                TimePickerDialog timePickerDialogClosingTime = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
+                    closingTime = LocalTime.of(hourOfDay, minute);
+                    editTextClosingTime.get(listPosition).setText(closingTime.toString());
                 }, mHourOfDay, mMinute, true);
                 timePickerDialogClosingTime.setTitle(R.string.title_closing_time_selection);
                 timePickerDialogClosingTime.show();

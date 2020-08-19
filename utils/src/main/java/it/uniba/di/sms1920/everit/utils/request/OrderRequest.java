@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.utils.request;
 import com.android.volley.Request;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Collection;
 
@@ -183,9 +184,13 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
         super.read(id, RESTAURATEUR+ORDER, RequestListener, Order.class, true);
     }
 
-    public void searchRider(long orderId, RequestListener<String> requestListener){
+    public void searchRider(long orderId, String pickupTime, RequestListener<String> requestListener){
+
+        JSONObject jsonObject = new JSONObject();
+
         try {
-            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsLate", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+            jsonObject.put("pickup_time", pickupTime);
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/searchRider", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), jsonObject,
                     response -> {
                         requestListener.successResponse(response.toString());
                     },

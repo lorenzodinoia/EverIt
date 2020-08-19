@@ -117,10 +117,12 @@
 
     <string name="menu">Menu</string>
 
+    <string name="review_date">Review date</string>
     <string name="search_rider">Search rider</string>
     <string name="order_ready">Order ready</string>
     <string name="deliver_order">Deliver order</string>
 
+    <string name="message_pickup_time_dialog">Notify to your rider how many minutes the order will be ready</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -151,6 +153,4 @@
     <string name="You_will_delete">"You are going to delete "</string>
     <string name="are_you_sure">are you sure ?</string>
     <string name="modProduct">MODIFY PRODUCT</string>
-
-    <string name="review_date">Review date</string>
 </resources>

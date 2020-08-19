@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
+import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -46,6 +49,7 @@ public class OrderDetailFragment extends Fragment {
     private MaterialButton confirmButton;
     private MaterialButton searchRider;
 
+    private String timePicker;
     public OrderDetailFragment() {
     }
 
@@ -58,6 +62,7 @@ public class OrderDetailFragment extends Fragment {
             order = mParent.getOrder();
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -166,20 +171,59 @@ public class OrderDetailFragment extends Fragment {
 
             if(order.getStatus().equals(Order.Status.CONFIRMED)){
                 searchRider.setText(R.string.search_rider);
-                searchRider.setOnClickListener(v -> {
-                    OrderRequest orderRequest = new OrderRequest();
-                    orderRequest.searchRider(order.getId(), new RequestListener<String>() {
-                        @Override
-                        public void successResponse(String response) {
-                            //TODO capire come gestire il button searchRider dopo la pressione
+                ProposalRequest proposalRequest = new ProposalRequest();
+                proposalRequest.checkProposalsState(order.getId(), new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        if(response){
+                            disableSearchRiderButton();
                         }
+                        else{
+                            searchRider.setOnClickListener(v -> {
+                                OrderRequest orderRequest = new OrderRequest();
+                                //TODO prendere in qualche modo il pickup time
+                                Dialog dialog = new Dialog(mParent);
+                                dialog.setContentView(R.layout.dialog_set_pickup_time);
+                                TextView textViewLabel = dialog.findViewById(R.id.textViewLabelPickupTimeSelection);
+                                textViewLabel.setText(R.string.message_pickup_time_dialog);
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            promptErrorMessage(error.getMessage());
+                                NumberPicker numberPicker = dialog.findViewById(R.id.numberPicker);
+                                numberPicker.setMinValue(10);
+                                numberPicker.setMaxValue(60);
+
+                                MaterialButton buttonDismiss = dialog.findViewById(R.id.buttonDismiss);
+                                buttonDismiss.setOnClickListener(v1 -> dialog.dismiss());
+                                MaterialButton buttonConfirm = dialog.findViewById(R.id.buttonConfirmPickupTime);
+                                buttonConfirm.setOnClickListener(v1 -> {
+                                    LocalTime actualLocalTime = LocalTime.now();
+                                    LocalTime pickupLocalTime = actualLocalTime.plusMinutes(numberPicker.getValue());
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
+                                    timePicker = pickupLocalTime.format(formatter);
+                                    orderRequest.searchRider(order.getId(), timePicker, new RequestListener<String>() {
+                                        @Override
+                                        public void successResponse(String response) {
+                                            dialog.dismiss();
+                                            disableSearchRiderButton();
+                                        }
+
+                                        @Override
+                                        public void errorResponse(RequestException error) {
+                                            dialog.dismiss();
+                                            promptErrorMessage(error.getMessage());
+                                        }
+                                    });
+                                });
+                                dialog.show();
+                            });
                         }
-                    });
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
                 });
+
             }
             else if(order.getStatus().equals(Order.Status.IN_PROGRESS)){
                 if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
@@ -209,6 +253,12 @@ public class OrderDetailFragment extends Fragment {
                 setButtonDeliverOrder();
             }
         }
+    }
+
+    private void disableSearchRiderButton(){
+        searchRider.setFocusable(false);
+        searchRider.setClickable(false);
+        searchRider.setBackgroundColor(ContextCompat.getColor(mParent, R.color.lightGreyAccent));
     }
 
     private void setButtonDeliverOrder(){

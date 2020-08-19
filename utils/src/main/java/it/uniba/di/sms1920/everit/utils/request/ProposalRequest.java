@@ -1,6 +1,10 @@
 package it.uniba.di.sms1920.everit.utils.request;
 
 import com.android.volley.Request;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.security.Provider;
@@ -8,7 +12,9 @@ import java.util.Collection;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
+import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUD;
 import it.uniba.di.sms1920.everit.utils.request.core.CRUDRequest;
@@ -18,6 +24,9 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class ProposalRequest extends CRUDRequest<Proposal> implements CRUD<Proposal> {
     private final String URL = "rider/proposal";
+    private final String RESTAURATEUR = "restaurateur";
+    private final String ORDER = "order";
+    private final String PROPOSAL = "proposal";
 
     @Override
     public void create(Proposal model, RequestListener<Proposal> RequestListener) {
@@ -66,5 +75,24 @@ public class ProposalRequest extends CRUDRequest<Proposal> implements CRUD<Propo
                 }, Providers.getAuthProvider().getAuthToken());
 
         Providers.getRequestProvider().addToQueue(acceptRequest);
+    }
+
+    public void checkProposalsState(long idOrder, RequestListener<Boolean> requestListener){
+
+        ObjectRequest checkRequest = new ObjectRequest(Request.Method.GET, String.format(Locale.getDefault(), "%s/api/%s/%s/%d/%s", Constants.SERVER_HOST, RESTAURATEUR, ORDER, idOrder, PROPOSAL), null,
+                response -> {
+                    Boolean value = false;
+                    try {
+                        value = response.getBoolean("message");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    requestListener.successResponse(value);
+                },
+                error -> {
+                    requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                }, Providers.getAuthProvider().getAuthToken());
+
+        Providers.getRequestProvider().addToQueue(checkRequest);
     }
 }
