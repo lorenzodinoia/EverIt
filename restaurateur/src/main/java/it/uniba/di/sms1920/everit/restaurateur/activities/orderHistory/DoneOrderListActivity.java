@@ -3,10 +3,12 @@ package it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -16,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.material.chip.Chip;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -155,6 +159,16 @@ public class DoneOrderListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
+            if(mValues.get(position).getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                holder.chipListActiveOrders.setText(R.string.home_delivery);
+                holder.chipListActiveOrders.setChipIcon(ContextCompat.getDrawable(mParentActivity, R.drawable.ic_delivery_12px));
+                holder.chipListActiveOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(mParentActivity, R.color.colorPrimary)));
+            }
+            else{
+                holder.chipListActiveOrders.setText(R.string.take_away);
+                holder.chipListActiveOrders.setChipIcon(ContextCompat.getDrawable(mParentActivity, R.drawable.ic_take_away_12px));
+                holder.chipListActiveOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(mParentActivity, R.color.colorAccent)));
+            }
             holder.textViewOrderNumber.setText("#" + mValues.get(position).getId());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
@@ -176,12 +190,14 @@ public class DoneOrderListActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
+            final Chip chipListActiveOrders;
             final TextView textViewOrderNumber;
             final TextView textViewOrderDeliveryTime;
             final TextView textViewOrderPrice;
 
             ViewHolder(View view) {
                 super(view);
+                chipListActiveOrders = view.findViewById(R.id.chipListActiveOrders);
                 textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
                 textViewOrderDeliveryTime = view.findViewById(R.id.textViewDeliveryTimeOrder);
                 textViewOrderPrice = view.findViewById(R.id.textViewOrderPrice);

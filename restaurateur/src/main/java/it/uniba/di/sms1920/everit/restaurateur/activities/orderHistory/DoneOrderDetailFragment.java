@@ -51,8 +51,9 @@ public class DoneOrderDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.doneorder_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mItem != null) {
+            TextView labelOrdertype = rootView.findViewById(R.id.textViewLabelOrderType);
+            TextView textViewOrderType = rootView.findViewById(R.id.textViewOrderType);
             TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
             TextView textViewLabelOrderNumber = rootView.findViewById(R.id.textViewLabelOrderNumber);
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
@@ -62,6 +63,14 @@ public class DoneOrderDetailFragment extends Fragment {
             TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewSubTotal);
             TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewDeliveryCost);
             TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+
+            labelOrdertype.setText(R.string.order_type);
+            if(mItem.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                textViewOrderType.setText(R.string.home_delivery);
+            }
+            else{
+                textViewOrderType.setText(R.string.take_away);
+            }
 
             textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
             labelDeliveryDate.setText(getString(R.string.delivery_date_label) + ":");

@@ -70,6 +70,8 @@ public class OrderDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (order != null) {
+            TextView labelOrdertype = rootView.findViewById(R.id.textViewLabelOrderType);
+            TextView textViewOrderType = rootView.findViewById(R.id.textViewOrderType);
             TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
             TextView textViewLabelOrderNumber = rootView.findViewById(R.id.textViewLabelOrderNumber);
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
@@ -83,6 +85,14 @@ public class OrderDetailFragment extends Fragment {
             confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
             searchRider = rootView.findViewById(R.id.btnSearchRider);
             bindButton();
+
+            labelOrdertype.setText(R.string.order_type);
+            if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                textViewOrderType.setText(R.string.home_delivery);
+            }
+            else{
+                textViewOrderType.setText(R.string.take_away);
+            }
 
             textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
             labelDeliveryDate.setText(getString(R.string.delivery_date_label) + ":");
