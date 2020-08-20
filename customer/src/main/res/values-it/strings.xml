@@ -124,4 +124,6 @@
 
     <string name="no_delivery_time">Non ci sono orari di consegna disponibili oggi</string>
     <string name="home_delivery">Consegna a domicilio</string>
+
+    <string name="order_type">Tipo ordine</string>
 </resources>

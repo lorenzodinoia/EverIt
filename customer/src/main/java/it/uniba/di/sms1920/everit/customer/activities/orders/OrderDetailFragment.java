@@ -48,6 +48,7 @@ public class OrderDetailFragment extends Fragment {
 
         if (order != null) {
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
+            TextView textViewOrderType = rootView.findViewById(R.id.textViewOrderType);
             TextView textViewDeliveryAddress = rootView.findViewById(R.id.textViewDeliveryAddress);
             TextView textViewOrderTime = rootView.findViewById(R.id.textViewOrderDateTime);
             TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
@@ -61,6 +62,13 @@ public class OrderDetailFragment extends Fragment {
             RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
 
             textViewOrderNumber.setText("#"+order.getId());
+            if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                textViewOrderType.setText(R.string.home_delivery);
+            }
+            else{
+                textViewOrderType.setText(R.string.take_away);
+            }
+
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
             LocalDateTime createdAt = order.getCreatedAt();
             LocalDateTime estimatedDeliveryTime = order.getEstimatedDeliveryTime();
