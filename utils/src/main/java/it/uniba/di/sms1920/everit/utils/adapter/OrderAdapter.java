@@ -28,6 +28,7 @@ public class OrderAdapter implements JsonSerializer<Order>, JsonDeserializer<Ord
         private static final String LATITUDE_KEY = "latitude";
         private static final String STATUS = "status";
         private static final String LATE = "late";
+        private static final String ORDER_TYPE = "order_type";
     }
 
     private static final Gson orderJsonConverter = new GsonBuilder()
@@ -51,10 +52,19 @@ public class OrderAdapter implements JsonSerializer<Order>, JsonDeserializer<Ord
         String address = src.getDeliveryAddress().getFullAddress();
         double latitude = src.getDeliveryAddress().getLatitude();
         double longitude = src.getDeliveryAddress().getLongitude();
+        Order.OrderType orderType = src.getOrderType();
+        int orderTypeInt;
+        if(orderType.equals(Order.OrderType.HOME_DELIVERY)){
+            orderTypeInt = 0;
+        }
+        else{
+            orderTypeInt = 1;
+        }
 
         jsonObject.addProperty(Keys.ADDRESS_KEY, address);
         jsonObject.addProperty(Keys.LATITUDE_KEY, latitude);
         jsonObject.addProperty(Keys.LONGITUDE_KEY, longitude);
+        jsonObject.addProperty(Keys.ORDER_TYPE, orderTypeInt);
 
         return jsonObject;
     }
@@ -71,8 +81,12 @@ public class OrderAdapter implements JsonSerializer<Order>, JsonDeserializer<Ord
         jsonObject.remove(Keys.LONGITUDE_KEY);
         int status = jsonObject.get(Keys.STATUS).getAsInt();
         jsonObject.remove(Keys.STATUS);
+        int orderType = jsonObject.get(Keys.ORDER_TYPE).getAsInt();
+        jsonObject.remove(Keys.ORDER_TYPE);
 
-        boolean late = jsonObject.get(Keys.LATE).getAsBoolean();
+        boolean late;
+        int lateInt = jsonObject.get(Keys.LATE).getAsInt();
+        late = lateInt != 0;
         jsonObject.remove(Keys.LATE);
 
 
@@ -84,20 +98,35 @@ public class OrderAdapter implements JsonSerializer<Order>, JsonDeserializer<Ord
                 newStatus = Order.Status.ORDERED;
                 break;
             case 1:
-                newStatus = Order.Status.IN_PROGRESS;
+                newStatus = Order.Status.CONFIRMED;
                 break;
             case 2:
-                newStatus = Order.Status.DELIVERING;
+                newStatus = Order.Status.IN_PROGRESS;
                 break;
             case 3:
+                newStatus = Order.Status.DELIVERING;
+                break;
+            case 4:
+                newStatus = Order.Status.READY;
+                break;
+            case 5:
                 newStatus = Order.Status.DELIVERED;
                 break;
+        }
+
+        Order.OrderType newOrderType = null;
+        if(orderType == 0){
+            newOrderType = Order.OrderType.HOME_DELIVERY;
+        }
+        else{
+            newOrderType = Order.OrderType.TAKEAWAY;
         }
 
         Order order = orderJsonConverter.fromJson(jsonObject.toString(), Order.class);
         order.setDeliveryAddress(deliveryAddress);
         order.setStatus(newStatus);
         order.setLate(late);
+        order.setOrderType(newOrderType);
 
         return order;
     }

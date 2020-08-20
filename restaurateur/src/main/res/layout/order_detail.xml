@@ -31,6 +31,26 @@
             android:layout_marginStart="8dp"/>
 
         <TextView
+            android:id="@+id/textViewLabelOrderType"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrderNumber" />
+
+        <TextView
+            android:id="@+id/textViewOrderType"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/textViewLabelOrderType"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrderNumber" />
+
+        <TextView
             android:id="@+id/textViewDeliveryDateTime"
             style="@style/TextViewMedium"
             android:layout_width="wrap_content"
@@ -38,7 +58,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toEndOf="@+id/labelDeliveryDate"
-            app:layout_constraintTop_toBottomOf="@+id/textViewLabelOrderNumber" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrderType" />
 
         <TextView
             android:id="@+id/labelDeliveryDate"
@@ -46,9 +66,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewOrderNumber"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrderType"
             app:layout_goneMarginStart="8dp" />
 
         <TextView
@@ -273,20 +293,32 @@
             app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3"
             app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryCost" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnConfirmOrder"
-                style="@style/ButtonMain"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="50dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/confirm_order_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/labelTotalPrice" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSearchRider"
+            style="@style/ButtonMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelTotalPrice" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmOrder"
+            style="@style/ButtonMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="4dp"
+            android:text="@string/confirm_order_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSearchRider" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

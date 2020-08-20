@@ -102,4 +102,5 @@ public class OrderDetailActivity extends AppCompatActivity {
     public Order getOrder(){
         return order;
     }
+
 }

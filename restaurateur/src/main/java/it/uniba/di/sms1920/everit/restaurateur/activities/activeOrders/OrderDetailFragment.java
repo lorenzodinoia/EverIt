@@ -16,11 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 import org.threeten.bp.format.DateTimeFormatter;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import it.uniba.di.sms1920.everit.utils.models.Product;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
+import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
@@ -45,7 +47,9 @@ public class OrderDetailFragment extends Fragment {
     private int index;
 
     private MaterialButton confirmButton;
+    private MaterialButton searchRider;
 
+    private String timePicker;
     public OrderDetailFragment() {
     }
 
@@ -59,12 +63,15 @@ public class OrderDetailFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (order != null) {
+            TextView labelOrdertype = rootView.findViewById(R.id.textViewLabelOrderType);
+            TextView textViewOrderType = rootView.findViewById(R.id.textViewOrderType);
             TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
             TextView textViewLabelOrderNumber = rootView.findViewById(R.id.textViewLabelOrderNumber);
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
@@ -74,10 +81,17 @@ public class OrderDetailFragment extends Fragment {
             TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewDeliveryCost);
             TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewSubTotal);
             TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+
             confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
-            if(index != 0){
-                confirmButton.setText(R.string.late_button);
-                confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.colorWarning));
+            searchRider = rootView.findViewById(R.id.btnSearchRider);
+            bindButton();
+
+            labelOrdertype.setText(R.string.order_type);
+            if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                textViewOrderType.setText(R.string.home_delivery);
+            }
+            else{
+                textViewOrderType.setText(R.string.take_away);
             }
 
             textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
@@ -97,13 +111,18 @@ public class OrderDetailFragment extends Fragment {
             textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
             setupRecyclerView(recyclerView);
 
-            if((index == 1) && (order.isLate())){
-                disableConfirmButton();
-            }
+        }
 
+        return rootView;
+    }
+
+    private void bindButton(){
+
+        if(index == 0){
+            confirmButton.setVisibility(View.VISIBLE);
             confirmButton.setOnClickListener(v -> {
                 OrderRequest orderRequest = new OrderRequest();
-                if(index == 0){
+                if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
                     orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
                         @Override
                         public void successResponse(Order response) {
@@ -116,11 +135,11 @@ public class OrderDetailFragment extends Fragment {
                         }
                     });
                 }
-                else if(index == 1){
-                    orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
+                else{
+                    orderRequest.markAsInProgress(order.getId(), new RequestListener<Order>() {
                         @Override
                         public void successResponse(Order response) {
-                            disableConfirmButton();
+                            mParent.finish();
                         }
 
                         @Override
@@ -131,12 +150,136 @@ public class OrderDetailFragment extends Fragment {
                 }
             });
 
+            searchRider.setVisibility(View.GONE);
         }
+        else{
+            if(order.isLate()){
+                disableConfirmButton();
+            }
+            else{
+                confirmButton.setFocusable(true);
+                confirmButton.setClickable(true);
+                confirmButton.setVisibility(View.VISIBLE);
+                confirmButton.setText(R.string.late_button);
+                confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.colorWarning));
+                confirmButton.setOnClickListener(v -> {
+                    OrderRequest orderRequest = new OrderRequest();
+                    orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
+                        @Override
+                        public void successResponse(Order response) {
+                            order.setLate(true);
+                            disableConfirmButton();
+                        }
 
-        return rootView;
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            promptErrorMessage(error.getMessage());
+                        }
+                    });
+                });
+            }
+
+            if(order.getStatus().equals(Order.Status.CONFIRMED)){
+                searchRider.setText(R.string.search_rider);
+                ProposalRequest proposalRequest = new ProposalRequest();
+                proposalRequest.checkProposalsState(order.getId(), new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        if(response){
+                            disableSearchRiderButton();
+                        }
+                        else{
+                            searchRider.setOnClickListener(v -> {
+                                OrderRequest orderRequest = new OrderRequest();
+                                //TODO prendere in qualche modo il pickup time
+                                Dialog dialog = new Dialog(mParent);
+                                dialog.setContentView(R.layout.dialog_set_pickup_time);
+                                TextView textViewLabel = dialog.findViewById(R.id.textViewLabelPickupTimeSelection);
+                                textViewLabel.setText(R.string.message_pickup_time_dialog);
+
+                                NumberPicker numberPicker = dialog.findViewById(R.id.numberPicker);
+                                numberPicker.setMinValue(10);
+                                numberPicker.setMaxValue(60);
+
+                                MaterialButton buttonDismiss = dialog.findViewById(R.id.buttonDismiss);
+                                buttonDismiss.setOnClickListener(v1 -> dialog.dismiss());
+                                MaterialButton buttonConfirm = dialog.findViewById(R.id.buttonConfirmPickupTime);
+                                buttonConfirm.setOnClickListener(v1 -> {
+                                    LocalTime actualLocalTime = LocalTime.now();
+                                    LocalTime pickupLocalTime = actualLocalTime.plusMinutes(numberPicker.getValue());
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
+                                    timePicker = pickupLocalTime.format(formatter);
+                                    orderRequest.searchRider(order.getId(), timePicker, new RequestListener<String>() {
+                                        @Override
+                                        public void successResponse(String response) {
+                                            dialog.dismiss();
+                                            disableSearchRiderButton();
+                                        }
+
+                                        @Override
+                                        public void errorResponse(RequestException error) {
+                                            dialog.dismiss();
+                                            promptErrorMessage(error.getMessage());
+                                        }
+                                    });
+                                });
+                                dialog.show();
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
+
+            }
+            else if(order.getStatus().equals(Order.Status.IN_PROGRESS)){
+                if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                    searchRider.setVisibility(View.GONE);
+                }
+                else{
+                    searchRider.setText(R.string.order_ready);
+                    searchRider.setOnClickListener(v -> {
+                        OrderRequest orderRequest = new OrderRequest();
+                        orderRequest.markAsReady(order.getId(), new RequestListener<Order>() {
+                            @Override
+                            public void successResponse(Order response) {
+                                confirmButton.setVisibility(View.GONE);
+                                setButtonDeliverOrder();
+                            }
+
+                            @Override
+                            public void errorResponse(RequestException error) {
+                                promptErrorMessage(error.getMessage());
+                            }
+                        });
+                    });
+                }
+            }
+            else{
+                confirmButton.setVisibility(View.GONE);
+                setButtonDeliverOrder();
+            }
+        }
+    }
+
+    private void disableSearchRiderButton(){
+        searchRider.setFocusable(false);
+        searchRider.setClickable(false);
+        searchRider.setBackgroundColor(ContextCompat.getColor(mParent, R.color.lightGreyAccent));
+    }
+
+    private void setButtonDeliverOrder(){
+        searchRider.setText(R.string.deliver_order);
+        searchRider.setOnClickListener(v -> {
+            //TODO aggiungere metodo per consegna ordine takeaway
+        });
     }
 
     private void disableConfirmButton(){
+        confirmButton.setText(R.string.late_button);
         confirmButton.setFocusable(false);
         confirmButton.setClickable(false);
         confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.lightGreyAccent));
@@ -163,11 +306,8 @@ public class OrderDetailFragment extends Fragment {
         private final List<Product> products;
         private final List<Integer> quantity;
 
-        private final View.OnClickListener itemOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                return;
-            }
+        private final View.OnClickListener itemOnClickListener = view -> {
+            return;
         };
 
         ProductsRecyclerViewAdapter(OrderDetailFragment parent, List<Product> products, List<Integer> quantity) {

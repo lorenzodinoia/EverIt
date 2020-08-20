@@ -47,6 +47,7 @@ public class Restaurateur extends Model implements Authenticable{
         this.phoneNumber = builder.phoneNumber;
         this.email = builder.email;
         this.vatNumber = builder.vatNumber;
+        this.maxDeliveryPerTimeSlot = builder.maxDeliveryPerTimeSlot;
         this.deliveryCost = builder.deliveryCost;
         this.minPrice = builder.minPrice;
         this.imagePath = builder.imagePath;

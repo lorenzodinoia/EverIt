@@ -3,9 +3,11 @@ package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.material.chip.Chip;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -156,11 +160,12 @@ public class OrderListFragment extends Fragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        adapter = new OrderListFragment.OrderRecyclerViewAdapter(this, orderList, mTwoPane);
+        adapter = new OrderListFragment.OrderRecyclerViewAdapter(this, orderList, mTwoPane, mParent);
         recyclerView.setAdapter(adapter);
     }
 
     public static class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderListFragment.OrderRecyclerViewAdapter.ViewHolder> {
+        private final BaseActivity mParent;
         private final OrderListFragment parentActivity;
         private final List<Order> orders;
         private final boolean twoPaneMode;
@@ -186,10 +191,11 @@ public class OrderListFragment extends Fragment {
             }
         };
 
-        OrderRecyclerViewAdapter(OrderListFragment parent, List<Order> orders, boolean twoPane) {
+        OrderRecyclerViewAdapter(OrderListFragment parent, List<Order> orders, boolean twoPane, BaseActivity mParent) {
             this.orders = orders;
             this.parentActivity = parent;
             this.twoPaneMode = twoPane;
+            this.mParent = mParent;
         }
 
         @Override
@@ -203,6 +209,17 @@ public class OrderListFragment extends Fragment {
             Order item = this.orders.get(position);
             if (item != null) {
                 Restaurateur restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
+                if(item.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                    holder.chipListActiveOrders.setText(R.string.home_delivery);
+                    holder.chipListActiveOrders.setChipIcon(ContextCompat.getDrawable(mParent, R.drawable.ic_delivery_12px));
+                    holder.chipListActiveOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(mParent, R.color.colorPrimary)));
+                }
+                else{
+                    holder.chipListActiveOrders.setText(R.string.take_away);
+                    holder.chipListActiveOrders.setChipIcon(ContextCompat.getDrawable(mParent, R.drawable.ic_take_away_12px));
+                    holder.chipListActiveOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(mParent, R.color.colorAccent)));
+                }
+
                 holder.textViewOrderNumber.setText("#" + item.getId());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
@@ -221,12 +238,14 @@ public class OrderListFragment extends Fragment {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
+            final Chip chipListActiveOrders;
             final TextView textViewOrderNumber;
             final TextView textViewDeliveryDate;
             final TextView textViewPrice;
 
             ViewHolder(View view) {
                 super(view);
+                chipListActiveOrders = view.findViewById(R.id.chipListActiveOrders);
                 textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
                 textViewPrice = view.findViewById(R.id.textViewOrderPrice);
                 textViewDeliveryDate = view.findViewById(R.id.textViewDeliveryTimeOrder);

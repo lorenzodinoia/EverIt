@@ -10,8 +10,6 @@ import java.util.Collection;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
 import it.uniba.di.sms1920.everit.utils.models.Order;
-import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
-import it.uniba.di.sms1920.everit.utils.models.User;
 import it.uniba.di.sms1920.everit.utils.provider.AdapterProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.ArrayRequest;
@@ -146,8 +144,63 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
         }
     }
 
+    public void markAsInProgress(long orderId, RequestListener<Order> requestListener) {
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsInProgress", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+                    response -> {
+                        Order data = adapter.fromJSON(response, Order.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void markAsReady(long orderId, RequestListener<Order> requestListener) {
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsReady", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+                    response -> {
+                        Order data = adapter.fromJSON(response, Order.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void readAsRestaurauter(long id, RequestListener<Order> RequestListener){
         super.read(id, RESTAURATEUR+ORDER, RequestListener, Order.class, true);
     }
 
+    public void searchRider(long orderId, String pickupTime, RequestListener<String> requestListener){
+
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("pickup_time", pickupTime);
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/searchRider", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), jsonObject,
+                    response -> {
+                        requestListener.successResponse(response.toString());
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

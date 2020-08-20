@@ -123,4 +123,9 @@
     <string name="no_data">No dati</string>
 
     <string name="no_delivery_time">Non ci sono orari di consegna disponibili oggi</string>
+    <string name="home_delivery">Consegna a domicilio</string>
+
+    <string name="order_type">Tipo ordine</string>
+    <string name="pickup_address">Indirizzo di ritiro</string>
+    <string name="pickup_date">Data ritiro</string>
 </resources>
