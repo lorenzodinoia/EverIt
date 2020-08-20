@@ -38,14 +38,17 @@
         app:layout_constraintEnd_toStartOf="@+id/btnDelItem"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expandedListItem"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.32" />
 
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/editTextNumberContainer"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:text="45"
+        android:gravity="center"
+        style="@style/TextViewMedium"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toStartOf="@+id/btnModItem"
@@ -80,7 +83,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <TextView
         android:id="@+id/textViewPrice"
         style="@style/TextViewMedium"
@@ -90,7 +92,9 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/textCurrency" />
+        app:layout_constraintEnd_toStartOf="@id/textCurrency"
+        app:layout_constraintTop_toBottomOf="@id/editTextNumberContainer"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textCurrency"
@@ -102,7 +106,9 @@
         android:layout_marginBottom="8dp"
         android:text="@string/currency_type"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextNumberContainer"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 
