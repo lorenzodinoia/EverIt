@@ -43,14 +43,13 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/editTextNumberContainer"
+        style="@style/TextViewMedium"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:visibility="visible"
-        android:text="45"
-        android:gravity="center"
-        style="@style/TextViewMedium"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
+        android:gravity="center"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/btnModItem"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,7 +92,7 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textCurrency"
-        app:layout_constraintTop_toBottomOf="@id/editTextNumberContainer"
+        app:layout_constraintTop_toBottomOf="@id/btnModItem"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -107,7 +106,7 @@
         android:text="@string/currency_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextNumberContainer"
+        app:layout_constraintTop_toBottomOf="@id/btnModItem"
         app:layout_constraintVertical_bias="1.0" />
 
 

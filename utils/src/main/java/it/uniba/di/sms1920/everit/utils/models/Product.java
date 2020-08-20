@@ -2,7 +2,9 @@ package it.uniba.di.sms1920.everit.utils.models;
 
 import android.os.Parcel;
 
-public class Product extends Model {
+import androidx.annotation.Nullable;
+
+public class Product extends Model{
 
     private String name;
     private float price;
@@ -101,6 +103,18 @@ public class Product extends Model {
         dest.writeString(this.details);
         dest.writeParcelable(this.category, flags);
         dest.writeParcelable(this.restaurateur, flags);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        Product product = (Product) obj;
+        return this.getId() == product.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        long l = this.getId();
+        return (int) l;
     }
 }
 
