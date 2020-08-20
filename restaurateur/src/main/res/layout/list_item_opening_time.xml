@@ -34,7 +34,7 @@
             android:layout_marginBottom="10dp"
             android:background="@android:color/transparent"
             android:focusable="false"
-            app:icon="@drawable/ic_remove_grey_30dp"
+            app:icon="@drawable/ic_minus_slim"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

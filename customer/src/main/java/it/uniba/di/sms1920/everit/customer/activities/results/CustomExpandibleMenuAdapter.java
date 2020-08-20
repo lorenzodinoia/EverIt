@@ -90,7 +90,7 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
 
         TextInputLayout editTextNumberContainer = convertView.findViewById(R.id.editTextNumberContainer);
-        TextInputEditText editTextNumber = convertView.findViewById(R.id.editTextNumber);
+        TextInputEditText editTextNumber = convertView.findViewById(R.id.editTextNumberContainer);
 
         editTextNumberContainer.setVisibility(View.VISIBLE);
         editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
