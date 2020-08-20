@@ -1,9 +1,7 @@
 package it.uniba.di.sms1920.everit.customer.activities.orders.tab;
 
-import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,13 +10,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailActivity;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 
 public class NotesFragment extends Fragment {
 
     private EditText editTextOrderNotes, editTextDeliveryNotes;
-    private OrderDetailActivity mParent;
     private Order order;
 
     public NotesFragment() {
@@ -28,7 +24,10 @@ public class NotesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        order = mParent.getOrder();
+        Bundle bundle = getArguments();
+        if(bundle != null && bundle.containsKey(OrderTabManagerFragment.ARG_ORDER_KEY)){
+            order = bundle.getParcelable(OrderTabManagerFragment.ARG_ORDER_KEY);
+        }
     }
 
     @Override
@@ -48,12 +47,4 @@ public class NotesFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        if(context instanceof OrderDetailActivity){
-            mParent = (OrderDetailActivity) context;
-        }
-    }
 }

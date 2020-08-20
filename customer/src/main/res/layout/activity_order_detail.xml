@@ -1,41 +1,14 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:ignore="MergeRootFrame">
+    android:layout_height="match_parent">
 
     <include layout="@layout/toolbar_default"/>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:layout_marginTop="56dp"
-        app:tabIconTint="@color/whiteAccent"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabIndicatorHeight="5dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/whiteAccent"
-        app:tabTextAppearance="@style/TextViewSmall"
-        app:tabTextColor="@color/whiteAccent"/>
-
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+    <FrameLayout
+        android:id="@+id/order_activity_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="105dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@id/tabs"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- <androidx.core.widget.NestedScrollView
-        android:id="@+id/order_detail_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" /> -->
+        android:layout_marginTop="56dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

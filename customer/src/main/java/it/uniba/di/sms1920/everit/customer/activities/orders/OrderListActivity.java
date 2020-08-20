@@ -38,6 +38,7 @@ import java.util.Locale;
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
 import it.uniba.di.sms1920.everit.customer.activities.LoginActivity;
+import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabManagerFragment;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
@@ -134,19 +135,6 @@ public class OrderListActivity extends AppCompatActivity {
         recyclerView.setAdapter(new OrderRecyclerViewAdapter(this, orderList, twoPaneMode));
     }
 
-    public static Order getOrderById(long id) {
-        Order order = null;
-
-        for (Order o : OrderListActivity.orderList) {
-            if (o.getId() == id) {
-                order = o;
-                break;
-            }
-        }
-
-        return order;
-    }
-
     private void promptErrorMessage(String message){
         Dialog dialog = new Dialog(this);
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
@@ -177,7 +165,7 @@ public class OrderListActivity extends AppCompatActivity {
                 if (twoPaneMode) {
                     Bundle arguments = new Bundle();
                     arguments.putLong(OrderDetailFragment.ARG_ITEM_ID, item.getId());
-                    OrderDetailFragment fragment = new OrderDetailFragment();
+                    OrderTabManagerFragment fragment = new OrderTabManagerFragment();
                     fragment.setArguments(arguments);
                     parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.order_detail_container, fragment).commit();
                 }

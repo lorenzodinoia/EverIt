@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -19,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.orders.tab.NotesFragment;
+import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabManagerFragment;
 import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabPagerAdapter;
 import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.InfoFragment;
 import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.MenuFragment;
@@ -38,65 +40,15 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
  */
 public class OrderDetailActivity extends AppCompatActivity {
 
-    private Order order;
-    private TabLayout tabLayout;
-    private OrderTabPagerAdapter pagerAdapter;
-    private ViewPager viewPager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
         Toolbar toolbar = findViewById(R.id.toolbar_default);
-        long idObj = getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0);
 
-        OrderRequest orderRequest = new OrderRequest();
-        orderRequest.read(idObj, new RequestListener<Order>() {
-            @Override
-            public void successResponse(Order response) {
-                order = response;
-                if (order != null) {
-                    toolbar.setTitle(order.getRestaurateur().getShopName());
-                }
+        toolbar.setTitle(R.string.order_detail);
 
-                if (savedInstanceState == null) {
-                    tabLayout = findViewById(R.id.tabs);
-                    viewPager = findViewById(R.id.viewPager);
-
-                    pagerAdapter = new OrderTabPagerAdapter(getSupportFragmentManager(), 0);
-                    OrderDetailFragment detailFragment = new OrderDetailFragment();
-                    NotesFragment notesFragment = new NotesFragment();
-
-                    pagerAdapter.addFragment(detailFragment, getString(R.string.order_detail));
-                    pagerAdapter.addFragment(notesFragment, getString(R.string.notes));
-
-                    viewPager.setAdapter(pagerAdapter);
-                    tabLayout.setupWithViewPager(viewPager);
-                    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                        @Override
-                        public void onTabSelected(TabLayout.Tab tab) {
-                            viewPager.setCurrentItem(tab.getPosition());
-                        }
-
-                        @Override
-                        public void onTabUnselected(TabLayout.Tab tab) {
-
-                        }
-
-                        @Override
-                        public void onTabReselected(TabLayout.Tab tab) {
-
-                        }
-                    });
-                    viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-                }
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
+        long orderId = getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0);
 
         setSupportActionBar(toolbar);
 
@@ -107,6 +59,14 @@ public class OrderDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        if(savedInstanceState == null) {
+            Bundle bundle = new Bundle();
+            bundle.putLong(OrderDetailFragment.ARG_ITEM_ID, orderId);
+            OrderTabManagerFragment orderTabManagerFragment = new OrderTabManagerFragment();
+            orderTabManagerFragment.setArguments(bundle);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().add(R.id.order_activity_detail_container, orderTabManagerFragment);
+            transaction.addToBackStack(null).commit();
+        }
 
     }
 
@@ -120,26 +80,5 @@ public class OrderDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public Order getOrder(){
-        return order;
-    }
 
-    private void promptErrorMessage(String message){
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
-
-        TextView title = dialog.findViewById(R.id.textViewTitle);
-        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
-
-        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
-        textViewMessage.setText(message);
-
-        Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
-            finish();
-        });
-
-        dialog.show();
-    }
 }

@@ -1,46 +1,38 @@
 package it.uniba.di.sms1920.everit.customer.activities.orders;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import it.uniba.di.sms1920.everit.customer.ProductRecyclerViewAdapter;
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabManagerFragment;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
-import it.uniba.di.sms1920.everit.utils.models.Product;
 
 public class OrderDetailFragment extends Fragment {
 
     static final String ARG_ITEM_ID = "item_id";
     private Order order;
-    private OrderDetailActivity mParent;
 
     public OrderDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if(bundle != null && bundle.containsKey(OrderTabManagerFragment.ARG_ORDER_KEY)){
+            order = bundle.getParcelable(OrderTabManagerFragment.ARG_ORDER_KEY);
+        }
 
-        order = mParent.getOrder();
     }
 
     @Override
@@ -124,12 +116,4 @@ public class OrderDetailFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        if(context instanceof OrderDetailActivity){
-            mParent = (OrderDetailActivity) context;
-        }
-    }
 }
