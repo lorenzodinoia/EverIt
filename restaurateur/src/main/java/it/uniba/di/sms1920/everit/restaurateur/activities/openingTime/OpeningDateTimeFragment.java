@@ -36,7 +36,7 @@ public class OpeningDateTimeFragment extends Fragment {
 
     private SignUpActivity signUpActivity;
     private ExpandableListView expandableListView;
-    private OpeningDateTimeExpandibleListAdapter expandableListAdapter;
+    private OpeningDateTimeExpandableListAdapter expandableListAdapter;
     private List<OpeningDay> expandableListDetail = new LinkedList<>();
     private Restaurateur.Builder restaurateurBuilder;
     private Restaurateur restaurateur;
@@ -83,7 +83,7 @@ public class OpeningDateTimeFragment extends Fragment {
         expandableListView = view.findViewById(R.id.expandableMenuOpening);
         //add data to expandible list detail
         fillListDetail();
-        expandableListAdapter = new OpeningDateTimeExpandibleListAdapter(getActivity(), expandableListDetail, this);
+        expandableListAdapter = new OpeningDateTimeExpandableListAdapter(getActivity(), expandableListDetail, this);
         expandableListView.setAdapter(expandableListAdapter);
     }
 
@@ -196,7 +196,7 @@ public class OpeningDateTimeFragment extends Fragment {
         return expandableListDetail;
     }
 
-    public OpeningDateTimeExpandibleListAdapter getExpandableListAdapter() {
+    public OpeningDateTimeExpandableListAdapter getExpandableListAdapter() {
         return expandableListAdapter;
     }
 
