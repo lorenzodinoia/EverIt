@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,10 +90,9 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
 
-        TextInputLayout editTextNumberContainer = convertView.findViewById(R.id.editTextNumberContainer);
-        TextInputEditText editTextNumber = convertView.findViewById(R.id.editTextNumberContainer);
+        MaterialTextView editTextNumber = convertView.findViewById(R.id.editTextNumberContainer);
 
-        editTextNumberContainer.setVisibility(View.VISIBLE);
+        editTextNumber.setVisibility(View.VISIBLE);
         editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
 
         TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
@@ -113,14 +113,14 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    private void addProduct(Product product, EditText editText){
+    private void addProduct(Product product, MaterialTextView editText){
         if(cartConnector.getPartialOrder().getProductQuantity(product) <= 999) {
             cartConnector.getPartialOrder().addProduct(product);
             editText.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(product)));
         }
     }
 
-    private void removeProduct(Product product, EditText editText){
+    private void removeProduct(Product product, MaterialTextView editText){
         if(cartConnector.getPartialOrder().getProductQuantity(product) > 0 ) {
             cartConnector.getPartialOrder().removeProduct(product);
             editText.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(product)));
