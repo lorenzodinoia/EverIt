@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,8 +50,10 @@ public class OrderDetailFragment extends Fragment {
         if (order != null) {
             TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
             TextView textViewOrderType = rootView.findViewById(R.id.textViewOrderType);
+            TextView labelDeliveryAddress = rootView.findViewById(R.id.labelDeliveryAddress);
             TextView textViewDeliveryAddress = rootView.findViewById(R.id.textViewDeliveryAddress);
             TextView textViewOrderTime = rootView.findViewById(R.id.textViewOrderDateTime);
+            TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
             TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
             TextView textViewOrderStatus = rootView.findViewById(R.id.textViewOrderStatus);
 
@@ -64,9 +67,15 @@ public class OrderDetailFragment extends Fragment {
             textViewOrderNumber.setText("#"+order.getId());
             if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
                 textViewOrderType.setText(R.string.home_delivery);
+                labelDeliveryAddress.setText(R.string.delivery_address);
+                textViewDeliveryAddress.setText(order.getDeliveryAddress().getFullAddress());
+                labelDeliveryDate.setText(R.string.delivery_date_label);
             }
             else{
                 textViewOrderType.setText(R.string.take_away);
+                labelDeliveryAddress.setText(R.string.pickup_address);
+                textViewDeliveryAddress.setText(order.getRestaurateur().getAddress().getFullAddress());
+                labelDeliveryDate.setText(R.string.pickup_date);
             }
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
@@ -88,7 +97,6 @@ public class OrderDetailFragment extends Fragment {
                 deliveryTimeAsString = estimatedDeliveryTime.format(formatter);
             }
 
-            textViewDeliveryAddress.setText(order.getDeliveryAddress().getFullAddress());
             textViewOrderTime.setText(orderTimeAsString);
             textViewDeliveryTime.setText(deliveryTimeAsString);
             Order.Status orderStatus = order.getStatus();
