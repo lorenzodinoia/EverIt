@@ -50,6 +50,10 @@
     <string name="privacy_and_security">Privacy and security</string>
 
     <string name="review_number">Review number:</string>
+
+    <string name="home_delivery">Home delivery</string>
+    <string name="take_away" translatable="false">Take away</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="search">Search</string>

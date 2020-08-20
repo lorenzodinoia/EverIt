@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,8 +19,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
 import com.squareup.picasso.Picasso;
 
 import org.threeten.bp.LocalDateTime;
@@ -204,6 +207,16 @@ public class OrderListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             Order item = this.orders.get(position);
             if (item != null) {
+                if(item.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+                    holder.chipListCustomerOrders.setText(R.string.home_delivery);
+                    holder.chipListCustomerOrders.setChipIcon(ContextCompat.getDrawable(parentActivity, R.drawable.ic_delivery_12px));
+                    holder.chipListCustomerOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(parentActivity, R.color.colorPrimary)));
+                }
+                else{
+                    holder.chipListCustomerOrders.setText(R.string.take_away);
+                    holder.chipListCustomerOrders.setChipIcon(ContextCompat.getDrawable(parentActivity, R.drawable.ic_take_away_12px));
+                    holder.chipListCustomerOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(parentActivity, R.color.colorAccent)));
+                }
                 holder.textViewOrderNumber.setText("#"+item.getId());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
@@ -255,6 +268,7 @@ public class OrderListActivity extends AppCompatActivity {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
+            final Chip chipListCustomerOrders;
             final TextView textViewOrderNumber;
             final TextView textViewActivityName;
             final TextView textViewPrice;
@@ -264,6 +278,7 @@ public class OrderListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
+                chipListCustomerOrders = view.findViewById(R.id.chipListCustomerOrders);
                 textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
                 textViewActivityName = view.findViewById(R.id.textViewActivityName);
                 textViewPrice = view.findViewById(R.id.textViewPrice);
