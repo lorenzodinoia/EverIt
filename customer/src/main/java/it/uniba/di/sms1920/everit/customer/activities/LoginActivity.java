@@ -39,7 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        this.initComponents();
+        if(savedInstanceState == null) {
+            this.initComponents();
+        }
     }
 
 

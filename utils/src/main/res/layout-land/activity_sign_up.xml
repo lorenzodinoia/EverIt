@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbar_default"
-        layout="@layout/toolbar_default" />
+    <include layout="@layout/toolbar_default" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
         android:layout_below="@id/toolbar_default">
 
         <androidx.constraintlayout.widget.ConstraintLayout

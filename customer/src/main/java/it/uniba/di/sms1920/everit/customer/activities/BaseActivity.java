@@ -127,6 +127,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void successResponse(Boolean response) {
                         finish();
+                        startActivity(getIntent());
                     }
 
                     @Override
