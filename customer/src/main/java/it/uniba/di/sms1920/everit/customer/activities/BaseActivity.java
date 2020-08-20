@@ -123,23 +123,18 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.exit: {
-                //TODO logout fa chiudere l'app
                 Providers.getAuthProvider().logout(new RequestListener<Boolean>() {
                     @Override
                     public void successResponse(Boolean response) {
-                        //TODO creare stringa in string
-                        Toast.makeText(getApplicationContext(), "Logout effettuato", Toast.LENGTH_LONG);
+                        finish();
                     }
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
-                        //TODO controllare se funziona prompt errore
                         promptErrorMessage(error.getMessage());
                     }
                 });
 
-                finish();
                 break;
             }
         }

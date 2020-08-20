@@ -131,11 +131,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             }
-            case R.id.sign_up: {
-                Intent goIntent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivity(goIntent);
-                break;
-            }
             case R.id.Menu: {
                 Intent goIntent = new Intent(getApplicationContext(), MenuActivity.class);
                 startActivity(goIntent);

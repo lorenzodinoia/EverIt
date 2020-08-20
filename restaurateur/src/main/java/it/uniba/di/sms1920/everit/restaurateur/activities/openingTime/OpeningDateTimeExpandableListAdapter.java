@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,7 +26,7 @@ import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.models.OpeningDay;
 import it.uniba.di.sms1920.everit.utils.models.OpeningTime;
 
-public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdapter {
+public class OpeningDateTimeExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<OpeningDay> expandableListDetail;
@@ -41,7 +40,7 @@ public class OpeningDateTimeExpandibleListAdapter extends BaseExpandableListAdap
     private Map<Integer, TextInputEditText> editTextClosingTime = new HashMap<>();
 
 
-    OpeningDateTimeExpandibleListAdapter(Context context, List<OpeningDay> expandableListDetail, OpeningDateTimeFragment fragment){
+    OpeningDateTimeExpandableListAdapter(Context context, List<OpeningDay> expandableListDetail, OpeningDateTimeFragment fragment){
         this.context = context;
         this.expandableListDetail = expandableListDetail;
         this.fragment = fragment;

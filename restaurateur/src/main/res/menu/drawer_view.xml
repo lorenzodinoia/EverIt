@@ -7,28 +7,27 @@
         android:id="@+id/section_home">
         <item
             android:id="@+id/order_history"
+            android:icon="@drawable/ic_order_list_12px"
             android:title="@string/order_history" />
 
         <item
             android:id="@+id/datetime_opening"
+            android:icon="@drawable/ic_clock_12px"
             android:title="@string/date_time_opening"/>
 
         <item
             android:id="@+id/review"
+            android:icon="@drawable/ic_review_12px"
             android:title="@string/title_review_list"/>
 
         <item
-            android:id="@+id/sign_up"
-            android:icon="@android:drawable/ic_menu_edit"
-            android:title="@string/signup" />
-
-        <item
             android:id="@+id/Menu"
-            android:icon="@android:drawable/ic_menu_agenda"
+            android:icon="@drawable/ic_menu_12px"
             android:title="@string/menu"/>
 
         <item
             android:id="@+id/account_detail"
+            android:icon="@drawable/ic_baseline_person_outline_24"
             android:title="@string/account_detail" />
     </group>
 
@@ -36,6 +35,7 @@
         android:id="@+id/section_out">
         <item
             android:id="@+id/logout"
+            android:icon="@drawable/ic_logout_12px"
             android:title="@string/logout" />
     </group>
 

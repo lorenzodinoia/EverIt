@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.BaseActivity" >
 
@@ -8,7 +7,7 @@
         android:id="@+id/section_home">
         <item
             android:id="@+id/nav_home"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="@drawable/ic_search_12px"
             android:title="@string/home" />
     </group>
 
@@ -16,12 +15,12 @@
         android:id="@+id/section_account">
         <item
             android:id="@+id/nav_order"
-            android:icon="@android:drawable/ic_menu_today"
+            android:icon="@drawable/ic_order_list_12px"
             android:title="@string/order" />
 
         <item
             android:id="@+id/nav_review"
-            android:icon="@android:drawable/ic_menu_edit"
+            android:icon="@drawable/ic_review_12px"
             android:title="@string/My_review" />
 
         <item
@@ -33,6 +32,7 @@
     <group android:checkableBehavior="single"
         android:id="@+id/section_settings">
         <item android:id="@+id/exit"
+            android:icon="@drawable/ic_logout_12px"
             android:title="@string/logout"/>
     </group>
 
