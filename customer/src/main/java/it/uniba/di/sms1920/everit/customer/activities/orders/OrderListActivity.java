@@ -217,6 +217,29 @@ public class OrderListActivity extends AppCompatActivity {
                     holder.chipListCustomerOrders.setChipIcon(ContextCompat.getDrawable(parentActivity, R.drawable.ic_take_away_12px));
                     holder.chipListCustomerOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(parentActivity, R.color.colorAccent)));
                 }
+
+                Order.Status status = item.getStatus();
+                switch (status){
+                    case ORDERED:
+                        holder.chipStatusOrder.setText(R.string.ordered);
+                        break;
+                    case CONFIRMED:
+                        holder.chipStatusOrder.setText(R.string.confirmed);
+                        break;
+                    case IN_PROGRESS:
+                        holder.chipStatusOrder.setText(R.string.in_preparation);
+                        break;
+                    case DELIVERING:
+                        holder.chipStatusOrder.setText(R.string.delivering);
+                        break;
+                    case READY:
+                        holder.chipStatusOrder.setText(R.string.ready);
+                        break;
+                    case DELIVERED:
+                        holder.chipStatusOrder.setText(R.string.delivered);
+                        break;
+                }
+
                 holder.textViewOrderNumber.setText("#"+item.getId());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
@@ -269,6 +292,7 @@ public class OrderListActivity extends AppCompatActivity {
 
         static class ViewHolder extends RecyclerView.ViewHolder {
             final Chip chipListCustomerOrders;
+            final Chip chipStatusOrder;
             final TextView textViewOrderNumber;
             final TextView textViewActivityName;
             final TextView textViewPrice;
@@ -279,6 +303,7 @@ public class OrderListActivity extends AppCompatActivity {
             ViewHolder(View view) {
                 super(view);
                 chipListCustomerOrders = view.findViewById(R.id.chipListCustomerOrders);
+                chipStatusOrder = view.findViewById(R.id.chipStatusOrder);
                 textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
                 textViewActivityName = view.findViewById(R.id.textViewActivityName);
                 textViewPrice = view.findViewById(R.id.textViewPrice);

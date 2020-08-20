@@ -128,4 +128,6 @@
     <string name="order_type">Tipo ordine</string>
     <string name="pickup_address">Indirizzo di ritiro</string>
     <string name="pickup_date">Data ritiro</string>
+    <string name="confirmed">Confermato</string>
+    <string name="ready">Pronto</string>
 </resources>

@@ -25,8 +25,10 @@
     <string name="account_not_updated">Account not updated</string>
 
     <string name="ordered">Ordered</string>
+    <string name="confirmed">Confirmed</string>
     <string name="in_preparation">In progress</string>
     <string name="delivering">Delivering</string>
+    <string name="ready">Ready</string>
     <string name="delivered">Delivered</string>
 
     <string name="map_error">Unable to start map</string>
