@@ -45,8 +45,8 @@
     <string name="error_address">Seleziona un indirizzo</string>
 
     <string name="num_max_delivery_per_time_slot">Num max consegne per fascia oraria</string>
-    <string name="delivery_cost">Costo consegna</string>
-    <string name="min_price">Spesa minima</string>
+    <string name="delivery_cost">Costo consegna*</string>
+    <string name="min_price">Spesa minima*</string>
     <string name="back">Indietro</string>
     <string name="error_num_delivery_time_slot">Num max consegne maggiore di 0</string>
     <string name="error_delivery_cost">Costo consegna tra 0 e 999</string>
@@ -153,4 +153,5 @@
 
     <string name="message_pickup_time_dialog">Indica al tuo rider tra quanti minuti sarà pronto il suo ordine</string>
     <string name="home_delivery">Consegna domicilio</string>
+    <string name="optional_field">Campo opzionale</string>
 </resources>

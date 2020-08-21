@@ -191,7 +191,6 @@ public class OrderDetailFragment extends Fragment {
                         else{
                             searchRider.setOnClickListener(v -> {
                                 OrderRequest orderRequest = new OrderRequest();
-                                //TODO prendere in qualche modo il pickup time
                                 Dialog dialog = new Dialog(mParent);
                                 dialog.setContentView(R.layout.dialog_set_pickup_time);
                                 TextView textViewLabel = dialog.findViewById(R.id.textViewLabelPickupTimeSelection);

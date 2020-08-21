@@ -102,11 +102,17 @@ public final class Utility {
 
     public static boolean isAddressValid(Address address, TextInputLayout layout, Context context){
 
-        if(address.getFullAddress().length() >= 1){
-            return true;
-        }else {
+        if(address != null) {
+            if (address.getFullAddress().length() >= 1) {
+                return true;
+            } else {
+                layout.setError(context.getString(R.string.error_value_empty));
+                return false;
+            }
+        }
+        else{
             layout.setError(context.getString(R.string.error_value_empty));
-            return  false;
+            return false;
         }
     }
 

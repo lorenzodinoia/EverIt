@@ -34,6 +34,9 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class OpeningDateTimeFragment extends Fragment {
 
+    private final String ARG_RESTAURATEUR = "restaurateur_opening_datetime_fragment";
+    private final String ARG_RESTAURATEUR_BUILDER = "restaurateur_builder_opening_datetime_fragment";
+
     private SignUpActivity signUpActivity;
     private ExpandableListView expandableListView;
     private OpeningDateTimeExpandableListAdapter expandableListAdapter;
@@ -57,22 +60,34 @@ public class OpeningDateTimeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View viewRoot = inflater.inflate(R.layout.fragment_opening_date_time, parent, false);
-        if(restaurateurBuilder == null) {
-            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-            restaurateurRequest.getCurrentUser(new RequestListener() {
-                @Override
-                public void successResponse(Object response) {
-                    restaurateur = (Restaurateur) response;
-                    initComponent(viewRoot);
-                }
 
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessageWithClousure(error.getMessage());
-                }
-            });
+        if(savedInstanceState == null) {
+            if (restaurateurBuilder == null) {
+                RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                restaurateurRequest.getCurrentUser(new RequestListener() {
+                    @Override
+                    public void successResponse(Object response) {
+                        restaurateur = (Restaurateur) response;
+                        initComponent(viewRoot);
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessageWithClosure(error.getMessage());
+                    }
+                });
+            } else {
+                initComponent(viewRoot);
+            }
         }
         else{
+            if (savedInstanceState.containsKey(ARG_RESTAURATEUR)){
+                restaurateur = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
+            }
+            else{
+                restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR_BUILDER);
+            }
+
             initComponent(viewRoot);
         }
 
@@ -244,7 +259,7 @@ public class OpeningDateTimeFragment extends Fragment {
         dialog.show();
     }
 
-    private void promptErrorMessageWithClousure(String message){
+    private void promptErrorMessageWithClosure(String message){
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
@@ -261,5 +276,17 @@ public class OpeningDateTimeFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(restaurateur != null){
+            outState.putParcelable(ARG_RESTAURATEUR, restaurateur);
+        }
+        else{
+            outState.putParcelable(ARG_RESTAURATEUR_BUILDER, restaurateurBuilder);
+        }
     }
 }

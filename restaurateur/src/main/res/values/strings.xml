@@ -25,8 +25,8 @@
     <string name="error_address">Select an address</string>
 
     <string name="num_max_delivery_per_time_slot">Nun max delivery per time slot</string>
-    <string name="delivery_cost">Delivery cost</string>
-    <string name="min_price">Min price</string>
+    <string name="delivery_cost">Delivery cost*</string>
+    <string name="min_price">Min price*</string>
     <string name="back">Back</string>
     <string name="error_num_delivery_time_slot">Num max delivery greater than 0</string>
     <string name="error_delivery_cost">Delivery cost between 0 and 999</string>
@@ -128,6 +128,7 @@
 
     <string name="message_pickup_time_dialog">Notify to your rider how many minutes the order will be ready</string>
 
+    <string name="optional_field">*Optional field</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
