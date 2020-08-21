@@ -130,4 +130,5 @@
     <string name="pickup_date">Data ritiro</string>
     <string name="confirmed">Confermato</string>
     <string name="ready">Pronto</string>
+    <string name="late">Ritardo</string>
 </resources>

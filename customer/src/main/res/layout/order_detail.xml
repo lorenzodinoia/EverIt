@@ -34,22 +34,27 @@
         <TextView
             android:id="@+id/textViewLabelOrderType"
             style="@style/TextViewSmall"
-            android:text="@string/order_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewOrderNumber" />
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/order_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/textViewLabelOrderNumber"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textViewOrderType"
             style="@style/TextViewMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textViewLabelOrderType"
             app:layout_constraintTop_toBottomOf="@+id/textViewLabelOrderType" />
 
         <TextView
@@ -140,8 +145,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:text="@string/in_preparation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelOrderStatus" />
+
+        <TextView
+            android:id="@+id/textViewOrderLate"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/late"
+            android:textColor="@color/colorWarning"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/textViewOrderStatus"
+            app:layout_constraintTop_toBottomOf="@+id/labelOrderStatus" />
+
+
 
         <View
             android:id="@+id/view3"

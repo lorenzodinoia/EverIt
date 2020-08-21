@@ -60,10 +60,6 @@ public class ResultListActivity extends AppCompatActivity {
         resultList.clear();
 
         if (findViewById(R.id.result_detail_container) != null) {
-            /*
-             * Se il layout è presente vuol dire che l'app è installata su un dispositivo di grandi dimensioni
-             * Pertanto si utilizza la modalità con due pannelli
-             */
             twoPaneMode = true;
         }
 
@@ -153,26 +149,34 @@ public class ResultListActivity extends AppCompatActivity {
         private final List<Restaurateur> results;
         private final boolean towPaneMode;
 
-        private final View.OnClickListener onClickListener = view -> {
-            Restaurateur item = (Restaurateur) view.getTag();
+        private final View.OnClickListener onClickListener = new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Restaurateur item = (Restaurateur) view.getTag();
 
-            //TODO controllare se bisogna fare qualcosa per la 2pane mode. ResultDeatil non esiste più
-            /**
-            if (towPaneMode) {
-                Bundle arguments = new Bundle();
-                arguments.putLong(ResultDetailActivity.ARG_ITEM_ID, item.getId());
-                ResultDetailFragment fragment = new ResultDetailFragment();
-                fragment.setArguments(arguments);
-                parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.result_detail_container, fragment).commit();
-            }
-            else {
-             */
                 Context context = view.getContext();
                 Intent intent = new Intent(context, ResultDetailActivity.class);
                 intent.putExtra(ResultDetailActivity.ARG_ITEM_ID, item.getId());
 
                 context.startActivity(intent);
-            };
+                /**
+                Restaurateur item = (Restaurateur) view.getTag();
+                if (towPaneMode) {
+                    Bundle arguments = new Bundle();
+                    arguments.putLong(ResultDetailActivity.ARG_ITEM_ID, item.getId());
+                    ResultDetailFragment fragment = new ResultDetailFragment();
+                    fragment.setArguments(arguments);
+                    parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.result_detail_container, fragment).commit();
+                } else {
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, ResultDetailActivity.class);
+                    intent.putExtra(ResultDetailActivity.ARG_ITEM_ID, item.getId());
+
+                    context.startActivity(intent);
+                }
+                 */
+            }
+        };
 
         RestaurateurRecyclerViewAdapter(ResultListActivity parentActivity, List<Restaurateur> results, boolean twoPaneMode) {
             this.results = results;

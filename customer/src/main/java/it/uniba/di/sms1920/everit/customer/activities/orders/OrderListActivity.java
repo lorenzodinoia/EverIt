@@ -228,6 +228,10 @@ public class OrderListActivity extends AppCompatActivity {
                         break;
                 }
 
+                if(item.isLate()){
+                    holder.chipOrderLate.setVisibility(View.VISIBLE);
+                }
+
                 holder.textViewOrderNumber.setText("#"+item.getId());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
@@ -281,6 +285,7 @@ public class OrderListActivity extends AppCompatActivity {
         static class ViewHolder extends RecyclerView.ViewHolder {
             final Chip chipListCustomerOrders;
             final Chip chipStatusOrder;
+            final Chip chipOrderLate;
             final TextView textViewOrderNumber;
             final TextView textViewActivityName;
             final TextView textViewPrice;
@@ -292,6 +297,7 @@ public class OrderListActivity extends AppCompatActivity {
                 super(view);
                 chipListCustomerOrders = view.findViewById(R.id.chipListCustomerOrders);
                 chipStatusOrder = view.findViewById(R.id.chipStatusOrder);
+                chipOrderLate = view.findViewById(R.id.chipOrderLate);
                 textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
                 textViewActivityName = view.findViewById(R.id.textViewActivityName);
                 textViewPrice = view.findViewById(R.id.textViewPrice);
