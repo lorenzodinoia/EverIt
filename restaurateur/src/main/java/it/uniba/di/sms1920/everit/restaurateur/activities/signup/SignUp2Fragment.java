@@ -48,12 +48,13 @@ public class SignUp2Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState == null) {
+        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+        /*if(savedInstanceState == null) {
             restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
         else{
             restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
-        }
+        }*/
 
     }
 

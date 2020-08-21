@@ -37,13 +37,13 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class AccountDetailFragment extends Fragment {
 
+    private final String ARG_RESTAURATEUR = "restaurateur_account_detail_fragment";
     private LinearLayout linearLayoutAccountInfo;
     private LinearLayout linearLayoutChangePassword;
     private TextView textViewShopName;
     private TextView textViewEmail;
 
     private ImageView imageProfile;
-    private String imagePath;
 
     private AccountDetailActivity mParent;
     private Restaurateur restaurateur;
@@ -59,6 +59,15 @@ public class AccountDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState == null){
+            restaurateur = mParent.getRestaurateur();
+        }
+        else{
+            if(savedInstanceState.containsKey(ARG_RESTAURATEUR)) {
+                restaurateur = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
+            }
+        }
     }
 
     @Override
@@ -70,7 +79,7 @@ public class AccountDetailFragment extends Fragment {
         //TODO ridimensionare imageView
         imageProfile = view.findViewById(R.id.imageViewProfile);
         imageProfile.setOnClickListener(v -> {
-            fetchImageFromGallery(view);
+            fetchImageFromGallery();
         });
 
         if(restaurateur.getImagePath() != null){
@@ -186,11 +195,10 @@ public class AccountDetailFragment extends Fragment {
         super.onAttach(context);
         if(context instanceof AccountDetailActivity){
             mParent = (AccountDetailActivity) context;
-            restaurateur = mParent.getRestaurateur();
         }
     }
 
-    void fetchImageFromGallery(View view) {
+    void fetchImageFromGallery() {
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");
 
@@ -211,7 +219,6 @@ public class AccountDetailFragment extends Fragment {
             if (requestCode == PICK_IMAGE) {
                 //TODO aggiungere controllo immagine solo per jpg
                 Uri selectedImageURI = data.getData();
-                imagePath = selectedImageURI.getPath();
 
                 RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
                 restaurateurRequest.saveImage(selectedImageURI, mParent, new RequestListener<String>() {
@@ -251,5 +258,13 @@ public class AccountDetailFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(ARG_RESTAURATEUR, restaurateur);
+        
     }
 }

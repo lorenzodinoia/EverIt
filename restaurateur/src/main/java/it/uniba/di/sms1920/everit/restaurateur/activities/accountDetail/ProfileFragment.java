@@ -43,6 +43,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
+    private final String ARG_RESTAURATEUR = "restaurateur_profile_fragment";
+
     private AccountDetailActivity mParent;
     private Restaurateur restaurateur;
 
@@ -67,6 +69,16 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState == null) {
+            restaurateur = mParent.getRestaurateur();
+        }
+        else{
+            if(savedInstanceState.containsKey(ARG_RESTAURATEUR)){
+                restaurateur = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
+            }
+        }
+        shopTypeSelected = restaurateur.getShopType();
     }
 
     @Override
@@ -232,8 +244,6 @@ public class ProfileFragment extends Fragment {
         super.onAttach(context);
         if(context instanceof AccountDetailActivity){
             mParent = (AccountDetailActivity) context;
-            restaurateur = mParent.getRestaurateur();
-            shopTypeSelected = restaurateur.getShopType();
         }
     }
 
@@ -251,4 +261,10 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(ARG_RESTAURATEUR, restaurateur);
+    }
 }

@@ -79,4 +79,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         outState.putParcelable(RESTAURATEUR_ITEM_KEY, restaurateur);
     }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null){
+            if(savedInstanceState.containsKey(RESTAURATEUR_ITEM_KEY)){
+                restaurateur = savedInstanceState.getParcelable(RESTAURATEUR_ITEM_KEY);
+            }
+        }
+    }
 }
