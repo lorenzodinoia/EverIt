@@ -85,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
         auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Customer>() {
             @Override
             public void successResponse(Customer response) {
-                //TODO agguingere refresh schermata home
                 Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
                 finish();

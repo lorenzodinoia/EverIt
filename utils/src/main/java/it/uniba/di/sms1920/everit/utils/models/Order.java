@@ -60,7 +60,6 @@ public class Order extends Model {
         this.deliveryNotes = in.readString();
         this.validationCode = in.readString();
         this.status = Status.valueOf(in.readString());
-        //TODO Leggere mappa dei prodotti
         this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
         this.createdAt = (LocalDateTime) in.readSerializable();
         this.orderType = OrderType.valueOf(in.readString());
@@ -215,7 +214,6 @@ public class Order extends Model {
         dest.writeString(this.deliveryNotes);
         dest.writeString(this.validationCode);
         dest.writeString(this.status.name());
-        //TODO Serializzare mappa dei prodotti
         dest.writeParcelable(this.restaurateur, flags);
         dest.writeSerializable(this.createdAt);
         dest.writeString(this.orderType.name());

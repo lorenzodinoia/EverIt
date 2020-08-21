@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +27,7 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailActivity;
-import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailFragment;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
-import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;

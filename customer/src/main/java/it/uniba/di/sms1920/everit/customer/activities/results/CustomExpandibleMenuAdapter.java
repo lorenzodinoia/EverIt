@@ -61,15 +61,15 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         ProductCategory group = (ProductCategory) getGroup(listPosition);
-            String listTitle = group.getName();
+        String listTitle = group.getName();
 
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_group, null);
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = layoutInflater.inflate(R.layout.list_group, null);
 
-            TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
-            listTitleTextView.setFocusable(false);
+        TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
+        listTitleTextView.setFocusable(false);
 
-            listTitleTextView.setText(listTitle);
+        listTitleTextView.setText(listTitle);
 
         return convertView;
     }
@@ -128,24 +128,6 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
             cartConnector.getPartialOrder().removeProduct(product);
             editText.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(product)));
         }
-    }
-
-    @Override
-    public void onGroupExpanded(int groupPosition) {
-        super.onGroupExpanded(groupPosition);
-
-        loadLocalQuantity(groupPosition);
-    }
-
-    private void loadLocalQuantity(int groupPosition){
-        ProductCategory group = (ProductCategory) getGroup(groupPosition);
-
-        for(int i=0; i<getChildrenCount(groupPosition); i++){
-            Product product = (Product) getChild(groupPosition, i);
-
-            localQuantityMap.put(group, cartConnector.getPartialOrder().getProductQuantity(product));
-        }
-
     }
 
     @Override

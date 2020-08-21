@@ -162,79 +162,74 @@ public class ProfileFragment extends Fragment {
 
         buttonEditConfirm = view.findViewById(R.id.buttonEditConfirm);
         buttonEditConfirm.setTag("Edit");
-        buttonEditConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String status = (String) buttonEditConfirm.getTag();
-                if(status.equals("Edit")){
-                    buttonEditConfirm.setText(R.string.confirm);
-                    spinnerShopType.setEnabled(true);
-                    spinnerShopType.setClickable(true);
-                    editTextVATProfile.setEnabled(true);
-                    editTextPhoneNumberProfile.setEnabled(true);
-                    editTextAddressProfile.setEnabled(true);
-                    v.setTag("Confirm");
+        buttonEditConfirm.setOnClickListener(v -> {
+            String status = (String) buttonEditConfirm.getTag();
+            if(status.equals("Edit")){
+                buttonEditConfirm.setText(R.string.confirm);
+                spinnerShopType.setEnabled(true);
+                spinnerShopType.setClickable(true);
+                editTextVATProfile.setEnabled(true);
+                editTextPhoneNumberProfile.setEnabled(true);
+                editTextAddressProfile.setEnabled(true);
+                v.setTag("Confirm");
+            }
+            else{
+                boolean flag = true;
+                if(!Utility.isVATValid(editTextVATProfile.getText().toString(), editTextVATProfileContainer, mParent)){
+                    editTextVATProfileContainer.setError(getString(R.string.error_VAT_number));
+                    flag = false;
                 }
-                else{
-                    boolean flag = true;
-                    if(!Utility.isVATValid(editTextVATProfile.getText().toString(), editTextVATProfileContainer, mParent)){
-                        editTextVATProfileContainer.setError(getString(R.string.error_VAT_number));
-                        flag = false;
-                    }
-                    if(!Utility.isPhoneValid(editTextPhoneNumberProfile.getText().toString(), editTextPhoneNumberProfileContainer, mParent)){
-                        editTextPhoneNumberProfileContainer.setError(getString(R.string.error_phone_number));
-                        flag = false;
-                    }
-                    if(editTextAddressProfile.getText().toString() == null){
-                        editTextAddressProfileContainer.setError(getString(R.string.error_address));
-                        flag = false;
-                    }
-
-                    if(flag){
-                        restaurateur.setShopType(shopTypeSelected);
-                        restaurateur.setVatNumber(editTextVATProfile.getText().toString());
-                        restaurateur.setPhoneNumber(editTextPhoneNumberProfile.getText().toString());
-                        restaurateur.setAddress(address);
-
-                        RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-                        restaurateurRequest.update(restaurateur, new RequestListener<Restaurateur>() {
-                            @Override
-                            public void successResponse(Restaurateur response) {
-                                restaurateur = response;
-                                buttonEditConfirm.setTag("Edit");
-                                buttonEditConfirm.setText(R.string.edit);
-                                spinnerShopType.setEnabled(false);
-                                spinnerShopType.setClickable(false);
-                                editTextVATProfile.setEnabled(false);
-                                editTextPhoneNumberProfile.setEnabled(false);
-                                editTextAddressProfile.setEnabled(false);
-                                //TODo non compare il toast
-                                Toast.makeText(mParent, "Edited", Toast.LENGTH_LONG);
-                            }
-
-                            @Override
-                            public void errorResponse(RequestException error) {
-                                Log.d("test", error.toString());
-                                Dialog dialog = new Dialog(mParent);
-                                dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
-
-                                TextView title = dialog.findViewById(R.id.textViewTitle);
-                                title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
-
-                                TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
-                                textViewMessage.setText(error.getMessage());
-
-                                Button btnOk = dialog.findViewById(R.id.btnOk);
-                                btnOk.setOnClickListener(v ->{
-                                    dialog.dismiss();
-                                });
-
-                                dialog.show();
-                            }
-                        });
-                    }
-
+                if(!Utility.isPhoneValid(editTextPhoneNumberProfile.getText().toString(), editTextPhoneNumberProfileContainer, mParent)){
+                    editTextPhoneNumberProfileContainer.setError(getString(R.string.error_phone_number));
+                    flag = false;
                 }
+                if(editTextAddressProfile.getText().toString().trim().length() <= 0){
+                    editTextAddressProfileContainer.setError(getString(R.string.error_address));
+                    flag = false;
+                }
+
+                if(flag){
+                    restaurateur.setShopType(shopTypeSelected);
+                    restaurateur.setVatNumber(editTextVATProfile.getText().toString());
+                    restaurateur.setPhoneNumber(editTextPhoneNumberProfile.getText().toString());
+                    restaurateur.setAddress(address);
+
+                    RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+                    restaurateurRequest.update(restaurateur, new RequestListener<Restaurateur>() {
+                        @Override
+                        public void successResponse(Restaurateur response) {
+                            restaurateur = response;
+                            buttonEditConfirm.setTag("Edit");
+                            buttonEditConfirm.setText(R.string.edit);
+                            spinnerShopType.setEnabled(false);
+                            spinnerShopType.setClickable(false);
+                            editTextVATProfile.setEnabled(false);
+                            editTextPhoneNumberProfile.setEnabled(false);
+                            editTextAddressProfile.setEnabled(false);
+                            Toast.makeText(mParent, R.string.account_edited, Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            Dialog dialog = new Dialog(mParent);
+                            dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+                            TextView title = dialog.findViewById(R.id.textViewTitle);
+                            title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+                            TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+                            textViewMessage.setText(error.getMessage());
+
+                            Button btnOk = dialog.findViewById(R.id.btnOk);
+                            btnOk.setOnClickListener(v ->{
+                                dialog.dismiss();
+                            });
+
+                            dialog.show();
+                        }
+                    });
+                }
+
             }
         });
     }

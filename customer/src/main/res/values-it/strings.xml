@@ -26,9 +26,9 @@
     <string name="newPassword">Nuova Password</string>
     <string name="info">Info</string>
     <string name="ShowOnMaps">Mostra la posizione sulla mappa</string>
-    <string name="ChooseApp">Choose App</string>
-    <string name="title_result_list">Results</string>
-    <string name="title_result_detail">Result Detail</string>
+    <string name="ChooseApp">Seleziona app</string>
+    <string name="title_result_list">Risultati</string>
+    <string name="title_result_detail">Dettaglio attività</string>
     <string name="map_error">Impossibile avviare la mappa</string>
     <string name="search_autocomplete_error">Impossibile suggerire luoghi</string>
     <string name="search_autocomplete_empty">Nessun suggerimento</string>

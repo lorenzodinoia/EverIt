@@ -81,8 +81,7 @@ public class Cart {
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO verificare prompt messaggio errore
-                promptErrorMessage(error.getMessage());
+
             }
         });
     }

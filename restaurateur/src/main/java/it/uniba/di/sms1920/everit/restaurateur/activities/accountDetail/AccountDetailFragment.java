@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -217,7 +218,6 @@ public class AccountDetailFragment extends Fragment {
 
         if(data != null) {
             if (requestCode == PICK_IMAGE) {
-                //TODO aggiungere controllo immagine solo per jpg
                 Uri selectedImageURI = data.getData();
 
                 RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
@@ -237,7 +237,6 @@ public class AccountDetailFragment extends Fragment {
                         promptErrorMessage(error.getMessage());
                     }
                 });
-
             }
         }
     }

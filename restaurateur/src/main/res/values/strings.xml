@@ -49,6 +49,7 @@
     <string name="error_match_password">Passwords does not match</string>
 
     <string name="account_created">Account created</string>
+    <string name="account_edited">Account edited</string>
 
     <string name="map_error">Unable to start map</string>
     <string name="search_autocomplete_error">Unable to suggests places</string>

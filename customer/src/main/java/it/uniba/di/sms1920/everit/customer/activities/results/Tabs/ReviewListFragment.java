@@ -117,25 +117,33 @@ public class ReviewListFragment extends Fragment {
             textViewReviewNumber.setVisibility(View.INVISIBLE);
         }
 
-        for(int i=0; i<reviews.size(); i++){
-            //TODO crash se l'utente non è loggato, aggiungi avviso
-            if((reviews.get(i).getCustomer().getId() == Providers.getAuthProvider().getUser().getId())) {
-                review = reviews.get(i);
-                flag = true;
+        if(Providers.getAuthProvider().getUser() != null) {
+            for (int i = 0; i < reviews.size(); i++) {
+                if ((reviews.get(i).getCustomer().getId() == Providers.getAuthProvider().getUser().getId())) {
+                    review = reviews.get(i);
+                    flag = true;
+                }
             }
         }
 
         if(!flag){
-            buttonReview.setText(R.string.make_review);
-            buttonReview.setOnClickListener(v ->  makeReview() );
+            if(Providers.getAuthProvider().getUser() != null) {
+                buttonReview.setText(R.string.make_review);
+                buttonReview.setOnClickListener(v -> makeReview());
 
-            buttonDelete.setVisibility(View.GONE);
-            divider.setVisibility(View.GONE);
+                buttonDelete.setVisibility(View.GONE);
+                divider.setVisibility(View.GONE);
 
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(constraintLayout);
-            constraintSet.connect(R.id.buttonReview, constraintSet.BOTTOM, R.id.constraintLayoutReviewListResult, constraintSet.BOTTOM, 8);
-            constraintSet.applyTo(constraintLayout);
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(constraintLayout);
+                constraintSet.connect(R.id.buttonReview, constraintSet.BOTTOM, R.id.constraintLayoutReviewListResult, constraintSet.BOTTOM, 8);
+                constraintSet.applyTo(constraintLayout);
+            }
+            else{
+                buttonReview.setVisibility(View.GONE);
+                buttonDelete.setVisibility(View.GONE);
+                divider.setVisibility(View.GONE);
+            }
         }else {
             buttonDelete.setVisibility(View.VISIBLE);
             divider.setVisibility(View.VISIBLE);

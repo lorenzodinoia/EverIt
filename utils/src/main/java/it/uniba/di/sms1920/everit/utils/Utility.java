@@ -13,8 +13,6 @@ import java.util.regex.Pattern;
 
 public final class Utility {
 
-    //TODO verificare controlli
-
     /** Account controls */
 
     public static boolean isEmailValid(String email) {

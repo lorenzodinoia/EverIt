@@ -28,6 +28,8 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class PrivacyAndSecurityFragment extends Fragment {
 
+    //TODO crasha dopo aver eliminato il ristoratore
+
     private final String ARG_RESTAURATEUR = "restaurateur_privacy_security_fragment";
     private AccountDetailActivity mParent;
     private Restaurateur restaurateur;

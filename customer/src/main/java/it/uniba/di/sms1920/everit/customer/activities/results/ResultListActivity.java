@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ResultListActivity extends AppCompatActivity {
     public static final String PARAMETER_ADDRESS = "address";
@@ -53,9 +55,12 @@ public class ResultListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result_list);
 
         Toolbar toolbar = findViewById(R.id.toolbar_default);
-        toolbar.setTitle("Ristoranti"); //TODO Impostare stringa multi lingua
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //TODO Gestire ritorno indietro
+
+        toolbar.setTitle(R.string.title_result_list);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         resultList.clear();
 
@@ -255,5 +260,14 @@ public class ResultListActivity extends AppCompatActivity {
                 textViewShopStatus = view.findViewById(R.id.textViewShopStatus);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

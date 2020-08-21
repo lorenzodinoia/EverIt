@@ -131,6 +131,7 @@ public class ReviewListActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:{
                 super.onBackPressed();
+                break;
             }
 
             case R.id.goTo_cart:{
@@ -141,10 +142,11 @@ public class ReviewListActivity extends AppCompatActivity {
                     Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(loginIntent);
                 }
+                break;
             }
-            default:
-                return super.onOptionsItemSelected(item);
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {

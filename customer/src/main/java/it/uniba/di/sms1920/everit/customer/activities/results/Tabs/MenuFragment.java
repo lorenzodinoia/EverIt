@@ -19,6 +19,7 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.DeliveryAddress;
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
 import it.uniba.di.sms1920.everit.customer.activities.results.CustomExpandibleMenuAdapter;
 import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailActivity;
@@ -27,6 +28,7 @@ import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
 import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
 import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
 public class MenuFragment extends Fragment implements CartConnector{
 
@@ -63,10 +65,17 @@ public class MenuFragment extends Fragment implements CartConnector{
 
         buttonOrder = rootView.findViewById(R.id.buttonOrderMenu);
         buttonOrder.setOnClickListener(v -> {
-            if(!getCart().isEmpty()) {
-                Intent goIntent = new Intent(getActivity(), CartActivity.class);
-                goIntent.putExtra("MIN_PURCHASE", restaurateur.getMinPrice());
-                startActivity(goIntent);
+            if(Providers.getAuthProvider().getUser() != null) {
+                if (!getCart().isEmpty()) {
+                    Intent goIntent = new Intent(getActivity(), CartActivity.class);
+                    goIntent.putExtra("MIN_PURCHASE", restaurateur.getMinPrice());
+                    startActivity(goIntent);
+                }
+            }
+            else {
+                resultDetailActivity.finish();
+                Intent intent = new Intent(resultDetailActivity, LoginActivity.class);
+                startActivity(intent);
             }
         });
 

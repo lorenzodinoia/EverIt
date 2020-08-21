@@ -3,7 +3,6 @@ package it.uniba.di.sms1920.everit.restaurateur.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,22 +12,16 @@ import com.here.android.mpa.common.MapEngine;
 import com.here.android.mpa.common.OnEngineInitListener;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.NotificationService;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
-import it.uniba.di.sms1920.everit.utils.request.AccessRequest;
-import it.uniba.di.sms1920.everit.utils.provider.RequestProvider;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LauncherActivity extends AppCompatActivity {
-    private static final float DELAY = 1f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +33,6 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         this.initServices();
-        Handler handler = new Handler();
 
         if(Providers.getAuthProvider().getUser() == null){
             try {
@@ -65,15 +57,6 @@ public class LauncherActivity extends AppCompatActivity {
                 startActivity(returnLogin);
                 finish();
             }
-
-            /**
-            handler.postDelayed(() -> {
-                Intent intent = new Intent(LauncherActivity.this, BaseActivity.class);
-                startActivity(intent);
-                finish();
-            }, ((int) DELAY * 1000));
-             */
-            //TODO Capire se serve
         }
     }
 
