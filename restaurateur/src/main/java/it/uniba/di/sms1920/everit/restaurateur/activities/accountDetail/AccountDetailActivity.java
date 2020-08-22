@@ -78,6 +78,10 @@ public class AccountDetailActivity extends AppCompatActivity {
         return restaurateur;
     }
 
+    public void setRestaurateur(Restaurateur restaurateur){
+        this.restaurateur = restaurateur;
+    }
+
     private void promptErrorMessage(String message){
         Dialog dialog = new Dialog(this);
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
@@ -102,5 +106,14 @@ public class AccountDetailActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(ARG_RESTAURATEUR, restaurateur);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if(savedInstanceState.containsKey(ARG_RESTAURATEUR)) {
+            restaurateur = (Restaurateur) savedInstanceState.get(ARG_RESTAURATEUR);
+        }
     }
 }

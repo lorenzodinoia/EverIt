@@ -28,8 +28,6 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class PrivacyAndSecurityFragment extends Fragment {
 
-    //TODO crasha dopo aver eliminato il ristoratore
-
     private final String ARG_RESTAURATEUR = "restaurateur_privacy_security_fragment";
     private AccountDetailActivity mParent;
     private Restaurateur restaurateur;
@@ -134,6 +132,8 @@ public class PrivacyAndSecurityFragment extends Fragment {
                 restaurateurRequest.delete(restaurateur.getId(), new RequestListener<Boolean>() {
                     @Override
                     public void successResponse(Boolean response) {
+                        restaurateur = null;
+                        mParent.finishAffinity();
                         Intent intent = new Intent(mParent, LoginActivity.class);
                         startActivity(intent);
                     }
@@ -184,6 +184,8 @@ public class PrivacyAndSecurityFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putParcelable(ARG_RESTAURATEUR, restaurateur);
+        if(restaurateur != null) {
+            outState.putParcelable(ARG_RESTAURATEUR, restaurateur);
+        }
     }
 }
