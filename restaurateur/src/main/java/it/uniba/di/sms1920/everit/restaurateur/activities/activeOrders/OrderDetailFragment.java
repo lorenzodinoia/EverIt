@@ -50,6 +50,8 @@ public class OrderDetailFragment extends Fragment {
     private MaterialButton searchRider;
 
     private String timePicker;
+
+
     public OrderDetailFragment() {
     }
 
@@ -65,8 +67,7 @@ public class OrderDetailFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (order != null) {

@@ -113,9 +113,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
         recyclerView.setAdapter(new DoneOrderRecyclerViewAdapter(this, orders, mTwoPane));
     }
 
-    public static class DoneOrderRecyclerViewAdapter
-            extends RecyclerView.Adapter<DoneOrderRecyclerViewAdapter.ViewHolder> {
-
+    public static class DoneOrderRecyclerViewAdapter extends RecyclerView.Adapter<DoneOrderRecyclerViewAdapter.ViewHolder> {
         private final DoneOrderListActivity mParentActivity;
         private final List<Order> mValues;
         private final boolean mTwoPane;
@@ -141,9 +139,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
             }
         };
 
-        DoneOrderRecyclerViewAdapter(DoneOrderListActivity parent,
-                                      List<Order> items,
-                                      boolean twoPane) {
+        DoneOrderRecyclerViewAdapter(DoneOrderListActivity parent, List<Order> items, boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
             mTwoPane = twoPane;

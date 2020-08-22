@@ -29,7 +29,7 @@ public final class Utility {
 
     public static boolean isNameValid(String name, TextInputLayout layout, Context context){
         if(name.length() >= 1){
-            if(name.length()  <= 50){
+            if(name.length() <= 50){
                 return  true;
             }else {
                 layout.setError(context.getString(R.string.error_valueName_long));

@@ -13,6 +13,10 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.rider.activities.assignedOrder.AssignedOrdersFragment;
+import it.uniba.di.sms1920.everit.rider.activities.delivery.DeliveriesFragment;
+import it.uniba.di.sms1920.everit.rider.activities.delivery.DeliveriesPagerAdapter;
+import it.uniba.di.sms1920.everit.rider.activities.proposal.ProposalsFragment;
 import it.uniba.di.sms1920.everit.utils.DataBinder;
 
 public class WorksActivity extends AppCompatActivity {
