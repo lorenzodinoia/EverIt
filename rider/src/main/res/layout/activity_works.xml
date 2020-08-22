@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,23 +13,19 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <include layout="@layout/toolbar_default"/>
-        <!--
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minHeight="?actionBarSize"
-            android:padding="@dimen/appbar_padding"
-            android:text="@string/activity_my_works"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
-        -->
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            style="@style/AppTheme.TabLayout"/>
+            android:background="?attr/colorPrimary"
+            app:tabIconTint="@color/whiteAccent"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorHeight="5dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/whiteAccent"
+            app:tabTextAppearance="@style/TextViewSmall"
+            app:tabTextColor="@color/whiteAccent"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
