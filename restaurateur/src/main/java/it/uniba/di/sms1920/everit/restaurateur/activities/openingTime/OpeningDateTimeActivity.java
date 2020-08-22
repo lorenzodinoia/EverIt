@@ -32,7 +32,7 @@ public class OpeningDateTimeActivity extends AppCompatActivity {
 
         OpeningDateTimeFragment openingDateTimeFragment = new OpeningDateTimeFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.containerOpeningDateTimeFragmentActivity, openingDateTimeFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.containerOpeningDateTimeFragmentActivity, openingDateTimeFragment).addToBackStack(null).commit();
 
     }
 
