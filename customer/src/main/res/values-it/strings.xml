@@ -130,4 +130,6 @@
     <string name="pickup_date">Data ritiro</string>
     <string name="confirmed">Confermato</string>
     <string name="ready">Pronto</string>
+
+    <string name="notification_channel_name">Notifiche via server</string>
 </resources>

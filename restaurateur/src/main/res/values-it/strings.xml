@@ -153,4 +153,6 @@
 
     <string name="message_pickup_time_dialog">Indica al tuo rider tra quanti minuti sarà pronto il suo ordine</string>
     <string name="home_delivery">Consegna domicilio</string>
+
+    <string name="notification_channel_name">Server notifications</string>
 </resources>

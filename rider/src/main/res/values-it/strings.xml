@@ -49,4 +49,6 @@
     <string name="proposal_empty_placeholder">Non ci sono proposte</string>
     <string name="assigned_order_empty_placeholder">Non ci sono ordini da ritirare</string>
     <string name="delivery_empty_placeholder">Non ci sono consegne in corso</string>
+
+    <string name="notification_channel_name">Server notifications</string>
 </resources>

@@ -50,6 +50,9 @@
     <string name="proposal_empty_placeholder">There\'s no proposal</string>
     <string name="assigned_order_empty_placeholder">There\'s no order to pickup</string>
     <string name="delivery_empty_placeholder">There\'s no delivery in progress</string>
+
+    <string name="notification_channel_id" translatable="false">FirebaseNotifications-RiderChannel</string>
+    <string name="notification_channel_name">Server notifications</string>
 </resources>
 
 
