@@ -177,7 +177,9 @@ public class AssignedOrderDetailFragment extends Fragment {
         this.textViewOrderNumber.setText("#"+assignedOrder.getId());
 
         this.linearLayoutRestaurateurAddress.setOnClickListener(v -> {
-            //TODO implementare apertura mappa
+            startMap(assignedOrder.getRestaurateur().getAddress().getLatitude(),
+                    assignedOrder.getRestaurateur().getAddress().getLongitude(),
+                    assignedOrder.getRestaurateur().getShopName());
         });
         this.textViewRestaurateurAddress.setText(assignedOrder.getRestaurateur().getAddress().getFullAddress());
 
@@ -189,7 +191,9 @@ public class AssignedOrderDetailFragment extends Fragment {
         this.textViewRestaurateurPhone.setText(assignedOrder.getRestaurateur().getPhoneNumber());
 
         this.linearLayoutAddressDeliver.setOnClickListener(v -> {
-            //TODO implementare apertura mappa
+            startMap(assignedOrder.getDeliveryAddress().getLatitude(),
+                    assignedOrder.getDeliveryAddress().getLongitude(),
+                    "");
         });
         this.textViewDeliverAddress.setText(assignedOrder.getDeliveryAddress().getFullAddress());
 
@@ -213,5 +217,11 @@ public class AssignedOrderDetailFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    private void startMap(double latitude, double longitude, String nameLocation){
+        Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
+        startActivity(mapIntent);
     }
 }

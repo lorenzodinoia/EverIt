@@ -16,9 +16,13 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Locale;
+
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
+import it.uniba.di.sms1920.everit.utils.models.Rider;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -26,6 +30,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 public class ProposalDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_ITEM = "item";
+    private static final String ARG_PROPOSAL = "proposal";
 
     private Proposal proposal;
     private MaterialButton buttonAccept;
@@ -41,26 +46,27 @@ public class ProposalDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            if (arguments.containsKey(ARG_ITEM)) {
-                this.proposal = arguments.getParcelable(ARG_ITEM);
-            }
-            else if (arguments.containsKey(ARG_ITEM_ID)) {
-                long id = getArguments().getLong(ARG_ITEM_ID);
-                ProposalRequest proposalRequest = new ProposalRequest();
-                proposalRequest.read(id, new RequestListener<Proposal>() {
-                    @Override
-                    public void successResponse(Proposal response) {
-                        proposal = response;
-                        initComponents();
-                    }
+        if(savedInstanceState == null) {
+            Bundle arguments = getArguments();
+            if (arguments != null) {
+                if (arguments.containsKey(ARG_ITEM)) {
+                    this.proposal = arguments.getParcelable(ARG_ITEM);
+                } else if (arguments.containsKey(ARG_ITEM_ID)) {
+                    long id = getArguments().getLong(ARG_ITEM_ID);
+                    ProposalRequest proposalRequest = new ProposalRequest();
+                    proposalRequest.read(id, new RequestListener<Proposal>() {
+                        @Override
+                        public void successResponse(Proposal response) {
+                            proposal = response;
+                            initComponents();
+                        }
 
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
-                    }
-                });
+                        @Override
+                        public void errorResponse(RequestException error) {
+                            Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
+                        }
+                    });
+                }
             }
         }
     }
@@ -144,7 +150,9 @@ public class ProposalDetailFragment extends Fragment {
         this.textViewOrderNumber.setText("#"+proposal.getOrder().getId());
 
         this.linearLayoutRestaurateurAddress.setOnClickListener(v -> {
-            //TODO implementare apertura mappa
+            startMap(proposal.getRestaurateur().getAddress().getLatitude(),
+                    proposal.getRestaurateur().getAddress().getLongitude(),
+                    proposal.getRestaurateur().getShopName());
         });
         this.textViewRestaurateurAddress.setText(proposal.getRestaurateurAddress());
 
@@ -156,7 +164,9 @@ public class ProposalDetailFragment extends Fragment {
         this.textViewRestaurateurPhone.setText(proposal.getRestaurateur().getPhoneNumber());
 
         this.linearLayoutAddressDeliver.setOnClickListener(v -> {
-            //TODO implementare apertura mappa
+            startMap(proposal.getOrder().getDeliveryAddress().getLatitude(),
+                    proposal.getOrder().getDeliveryAddress().getLongitude(),
+                    "");
         });
         this.textViewDeliverAddress.setText(proposal.getDeliveryAddress());
 
@@ -171,16 +181,6 @@ public class ProposalDetailFragment extends Fragment {
             @Override
             public void successResponse(Boolean response) {
                 if (response) {
-                    /*String explanationString = "";
-                    //String explanationString = getResources().getQuantityString(R.plurals.proposal_accepted_explanation, proposal.getRemainingTime(), proposal.getRemainingTime());
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-                    dialogBuilder.setTitle(R.string.proposal_accepted)
-                            .setMessage(explanationString)
-                            .setPositiveButton(R.string.ok_default, (dialog, which) -> {
-                                dialog.dismiss();
-                                getActivity().finish();
-                            })
-                            .show();*/
                     //TODO aggiungere messaggio di feedback
                 }
             }
@@ -209,6 +209,12 @@ public class ProposalDetailFragment extends Fragment {
         });
     }
 
+    private void startMap(double latitude, double longitude, String nameLocation){
+        Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
+        startActivity(mapIntent);
+    }
+
     private void promptErrorMessage(String message){
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
@@ -227,5 +233,4 @@ public class ProposalDetailFragment extends Fragment {
 
         dialog.show();
     }
-
 }
