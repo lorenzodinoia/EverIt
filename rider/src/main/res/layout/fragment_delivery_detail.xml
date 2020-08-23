@@ -7,169 +7,227 @@
     android:animateLayoutChanges="true"
     tools:context=".activities.works.delivery.DeliveryDetailActivity">
 
+    <TextView
+        android:id="@+id/textViewOrderNumberDeliver"
+        style="@style/TextViewSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustomerName" />
+
     <LinearLayout
-        android:id="@+id/layoutCustomerInfo"
+        android:id="@+id/linearLayoutCustomerName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/imageViewCustomerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_baseline_time_40" />
+
         <TextView
             android:id="@+id/textViewCustomer"
             style="@style/TextViewLarge"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nome del cliente" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCustomerAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOrderNumberDeliver">
+
+        <ImageView
+            android:id="@+id/imageViewCustomerAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_baseline_time_40" />
 
         <TextView
             android:id="@+id/textViewCustomerAddress"
             style="@style/TextViewMedium"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCustomerPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustomerAddress">
+
+        <ImageView
+            android:id="@+id/imageViewCustomerPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_baseline_time_40" />
 
         <TextView
             android:id="@+id/textViewCustomerPhone"
             style="@style/TextViewMedium"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Telefono del cliente" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layoutInfoContainer"
-        android:layout_width="0dp"
+        android:id="@+id/layoutRestaurateurName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:orientation="vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutCustomerInfo">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustomerPhone">
 
-        <LinearLayout
-            android:id="@+id/layoutRestaurateurName"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imageViewRestaurateurName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_outline_restaurant_40" />
 
-            <ImageView
-                android:id="@+id/imageViewRestaurateurName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tint="@color/colorAccent"
-                app:srcCompat="@drawable/ic_outline_restaurant_40" />
-
-            <TextView
-                android:id="@+id/textViewRestaurateurName"
-                style="@style/TextViewMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:layout_marginTop="5dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutOrderNumber"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textViewRestaurateurName"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
-
-            <ImageView
-                android:id="@+id/imageViewOrderNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tint="@color/colorAccent"
-                app:srcCompat="@drawable/ic_baseline_ticket_40" />
-
-            <TextView
-                android:id="@+id/textViewOrderNumber"
-                style="@style/TextViewMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:layout_marginTop="5dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutEstimatedDeliveryTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
-
-            <ImageView
-                android:id="@+id/imageViewEstimatedDeliveryTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tint="@color/colorAccent"
-                app:srcCompat="@drawable/ic_baseline_time_40" />
-
-            <TextView
-                android:id="@+id/textViewEstimatedDeliveryTime"
-                style="@style/TextViewMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:layout_marginTop="5dp" />
-
-        </LinearLayout>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
 
     </LinearLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardDeliveryNotes"
+    <LinearLayout
+        android:id="@+id/layoutEstimatedDeliveryTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutInfoContainer"
-        android:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@+id/layoutRestaurateurName">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imageViewEstimatedDeliveryTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_baseline_time_40" />
+
+        <TextView
+            android:id="@+id/textViewEstimatedDeliveryTime"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewDeliveryNotes"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutEstimatedDeliveryTime">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/labelDeliveryNotes"
-                style="@style/TextViewLarge"
+                android:id="@+id/textViewOrderNotesLabel"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/label_delivery_notes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_delivery_notes" />
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewOrderNotesLabel"
+                app:layout_constraintVertical_bias="0.0">
 
-            <TextView
-                android:id="@+id/textViewDeliveryNotes"
-                style="@style/TextViewSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/textViewDeliveryNotes"
+                    style="@style/TextViewSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    app:layout_constraintVertical_bias="0.0" />
+            </ScrollView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonOrderDelivery"
+        style="@style/ButtonMain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/deliver_button"
-        style="@style/ButtonMain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

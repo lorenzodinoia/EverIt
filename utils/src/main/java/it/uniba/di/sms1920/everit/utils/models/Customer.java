@@ -38,4 +38,8 @@ public class Customer extends User {
             return new Customer(this);
         }
     }
+
+    public String getFullName(){
+        return this.getName() + " " + this.getSurname();
+    }
 }

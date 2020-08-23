@@ -11,19 +11,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.chip.Chip;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.rider.activities.works.proposal.ProposalsFragment;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.DataBinder;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
+import it.uniba.di.sms1920.everit.utils.models.Proposal;
 import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class DeliveriesFragment extends Fragment implements DataBinder {
     private RecyclerView deliveriesRecyclerView;
@@ -43,14 +51,14 @@ public class DeliveriesFragment extends Fragment implements DataBinder {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_deliveries, container, false);
+        View view = inflater.inflate(R.layout.fragment_proposals, container, false);
         this.initComponents(view);
         this.refreshData();
         return view;
     }
 
     private void initComponents(View view) {
-        this.deliveriesRecyclerView = view.findViewById(R.id.deliveries_list);
+        this.deliveriesRecyclerView = view.findViewById(R.id.proposal_list);
         this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
     }
 
@@ -122,17 +130,40 @@ public class DeliveriesFragment extends Fragment implements DataBinder {
         @NonNull
         @Override
         public DeliveryRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.deliveries_list_content, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.proposal_list_content, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull DeliveryRecyclerViewAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull DeliveriesFragment.DeliveryRecyclerViewAdapter.ViewHolder holder, int position) {
             Order item = this.deliveryList.get(position);
             if (item != null) {
+
+                holder.textViewOrderNumber.setText("#"+item.getId());
+
+                if(item.getRestaurateur().getImagePath() != null){
+                    String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
+                    Picasso.get()
+                            .load(imageUrl)
+                            .error(R.mipmap.icon)
+                            .placeholder(R.mipmap.icon)
+                            .transform(new CropCircleTransformation())
+                            .fit()
+                            .into(holder.imageView);
+
+                }
+
                 holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
-                holder.textViewCustomerAddress.setText(item.getDeliveryAddress().getFullAddress());
-                //TODO Aggiungere cliente
+
+                holder.textViewLabelPickupAddress.setVisibility(View.GONE);
+                holder.textViewPickupAddress.setVisibility(View.GONE);
+
+                holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
+
+                if(item.isLate()){
+                    holder.chipOrderLate.setVisibility(View.VISIBLE);
+                }
+
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(this.onClickListener);
             }
@@ -144,15 +175,23 @@ public class DeliveriesFragment extends Fragment implements DataBinder {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView textViewOrderNumber;
+            final ImageView imageView;
+            final Chip chipOrderLate;
             final TextView textViewRestaurateur;
-            final TextView textViewCustomerAddress;
-            final TextView textViewCustomer;
+            final TextView textViewPickupAddress;
+            final TextView textViewLabelPickupAddress;
+            final TextView textViewDeliveryAddress;
 
             public ViewHolder(@NonNull View view) {
                 super(view);
+                textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
+                imageView = view.findViewById(R.id.imageViewRestaurantLogo);
+                chipOrderLate = view.findViewById(R.id.chipOrderLate);
                 textViewRestaurateur = view.findViewById(R.id.textViewRestaurateur);
-                textViewCustomerAddress = view.findViewById(R.id.textViewCustomerAddress);
-                textViewCustomer = view.findViewById(R.id.textViewCustomer);
+                textViewDeliveryAddress = view.findViewById(R.id.textViewAddressToDeliver);
+                textViewPickupAddress = view.findViewById(R.id.textViewAddressToPickup);
+                textViewLabelPickupAddress = view.findViewById(R.id.labelAddressToPickup);
             }
         }
     }

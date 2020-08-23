@@ -1,17 +1,22 @@
 package it.uniba.di.sms1920.everit.rider.activities.works.delivery;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
+import org.threeten.bp.LocalTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.Locale;
@@ -30,13 +35,14 @@ public class DeliveryDetailFragment extends Fragment {
 
     private Order delivery;
     private TextView textViewCustomer;
+    private TextView textViewOrderNumber;
     private TextView textViewCustomerAddress;
     private TextView textViewCustomerPhone;
     private TextView textViewRestaurateurName;
-    private TextView textViewOrderNumber;
     private TextView textViewEstimatedDeliveryTime;
     private TextView textViewDeliveryNotes;
-    private MaterialCardView cardDeliveryNotes;
+    private LinearLayout linearLayoutCustomerAddress, linearLayoutCustomerPhone;
+    private CardView cardViewDeliveryNotes;
     private MaterialButton buttonOrderDelivery;
 
     public DeliveryDetailFragment() {
@@ -63,6 +69,7 @@ public class DeliveryDetailFragment extends Fragment {
 
                     @Override
                     public void errorResponse(RequestException error) {
+                        //TODO togliere
                         Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
                     }
                 });
@@ -75,13 +82,20 @@ public class DeliveryDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_delivery_detail, container, false);
 
         this.textViewCustomer = view.findViewById(R.id.textViewCustomer);
+        this.textViewOrderNumber = view.findViewById(R.id.textViewOrderNumberDeliver);
+
+        this.linearLayoutCustomerAddress = view.findViewById(R.id.linearLayoutCustomerAddress);
         this.textViewCustomerAddress = view.findViewById(R.id.textViewCustomerAddress);
+
+        this.linearLayoutCustomerPhone = view.findViewById(R.id.linearLayoutCustomerPhone);
         this.textViewCustomerPhone = view.findViewById(R.id.textViewCustomerPhone);
+
         this.textViewRestaurateurName = view.findViewById(R.id.textViewRestaurateurName);
-        this.textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
         this.textViewEstimatedDeliveryTime = view.findViewById(R.id.textViewEstimatedDeliveryTime);
-        this.cardDeliveryNotes = view.findViewById(R.id.cardDeliveryNotes);
+
+        this.cardViewDeliveryNotes = view.findViewById(R.id.cardViewDeliveryNotes);
         this.textViewDeliveryNotes = view.findViewById(R.id.textViewDeliveryNotes);
+
         this.buttonOrderDelivery = view.findViewById(R.id.buttonOrderDelivery);
         this.buttonOrderDelivery.setOnClickListener(v -> {
             //TODO Click sul pulsante per la consegna
@@ -95,15 +109,31 @@ public class DeliveryDetailFragment extends Fragment {
     }
 
     private void initComponents() {
-        //TODO Aggiungere cliente all'ordine
+        this.textViewCustomer.setText(delivery.getCustomer().getFullName());
+        this.textViewOrderNumber.setText(String.format(Locale.getDefault(), "#%d", this.delivery.getId()));
+
+        this.linearLayoutCustomerAddress.setOnClickListener(v -> {
+            //TODO aprire mappa
+        });
         this.textViewCustomerAddress.setText(this.delivery.getDeliveryAddress().getFullAddress());
+
+        this.linearLayoutCustomerPhone.setOnClickListener(v -> {
+            //manca numero di telefono customer
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + delivery.getCustomer().getPhoneNumber()));
+            startActivity(intent);
+        });
+        this.textViewCustomerPhone.setText(delivery.getCustomer().getPhoneNumber());
+
         this.textViewRestaurateurName.setText(this.delivery.getRestaurateur().getShopName());
-        this.textViewOrderNumber.setText(String.format(Locale.getDefault(), "%s %d", getContext().getString(R.string.label_order_number), this.delivery.getId()));
+
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
         this.textViewEstimatedDeliveryTime.setText(timeFormatter.format(this.delivery.getEstimatedDeliveryTime()));
+
+
         String deliveryNotes = this.delivery.getDeliveryNotes();
         if (deliveryNotes != null && deliveryNotes.length() > 0) {
-            this.cardDeliveryNotes.setVisibility(View.VISIBLE);
+            this.cardViewDeliveryNotes.setVisibility(View.VISIBLE);
             this.textViewDeliveryNotes.setText(deliveryNotes);
         }
     }

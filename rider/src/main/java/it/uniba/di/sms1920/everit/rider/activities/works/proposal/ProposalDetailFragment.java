@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.util.Locale;
-
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
@@ -32,7 +30,7 @@ public class ProposalDetailFragment extends Fragment {
     private Proposal proposal;
     private MaterialButton buttonAccept;
     private MaterialButton buttonRefuse;
-    private LinearLayout linearLayoutRestaurateurAddress,  linearLayoutRestaurateurPhoneNumber, linearLayoutAddressDeliver, linearLayoutPickupTimeProposal;
+    private LinearLayout linearLayoutRestaurateurAddress,  linearLayoutRestaurateurPhoneNumber, linearLayoutAddressDeliver;
     private TextView textViewOrderNumber, textViewPickupTime, textViewRestaurateurName, textViewRestaurateurPhone, textViewRestaurateurAddress, textViewDeliverAddress;
 
     public ProposalDetailFragment() {
@@ -83,7 +81,6 @@ public class ProposalDetailFragment extends Fragment {
         this.linearLayoutAddressDeliver = view.findViewById(R.id.linearLayoutAddressDeliver);
         this.textViewDeliverAddress = view.findViewById(R.id.textViewDeliverAddress);
 
-        this.linearLayoutPickupTimeProposal = view.findViewById(R.id.linearLayoutPickupTimeProposal);
         this.textViewPickupTime = view.findViewById(R.id.textViewPickupTimeProposal);
 
         this.buttonAccept = view.findViewById(R.id.buttonAccept);
@@ -139,15 +136,9 @@ public class ProposalDetailFragment extends Fragment {
     }
 
     private void initComponents() {
-        int remainingTime = this.proposal.getRemainingTime();
         String remainingTimeString;
 
-        if (remainingTime >= 0) {
-            remainingTimeString = getString(R.string.pickup_at)+": "+this.proposal.getPickupTimeAsString();
-        }
-        else {
-            remainingTimeString = String.format(Locale.getDefault(), "%s: %s (%s)", getString(R.string.pickup_at), this.proposal.getPickupTimeAsString(), getString(R.string.pickup_late));
-        }
+        remainingTimeString = getString(R.string.pickup_at)+": "+this.proposal.getPickupTimeAsString();
 
         this.textViewRestaurateurName.setText(proposal.getRestaurateur().getShopName());
         this.textViewOrderNumber.setText("#"+proposal.getOrder().getId());

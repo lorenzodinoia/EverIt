@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.rider.activities.works.assignedOrder;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,19 +12,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.chip.Chip;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.DataBinder;
-import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class AssignedOrdersFragment extends Fragment implements DataBinder {
     private RecyclerView assignedOrdersRecyclerView;
@@ -42,19 +49,19 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_assigned_orders, container, false);
+        View view = inflater.inflate(R.layout.fragment_proposals, container, false);
         this.initComponents(view);
         this.refreshData();
         return view;
     }
 
     private void initComponents(View view) {
-        this.assignedOrdersRecyclerView = view.findViewById(R.id.assigned_order_list);
+        this.assignedOrdersRecyclerView = view.findViewById(R.id.proposal_list);
         this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
     }
 
     private void setupRecyclerView() {
-        this.assignedOrdersRecyclerViewAdapter = new AssignedOrderRecyclerViewAdapter(this, this.assignedOrderList, false);
+        this.assignedOrdersRecyclerViewAdapter = new AssignedOrderRecyclerViewAdapter(this, assignedOrderList, false);
         this.assignedOrdersRecyclerView.setAdapter(this.assignedOrdersRecyclerViewAdapter);
     }
 
@@ -82,7 +89,7 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
             @Override
             public void errorResponse(RequestException error) {
                 textViewEmpty.setVisibility(View.VISIBLE);
-                Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -100,7 +107,7 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
                     arguments.putLong(AssignedOrderDetailFragment.ARG_ITEM_ID, item.getId());
                     AssignedOrderDetailFragment fragment = new AssignedOrderDetailFragment();
                     fragment.setArguments(arguments);
-                    parentFragment.getChildFragmentManager().beginTransaction().replace(R.id.assigned_order_detail_container, fragment).commit();
+                    parentFragment.getChildFragmentManager().beginTransaction().replace(R.id.proposal_detail_container, fragment).commit();
                 }
                 else {
                     Context context = view.getContext();
@@ -121,16 +128,35 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
         @NonNull
         @Override
         public AssignedOrderRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.assigned_orders_list_content, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.proposal_list_content, parent, false);
             return new AssignedOrderRecyclerViewAdapter.ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AssignedOrdersFragment.AssignedOrderRecyclerViewAdapter.ViewHolder holder, int position) {
             Order item = this.assignedOrderList.get(position);
             if (item != null) {
+                holder.textViewOrderNumber.setText("#"+item.getId());
+
+                if(item.getRestaurateur().getImagePath() != null){
+                    String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
+                    Picasso.get()
+                            .load(imageUrl)
+                            .error(R.mipmap.icon)
+                            .placeholder(R.mipmap.icon)
+                            .transform(new CropCircleTransformation())
+                            .fit()
+                            .into(holder.imageView);
+
+                }
+
+                if(item.isLate()){
+                    holder.chipOrderLate.setVisibility(View.VISIBLE);
+                }
+
                 holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
-                holder.textViewAddress.setText(item.getDeliveryAddress().getFullAddress());
+                holder.textViewPickupAddress.setText(item.getRestaurateur().getAddress().getFullAddress());
+                holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(this.onClickListener);
             }
@@ -142,14 +168,41 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView textViewOrderNumber;
+            final ImageView imageView;
+            final Chip chipOrderLate;
             final TextView textViewRestaurateur;
-            final TextView textViewAddress;
+            final TextView textViewPickupAddress;
+            final TextView textViewDeliveryAddress;
 
             public ViewHolder(@NonNull View view) {
                 super(view);
+                textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
+                imageView = view.findViewById(R.id.imageViewRestaurantLogo);
+                chipOrderLate = view.findViewById(R.id.chipOrderLate);
                 textViewRestaurateur = view.findViewById(R.id.textViewRestaurateur);
-                textViewAddress = view.findViewById(R.id.textViewAddress);
+                textViewDeliveryAddress = view.findViewById(R.id.textViewAddressToDeliver);
+                textViewPickupAddress = view.findViewById(R.id.textViewAddressToPickup);
             }
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            getActivity().finish();
+        });
+
+        dialog.show();
     }
 }

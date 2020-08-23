@@ -2,9 +2,11 @@ package it.uniba.di.sms1920.everit.rider.activities.works.assignedOrder;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,7 +16,9 @@ import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -38,14 +42,10 @@ public class AssignedOrderDetailFragment extends Fragment {
     public static final String ARG_ITEM = "item";
 
     private Order assignedOrder;
-    private TextView textViewPickupTime;
-    private TextView textViewRestaurateurName;
-    private TextView textViewRestaurateurPhone;
-    private TextView textViewRestaurateurAddress;
-    private TextView textViewOrderNumber;
-    private TextView textViewCustomerAddress;
-    private ImageView imageViewRestaurateurLogo;
-    private MaterialButton buttonPickupOrder;
+    private MaterialButton buttonPickup;
+    private MaterialButton buttonRefuse;
+    private LinearLayout linearLayoutRestaurateurAddress,  linearLayoutRestaurateurPhoneNumber, linearLayoutAddressDeliver, linearLayoutOrderLate;
+    private TextView textViewOrderNumber, textViewPickupTime, textViewRestaurateurName, textViewRestaurateurPhone, textViewRestaurateurAddress, textViewDeliverAddress;
 
     private IBackgroundLocationService backgroundLocationService;
     private ServiceConnection backgroundLocationServiceConnection = new ServiceConnection() {
@@ -79,12 +79,11 @@ public class AssignedOrderDetailFragment extends Fragment {
                     @Override
                     public void successResponse(Order response) {
                         assignedOrder = response;
-                        initComponents();
                     }
 
                     @Override
                     public void errorResponse(RequestException error) {
-                        Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
+                        promptErrorMessage(error.getMessage());
                     }
                 });
             }
@@ -103,17 +102,26 @@ public class AssignedOrderDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_assigned_order_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_proposal_detail, container, false);
 
         this.textViewRestaurateurName = view.findViewById(R.id.textViewRestaurateurName);
-        this.textViewRestaurateurPhone = view.findViewById(R.id.textViewRestaurateurPhone);
-        this.textViewRestaurateurAddress = view.findViewById(R.id.textViewRestaurateurAddress);
-        this.textViewPickupTime = view.findViewById(R.id.textViewPickupTime);
         this.textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
-        this.textViewCustomerAddress = view.findViewById(R.id.textViewCustomerAddress);
-        this.imageViewRestaurateurLogo = view.findViewById(R.id.imageViewRestaurateurLogo);
-        this.buttonPickupOrder = view.findViewById(R.id.buttonPickupOrder);
-        this.buttonPickupOrder.setOnClickListener(v -> {
+
+        this.linearLayoutRestaurateurAddress = view.findViewById(R.id.linearLayoutRestaurateurAddress);
+        this.textViewRestaurateurAddress = view.findViewById(R.id.textViewRestaurateurAddress);
+
+        this.linearLayoutRestaurateurPhoneNumber = view.findViewById(R.id.linearLayoutRestaurateurPhoneNumber);
+        this.textViewRestaurateurPhone = view.findViewById(R.id.textViewRestaurateurPhoneNumber);
+
+        this.linearLayoutAddressDeliver = view.findViewById(R.id.linearLayoutAddressDeliver);
+        this.textViewDeliverAddress = view.findViewById(R.id.textViewDeliverAddress);
+
+        this.textViewPickupTime = view.findViewById(R.id.textViewPickupTimeProposal);
+
+        this.linearLayoutOrderLate = view.findViewById(R.id.linearLayoutOrderLate);
+
+        this.buttonPickup = view.findViewById(R.id.buttonAccept);
+        this.buttonPickup.setOnClickListener(v -> {
             if (backgroundLocationService != null) {
                 try {
                     double latitude = backgroundLocationService.getLastLatitude();
@@ -135,7 +143,7 @@ public class AssignedOrderDetailFragment extends Fragment {
 
                             @Override
                             public void errorResponse(RequestException error) {
-                                Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
+                                promptErrorMessage(error.getMessage());
                             }
                         });
                     }
@@ -146,38 +154,64 @@ public class AssignedOrderDetailFragment extends Fragment {
             }
         });
 
-        if (this.assignedOrder != null) {
-            this.initComponents();
-        }
+        this.buttonRefuse = view.findViewById(R.id.buttonRefuse);
+        this.buttonRefuse.setVisibility(View.GONE);
+
+        initComponents();
 
         return view;
     }
 
     private void initComponents() {
-        int remainingTime = this.assignedOrder.getRemainingTime();
         String remainingTimeString;
 
-        if (remainingTime >= 0) {
-            remainingTimeString = getResources().getQuantityString(R.plurals.pickup_minutes, remainingTime, remainingTime);
-        }
-        else {
-            remainingTimeString = String.format(Locale.getDefault(), "%s (%s)", this.assignedOrder.getPickupTimeAsString(), getString(R.string.pickup_late));
+        if(assignedOrder.isLate()){
+            linearLayoutOrderLate.setVisibility(View.VISIBLE);
+            remainingTimeString = String.format("%s: %s (%s)", getString(R.string.pickup_at), this.assignedOrder.getPickupTimeAsString(), getString(R.string.pickup_late));
+        }else{
+            remainingTimeString = getString(R.string.pickup_at)+": "+this.assignedOrder.getPickupTimeAsString();
         }
 
-        this.textViewRestaurateurName.setText(this.assignedOrder.getRestaurateur().getShopName());
-        this.textViewRestaurateurPhone.setText(this.assignedOrder.getRestaurateur().getPhoneNumber());
-        this.textViewRestaurateurAddress.setText(this.assignedOrder.getRestaurateur().getAddress().getFullAddress());
+
+        this.textViewRestaurateurName.setText(assignedOrder.getRestaurateur().getShopName());
+        this.textViewOrderNumber.setText("#"+assignedOrder.getId());
+
+        this.linearLayoutRestaurateurAddress.setOnClickListener(v -> {
+            //TODO implementare apertura mappa
+        });
+        this.textViewRestaurateurAddress.setText(assignedOrder.getRestaurateur().getAddress().getFullAddress());
+
+        this.linearLayoutRestaurateurPhoneNumber.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + assignedOrder.getRestaurateur().getPhoneNumber()));
+            startActivity(intent);
+        });
+        this.textViewRestaurateurPhone.setText(assignedOrder.getRestaurateur().getPhoneNumber());
+
+        this.linearLayoutAddressDeliver.setOnClickListener(v -> {
+            //TODO implementare apertura mappa
+        });
+        this.textViewDeliverAddress.setText(assignedOrder.getDeliveryAddress().getFullAddress());
+
+
         this.textViewPickupTime.setText(remainingTimeString);
-        this.textViewOrderNumber.setText(String.format(Locale.getDefault(), "%s %d", getContext().getString(R.string.label_order_number), this.assignedOrder.getId()));
-        this.textViewCustomerAddress.setText(this.assignedOrder.getDeliveryAddress().getFullAddress());
+    }
 
-        String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, this.assignedOrder.getRestaurateur().getImagePath());
-        Picasso.get()
-                .load(imageUrl)
-                .error(R.mipmap.icon)
-                .placeholder(R.mipmap.icon)
-                .transform(new CropCircleTransformation())
-                .fit()
-                .into(this.imageViewRestaurateurLogo);
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }

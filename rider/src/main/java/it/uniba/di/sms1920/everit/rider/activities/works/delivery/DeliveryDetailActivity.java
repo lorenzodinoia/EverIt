@@ -5,8 +5,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.models.Order;
@@ -20,7 +23,7 @@ public class DeliveryDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delivery_detail);
+        setContentView(R.layout.activity_proposal_detail);
 
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
@@ -43,7 +46,7 @@ public class DeliveryDetailActivity extends AppCompatActivity {
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    //TODO Gestione errore
+                    promptErrorMessage(error.getMessage());
                 }
             });
         }
@@ -54,7 +57,7 @@ public class DeliveryDetailActivity extends AppCompatActivity {
         arguments.putParcelable(DeliveryDetailFragment.ARG_ITEM, assignedOrder);
         DeliveryDetailFragment fragment = new DeliveryDetailFragment();
         fragment.setArguments(arguments);
-        getSupportFragmentManager().beginTransaction().add(R.id.delivery_detail_container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.proposal_detail_container, fragment).commit();
     }
 
     @Override
@@ -64,5 +67,24 @@ public class DeliveryDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            finish();
+        });
+
+        dialog.show();
     }
 }

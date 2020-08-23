@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.rider.activities.works.assignedOrder.AssignedOrdersFragment;
 import it.uniba.di.sms1920.everit.rider.activities.works.delivery.DeliveriesFragment;
-import it.uniba.di.sms1920.everit.rider.activities.works.delivery.DeliveriesPagerAdapter;
 import it.uniba.di.sms1920.everit.rider.activities.works.proposal.ProposalsFragment;
 import it.uniba.di.sms1920.everit.utils.DataBinder;
 

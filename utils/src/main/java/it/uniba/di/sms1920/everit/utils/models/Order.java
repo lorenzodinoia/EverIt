@@ -32,6 +32,7 @@ public class Order extends Model {
     private Map<Product, Integer> products;
     private LocalTime pickupTime;
     private Restaurateur restaurateur;
+    private Customer customer;
     private LocalDateTime createdAt;
     private OrderType orderType;
 
@@ -61,6 +62,7 @@ public class Order extends Model {
         this.validationCode = in.readString();
         this.status = Status.valueOf(in.readString());
         this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
+        this.customer = in.readParcelable(Customer.class.getClassLoader());
         this.createdAt = (LocalDateTime) in.readSerializable();
         this.orderType = OrderType.valueOf(in.readString());
     }
@@ -158,6 +160,14 @@ public class Order extends Model {
         this.restaurateur = restaurateur;
     }
 
+    public Customer getCustomer(){
+        return customer;
+    }
+
+    public void setCustomer(Customer customer){
+        this.customer = customer;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -215,6 +225,7 @@ public class Order extends Model {
         dest.writeString(this.validationCode);
         dest.writeString(this.status.name());
         dest.writeParcelable(this.restaurateur, flags);
+        dest.writeParcelable(this.customer, flags);
         dest.writeSerializable(this.createdAt);
         dest.writeString(this.orderType.name());
     }

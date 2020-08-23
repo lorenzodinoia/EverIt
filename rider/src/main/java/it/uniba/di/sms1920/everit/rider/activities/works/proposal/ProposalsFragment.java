@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -137,6 +135,7 @@ public class ProposalsFragment extends Fragment implements DataBinder {
             Proposal item = this.proposalList.get(position);
             if (item != null) {
                 holder.textViewOrderNumber.setText("#"+item.getId());
+
                 if(item.getRestaurateur().getImagePath() != null){
                     String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
                     Picasso.get()
@@ -148,6 +147,7 @@ public class ProposalsFragment extends Fragment implements DataBinder {
                             .into(holder.imageView);
 
                 }
+
                 holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
                 holder.textViewPickupAddress.setText(item.getRestaurateurAddress());
                 holder.textViewDeliveryAddress.setText(item.getDeliveryAddress());

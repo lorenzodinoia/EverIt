@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.rider.activities.works.delivery;
+package it.uniba.di.sms1920.everit.rider.activities.works;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

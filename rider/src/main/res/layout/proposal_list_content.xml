@@ -28,18 +28,33 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.2" />
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipOrderLate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="@string/late"
+            android:visibility="gone"
+            app:chipBackgroundColor="@color/colorWarning"
+            app:chipEndPadding="4dp"
+            app:chipIcon="@drawable/ic_exclamation_12px"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewRestaurantLogo"
+            app:textEndPadding="2dp"
+            app:textStartPadding="2dp" />
+
         <TextView
             android:id="@+id/textViewOrderNumber"
             style="@style/TextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewRestaurantLogo"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogo"
+            app:layout_constraintTop_toBottomOf="@+id/textViewRestaurateur" />
 
 
         <TextView
@@ -64,7 +79,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/pickup_address"
             app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogo"
-            app:layout_constraintTop_toBottomOf="@+id/textViewRestaurateur" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrderNumber" />
 
         <TextView
             android:id="@+id/textViewAddressToPickup"
@@ -103,7 +118,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogo"
-            app:layout_constraintTop_toBottomOf="@+id/labelAddressToDeliver" />
+            app:layout_constraintTop_toBottomOf="@+id/labelAddressToDeliver"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

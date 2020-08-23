@@ -31,6 +31,8 @@
     <string name="proposal_refuse_explanation">Are you sure you want to refuse the delivery proposal? The operation is irreversible</string>
     <string name="proposal_accepted">Proposal accepted</string>
 
+    <string name="order_late">The order is late</string>
+
     <!--<plurals name="proposal_accepted_explanation">
         <item quantity="one">The delivery proposal has been accepted. Pickup your order from the restaurant within %d minute</item>
         <item quantity="other">The delivery proposal has been accepted. Pickup your order from the restaurant within %d minutes</item>
@@ -55,6 +57,7 @@
     <string name="proposal_empty_placeholder">No proposal</string>
     <string name="assigned_order_empty_placeholder">No order to pickup</string>
     <string name="delivery_empty_placeholder">No delivery in progress</string>
+    <string name="late">Late</string>
 </resources>
 
 
