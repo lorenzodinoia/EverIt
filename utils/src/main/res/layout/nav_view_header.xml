@@ -26,14 +26,4 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageLogo" />
-
-    <TextView
-        android:id="@+id/TextViewDrawer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:textAlignment="center"
-        style="@style/TextViewLarge"
-        app:layout_constraintBottom_toBottomOf="@+id/imageLogo"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

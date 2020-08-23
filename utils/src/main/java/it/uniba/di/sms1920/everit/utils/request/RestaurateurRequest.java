@@ -125,19 +125,11 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         //Setting listener
         //TODO gestire onResponse e onErrorResponse
         MultipartRequest request = new MultipartRequest(String.format("%s/api/%s/%s", Constants.SERVER_HOST, URL, IMAGE), headers,
-                new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        Log.d("test", new String(response.data));
-                        requestListener.successResponse(response.toString());
-                    }
+                response -> {
+                    Log.d("test", new String(response.data));
+                    requestListener.successResponse(response.toString());
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("test", new String(error.networkResponse.data));
-                    }
-                });
+                error -> Log.d("test", new String(error.networkResponse.data)));
 
         //Creating image bitmap and convert it into bytes array
         Bitmap bmp = null;

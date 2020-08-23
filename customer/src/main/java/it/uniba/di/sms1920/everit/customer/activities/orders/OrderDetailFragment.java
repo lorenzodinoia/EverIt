@@ -48,7 +48,7 @@ public class OrderDetailFragment extends Fragment {
             TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
             TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
             TextView textViewOrderStatus = rootView.findViewById(R.id.textViewOrderStatus);
-
+            TextView textViewOrderLate = rootView.findViewById(R.id.textViewOrderLate);
             TextView textViewSubTotal = rootView.findViewById(R.id.textViewSubTotal);
             TextView textViewDeliveryCost = rootView.findViewById(R.id.textViewDeliveryCost);
             TextView textViewTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
@@ -68,6 +68,10 @@ public class OrderDetailFragment extends Fragment {
                 labelDeliveryAddress.setText(R.string.pickup_address);
                 textViewDeliveryAddress.setText(order.getRestaurateur().getAddress().getFullAddress());
                 labelDeliveryDate.setText(R.string.pickup_date);
+            }
+
+            if(order.isLate()){
+                textViewOrderLate.setVisibility(View.VISIBLE);
             }
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);

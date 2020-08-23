@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
@@ -62,7 +63,7 @@ public class OrderListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         toolbar.setTitle(getTitle());
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         if (findViewById(R.id.order_detail_container) != null) {
@@ -115,6 +116,7 @@ public class OrderListActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:{
                 super.onBackPressed();
+                break;
             }
 
             case R.id.goTo_cart:{
@@ -125,10 +127,11 @@ public class OrderListActivity extends AppCompatActivity {
                     Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(loginIntent);
                 }
+                break;
             }
-            default:
-                return super.onOptionsItemSelected(item);
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -228,6 +231,10 @@ public class OrderListActivity extends AppCompatActivity {
                         break;
                 }
 
+                if(item.isLate()){
+                    holder.chipOrderLate.setVisibility(View.VISIBLE);
+                }
+
                 holder.textViewOrderNumber.setText("#"+item.getId());
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
                 LocalDateTime estimatedDeliveryTime = item.getEstimatedDeliveryTime();
@@ -281,6 +288,7 @@ public class OrderListActivity extends AppCompatActivity {
         static class ViewHolder extends RecyclerView.ViewHolder {
             final Chip chipListCustomerOrders;
             final Chip chipStatusOrder;
+            final Chip chipOrderLate;
             final TextView textViewOrderNumber;
             final TextView textViewActivityName;
             final TextView textViewPrice;
@@ -292,6 +300,7 @@ public class OrderListActivity extends AppCompatActivity {
                 super(view);
                 chipListCustomerOrders = view.findViewById(R.id.chipListCustomerOrders);
                 chipStatusOrder = view.findViewById(R.id.chipStatusOrder);
+                chipOrderLate = view.findViewById(R.id.chipOrderLate);
                 textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
                 textViewActivityName = view.findViewById(R.id.textViewActivityName);
                 textViewPrice = view.findViewById(R.id.textViewPrice);

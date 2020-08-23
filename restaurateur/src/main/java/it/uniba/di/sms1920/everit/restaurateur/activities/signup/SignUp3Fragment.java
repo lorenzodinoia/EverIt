@@ -29,6 +29,8 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class SignUp3Fragment extends Fragment {
 
+    private final String ARG_RESTAURATEUR = "restaurateur_builder_signup3";
+
     private SignUpActivity signUpActivity;
     private  Restaurateur.Builder restaurateurBuilder;
 
@@ -49,10 +51,19 @@ public class SignUp3Fragment extends Fragment {
         // Required empty public constructor
     }
 
+    //TODO crasha dopo 2 rotazioni
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState == null){
+            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+        }
+        else{
+            restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
+        }
+
     }
 
     @Override
@@ -70,6 +81,7 @@ public class SignUp3Fragment extends Fragment {
         editTextPassword = viewRoot.findViewById(R.id.editTextPasswordSignUp);
         editTextConfirmPasswordContainer = viewRoot.findViewById(R.id.editTextConfirmPasswordContainerSignUp);
         editTextConfirmPassword = viewRoot.findViewById(R.id.editTextConfirmPasswordSignUp);
+
         btnBack = viewRoot.findViewById(R.id.buttonBack2);
         btnBack.setOnClickListener(view -> {
             signUpActivity.getSupportFragmentManager().popBackStack();
@@ -134,7 +146,6 @@ public class SignUp3Fragment extends Fragment {
         if(context instanceof  SignUpActivity){
             signUpActivity = (SignUpActivity) context;
             this.context = context;
-            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
     }
 
@@ -154,5 +165,12 @@ public class SignUp3Fragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(ARG_RESTAURATEUR, restaurateurBuilder);
     }
 }

@@ -1,13 +1,10 @@
 package it.uniba.di.sms1920.everit.utils.request;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 
 import org.json.JSONException;
 
 import java.util.Collection;
-import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
@@ -23,7 +20,6 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public final class ProductCategoryRequest extends CRUDRequest<ProductCategory> implements CRUD<ProductCategory> {
 
-    //TODO modificare url del readAll se si utilizza Read
     private final String RESTAURATEUR = "restaurateur";
     private final String PRODCUTCATEGORY = "/productCategory";
 

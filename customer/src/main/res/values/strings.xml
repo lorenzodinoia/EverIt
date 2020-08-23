@@ -31,6 +31,8 @@
     <string name="ready">Ready</string>
     <string name="delivered">Delivered</string>
 
+    <string name="late">Late</string>
+
     <string name="map_error">Unable to start map</string>
     <string name="search_autocomplete_error">Unable to suggests places</string>
     <string name="search_autocomplete_empty">No suggestions</string>

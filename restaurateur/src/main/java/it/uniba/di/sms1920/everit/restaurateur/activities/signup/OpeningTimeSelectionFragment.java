@@ -25,6 +25,7 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 public class OpeningTimeSelectionFragment extends Fragment {
 
+    private final String ARG_RESTAURATEUR = "restaurateur_builder_opening_time_sel";
     private SignUpActivity signUpActivity;
     private OpeningDateTimeFragment openingDateTimeFragment;
     private Restaurateur.Builder restaurateurBuilder;
@@ -39,14 +40,20 @@ public class OpeningTimeSelectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState == null){
+            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+        }
+        else {
+            restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
+        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_opening_time_selection, container, false);
-
-        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
 
         textViewErrorOpeningTimes = viewRoot.findViewById(R.id.textViewErrorOpeningTimes);
         btnBack = viewRoot.findViewById(R.id.buttonBackOpeningTime);
@@ -103,4 +110,10 @@ public class OpeningTimeSelectionFragment extends Fragment {
         transaction.replace(R.id.opening_time_container, openingDateTimeFragment).addToBackStack(null).commit(); 
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(ARG_RESTAURATEUR, restaurateurBuilder);
+    }
 }

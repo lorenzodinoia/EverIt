@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
-    tools:context=".activities.AssignedOrderDetailActivity">
+    tools:context=".activities.assignedOrder.AssignedOrderDetailActivity">
 
     <LinearLayout
         android:id="@+id/layoutRestaurateurInfo"

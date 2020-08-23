@@ -22,13 +22,13 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activities.DeliveryDetailActivity"
+            android:name=".activities.delivery.DeliveryDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activities.AssignedOrderDetailActivity"
+            android:name=".activities.assignedOrder.AssignedOrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.ProposalDetailActivity"
+            android:name=".activities.proposal.ProposalDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="everit.rider.proposal.detail"/>

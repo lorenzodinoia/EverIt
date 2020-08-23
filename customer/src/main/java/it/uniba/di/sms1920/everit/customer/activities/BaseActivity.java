@@ -54,7 +54,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView = navigationView.inflateHeaderView(it.uniba.di.sms1920.everit.utils.R.layout.nav_view_header);
-        TextView headerNameDisplay = headerView.findViewById(R.id.TextViewDrawer);
 
         if(Providers.getAuthProvider().getUser() != null){
             navigationView.inflateMenu(R.menu.drawer_view);
@@ -66,8 +65,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void successResponse(Customer response) {
                         navigationView.inflateMenu(R.menu.drawer_view);
-                        String userName = response.getName() + " " + response.getSurname();
-                        headerNameDisplay.setText(userName);
                     }
 
                     @Override
@@ -146,11 +143,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return false;
     }
-
-    private boolean isValidDestination(int dest){
-        return dest != Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

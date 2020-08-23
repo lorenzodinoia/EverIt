@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.utils.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -232,7 +233,7 @@ public class Restaurateur extends Model implements Authenticable{
         dest.writeTypedArray(this.openingDays.toArray(new OpeningDay[0]), flags);
     }
 
-    public static final class Builder {
+    public static final class Builder implements Parcelable {
         private long id;
         private String shopName;
         private Address address;
@@ -253,6 +254,60 @@ public class Restaurateur extends Model implements Authenticable{
         public Builder() {
 
         }
+
+        protected Builder(Parcel in) {
+            id = in.readLong();
+            shopName = in.readString();
+            address = in.readParcelable(Address.class.getClassLoader());
+            phoneNumber = in.readString();
+            email = in.readString();
+            password = in.readString();
+            vatNumber = in.readString();
+            maxDeliveryPerTimeSlot = in.readInt();
+            deliveryCost = in.readFloat();
+            minPrice = in.readFloat();
+            avg = in.readInt();
+            imagePath = in.readString();
+            shopType = in.readParcelable(ShopType.class.getClassLoader());
+            isOpen = in.readByte() != 0;
+            openingDays = in.createTypedArrayList(OpeningDay.CREATOR);
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeLong(id);
+            dest.writeString(shopName);
+            dest.writeParcelable(address, flags);
+            dest.writeString(phoneNumber);
+            dest.writeString(email);
+            dest.writeString(password);
+            dest.writeString(vatNumber);
+            dest.writeInt(maxDeliveryPerTimeSlot);
+            dest.writeFloat(deliveryCost);
+            dest.writeFloat(minPrice);
+            dest.writeInt(avg);
+            dest.writeString(imagePath);
+            dest.writeParcelable(shopType, flags);
+            dest.writeByte((byte) (isOpen ? 1 : 0));
+            dest.writeTypedList(openingDays);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<Builder> CREATOR = new Creator<Builder>() {
+            @Override
+            public Builder createFromParcel(Parcel in) {
+                return new Builder(in);
+            }
+
+            @Override
+            public Builder[] newArray(int size) {
+                return new Builder[size];
+            }
+        };
 
         public String getShopName() {
             return shopName;

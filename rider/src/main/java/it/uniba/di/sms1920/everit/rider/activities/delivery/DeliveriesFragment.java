@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.rider.activities;
+package it.uniba.di.sms1920.everit.rider.activities.delivery;
 
 import android.content.Context;
 import android.content.Intent;

@@ -13,8 +13,6 @@ import java.util.regex.Pattern;
 
 public final class Utility {
 
-    //TODO verificare controlli
-
     /** Account controls */
 
     public static boolean isEmailValid(String email) {
@@ -31,7 +29,7 @@ public final class Utility {
 
     public static boolean isNameValid(String name, TextInputLayout layout, Context context){
         if(name.length() >= 1){
-            if(name.length()  <= 50){
+            if(name.length() <= 50){
                 return  true;
             }else {
                 layout.setError(context.getString(R.string.error_valueName_long));
@@ -102,11 +100,17 @@ public final class Utility {
 
     public static boolean isAddressValid(Address address, TextInputLayout layout, Context context){
 
-        if(address.getFullAddress().length() >= 1){
-            return true;
-        }else {
+        if(address != null) {
+            if (address.getFullAddress().length() >= 1) {
+                return true;
+            } else {
+                layout.setError(context.getString(R.string.error_value_empty));
+                return false;
+            }
+        }
+        else{
             layout.setError(context.getString(R.string.error_value_empty));
-            return  false;
+            return false;
         }
     }
 

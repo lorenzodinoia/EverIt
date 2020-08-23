@@ -7,6 +7,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
@@ -27,7 +30,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        this.initComponents();
+
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
+        setSupportActionBar(toolbar);
+
+        if(savedInstanceState == null) {
+            this.initComponents();
+        }
     }
 
     private void initComponents() {

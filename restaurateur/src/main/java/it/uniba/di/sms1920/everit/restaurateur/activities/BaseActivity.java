@@ -52,32 +52,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         View headerNav = navigationView.inflateHeaderView(R.layout.nav_view_header);
 
-        /**
-        if(Providers.getAuthProvider().getUser() != null){
-            drawerLayout = findViewById(R.id.drawer_layout);
-            this.restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
-
-            Log.d("QUESTO", restaurateur.getShopName());
-        }else{
-            try {
-                Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Restaurateur>() {
-                    @Override
-                    public void successResponse(Restaurateur response) {
-                        restaurateur = response;
-                        Log.d("QUESTO", restaurateur.getShopName());
-                    }
-
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        //TODO gestire
-                    }
-                });
-            } catch (NoSuchCredentialException e) {
-                //TODO gestire
-            }
-        }
-        **/
-
         init();
     }
 

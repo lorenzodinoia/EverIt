@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.rider.activities;
+package it.uniba.di.sms1920.everit.rider.activities.proposal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -8,16 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.google.android.material.button.MaterialButton;
-import com.squareup.picasso.Picasso;
-
-import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
-import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
 import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;

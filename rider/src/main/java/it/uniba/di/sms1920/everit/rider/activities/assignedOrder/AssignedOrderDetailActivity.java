@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.rider.activities;
+package it.uniba.di.sms1920.everit.rider.activities.assignedOrder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -14,13 +14,13 @@ import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-public class DeliveryDetailActivity extends AppCompatActivity {
+public class AssignedOrderDetailActivity extends AppCompatActivity {
     public static final String ARG_ITEM_ID = "item_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delivery_detail);
+        setContentView(R.layout.activity_assigned_order_detail);
 
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
@@ -33,9 +33,9 @@ public class DeliveryDetailActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if ((extras != null) && (extras.containsKey(ARG_ITEM_ID))) {
-            long deliveryId = extras.getLong(ARG_ITEM_ID);
+            long assignedOrderId = extras.getLong(ARG_ITEM_ID);
             RiderRequest riderRequest = new RiderRequest();
-            riderRequest.readDelivery(deliveryId, new RequestListener<Order>() {
+            riderRequest.readAssignedOrder(assignedOrderId, new RequestListener<Order>() {
                 @Override
                 public void successResponse(Order response) {
                     loadFragment(response);
@@ -51,10 +51,10 @@ public class DeliveryDetailActivity extends AppCompatActivity {
 
     private void loadFragment(Order assignedOrder) {
         Bundle arguments = new Bundle();
-        arguments.putParcelable(DeliveryDetailFragment.ARG_ITEM, assignedOrder);
-        DeliveryDetailFragment fragment = new DeliveryDetailFragment();
+        arguments.putParcelable(AssignedOrderDetailFragment.ARG_ITEM, assignedOrder);
+        AssignedOrderDetailFragment fragment = new AssignedOrderDetailFragment();
         fragment.setArguments(arguments);
-        getSupportFragmentManager().beginTransaction().add(R.id.delivery_detail_container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.assigned_order_detail_container, fragment).commit();
     }
 
     @Override

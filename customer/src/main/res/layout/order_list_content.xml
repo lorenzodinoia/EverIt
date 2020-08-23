@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -26,7 +27,7 @@
                 style="@style/TextViewLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Nome Negozio"
                 app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
@@ -51,9 +52,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
                 android:clickable="false"
                 android:focusable="false"
+                app:chipEndPadding="4dp"
+                app:textEndPadding="2dp"
+                app:textStartPadding="2dp"
                 app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
                 app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
 
@@ -61,15 +64,32 @@
                 android:id="@+id/chipStatusOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="4dp"
                 android:clickable="false"
                 android:focusable="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:chipEndPadding="4dp"
+                app:textEndPadding="2dp"
+                app:textStartPadding="2dp"
                 app:layout_constraintStart_toEndOf="@+id/chipListCustomerOrders"
                 app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipOrderLate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:text="@string/late"
+                android:visibility="gone"
+                app:chipBackgroundColor="@color/colorWarning"
+                app:chipEndPadding="4dp"
+                app:textEndPadding="2dp"
+                app:textStartPadding="2dp"
+                app:chipIcon="@drawable/ic_exclamation_12px"
+                app:layout_constraintStart_toEndOf="@+id/chipStatusOrder"
+                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName"/>
+
 
             <TextView
                 android:id="@+id/textViewLabelPrice"

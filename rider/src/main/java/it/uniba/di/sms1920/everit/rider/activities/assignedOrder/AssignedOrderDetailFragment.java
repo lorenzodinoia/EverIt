@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.rider.activities;
+package it.uniba.di.sms1920.everit.rider.activities.assignedOrder;
 
 import android.app.Activity;
 import android.app.AlertDialog;

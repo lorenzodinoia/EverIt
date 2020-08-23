@@ -20,6 +20,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import it.uniba.di.sms1920.everit.customer.R;
@@ -32,6 +33,8 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     private Context context;
     private CartConnector cartConnector;
     private List<ProductCategory> expandableListDetail;
+
+    private Map<ProductCategory, Integer> localQuantityMap;
 
     public CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector, List<ProductCategory> expandableListDetail) {
         this.context = context;
@@ -58,15 +61,15 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         ProductCategory group = (ProductCategory) getGroup(listPosition);
-            String listTitle = group.getName();
+        String listTitle = group.getName();
 
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_group, null);
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = layoutInflater.inflate(R.layout.list_group, null);
 
-            TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
-            listTitleTextView.setFocusable(false);
+        TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
+        listTitleTextView.setFocusable(false);
 
-            listTitleTextView.setText(listTitle);
+        listTitleTextView.setText(listTitle);
 
         return convertView;
     }
@@ -90,11 +93,6 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
 
-        MaterialTextView editTextNumber = convertView.findViewById(R.id.editTextNumberContainer);
-
-        editTextNumber.setVisibility(View.VISIBLE);
-        editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
-
         TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(currentProduct.getName());
 
@@ -103,6 +101,11 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
         TextView productPrice = convertView.findViewById(R.id.textViewPrice);
         productPrice.setText(String.valueOf(currentProduct.getPrice()));
+
+        MaterialTextView editTextNumber = convertView.findViewById(R.id.editTextNumberContainer);
+        editTextNumber.setVisibility(View.VISIBLE);
+        editTextNumber.setText(String.valueOf(cartConnector.getPartialOrder().getProductQuantity(currentProduct)));
+
 
         MaterialButton btnAddItem = convertView.findViewById(R.id.btnModItem);
         btnAddItem.setOnClickListener(v -> addProduct(currentProduct, editTextNumber));

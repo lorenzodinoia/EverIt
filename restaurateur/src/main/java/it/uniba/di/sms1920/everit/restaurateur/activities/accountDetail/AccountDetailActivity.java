@@ -23,6 +23,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class AccountDetailActivity extends AppCompatActivity {
 
+    private final String ARG_RESTAURATEUR = "restaurateur_account_detail_activity";
     Toolbar toolbar;
     Restaurateur restaurateur;
 
@@ -37,22 +38,26 @@ public class AccountDetailActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-        restaurateurRequest.getCurrentUser(new RequestListener() {
-            @Override
-            public void successResponse(Object response) {
-                restaurateur = (Restaurateur) response;
-                AccountDetailFragment fragment = new AccountDetailFragment();
-                FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
-                fragmentManager.add(R.id.containerSettings, fragment).addToBackStack(null).commit();
-            }
+        if(savedInstanceState == null) {
+            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+            restaurateurRequest.getCurrentUser(new RequestListener() {
+                @Override
+                public void successResponse(Object response) {
+                    restaurateur = (Restaurateur) response;
+                    AccountDetailFragment fragment = new AccountDetailFragment();
+                    FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
+                    fragmentManager.add(R.id.containerSettings, fragment).addToBackStack(null).commit();
+                }
 
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
-
+                @Override
+                public void errorResponse(RequestException error) {
+                    promptErrorMessage(error.getMessage());
+                }
+            });
+        }
+        else{
+            restaurateur = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
+        }
     }
 
     @Override
@@ -90,5 +95,12 @@ public class AccountDetailActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(ARG_RESTAURATEUR, restaurateur);
     }
 }

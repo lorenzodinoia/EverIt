@@ -50,6 +50,8 @@ public class OrderDetailFragment extends Fragment {
     private MaterialButton searchRider;
 
     private String timePicker;
+
+
     public OrderDetailFragment() {
     }
 
@@ -65,8 +67,7 @@ public class OrderDetailFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
         if (order != null) {
@@ -191,7 +192,6 @@ public class OrderDetailFragment extends Fragment {
                         else{
                             searchRider.setOnClickListener(v -> {
                                 OrderRequest orderRequest = new OrderRequest();
-                                //TODO prendere in qualche modo il pickup time
                                 Dialog dialog = new Dialog(mParent);
                                 dialog.setContentView(R.layout.dialog_set_pickup_time);
                                 TextView textViewLabel = dialog.findViewById(R.id.textViewLabelPickupTimeSelection);
