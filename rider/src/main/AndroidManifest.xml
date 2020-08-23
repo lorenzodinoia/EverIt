@@ -22,21 +22,22 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activities.delivery.DeliveryDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".activities.assignedOrder.AssignedOrderDetailActivity"
+            android:name=".activities.works.delivery.DeliveryDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.proposal.ProposalDetailActivity"
+            android:name=".activities.works.assignedOrder.AssignedOrderDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.works.proposal.ProposalDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="everit.rider.proposal.detail"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="everit.rider.proposal.detail" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.WorksActivity"
+            android:name=".activities.works.WorksActivity"
             android:label="@string/activity_my_works"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -67,9 +68,10 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/firebase_notification_channel"/>
+            android:value="@string/firebase_notification_channel" />
 
-        <service android:name="it.uniba.di.sms1920.everit.utils.NotificationService"
+        <service
+            android:name="it.uniba.di.sms1920.everit.utils.NotificationService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

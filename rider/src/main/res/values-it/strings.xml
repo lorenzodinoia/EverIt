@@ -31,11 +31,16 @@
     <string name="proposal_refuse_explanation">Sei sicuro di voler rifiutare la proposta di consegna? L\'operazione è irreversibile</string>
     <string name="proposal_accepted">Proposta accettata</string>
 
-    <plurals name="proposal_accepted_explanation">
+    <!--<plurals name="proposal_accepted_explanation">
         <item quantity="one">La proposta di consegna è stata accettata. Ritira l\'ordine dal ristorante entro %d minuto</item>
         <item quantity="other">La proposta di consegna è stata accettata. Ritira l\'ordine dal ristorante entro %d minuti</item>
-    </plurals>
+    </plurals> -->
+    <string name="pickup_at">Ritira alle</string>
     <string name="proposal_refused">Proposta rifiutata</string>
+
+    <string name="pickup_address">Indirizzo di ritiro</string>
+    <string name="deliver_address">Indrizzo di consegna</string>
+
     <string name="label_proposal">Proposte</string>
     <string name="label_assigned_orders">Ordini assegnati</string>
     <string name="label_deliveries">Consegne</string>
@@ -46,7 +51,7 @@
     <string name="label_order_number">Ordine N°</string>
     <string name="order_withdrawn">Ordine ritirato</string>
     <string name="order_withdrawn_explanation">Ora puoi consegnare l\'ordine all\'indirizzo specificato</string>
-    <string name="proposal_empty_placeholder">Non ci sono proposte</string>
-    <string name="assigned_order_empty_placeholder">Non ci sono ordini da ritirare</string>
-    <string name="delivery_empty_placeholder">Non ci sono consegne in corso</string>
+    <string name="proposal_empty_placeholder">Nessuna proposta</string>
+    <string name="assigned_order_empty_placeholder">Nessun ordine da ritirare</string>
+    <string name="delivery_empty_placeholder">Nessuna consegna in corso</string>
 </resources>

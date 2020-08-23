@@ -203,4 +203,21 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
             e.printStackTrace();
         }
     }
+
+    public void deliverOrderAsRestaurateur(long idOrder, int validationCode, RequestListener<String> requestListener){
+
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s%s/%d/validateCode/%d", Constants.SERVER_HOST, RESTAURATEUR, ORDER, idOrder, validationCode), null,
+                    response -> {
+                        requestListener.successResponse(response.toString());
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

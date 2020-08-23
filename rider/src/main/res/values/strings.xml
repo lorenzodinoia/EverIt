@@ -31,11 +31,16 @@
     <string name="proposal_refuse_explanation">Are you sure you want to refuse the delivery proposal? The operation is irreversible</string>
     <string name="proposal_accepted">Proposal accepted</string>
 
-    <plurals name="proposal_accepted_explanation">
+    <!--<plurals name="proposal_accepted_explanation">
         <item quantity="one">The delivery proposal has been accepted. Pickup your order from the restaurant within %d minute</item>
         <item quantity="other">The delivery proposal has been accepted. Pickup your order from the restaurant within %d minutes</item>
-    </plurals>
+    </plurals> -->
+    <string name="pickup_at">Pickup at</string>
     <string name="proposal_refused">Proposal refused</string>
+
+    <string name="pickup_address">Pickup address</string>
+    <string name="deliver_address">Deliver address</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="label_proposal">Proposal</string>
     <string name="label_assigned_orders">Assigned orders</string>
@@ -47,9 +52,9 @@
     <string name="label_order_number">Order N°</string>
     <string name="order_withdrawn">Order withdrawn</string>
     <string name="order_withdrawn_explanation">Now you can deliver the order to the specified address</string>
-    <string name="proposal_empty_placeholder">There\'s no proposal</string>
-    <string name="assigned_order_empty_placeholder">There\'s no order to pickup</string>
-    <string name="delivery_empty_placeholder">There\'s no delivery in progress</string>
+    <string name="proposal_empty_placeholder">No proposal</string>
+    <string name="assigned_order_empty_placeholder">No order to pickup</string>
+    <string name="delivery_empty_placeholder">No delivery in progress</string>
 </resources>
 
 

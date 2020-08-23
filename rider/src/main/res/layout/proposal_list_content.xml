@@ -25,7 +25,22 @@
             android:src="@mipmap/icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <TextView
+            android:id="@+id/textViewOrderNumber"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewRestaurantLogo"
+            app:layout_constraintVertical_bias="0.0" />
+
 
         <TextView
             android:id="@+id/textViewRestaurateur"
@@ -35,35 +50,60 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Pizzeria da Mario"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogo"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/labelAddress"
+            android:id="@+id/labelAddressToPickup"
             style="@style/TextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:text="Da consegnare in: "
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/pickup_address"
             app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogo"
             app:layout_constraintTop_toBottomOf="@+id/textViewRestaurateur" />
 
         <TextView
-            android:id="@+id/textViewAddress"
+            android:id="@+id/textViewAddressToPickup"
             style="@style/TextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogo"
+            app:layout_constraintTop_toBottomOf="@+id/labelAddressToPickup" />
+
+        <TextView
+            android:id="@+id/labelAddressToDeliver"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="via Giuseppe Mazzini, 5"
-            app:layout_constraintStart_toEndOf="@+id/labelAddress"
-            app:layout_constraintTop_toBottomOf="@+id/textViewRestaurateur" />
+            android:text="@string/deliver_address"
+            app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogo"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAddressToPickup" />
+
+        <TextView
+            android:id="@+id/textViewAddressToDeliver"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageViewRestaurantLogo"
+            app:layout_constraintTop_toBottomOf="@+id/labelAddressToDeliver" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

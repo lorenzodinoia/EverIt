@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.rider.activities.works.WorksActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
