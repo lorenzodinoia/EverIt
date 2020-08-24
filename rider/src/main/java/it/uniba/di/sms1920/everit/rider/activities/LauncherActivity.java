@@ -1,32 +1,21 @@
 package it.uniba.di.sms1920.everit.rider.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jakewharton.threetenabp.AndroidThreeTen;
-
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
+import it.uniba.di.sms1920.everit.rider.AppLoader;
 import it.uniba.di.sms1920.everit.rider.R;
-import it.uniba.di.sms1920.everit.utils.Constants;
-import it.uniba.di.sms1920.everit.utils.NotificationService;
-import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
+import it.uniba.di.sms1920.everit.utils.provider.AuthProvider;
 import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
-import it.uniba.di.sms1920.everit.utils.request.AccessRequest;
-import it.uniba.di.sms1920.everit.utils.provider.RequestProvider;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LauncherActivity extends AppCompatActivity {
-    private static final float DELAY = 1f;
+    public static final String FLAG_ONLY_INITIALIZATIONS = "launcher.only_initializations";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +26,25 @@ public class LauncherActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        this.initServices();
 
-        AndroidThreeTen.init(getApplicationContext());
+        try {
+            AppLoader.loadComponents(getApplicationContext());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            this.finish();
+        }
 
-        if (Providers.getAuthProvider().getUser() == null){
+        if (Providers.getAuthProvider().getUser() == null) {
             try {
-                Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Rider>() {
+                AuthProvider<Rider> authProvider = Providers.getAuthProvider();
+                authProvider.loginFromSavedCredential(new RequestListener<Rider>() {
                     @Override
                     public void successResponse(Rider response) {
-                        Intent goToBaseActivity = new Intent(getApplicationContext(), BaseActivity.class);
-                        startActivity(goToBaseActivity);
+                        if (!getIntent().hasExtra(FLAG_ONLY_INITIALIZATIONS)) {
+                            Intent loadBaseActivity = new Intent(getApplicationContext(), BaseActivity.class);
+                            startActivity(loadBaseActivity);
+                        }
                         finish();
                     }
 
@@ -64,17 +61,6 @@ public class LauncherActivity extends AppCompatActivity {
                 startActivity(returnToLogin);
                 finish();
             }
-        }
-    }
-
-    private void initServices() {
-        Context context = getApplicationContext();
-        try {
-            Providers.init(context, Constants.Variants.RIDER);
-            NotificationService.initNotificationChannel(context);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

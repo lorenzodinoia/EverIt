@@ -57,8 +57,6 @@
 
     <string name="error_email">Incorrect email format</string>
 
-    <string name="firebase_notification_channel" translatable="false">FirebaseNotificationChannel</string>
-    <string name="firebase_notification_channel_name">Server notification</string>
-
     <string name="validation_code_digit_placeholder" translatable="false">0</string>
+
 </resources>

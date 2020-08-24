@@ -108,8 +108,7 @@
             android:value="LmdmwoQEimQ+s9XmA6qx7wqDICXf7fvJ10Foha/sQ+yVUZ5yj3mQUOv1CJyIMBx9n2/WOS5mVRgUf1paQyKLpSxMI1kX1Trb4eSh/20vmRwpiCdbdzg83RidUlwlFrY24Dc8hvZk2QbyVGGRjl7eNnq7BM7P28GmjQ87tCasgvy0ibsz+iNVD1aA+wlCiy8JfCDjduI2t+OQvzsR/VdpF9VwDBypF8hgMU9N30fo/+TNdUPWKfv1Zvc+ej4QTMdDuHp0ldVDuVH7kle/NOoR5qOLOtmKZ0QPSrqPW6fijSJJ+FtCuC5kGc15K7OSD9z4h4N1yQh+nVQtluh0RHXup3KuJVZpFNao6+M2aBwgt0FLnDAoPjZMc8lxBpueC1s+v59lYkQFYIY6pG0OHDqQCdjrH4+IJ05lB56dcQy3AKGSOhrJmvLXREdb7EdmrqudzWIZBk2FptmNc5B6ICholHkF2X2BmDHmH7qgUgSIn7ZwmSq0NtpyEqaXrMutH46MnGSVqAWhm+IP428Vpqs/cEEyQkyUX1vxZi5e4h63oAx5GSEW/0id+U2pbu3tMJkNa5zN951jRG2fxZAlCZBI/l5Pf3CTPX85blKl9Hh7MQeGHjNP6YOSRcrj1jYVX9Fjv0B5b5ZQlVeL5vUOwdR2yhhmU5wZ7cIORrI4BDr1Zac=" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/firebase_notification_channel" />
-
+            android:value="@string/notification_channel_id"/>
         <service
             android:name="com.here.android.mpa.service.MapService"
             android:label="HereMapService">
@@ -118,7 +117,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="it.uniba.di.sms1920.everit.utils.NotificationService"
+            android:name="it.uniba.di.sms1920.everit.restaurateur.RestaurateurNotificationService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

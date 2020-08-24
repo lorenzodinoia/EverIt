@@ -54,10 +54,15 @@
     <string name="label_order_number">Order N°</string>
     <string name="order_withdrawn">Order withdrawn</string>
     <string name="order_withdrawn_explanation">Now you can deliver the order to the specified address</string>
+
     <string name="proposal_empty_placeholder">No proposal</string>
     <string name="assigned_order_empty_placeholder">No order to pickup</string>
     <string name="delivery_empty_placeholder">No delivery in progress</string>
     <string name="late">Late</string>
+
+    <string name="notification_channel_id" translatable="false">FirebaseNotifications-RiderChannel</string>
+    <string name="notification_channel_name">Server notifications</string>
+
 </resources>
 
 

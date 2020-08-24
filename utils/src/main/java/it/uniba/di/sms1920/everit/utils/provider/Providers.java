@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.models.Authenticable;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
+import it.uniba.di.sms1920.everit.utils.models.Model;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
 
@@ -15,7 +17,7 @@ public final class Providers {
     private static PreferencesProvider preferencesProvider;
     private static CredentialProvider credentialProvider;
     private static FirebaseTokenProvider firebaseTokenProvider;
-    private static AuthProvider authProvider;
+    private static AuthProvider<?> authProvider;
     private static RequestProvider requestProvider;
 
     public static void init(Context applicationContext, Constants.Variants variant) throws Exception {
@@ -56,8 +58,8 @@ public final class Providers {
         return firebaseTokenProvider;
     }
 
-    public static AuthProvider getAuthProvider() {
-        return authProvider;
+    public static <T extends Model & Authenticable> AuthProvider<T> getAuthProvider() {
+        return (AuthProvider<T>) authProvider;
     }
 
     public static RequestProvider getRequestProvider() {

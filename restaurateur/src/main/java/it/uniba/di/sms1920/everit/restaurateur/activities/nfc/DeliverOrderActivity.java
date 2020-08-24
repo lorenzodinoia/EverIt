@@ -68,7 +68,12 @@ public class DeliverOrderActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //TODO crasha qui perchè boh
-        order = getIntent().getParcelableExtra(OrderDetailFragment.ORDER);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            if (bundle.containsKey(OrderDetailFragment.ORDER)) {
+                order = bundle.getParcelable(OrderDetailFragment.ORDER);
+            }
+        }
 
         if(!isNfcSupported()){
             Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();

@@ -157,4 +157,5 @@
     <string name="account_edited">Account modificato</string>
 
     <string name="delivered">Consegnato</string>
+    <string name="notification_channel_name">Server notifications</string>
 </resources>

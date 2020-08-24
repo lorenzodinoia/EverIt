@@ -33,7 +33,15 @@ public class ProposalDetailActivity extends AppCompatActivity {
         }
 
         if ((getIntent().getExtras() != null) && (getIntent().getExtras().containsKey(ARG_ITEM_ID)) && (savedInstanceState == null)) {
-            long id = getIntent().getLongExtra(ARG_ITEM_ID, 0);
+            long id = 0;
+            Object idObject = getIntent().getExtras().get(ARG_ITEM_ID);
+            if (idObject instanceof String) {
+                id = Long.parseLong((String) idObject);
+            }
+            else if (idObject instanceof Long) {
+                id = (long) idObject;
+            }
+
             ProposalRequest proposalRequest = new ProposalRequest();
             proposalRequest.read(id, new RequestListener<Proposal>() {
                 @Override

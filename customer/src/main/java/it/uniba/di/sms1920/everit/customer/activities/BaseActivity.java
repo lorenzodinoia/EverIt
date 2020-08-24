@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +28,7 @@ import it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity;
 import it.uniba.di.sms1920.everit.customer.activities.reviews.ReviewListActivity;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.utils.models.Customer;
+import it.uniba.di.sms1920.everit.utils.provider.AuthProvider;
 import it.uniba.di.sms1920.everit.utils.provider.NoSuchCredentialException;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -57,9 +57,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         if(Providers.getAuthProvider().getUser() != null){
             navigationView.inflateMenu(R.menu.drawer_view);
-        }else{
+        }
+        else{
             try {
-                Providers.getAuthProvider().loginFromSavedCredential(new RequestListener<Customer>() {
+                AuthProvider<Customer> authProvider = Providers.getAuthProvider();
+                authProvider.loginFromSavedCredential(new RequestListener<Customer>() {
                     @Override
                     public void successResponse(Customer response) {
                         navigationView.inflateMenu(R.menu.drawer_view);
@@ -70,7 +72,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                         navigationView.inflateMenu(R.menu.drawer_view_unlogged);
                     }
                 });
-            } catch (NoSuchCredentialException e) {
+            }
+            catch (NoSuchCredentialException e) {
                 navigationView.inflateMenu(R.menu.drawer_view_unlogged);
             }
         }

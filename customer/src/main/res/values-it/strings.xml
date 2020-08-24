@@ -131,4 +131,6 @@
     <string name="confirmed">Confermato</string>
     <string name="ready">Pronto</string>
     <string name="late">Ritardo</string>
+
+    <string name="notification_channel_name">Notifiche via server</string>
 </resources>
