@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.IBinder;
@@ -17,35 +18,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
-import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.BackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.IBackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.R;
-import it.uniba.di.sms1920.everit.utils.Constants;
-import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class AssignedOrderDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_ITEM = "item";
+    private static final String SAVED_ASSIGNED_ORDER = "saved.assigned_order";
 
     private Order assignedOrder;
-    private MaterialButton buttonPickup;
-    private MaterialButton buttonRefuse;
+    private MaterialButton buttonPickup, buttonRefuse;
     private LinearLayout linearLayoutRestaurateurAddress,  linearLayoutRestaurateurPhoneNumber, linearLayoutAddressDeliver, linearLayoutOrderLate;
     private TextView textViewOrderNumber, textViewPickupTime, textViewRestaurateurName, textViewRestaurateurPhone, textViewRestaurateurAddress, textViewDeliverAddress;
+    private Activity parentActivity;
 
     private IBackgroundLocationService backgroundLocationService;
     private ServiceConnection backgroundLocationServiceConnection = new ServiceConnection() {
@@ -67,43 +64,53 @@ public class AssignedOrderDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            if (arguments.containsKey(ARG_ITEM)) {
+
+        if (savedInstanceState == null) {
+            Bundle arguments = getArguments();
+            if (arguments != null && arguments.containsKey(ARG_ITEM)) {
                 this.assignedOrder = arguments.getParcelable(ARG_ITEM);
             }
-            else if (arguments.containsKey(ARG_ITEM_ID)) {
-                long assignedOrderId = arguments.getLong(ARG_ITEM_ID);
-                RiderRequest riderRequest = new RiderRequest();
-                riderRequest.readAssignedOrder(assignedOrderId, new RequestListener<Order>() {
-                    @Override
-                    public void successResponse(Order response) {
-                        assignedOrder = response;
-                    }
-
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        promptErrorMessage(error.getMessage());
-                    }
-                });
-            }
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Activity activity = getActivity();
-        if (activity != null) {
-            Intent intent = new Intent(activity, BackgroundLocationService.class);
-            activity.bindService(intent, this.backgroundLocationServiceConnection, 0);
+        else {
+            this.assignedOrder = savedInstanceState.getParcelable(SAVED_ASSIGNED_ORDER);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_proposal_detail, container, false);
+        this.initUi(view);
+        return view;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.parentActivity = this.getActivity();
+        if (this.parentActivity != null) {
+            Intent serviceIntent = new Intent(this.parentActivity, BackgroundLocationService.class);
+            this.parentActivity.bindService(serviceIntent, this.backgroundLocationServiceConnection, 0);
+        }
+        if (this.assignedOrder != null) {
+            this.initData();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (this.parentActivity != null) {
+            this.parentActivity.unbindService(this.backgroundLocationServiceConnection);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_ASSIGNED_ORDER, this.assignedOrder);
+    }
+
+    private void initUi(View view) {
         this.textViewRestaurateurName = view.findViewById(R.id.textViewRestaurateurName);
         this.textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
 
@@ -157,13 +164,9 @@ public class AssignedOrderDetailFragment extends Fragment {
 
         this.buttonRefuse = view.findViewById(R.id.buttonRefuse);
         this.buttonRefuse.setVisibility(View.GONE);
-
-        initComponents();
-
-        return view;
     }
 
-    private void initComponents() {
+    private void initData() {
         String remainingTimeString;
 
         if(assignedOrder.isLate()){
@@ -220,7 +223,7 @@ public class AssignedOrderDetailFragment extends Fragment {
         dialog.show();
     }
 
-    private void startMap(double latitude, double longitude, String nameLocation){
+    private void startMap(double latitude, double longitude, String nameLocation) {
         Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
         startActivity(mapIntent);

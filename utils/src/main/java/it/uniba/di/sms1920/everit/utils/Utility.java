@@ -267,7 +267,12 @@ public final class Utility {
     }
 
 
-    public static void showGenericMessage(Context context, String title, String message) {
+    public static void showGenericMessage(Context context, String message) {
+        String title = context.getString(R.string.error);
+        Utility.showGenericMessage(context, message, title);
+    }
+
+    public static void showGenericMessage(Context context, String message, String title) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 

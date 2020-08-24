@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -19,10 +20,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
-import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
-import it.uniba.di.sms1920.everit.utils.models.Rider;
-import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -30,11 +28,10 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 public class ProposalDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_ITEM = "item";
-    private static final String ARG_PROPOSAL = "proposal";
+    private static final String SAVED_PROPOSAL = "saved.proposal";
 
     private Proposal proposal;
-    private MaterialButton buttonAccept;
-    private MaterialButton buttonRefuse;
+    private MaterialButton buttonAccept, buttonRefuse;
     private LinearLayout linearLayoutRestaurateurAddress,  linearLayoutRestaurateurPhoneNumber, linearLayoutAddressDeliver;
     private TextView textViewOrderNumber, textViewPickupTime, textViewRestaurateurName, textViewRestaurateurPhone, textViewRestaurateurAddress, textViewDeliverAddress;
 
@@ -48,33 +45,37 @@ public class ProposalDetailFragment extends Fragment {
 
         if(savedInstanceState == null) {
             Bundle arguments = getArguments();
-            if (arguments != null) {
-                if (arguments.containsKey(ARG_ITEM)) {
-                    this.proposal = arguments.getParcelable(ARG_ITEM);
-                } else if (arguments.containsKey(ARG_ITEM_ID)) {
-                    long id = getArguments().getLong(ARG_ITEM_ID);
-                    ProposalRequest proposalRequest = new ProposalRequest();
-                    proposalRequest.read(id, new RequestListener<Proposal>() {
-                        @Override
-                        public void successResponse(Proposal response) {
-                            proposal = response;
-                            initComponents();
-                        }
-
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
-                        }
-                    });
-                }
+            if (arguments != null && arguments.containsKey(ARG_ITEM)) {
+                this.proposal = arguments.getParcelable(ARG_ITEM);
             }
+        }
+        else {
+            this.proposal = savedInstanceState.getParcelable(SAVED_PROPOSAL);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_proposal_detail, container, false);
+        this.initUi(view);
+        return view;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (this.proposal != null) {
+            this.initData();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_PROPOSAL, this.proposal);
+    }
+
+    private void initUi(View view) {
         this.textViewRestaurateurName = view.findViewById(R.id.textViewRestaurateurName);
         this.textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
 
@@ -133,15 +134,9 @@ public class ProposalDetailFragment extends Fragment {
 
             dialog.show();
         });
-
-        if (this.proposal != null) {
-            this.initComponents();
-        }
-
-        return view;
     }
 
-    private void initComponents() {
+    private void initData() {
         String remainingTimeString;
 
         remainingTimeString = getString(R.string.pickup_at)+": "+this.proposal.getPickupTimeAsString();
@@ -172,7 +167,6 @@ public class ProposalDetailFragment extends Fragment {
 
 
         this.textViewPickupTime.setText(remainingTimeString);
-
     }
 
     private void acceptProposal() {
@@ -215,7 +209,7 @@ public class ProposalDetailFragment extends Fragment {
         startActivity(mapIntent);
     }
 
-    private void promptErrorMessage(String message){
+    private void promptErrorMessage(String message) {
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
@@ -226,7 +220,7 @@ public class ProposalDetailFragment extends Fragment {
         textViewMessage.setText(message);
 
         Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
+        btnOk.setOnClickListener(v -> {
             dialog.dismiss();
             getActivity().finish();
         });
