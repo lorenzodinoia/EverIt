@@ -30,16 +30,6 @@ public class Cart2Fragment extends Fragment  {
         // Required empty public constructor
     }
 
-    /**
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            getParentFragmentManager().popBackStack();
-        }
-
-        return super.onOptionsItemSelected(item);
-    } */
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

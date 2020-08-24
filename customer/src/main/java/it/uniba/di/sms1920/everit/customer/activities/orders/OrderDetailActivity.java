@@ -18,6 +18,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.orders.tab.NotesFragment;
 import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabManagerFragment;
@@ -44,14 +46,14 @@ public class OrderDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar_default);
 
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
+        setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.order_detail);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         long orderId = getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0);
-
-        setSupportActionBar(toolbar);
-
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
