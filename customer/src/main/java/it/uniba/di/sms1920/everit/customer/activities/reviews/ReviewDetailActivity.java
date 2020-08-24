@@ -37,17 +37,6 @@ public class ReviewDetailActivity extends AppCompatActivity {
         long reviewId = getIntent().getLongExtra(ReviewDetailFragment.ARG_ITEM_ID, 0);
         Review review = ReviewListActivity.getReviewById(reviewId);
 
-        /*ImageView imageView = findViewById(R.id.imageViewRestaurantLogoReviewListContent);
-        String restaurateurLogoPath = review.getRestaurateur().getImagePath();
-        if(restaurateurLogoPath != null){
-            String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, restaurateurLogoPath);
-            Picasso.get()
-                    .load(imageUrl)
-                    .placeholder(R.mipmap.icon)
-                    .fit()
-                    .into(imageView);
-        }*/
-
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         if(review != null){
             toolbar.setTitle(review.getRestaurateur().getShopName());
@@ -58,11 +47,6 @@ public class ReviewDetailActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Show the Up button in the action bar.
-        /*ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }*/
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity

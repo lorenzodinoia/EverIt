@@ -51,7 +51,6 @@ public class OrderTabManagerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_tab_manager, container, false);
 
         if(savedInstanceState == null) {
@@ -82,8 +81,10 @@ public class OrderTabManagerFragment extends Fragment {
         pagerAdapter = new OrderTabPagerAdapter(getActivity().getSupportFragmentManager(), 0);
         Bundle bundle = new Bundle();
         bundle.putParcelable(ARG_ORDER_KEY, order);
+
         OrderDetailFragment detailFragment = new OrderDetailFragment();
         detailFragment.setArguments(bundle);
+
         NotesFragment notesFragment = new NotesFragment();
         notesFragment.setArguments(bundle);
 

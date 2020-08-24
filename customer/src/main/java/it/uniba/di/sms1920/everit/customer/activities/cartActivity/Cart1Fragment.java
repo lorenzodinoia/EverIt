@@ -116,16 +116,13 @@ public class Cart1Fragment extends Fragment {
         if(savedInstanceState != null){
             map = (Map<Product, Integer>) savedInstanceState.getSerializable("MAP");
         }else{
-            if(map != null){
-
-            }else {
+            if(map == null) {
                 calculateValue();
             }
         }
     }
 
     private void setupComponent() {
-
         textViewAddress.setText(cart.getPartialOrder().getDeliveryAddress().getFullAddress());
         textViewMinPurchase.setText(String.valueOf(minPurchase));
         textViewDeliveryCost.setText(String.valueOf(cart.getPartialOrder().getRestaurateur().getDeliveryCost()));
@@ -139,7 +136,7 @@ public class Cart1Fragment extends Fragment {
     }
 
     private void  calculateValue(){
-        if(map != null){ } else {
+        if(map == null) {
             map = cart.getPartialOrder().getProducts();
             for (Map.Entry<Product, Integer> pair : map.entrySet()) {
                 subtotal = subtotal + ((pair.getKey().getPrice()) * (pair.getValue()));

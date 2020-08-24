@@ -3,6 +3,8 @@ package it.uniba.di.sms1920.everit.customer.activities.cartActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +15,6 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.cartActivity.Cart1Fragment;
-import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartEmptyFragment;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 
 public class CartActivity extends AppCompatActivity {
@@ -40,9 +40,8 @@ public class CartActivity extends AppCompatActivity {
         cart = Cart.getInstance();
 
         if(cart.isEmpty()){
-            CartEmptyFragment cartEmptyFragment = new CartEmptyFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.containerCartFragment, cartEmptyFragment).addToBackStack(null).commit();
+            TextView textViewEmptyCartMessage = this.findViewById(R.id.textViewEmptyCartMessage);
+            textViewEmptyCartMessage.setVisibility(View.VISIBLE);
         }else{
             Bundle bundle = new Bundle();
             bundle.putFloat(TAG, minPurchase);

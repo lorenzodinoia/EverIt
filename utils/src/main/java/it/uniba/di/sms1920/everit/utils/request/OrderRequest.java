@@ -204,12 +204,16 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
         }
     }
 
-    public void deliverOrderAsRestaurateur(long idOrder, int validationCode, RequestListener<String> requestListener){
+    public void deliverOrderAsRestaurateur(long idOrder, int validationCode, RequestListener<Boolean> requestListener){
 
         try {
             ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s%s/%d/validateCode/%d", Constants.SERVER_HOST, RESTAURATEUR, ORDER, idOrder, validationCode), null,
                     response -> {
-                        requestListener.successResponse(response.toString());
+                        try {
+                            requestListener.successResponse(response.getBoolean("message"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     },
                     error -> {
                         requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
