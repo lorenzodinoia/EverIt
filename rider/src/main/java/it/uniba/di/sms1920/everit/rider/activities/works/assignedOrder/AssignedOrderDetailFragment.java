@@ -121,6 +121,7 @@ public class AssignedOrderDetailFragment extends Fragment {
         this.linearLayoutOrderLate = view.findViewById(R.id.linearLayoutOrderLate);
 
         this.buttonPickup = view.findViewById(R.id.buttonAccept);
+        this.buttonPickup.setText(R.string.pickup_button);
         this.buttonPickup.setOnClickListener(v -> {
             if (backgroundLocationService != null) {
                 try {

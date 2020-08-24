@@ -38,22 +38,34 @@ public class WorksActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        DeliveriesPagerAdapter deliveriesPagerAdapter = new DeliveriesPagerAdapter(getSupportFragmentManager());
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        ViewPager viewPager = findViewById(R.id.viewPager);
+
+        DeliveriesPagerAdapter deliveriesPagerAdapter = new DeliveriesPagerAdapter(getSupportFragmentManager(), 0);
         deliveriesPagerAdapter.addFragment(new ProposalsFragment(), getString(R.string.label_proposal));
         deliveriesPagerAdapter.addFragment(new AssignedOrdersFragment(), getString(R.string.label_assigned_orders));
         deliveriesPagerAdapter.addFragment(new DeliveriesFragment(), getString(R.string.label_deliveries));
 
-        ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(deliveriesPagerAdapter);
-
-        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Fragment selectedTab = deliveriesPagerAdapter.getItem(tab.getPosition());
-                if (selectedTab instanceof DataBinder) {
+                //Fragment selectedTab = deliveriesPagerAdapter.getItem(tab.getPosition());
+                /*if (selectedTab instanceof DataBinder) {
                     ((DataBinder) selectedTab).refreshData();
+                }*/
+                if(deliveriesPagerAdapter.getItem(tab.getPosition()) instanceof ProposalsFragment){
+                    ProposalsFragment fragment = (ProposalsFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
+                    fragment.refreshData();
+                }
+                else if(deliveriesPagerAdapter.getItem(tab.getPosition()) instanceof AssignedOrdersFragment){
+                    AssignedOrdersFragment fragment = (AssignedOrdersFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
+                    fragment.refreshData();
+                }
+                else{
+                    DeliveriesFragment fragment = (DeliveriesFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
+                    fragment.refreshData();
                 }
             }
 

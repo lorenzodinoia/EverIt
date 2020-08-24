@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.button.MaterialButton;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.restaurateur.activities.nfc.DeliverOrderActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
@@ -41,6 +43,7 @@ public class OrderDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String INDEX = "fragment_index";
+    public static final String ORDER = "order";
 
     private OrderDetailActivity mParent;
     private Order order;
@@ -274,7 +277,10 @@ public class OrderDetailFragment extends Fragment {
     private void setButtonDeliverOrder(){
         searchRider.setText(R.string.deliver_order);
         searchRider.setOnClickListener(v -> {
-            //TODO aggiungere metodo per consegna ordine takeaway
+            Intent intent = new Intent(mParent, DeliverOrderActivity.class);
+            intent.putExtra(ORDER, order);
+            startActivity(intent);
+
         });
     }
 

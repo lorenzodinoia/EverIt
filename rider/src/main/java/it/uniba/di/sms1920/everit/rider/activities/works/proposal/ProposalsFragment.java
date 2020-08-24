@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.rider.activities.works.proposal;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +32,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-public class ProposalsFragment extends Fragment implements DataBinder {
+public class ProposalsFragment extends Fragment {
     private RecyclerView proposalRecyclerView;
     private ProposalRecyclerViewAdapter proposalRecyclerViewAdapter;
     private List<Proposal> proposalList = new ArrayList<>();
@@ -39,6 +41,8 @@ public class ProposalsFragment extends Fragment implements DataBinder {
     public ProposalsFragment() {
         // Required empty public constructor
     }
+
+    //TODO crasha perchè la recycler view va a null tornata dal detail
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,11 @@ public class ProposalsFragment extends Fragment implements DataBinder {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
+
     public void refreshData() {
         ProposalRequest proposalRequest = new ProposalRequest();
         proposalRequest.readAll(new RequestListener<Collection<Proposal>>() {
@@ -86,8 +95,7 @@ public class ProposalsFragment extends Fragment implements DataBinder {
 
             @Override
             public void errorResponse(RequestException error) {
-                textViewEmpty.setVisibility(View.VISIBLE);
-                Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -106,8 +114,7 @@ public class ProposalsFragment extends Fragment implements DataBinder {
                     ProposalDetailFragment fragment = new ProposalDetailFragment();
                     fragment.setArguments(arguments);
                     parentFragment.getChildFragmentManager().beginTransaction().replace(R.id.proposal_detail_container, fragment).commit();
-                }
-                else {
+                } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ProposalDetailActivity.class);
                     intent.putExtra(ProposalDetailActivity.ARG_ITEM_ID, item.getId());
@@ -132,28 +139,31 @@ public class ProposalsFragment extends Fragment implements DataBinder {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Proposal item = this.proposalList.get(position);
-            if (item != null) {
-                holder.textViewOrderNumber.setText("#"+item.getId());
 
-                if(item.getRestaurateur().getImagePath() != null){
-                    String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
-                    Picasso.get()
-                            .load(imageUrl)
-                            .error(R.mipmap.icon)
-                            .placeholder(R.mipmap.icon)
-                            .transform(new CropCircleTransformation())
-                            .fit()
-                            .into(holder.imageView);
+            if (!proposalList.isEmpty()){
+                Proposal item = this.proposalList.get(position);
+                if(item !=null) {
+                    holder.textViewOrderNumber.setText("#" + item.getId());
 
+                    if (item.getRestaurateur().getImagePath() != null) {
+                        String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
+                        Picasso.get()
+                                .load(imageUrl)
+                                .error(R.mipmap.icon)
+                                .placeholder(R.mipmap.icon)
+                                .transform(new CropCircleTransformation())
+                                .fit()
+                                .into(holder.imageView);
+
+                    }
+                        holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
+                        holder.textViewPickupAddress.setText(item.getRestaurateurAddress());
+                        holder.textViewDeliveryAddress.setText(item.getDeliveryAddress());
+                        holder.itemView.setTag(item);
+                        holder.itemView.setOnClickListener(this.onClickListener);
                 }
-
-                holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
-                holder.textViewPickupAddress.setText(item.getRestaurateurAddress());
-                holder.textViewDeliveryAddress.setText(item.getDeliveryAddress());
-                holder.itemView.setTag(item);
-                holder.itemView.setOnClickListener(this.onClickListener);
             }
+
         }
 
         @Override
@@ -177,5 +187,24 @@ public class ProposalsFragment extends Fragment implements DataBinder {
                 textViewPickupAddress = view.findViewById(R.id.textViewAddressToPickup);
             }
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            getActivity().finish();
+        });
+
+        dialog.show();
     }
 }

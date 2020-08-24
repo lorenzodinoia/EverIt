@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.rider.activities.works.delivery;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +35,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-public class DeliveriesFragment extends Fragment implements DataBinder {
+public class DeliveriesFragment extends Fragment {
     private RecyclerView deliveriesRecyclerView;
     private DeliveryRecyclerViewAdapter deliveriesRecyclerViewAdapter;
     private List<Order> deliveryList = new ArrayList<>();
@@ -67,7 +69,7 @@ public class DeliveriesFragment extends Fragment implements DataBinder {
         this.deliveriesRecyclerView.setAdapter(this.deliveriesRecyclerViewAdapter);
     }
 
-    @Override
+    /*@Override
     public void refreshData() {
         RiderRequest riderRequest = new RiderRequest();
         riderRequest.readDeliveries(new RequestListener<Collection<Order>>() {
@@ -85,13 +87,41 @@ public class DeliveriesFragment extends Fragment implements DataBinder {
                 }
                 else {
                     textViewEmpty.setVisibility(View.VISIBLE);
+                    textViewEmpty.setText(R.string.delivery_empty_placeholder);
                 }
             }
 
             @Override
             public void errorResponse(RequestException error) {
-                textViewEmpty.setVisibility(View.VISIBLE);
-                Utility.showGenericMessage(getContext(), getString(R.string.message_generic_error), error.getMessage());
+                promptErrorMessage(error.getMessage());
+            }
+        });
+    }*/
+
+    public void refreshData(){
+        RiderRequest riderRequest = new RiderRequest();
+        riderRequest.readDeliveries(new RequestListener<Collection<Order>>() {
+            @Override
+            public void successResponse(Collection<Order> response) {
+                deliveryList = new ArrayList<>(response);
+                if (deliveriesRecyclerViewAdapter == null) {
+                    setupRecyclerView();
+                }
+                else {
+                    deliveriesRecyclerViewAdapter.notifyDataSetChanged();
+                }
+                if (deliveryList.size() > 0) {
+                    textViewEmpty.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    textViewEmpty.setVisibility(View.VISIBLE);
+                    textViewEmpty.setText(R.string.delivery_empty_placeholder);
+                }
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -136,36 +166,38 @@ public class DeliveriesFragment extends Fragment implements DataBinder {
 
         @Override
         public void onBindViewHolder(@NonNull DeliveriesFragment.DeliveryRecyclerViewAdapter.ViewHolder holder, int position) {
-            Order item = this.deliveryList.get(position);
-            if (item != null) {
+            if(!deliveryList.isEmpty()) {
+                Order item = this.deliveryList.get(position);
+                if (item != null) {
 
-                holder.textViewOrderNumber.setText("#"+item.getId());
+                    holder.textViewOrderNumber.setText("#" + item.getId());
 
-                if(item.getRestaurateur().getImagePath() != null){
-                    String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
-                    Picasso.get()
-                            .load(imageUrl)
-                            .error(R.mipmap.icon)
-                            .placeholder(R.mipmap.icon)
-                            .transform(new CropCircleTransformation())
-                            .fit()
-                            .into(holder.imageView);
+                    if (item.getRestaurateur().getImagePath() != null) {
+                        String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
+                        Picasso.get()
+                                .load(imageUrl)
+                                .error(R.mipmap.icon)
+                                .placeholder(R.mipmap.icon)
+                                .transform(new CropCircleTransformation())
+                                .fit()
+                                .into(holder.imageView);
 
+                    }
+
+                    holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
+
+                    holder.textViewLabelPickupAddress.setVisibility(View.GONE);
+                    holder.textViewPickupAddress.setVisibility(View.GONE);
+
+                    holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
+
+                    if (item.isLate()) {
+                        holder.chipOrderLate.setVisibility(View.VISIBLE);
+                    }
+
+                    holder.itemView.setTag(item);
+                    holder.itemView.setOnClickListener(this.onClickListener);
                 }
-
-                holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
-
-                holder.textViewLabelPickupAddress.setVisibility(View.GONE);
-                holder.textViewPickupAddress.setVisibility(View.GONE);
-
-                holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
-
-                if(item.isLate()){
-                    holder.chipOrderLate.setVisibility(View.VISIBLE);
-                }
-
-                holder.itemView.setTag(item);
-                holder.itemView.setOnClickListener(this.onClickListener);
             }
         }
 
@@ -194,5 +226,24 @@ public class DeliveriesFragment extends Fragment implements DataBinder {
                 textViewLabelPickupAddress = view.findViewById(R.id.labelAddressToPickup);
             }
         }
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+            getActivity().finish();
+        });
+
+        dialog.show();
     }
 }

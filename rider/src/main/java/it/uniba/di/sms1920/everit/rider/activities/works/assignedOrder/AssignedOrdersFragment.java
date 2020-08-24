@@ -25,14 +25,13 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
-import it.uniba.di.sms1920.everit.utils.DataBinder;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-public class AssignedOrdersFragment extends Fragment implements DataBinder {
+public class AssignedOrdersFragment extends Fragment{
     private RecyclerView assignedOrdersRecyclerView;
     AssignedOrderRecyclerViewAdapter assignedOrdersRecyclerViewAdapter;
     private List<Order> assignedOrderList = new ArrayList<>();
@@ -65,7 +64,7 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
         this.assignedOrdersRecyclerView.setAdapter(this.assignedOrdersRecyclerViewAdapter);
     }
 
-    @Override
+    /*@Override
     public void refreshData() {
         RiderRequest riderRequest = new RiderRequest();
         riderRequest.readAssignedOrders(new RequestListener<Collection<Order>>() {
@@ -78,17 +77,54 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
                 else {
                     assignedOrdersRecyclerViewAdapter.notifyDataSetChanged();
                 }
+
                 if (assignedOrderList.size() > 0) {
                     textViewEmpty.setVisibility(View.INVISIBLE);
                 }
                 else {
                     textViewEmpty.setVisibility(View.VISIBLE);
+                    textViewEmpty.setText(R.string.assigned_order_empty_placeholder);
                 }
             }
 
             @Override
             public void errorResponse(RequestException error) {
-                textViewEmpty.setVisibility(View.VISIBLE);
+                promptErrorMessage(error.getMessage());
+            }
+        });
+    }*/
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
+
+    public void refreshData() {
+        RiderRequest riderRequest = new RiderRequest();
+        riderRequest.readAssignedOrders(new RequestListener<Collection<Order>>() {
+            @Override
+            public void successResponse(Collection<Order> response) {
+                assignedOrderList.clear();
+                assignedOrderList.addAll(response);
+                if (assignedOrdersRecyclerViewAdapter == null) {
+                    setupRecyclerView();
+                }
+                else {
+                    assignedOrdersRecyclerViewAdapter.notifyDataSetChanged();
+                }
+
+                if (assignedOrderList.size() > 0) {
+                    textViewEmpty.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    textViewEmpty.setVisibility(View.VISIBLE);
+                    textViewEmpty.setText(R.string.assigned_order_empty_placeholder);
+                }
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
                 promptErrorMessage(error.getMessage());
             }
         });
@@ -97,12 +133,12 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
     public static class AssignedOrderRecyclerViewAdapter extends RecyclerView.Adapter<AssignedOrderRecyclerViewAdapter.ViewHolder> {
         private final AssignedOrdersFragment parentFragment;
         private final List<Order> assignedOrderList;
-        private final boolean towPaneMode;
+        private final boolean twoPaneMode;
         private final View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Order item = (Order) view.getTag();
-                if (towPaneMode) {
+                if (twoPaneMode) {
                     Bundle arguments = new Bundle();
                     arguments.putLong(AssignedOrderDetailFragment.ARG_ITEM_ID, item.getId());
                     AssignedOrderDetailFragment fragment = new AssignedOrderDetailFragment();
@@ -119,10 +155,10 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
             }
         };
 
-        AssignedOrderRecyclerViewAdapter(AssignedOrdersFragment parentFragment, List<Order> assignedOrderList, boolean towPaneMode) {
+        AssignedOrderRecyclerViewAdapter(AssignedOrdersFragment parentFragment, List<Order> assignedOrderList, boolean twoPaneMode) {
             this.parentFragment = parentFragment;
             this.assignedOrderList = assignedOrderList;
-            this.towPaneMode = towPaneMode;
+            this.twoPaneMode = twoPaneMode;
         }
 
         @NonNull
@@ -134,31 +170,33 @@ public class AssignedOrdersFragment extends Fragment implements DataBinder {
 
         @Override
         public void onBindViewHolder(@NonNull AssignedOrdersFragment.AssignedOrderRecyclerViewAdapter.ViewHolder holder, int position) {
-            Order item = this.assignedOrderList.get(position);
-            if (item != null) {
-                holder.textViewOrderNumber.setText("#"+item.getId());
+            if(!assignedOrderList.isEmpty()) {
+                Order item = this.assignedOrderList.get(position);
+                if (item != null) {
+                    holder.textViewOrderNumber.setText("#" + item.getId());
 
-                if(item.getRestaurateur().getImagePath() != null){
-                    String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
-                    Picasso.get()
-                            .load(imageUrl)
-                            .error(R.mipmap.icon)
-                            .placeholder(R.mipmap.icon)
-                            .transform(new CropCircleTransformation())
-                            .fit()
-                            .into(holder.imageView);
+                    if (item.getRestaurateur().getImagePath() != null) {
+                        String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
+                        Picasso.get()
+                                .load(imageUrl)
+                                .error(R.mipmap.icon)
+                                .placeholder(R.mipmap.icon)
+                                .transform(new CropCircleTransformation())
+                                .fit()
+                                .into(holder.imageView);
 
+                    }
+
+                    if (item.isLate()) {
+                        holder.chipOrderLate.setVisibility(View.VISIBLE);
+                    }
+
+                    holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
+                    holder.textViewPickupAddress.setText(item.getRestaurateur().getAddress().getFullAddress());
+                    holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
+                    holder.itemView.setTag(item);
+                    holder.itemView.setOnClickListener(this.onClickListener);
                 }
-
-                if(item.isLate()){
-                    holder.chipOrderLate.setVisibility(View.VISIBLE);
-                }
-
-                holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
-                holder.textViewPickupAddress.setText(item.getRestaurateur().getAddress().getFullAddress());
-                holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
-                holder.itemView.setTag(item);
-                holder.itemView.setOnClickListener(this.onClickListener);
             }
         }
 

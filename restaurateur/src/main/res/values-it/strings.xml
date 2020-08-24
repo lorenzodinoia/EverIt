@@ -155,4 +155,6 @@
     <string name="home_delivery">Consegna domicilio</string>
     <string name="optional_field">Campo opzionale</string>
     <string name="account_edited">Account modificato</string>
+
+    <string name="delivered">Consegnato</string>
 </resources>

@@ -17,8 +17,8 @@ public class DeliveriesPagerAdapter extends FragmentPagerAdapter {
     private final List<Fragment> fragmentList = new ArrayList<>();
     private final List<String> fragmentTileList = new ArrayList<>();
 
-    public DeliveriesPagerAdapter(FragmentManager fragmentManager) {
-        super(fragmentManager);
+    public DeliveriesPagerAdapter(FragmentManager fm, int behavior) {
+        super(fm, behavior);
     }
 
     @NonNull
