@@ -132,6 +132,7 @@
     <string name="optional_field">*Optional field</string>
 
     <string name="delivered">Delivered</string>
+    <string name="wrong_validation_code">Wrong validation code</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>

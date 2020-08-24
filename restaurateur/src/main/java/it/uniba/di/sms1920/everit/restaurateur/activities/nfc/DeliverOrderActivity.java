@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,6 +18,8 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -25,7 +28,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderDetailFragment;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -46,6 +48,7 @@ public class DeliverOrderActivity extends AppCompatActivity {
 
     private NfcAdapter nfcAdapter;
 
+    private TextView textViewMessageDeliverOrder;
     private TextInputEditText editTextValidationCode1;
     private TextInputEditText editTextValidationCode2;
     private TextInputEditText editTextValidationCode3;
@@ -53,6 +56,8 @@ public class DeliverOrderActivity extends AppCompatActivity {
     private TextInputEditText editTextValidationCode5;
 
     private MaterialButton btnConfirm;
+
+    //TODO aggiungere stringhe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,19 +73,18 @@ public class DeliverOrderActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //TODO crasha qui perchè boh
-        Bundle bundle = getIntent().getExtras();
+        /*Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
             if (bundle.containsKey(OrderDetailFragment.ORDER)) {
                 order = bundle.getParcelable(OrderDetailFragment.ORDER);
             }
-        }
+        }*/
 
         if(!isNfcSupported()){
             Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
         }else{
             if(!nfcAdapter.isEnabled()){
                 Toast.makeText(this, "NFC disabled on this device. Turn on to proceed", Toast.LENGTH_SHORT).show();
-            }else{
                 nfcIntentSettings();
             }
         }
@@ -96,6 +100,8 @@ public class DeliverOrderActivity extends AppCompatActivity {
     }
 
     private void initComponent(){
+        textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
+        textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
         editTextValidationCode1 = findViewById(R.id.editTextValidationCode1);
         editTextValidationCode1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -206,16 +212,21 @@ public class DeliverOrderActivity extends AppCompatActivity {
 
     private void checkValidationCode(){
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.deliverOrderAsRestaurateur(order.getId(), validationCode, new RequestListener<String>() {
+        orderRequest.deliverOrderAsRestaurateur(19, validationCode, new RequestListener<Boolean>() {
             @Override
-            public void successResponse(String response) {
-                Toast.makeText(activity, R.string.delivered, Toast.LENGTH_LONG).show();
-                finish();
+            public void successResponse(Boolean response) {
+                if(response){
+                    Toast.makeText(activity, R.string.delivered, Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                else{
+                    Toast.makeText(activity, R.string.wrong_validation_code, Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void errorResponse(RequestException error) {
-                //TODO gestire casistiche di error (aggiungere codice errore all'error)
+                promptErrorMessage(error.getMessage());
             }
         });
     }
@@ -324,5 +335,23 @@ public class DeliverOrderActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }
