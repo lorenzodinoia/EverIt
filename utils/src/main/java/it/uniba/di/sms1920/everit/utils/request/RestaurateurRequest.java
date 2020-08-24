@@ -105,7 +105,7 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
                         requestListener.successResponse(results);
                     }
                     catch (JSONException e) {
-                        requestListener.errorResponse(new RequestException(e.getMessage()));
+                        requestListener.errorResponse(new RequestException(null, e.getMessage()));
                     }
                 },
                 error ->

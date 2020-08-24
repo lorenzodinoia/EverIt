@@ -59,7 +59,7 @@ public final class ProductCategoryRequest extends CRUDRequest<ProductCategory> i
                         RequestListener.successResponse(collection);
                     }
                     catch (JSONException e) {
-                        RequestListener.errorResponse(new RequestException(e.getMessage()));
+                        RequestListener.errorResponse(new RequestException(null, e.getMessage()));
                     }
                 },
                 error -> RequestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)));
