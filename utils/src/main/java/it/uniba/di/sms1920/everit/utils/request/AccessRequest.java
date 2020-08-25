@@ -62,7 +62,7 @@ public final class AccessRequest<T extends Model & Authenticable> {
                 error -> {
                     if((error.networkResponse != null) && (error.networkResponse.statusCode == 401)){
                         String translatedMessage = Providers.getStringFromApplicationContext(R.string.message_wrong_login);
-                        RequestListener.errorResponse(new UnauthorizedException(translatedMessage));
+                        RequestListener.errorResponse(new UnauthorizedException(error, translatedMessage));
                     }
                     else {
                         RequestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));

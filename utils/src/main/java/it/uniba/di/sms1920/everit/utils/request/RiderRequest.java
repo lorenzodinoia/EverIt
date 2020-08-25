@@ -60,7 +60,7 @@ public class RiderRequest extends CRUDRequest<Rider> implements CRUD<Rider> {
                         requestListener.successResponse(resultList);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        requestListener.errorResponse(new RequestException(e.getMessage()));
+                        requestListener.errorResponse(new RequestException(null, e.getMessage()));
                     }
                 },
                 error -> {
@@ -114,7 +114,7 @@ public class RiderRequest extends CRUDRequest<Rider> implements CRUD<Rider> {
                         requestListener.successResponse(resultList);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        requestListener.errorResponse(new RequestException(e.getMessage()));
+                        requestListener.errorResponse(new RequestException(null, e.getMessage()));
                     }
                 },
                 error -> {

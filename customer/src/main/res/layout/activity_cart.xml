@@ -8,13 +8,26 @@
   <androidx.appcompat.widget.Toolbar
       android:id="@+id/toolbarCart"
       android:layout_width="match_parent"
-      android:layout_height="55dp"
+      android:layout_height="56dp"
       android:background="@color/colorPrimary"
       android:theme="@style/Toolbar"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+      app:layout_constraintTop_toTopOf="parent"/>
 
+  <TextView
+      android:id="@+id/textViewEmptyCartMessage"
+      style="@style/TextViewMedium"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="40dp"
+      android:layout_marginTop="80dp"
+      android:layout_marginEnd="40dp"
+      android:text="@string/empty_cart_message"
+      android:gravity="center"
+      android:visibility="gone"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/toolbarCart"/>
 
   <FrameLayout
       android:id="@+id/containerCartFragment"

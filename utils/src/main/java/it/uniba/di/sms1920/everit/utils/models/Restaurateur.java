@@ -229,16 +229,16 @@ public class Restaurateur extends Model implements Authenticable{
         dest.writeString(this.imagePath);
         dest.writeParcelable(this.shopType, flags);
         dest.writeInt((this.isOpen) ? 1 : 0);
-        if(this.productCategories != null) {
+        if (this.productCategories != null) {
             dest.writeTypedArray(this.productCategories.toArray(new ProductCategory[0]), flags);
         }
-        else{
+        else {
             dest.writeTypedArray(null, flags);
         }
-        if(this.openingDays != null) {
+        if (this.openingDays != null) {
             dest.writeTypedArray(this.openingDays.toArray(new OpeningDay[0]), flags);
         }
-        else{
+        else {
             dest.writeTypedArray(null, flags);
         }
     }

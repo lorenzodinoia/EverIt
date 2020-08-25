@@ -16,7 +16,6 @@ import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.rider.activities.works.assignedOrder.AssignedOrdersFragment;
 import it.uniba.di.sms1920.everit.rider.activities.works.delivery.DeliveriesFragment;
 import it.uniba.di.sms1920.everit.rider.activities.works.proposal.ProposalsFragment;
-import it.uniba.di.sms1920.everit.utils.DataBinder;
 
 public class WorksActivity extends AppCompatActivity {
     @Override
@@ -51,22 +50,25 @@ public class WorksActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //Fragment selectedTab = deliveriesPagerAdapter.getItem(tab.getPosition());
+                Fragment selectedTab = deliveriesPagerAdapter.getItem(tab.getPosition());
+                //TODO Verificare
                 /*if (selectedTab instanceof DataBinder) {
                     ((DataBinder) selectedTab).refreshData();
                 }*/
-                if(deliveriesPagerAdapter.getItem(tab.getPosition()) instanceof ProposalsFragment){
+                /*
+                if (selectedTab instanceof ProposalsFragment) {
                     ProposalsFragment fragment = (ProposalsFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
-                    fragment.refreshData();
+                    fragment.loadData();
                 }
-                else if(deliveriesPagerAdapter.getItem(tab.getPosition()) instanceof AssignedOrdersFragment){
+                else if (selectedTab instanceof AssignedOrdersFragment) {
                     AssignedOrdersFragment fragment = (AssignedOrdersFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
-                    fragment.refreshData();
+                    fragment.loadData();
                 }
-                else{
+                else {
                     DeliveriesFragment fragment = (DeliveriesFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
-                    fragment.refreshData();
+                    fragment.loadData();
                 }
+                 */
             }
 
             @Override

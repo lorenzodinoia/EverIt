@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.rider.activities.works.proposal.ProposalsFragment;
@@ -55,13 +57,19 @@ public class DeliveriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_proposals, container, false);
         this.initComponents(view);
-        this.refreshData();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.loadData();
     }
 
     private void initComponents(View view) {
         this.deliveriesRecyclerView = view.findViewById(R.id.proposal_list);
         this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
+        this.setupRecyclerView();
     }
 
     private void setupRecyclerView() {
@@ -98,12 +106,13 @@ public class DeliveriesFragment extends Fragment {
         });
     }*/
 
-    public void refreshData(){
+    public void loadData(){
         RiderRequest riderRequest = new RiderRequest();
         riderRequest.readDeliveries(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
-                deliveryList = new ArrayList<>(response);
+                deliveryList.clear();
+                deliveryList.addAll(response);
                 if (deliveriesRecyclerViewAdapter == null) {
                     setupRecyclerView();
                 }
@@ -121,7 +130,10 @@ public class DeliveriesFragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
+                Context context = getContext();
+                if (context != null) {
+                    Utility.showGenericMessage(context, error.getMessage());
+                }
             }
         });
     }
@@ -136,7 +148,7 @@ public class DeliveriesFragment extends Fragment {
                 Order item = (Order) view.getTag();
                 if (twoPaneMode) {
                     Bundle arguments = new Bundle();
-                    arguments.putLong(DeliveryDetailFragment.ARG_ITEM_ID, item.getId());
+                    arguments.putParcelable(DeliveryDetailFragment.ARG_ITEM, item);
                     DeliveryDetailFragment fragment = new DeliveryDetailFragment();
                     fragment.setArguments(arguments);
                     parentFragment.getChildFragmentManager().beginTransaction().replace(R.id.proposal_detail_container, fragment).commit();
@@ -145,7 +157,6 @@ public class DeliveriesFragment extends Fragment {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, DeliveryDetailActivity.class);
                     intent.putExtra(DeliveryDetailFragment.ARG_ITEM_ID, item.getId());
-
                     context.startActivity(intent);
                 }
             }
@@ -169,9 +180,7 @@ public class DeliveriesFragment extends Fragment {
             if(!deliveryList.isEmpty()) {
                 Order item = this.deliveryList.get(position);
                 if (item != null) {
-
-                    holder.textViewOrderNumber.setText("#" + item.getId());
-
+                    holder.textViewOrderNumber.setText(String.format(Locale.getDefault(), "#%d", item.getId()));
                     if (item.getRestaurateur().getImagePath() != null) {
                         String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
                         Picasso.get()
@@ -183,18 +192,13 @@ public class DeliveriesFragment extends Fragment {
                                 .into(holder.imageView);
 
                     }
-
                     holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
-
                     holder.textViewLabelPickupAddress.setVisibility(View.GONE);
                     holder.textViewPickupAddress.setVisibility(View.GONE);
-
                     holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
-
                     if (item.isLate()) {
                         holder.chipOrderLate.setVisibility(View.VISIBLE);
                     }
-
                     holder.itemView.setTag(item);
                     holder.itemView.setOnClickListener(this.onClickListener);
                 }
@@ -226,24 +230,5 @@ public class DeliveriesFragment extends Fragment {
                 textViewLabelPickupAddress = view.findViewById(R.id.labelAddressToPickup);
             }
         }
-    }
-
-    private void promptErrorMessage(String message){
-        Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
-
-        TextView title = dialog.findViewById(R.id.textViewTitle);
-        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
-
-        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
-        textViewMessage.setText(message);
-
-        Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
-            getActivity().finish();
-        });
-
-        dialog.show();
     }
 }

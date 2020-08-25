@@ -69,7 +69,7 @@ public abstract class CRUDRequest<T extends Model> {
                     requestListener.successResponse(collection);
                 }
                 catch (JSONException e) {
-                    requestListener.errorResponse(new RequestException(e.getMessage()));
+                    requestListener.errorResponse(new RequestException(null, e.getMessage()));
                 }
             },
             error -> requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error)),

@@ -15,10 +15,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailActivity;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
-
 
 public class InfoFragment extends Fragment {
 
@@ -26,7 +27,7 @@ public class InfoFragment extends Fragment {
     private Restaurateur restaurateur;
 
     private TextView textViewPhoneNumber, textViewAddress, textViewOpenClosed, textViewDeliveryCost, textViewMinPurchase;
-    private LinearLayout layoutCall, layoutAddress, layoutOpenClosed, layoutDeliveryCost, layoutMinPurchase;
+    private LinearLayout layoutCall, layoutAddress;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -50,13 +51,8 @@ public class InfoFragment extends Fragment {
         layoutCall = rootView.findViewById(R.id.layoutCall);
 
         textViewDeliveryCost = rootView.findViewById(R.id.textViewDeliveryCost);
-        layoutDeliveryCost = rootView.findViewById(R.id.layoutDeliveryCost);
-
         textViewMinPurchase = rootView.findViewById(R.id.textViewMinPurchase);
-        layoutMinPurchase = rootView.findViewById(R.id.layoutMinPurchase);
-
         textViewOpenClosed = rootView.findViewById(R.id.textViewOpenClosed);
-        layoutOpenClosed = rootView.findViewById(R.id.layoutOpenClosed);
 
         this.initComponent();
 
@@ -85,12 +81,24 @@ public class InfoFragment extends Fragment {
             startActivity(intent);
         });
 
+        layoutAddress.setOnClickListener(v -> {
+            startMap(restaurateur.getAddress().getLongitude(),
+                    restaurateur.getAddress().getLatitude(),
+                    restaurateur.getShopName());
+        });
+
         if(restaurateur.isOpen()){
             textViewOpenClosed.setText(getString(R.string.open_shop));
         }else{
             textViewOpenClosed.setText(getString(R.string.closed_shop));
         }
 
+    }
+
+    private void startMap(double latitude, double longitude, String nameLocation){
+        Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
+        startActivity(mapIntent);
     }
 
 

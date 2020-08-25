@@ -1,6 +1,5 @@
 package it.uniba.di.sms1920.everit.rider.activities.works.assignedOrder;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,9 +20,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -33,7 +33,7 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class AssignedOrdersFragment extends Fragment{
     private RecyclerView assignedOrdersRecyclerView;
-    AssignedOrderRecyclerViewAdapter assignedOrdersRecyclerViewAdapter;
+    private AssignedOrderRecyclerViewAdapter assignedOrdersRecyclerViewAdapter;
     private List<Order> assignedOrderList = new ArrayList<>();
     private TextView textViewEmpty;
 
@@ -49,14 +49,20 @@ public class AssignedOrdersFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_proposals, container, false);
-        this.initComponents(view);
-        this.refreshData();
+        this.initUi(view);
         return view;
     }
 
-    private void initComponents(View view) {
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.loadData();
+    }
+
+    private void initUi(View view) {
         this.assignedOrdersRecyclerView = view.findViewById(R.id.proposal_list);
         this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
+        this.setupRecyclerView();
     }
 
     private void setupRecyclerView() {
@@ -64,43 +70,7 @@ public class AssignedOrdersFragment extends Fragment{
         this.assignedOrdersRecyclerView.setAdapter(this.assignedOrdersRecyclerViewAdapter);
     }
 
-    /*@Override
-    public void refreshData() {
-        RiderRequest riderRequest = new RiderRequest();
-        riderRequest.readAssignedOrders(new RequestListener<Collection<Order>>() {
-            @Override
-            public void successResponse(Collection<Order> response) {
-                assignedOrderList = new ArrayList<>(response);
-                if (assignedOrdersRecyclerViewAdapter == null) {
-                    setupRecyclerView();
-                }
-                else {
-                    assignedOrdersRecyclerViewAdapter.notifyDataSetChanged();
-                }
-
-                if (assignedOrderList.size() > 0) {
-                    textViewEmpty.setVisibility(View.INVISIBLE);
-                }
-                else {
-                    textViewEmpty.setVisibility(View.VISIBLE);
-                    textViewEmpty.setText(R.string.assigned_order_empty_placeholder);
-                }
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
-    }*/
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        refreshData();
-    }
-
-    public void refreshData() {
+    public void loadData() {
         RiderRequest riderRequest = new RiderRequest();
         riderRequest.readAssignedOrders(new RequestListener<Collection<Order>>() {
             @Override
@@ -125,7 +95,10 @@ public class AssignedOrdersFragment extends Fragment{
 
             @Override
             public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
+                Context context = getContext();
+                if (context != null) {
+                    Utility.showGenericMessage(context, error.getMessage());
+                }
             }
         });
     }
@@ -140,7 +113,7 @@ public class AssignedOrdersFragment extends Fragment{
                 Order item = (Order) view.getTag();
                 if (twoPaneMode) {
                     Bundle arguments = new Bundle();
-                    arguments.putLong(AssignedOrderDetailFragment.ARG_ITEM_ID, item.getId());
+                    arguments.putParcelable(AssignedOrderDetailFragment.ARG_ITEM, item);
                     AssignedOrderDetailFragment fragment = new AssignedOrderDetailFragment();
                     fragment.setArguments(arguments);
                     parentFragment.getChildFragmentManager().beginTransaction().replace(R.id.proposal_detail_container, fragment).commit();
@@ -173,8 +146,7 @@ public class AssignedOrdersFragment extends Fragment{
             if(!assignedOrderList.isEmpty()) {
                 Order item = this.assignedOrderList.get(position);
                 if (item != null) {
-                    holder.textViewOrderNumber.setText("#" + item.getId());
-
+                    holder.textViewOrderNumber.setText(String.format(Locale.getDefault(), "#%d", item.getId()));
                     if (item.getRestaurateur().getImagePath() != null) {
                         String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
                         Picasso.get()
@@ -186,11 +158,9 @@ public class AssignedOrdersFragment extends Fragment{
                                 .into(holder.imageView);
 
                     }
-
                     if (item.isLate()) {
                         holder.chipOrderLate.setVisibility(View.VISIBLE);
                     }
-
                     holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
                     holder.textViewPickupAddress.setText(item.getRestaurateur().getAddress().getFullAddress());
                     holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
@@ -223,24 +193,5 @@ public class AssignedOrdersFragment extends Fragment{
                 textViewPickupAddress = view.findViewById(R.id.textViewAddressToPickup);
             }
         }
-    }
-
-    private void promptErrorMessage(String message){
-        Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
-
-        TextView title = dialog.findViewById(R.id.textViewTitle);
-        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
-
-        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
-        textViewMessage.setText(message);
-
-        Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
-            getActivity().finish();
-        });
-
-        dialog.show();
     }
 }

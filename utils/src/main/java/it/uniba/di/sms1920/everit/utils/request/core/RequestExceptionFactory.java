@@ -17,7 +17,7 @@ public final class RequestExceptionFactory {
 
     public static RequestException createExceptionFromError(VolleyError error) {
         if ((error instanceof TimeoutError) || (error instanceof NoConnectionError)) {
-            return new ServerUnreachableException(Providers.getStringFromApplicationContext(R.string.message_server_unreachable));
+            return new ServerUnreachableException(error, Providers.getStringFromApplicationContext(R.string.message_server_unreachable));
         }
 
         int errorCode = (error.networkResponse != null) ? error.networkResponse.statusCode : 0;
@@ -26,13 +26,13 @@ public final class RequestExceptionFactory {
         switch (errorCode) {
             case 404:
                 translatedMessage = Providers.getStringFromApplicationContext(R.string.message_404);
-                return new NotFoundException(translatedMessage);
+                return new NotFoundException(error, translatedMessage);
             case 401:
                 translatedMessage = Providers.getStringFromApplicationContext(R.string.message_401);
-                return new UnauthorizedException(translatedMessage);
-            case 501:
+                return new UnauthorizedException(error, translatedMessage);
+            case 500:
                 translatedMessage = Providers.getStringFromApplicationContext(R.string.message_500);
-                return new ServerException(translatedMessage);
+                return new ServerException(error, translatedMessage);
             default:
                 String errorMessage = "";
 
@@ -50,7 +50,7 @@ public final class RequestExceptionFactory {
                     errorMessage = Providers.getStringFromApplicationContext(R.string.message_generic_error);
                 }
 
-                return new RequestException(errorMessage);
+                return new RequestException(error, errorMessage);
         }
     }
 }
