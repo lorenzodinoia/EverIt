@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,6 +23,7 @@ import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
 import it.uniba.di.sms1920.everit.utils.request.RestaurateurRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -87,6 +89,8 @@ public class PrivacyAndSecurityFragment extends Fragment {
                             restaurateurRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
                                 @Override
                                 public void successResponse(Boolean response) {
+                                    Providers.getAuthProvider().removeAllUserData();
+                                    Toast.makeText(mParent, R.string.message_password_changed, Toast.LENGTH_LONG).show();
                                     mParent.finishAffinity();
                                     Intent intent = new Intent(mParent, LoginActivity.class);
                                     startActivity(intent);
