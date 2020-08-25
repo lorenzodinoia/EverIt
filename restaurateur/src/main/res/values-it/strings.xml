@@ -160,4 +160,8 @@
     <string name="notification_channel_name">Server notifications</string>
 
     <string name="wrong_validation_code">Codice conferma errato</string>
+
+    <string name="message_deliver_order_activity_with_nfc">Inserisci il codice di consegna dell\'ordine, è possibile utilizzare l\'NFC per lo scambio di codice</string>
+    <string name="message_deliver_order_activity_with_nfc_off_nfc">Inserisci il codice di consegna dell\'ordine, è possibile utilizzare l\'NFC per lo scambio di codice ma prima attivalo</string>
+    <string name="message_deliver_order_activity">Inserisci il codice di consegna dell\'ordine</string>
 </resources>

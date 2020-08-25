@@ -51,5 +51,4 @@
 
     <!-- <string name="firebase_notification_channel_name">Notifiche via server</string>-->
 
-    <string name="message_deliver_order_activity">Inserisci il codice di consegna dell\'ordine, è anche possibile utilizzare l\'NFC per lo scambio di codice</string>
 </resources>

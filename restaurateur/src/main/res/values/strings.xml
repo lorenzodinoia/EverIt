@@ -134,6 +134,10 @@
     <string name="delivered">Delivered</string>
     <string name="wrong_validation_code">Wrong validation code</string>
 
+    <string name="message_deliver_order_activity_with_nfc">Insert validation code for order delivery. You can use also the NFC function for code exchange</string>
+    <string name="message_deliver_order_activity_with_nfc_off_nfc">Insert validation code for order delivery. You can use also the NFC function for code exchange but first turn it on</string>
+    <string name="message_deliver_order_activity">Insert validation code for order delivery</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="loadImage">Load profile image</string>

@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
@@ -14,7 +16,6 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -57,8 +58,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
 
     private MaterialButton btnConfirm;
 
-    //TODO aggiungere stringhe
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,28 +79,27 @@ public class DeliverOrderActivity extends AppCompatActivity {
             }
         }*/
 
-        if(!isNfcSupported()){
-            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
-        }else{
-            if(!nfcAdapter.isEnabled()){
-                Toast.makeText(this, "NFC disabled on this device. Turn on to proceed", Toast.LENGTH_SHORT).show();
-                nfcIntentSettings();
-            }
-        }
-
         initComponent();
     }
 
-    //TODO verificare funzionamento dell'intent
-    private void nfcIntentSettings(){
+    /*private void nfcIntentSettings(){
         Toast.makeText(this, "nfc disabled", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
         startActivity(intent);
-    }
+    }*/
 
     private void initComponent(){
         textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
-        textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
+
+        if(isNfcSupported()){
+            IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
+            this.registerReceiver(mReceiver, filter);
+            textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc);
+        }
+        else{
+            textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
+        }
+
         editTextValidationCode1 = findViewById(R.id.editTextValidationCode1);
         editTextValidationCode1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -304,7 +302,7 @@ public class DeliverOrderActivity extends AppCompatActivity {
                 receiveMessageFromDevice(getIntent());
             }
             else{
-                nfcIntentSettings();
+                //nfcIntentSettings();
             }
         }
         else{
@@ -320,12 +318,18 @@ public class DeliverOrderActivity extends AppCompatActivity {
                 disableForegroundDispatch(this, this.nfcAdapter);
             }
             else{
-                nfcIntentSettings();
+                //nfcIntentSettings();
             }
         }
         else{
             Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -354,4 +358,28 @@ public class DeliverOrderActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE,
+                        NfcAdapter.STATE_OFF);
+                switch (state) {
+                    case NfcAdapter.STATE_OFF:
+                        textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc_off_nfc);
+                        break;
+                    case NfcAdapter.STATE_TURNING_OFF:
+                        break;
+                    case NfcAdapter.STATE_ON:
+                        textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc);
+                        break;
+                    case NfcAdapter.STATE_TURNING_ON:
+                        break;
+                }
+            }
+        }
+    };
 }

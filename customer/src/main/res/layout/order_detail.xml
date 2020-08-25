@@ -312,5 +312,18 @@
             app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3"
             app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryCost" />
 
+        <Button
+            android:id="@+id/buttonReceiveOrder"
+            style="@style/ButtonMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTotalPrice" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

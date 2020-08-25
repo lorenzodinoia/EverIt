@@ -147,4 +147,7 @@
 
     <string name="notification_channel_id" translatable="false">FirebaseNotifications-CustomerChannel</string>
     <string name="notification_channel_name">Server notifications</string>
+
+    <string name="send_code">Send code</string>
+    <string name="message_nfc_sender_activity">Communicate this code upond delivery to complete the procedure. It is also possible to exchange code via NFC</string>
 </resources>

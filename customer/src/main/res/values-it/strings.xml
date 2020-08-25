@@ -133,4 +133,7 @@
     <string name="late">Ritardo</string>
 
     <string name="notification_channel_name">Notifiche via server</string>
+
+    <string name="send_code">Invia codice</string>
+    <string name="message_nfc_sender_activity">Comunica questo codice al momento della consegna. E\' possibile scambiare il codice anche via NFC</string>
 </resources>

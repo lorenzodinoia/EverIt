@@ -229,8 +229,18 @@ public class Restaurateur extends Model implements Authenticable{
         dest.writeString(this.imagePath);
         dest.writeParcelable(this.shopType, flags);
         dest.writeInt((this.isOpen) ? 1 : 0);
-        dest.writeTypedArray(this.productCategories.toArray(new ProductCategory[0]), flags);
-        dest.writeTypedArray(this.openingDays.toArray(new OpeningDay[0]), flags);
+        if(this.productCategories != null) {
+            dest.writeTypedArray(this.productCategories.toArray(new ProductCategory[0]), flags);
+        }
+        else{
+            dest.writeTypedArray(null, flags);
+        }
+        if(this.openingDays != null) {
+            dest.writeTypedArray(this.openingDays.toArray(new OpeningDay[0]), flags);
+        }
+        else{
+            dest.writeTypedArray(null, flags);
+        }
     }
 
     public static final class Builder implements Parcelable {

@@ -1,9 +1,11 @@
 package it.uniba.di.sms1920.everit.customer.activities.orders;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -14,12 +16,14 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import it.uniba.di.sms1920.everit.customer.ProductRecyclerViewAdapter;
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.nfc.NfcSenderActivity;
 import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabManagerFragment;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 
 public class OrderDetailFragment extends Fragment {
 
+    public static final String ORDER = "order";
     static final String ARG_ITEM_ID = "item_id";
     private Order order;
 
@@ -105,6 +109,9 @@ public class OrderDetailFragment extends Fragment {
             else if (orderStatus.equals(Order.Status.DELIVERING)) {
                 textViewOrderStatus.setText(R.string.delivering);
             }
+            else if (orderStatus.equals(Order.Status.READY)){
+                textViewOrderStatus.setText(R.string.ready);
+            }
             else if (orderStatus.equals(Order.Status.DELIVERED)) {
                 textViewOrderStatus.setText(R.string.delivered);
             }
@@ -113,6 +120,18 @@ public class OrderDetailFragment extends Fragment {
             float deliveryCost = order.getRestaurateur().getDeliveryCost();
             textViewDeliveryCost.setText(Float.toString(deliveryCost));
             textViewTotalPrice.setText(Float.toString(order.getTotalCost()+deliveryCost));
+
+            if(order.getOrderType().equals(Order.OrderType.TAKEAWAY)) {
+                if(orderStatus.equals(Order.Status.READY)) {
+                    Button buttonReceiveOrder = rootView.findViewById(R.id.buttonReceiveOrder);
+                    buttonReceiveOrder.setText(R.string.send_code);
+                    buttonReceiveOrder.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), NfcSenderActivity.class);
+                        intent.putExtra(ORDER, order);
+                        startActivity(intent);
+                    });
+                }
+            }
 
             recyclerView.setAdapter(new ProductRecyclerViewAdapter(order.getProducts()));
         }

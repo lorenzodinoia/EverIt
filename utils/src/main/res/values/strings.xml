@@ -59,5 +59,4 @@
 
     <string name="validation_code_digit_placeholder" translatable="false">0</string>
 
-    <string name="message_deliver_order_activity">Insert validation code for order delivery, it is possible to use also the NFC function for code exchange</string>
 </resources>
