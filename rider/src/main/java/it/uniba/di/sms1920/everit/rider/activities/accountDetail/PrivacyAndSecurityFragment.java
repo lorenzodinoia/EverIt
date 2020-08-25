@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -111,7 +112,8 @@ public class PrivacyAndSecurityFragment extends Fragment {
                                     if (response) {
                                         //The password has been changed, now all user's local data is removed to force a new login. The fragment will be closed
                                         Providers.getAuthProvider().removeAllUserData();
-                                        promptMessage(getString(R.string.message_password_changed));
+                                        Toast.makeText(mParent, R.string.message_password_changed, Toast.LENGTH_LONG).show();
+                                        //promptMessage(getString(R.string.message_password_changed));
                                         mParent.finishAffinity();
                                         Intent intent = new Intent(mParent, LoginActivity.class);
                                         startActivity(intent);
