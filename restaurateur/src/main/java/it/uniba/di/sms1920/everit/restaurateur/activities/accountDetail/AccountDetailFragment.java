@@ -70,9 +70,7 @@ public class AccountDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_detail, container, false);
 
         //TODO ridimensionare imageView
@@ -85,7 +83,7 @@ public class AccountDetailFragment extends Fragment {
             String url = String.format("%s/images/%s", Constants.SERVER_HOST, restaurateur.getImagePath());
             Picasso.get().
                     load(url)
-                    .placeholder(R.drawable.ic_baseline_add_a_photo_36)
+                    .placeholder(R.drawable.ic_add_profile_picture_12px)
                     .transform(new CropCircleTransformation())
                     .fit()
                     .into(imageProfile);

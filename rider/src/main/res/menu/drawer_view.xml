@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.BaseActivity" >
 
@@ -8,22 +7,22 @@
         android:id="@+id/section_home">
         <item
             android:id="@+id/nav_home"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="@drawable/ic_home_rider_12px"
             android:title="@string/home" />
 
         <item
             android:id="@+id/nav_deliveries"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="@drawable/ic_delivery_12px"
             android:title="@string/activity_my_works" />
 
         <item
             android:id="@+id/nav_deliveries_history"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="@drawable/ic_order_list_12px"
             android:title="@string/title_deliveryhistory_list" />
 
         <item
             android:id="@+id/nav_account_detail"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="@drawable/ic_baseline_person_outline_24"
             android:title="@string/account_detail" />
     </group>
 
