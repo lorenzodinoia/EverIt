@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.rider.activities.accountDetail.AccountDetailActivity;
+import it.uniba.di.sms1920.everit.rider.activities.deliverHistory.DeliveryHistoryListActivity;
 import it.uniba.di.sms1920.everit.rider.activities.works.WorksActivity;
 
 import android.content.Intent;
@@ -85,6 +86,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_deliveries: {
                 Intent intent = new Intent(this, WorksActivity.class);
+                startActivity(intent);
+                break;
+            }
+
+            case R.id.nav_deliveries_history: {
+                Intent intent = new Intent(this, DeliveryHistoryListActivity.class);
                 startActivity(intent);
                 break;
             }

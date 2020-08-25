@@ -17,6 +17,11 @@
             android:title="@string/activity_my_works" />
 
         <item
+            android:id="@+id/nav_deliveries_history"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/title_deliveryhistory_list" />
+
+        <item
             android:id="@+id/nav_account_detail"
             android:icon="@android:drawable/ic_menu_search"
             android:title="@string/account_detail" />

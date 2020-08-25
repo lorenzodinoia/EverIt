@@ -21,8 +21,22 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.accountDetail.AccountDetailActivity"
+        <activity
+            android:name=".activities.deliverHistory.DeliveryHistoryListActivity"
+            android:label="@string/title_deliveryhistory_list"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.deliverHistory.DeliveryHistoryDetailActivity"
+            android:label="@string/title_deliveryhistory_detail"
+            android:parentActivityName=".activities.deliverHistory.DeliveryHistoryListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.uniba.di.sms1920.everit.rider.activities.deliverHistory.DeliveryHistoryListActivity" />
+        </activity>
+        <activity
+            android:name=".activities.accountDetail.AccountDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.works.delivery.DeliveryDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />

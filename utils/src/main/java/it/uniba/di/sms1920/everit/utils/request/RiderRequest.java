@@ -169,4 +169,23 @@ public class RiderRequest extends CRUDRequest<Rider> implements CRUD<Rider> {
             e.printStackTrace();
         }
     }
+
+    public void readDeliveredOrders(RequestListener<Collection<Order>> requestListener){
+        Adapter<Order> orderAdapter = AdapterProvider.getAdapterFor(Order.class);
+        ArrayRequest assignedOrdersRequest = new ArrayRequest(Request.Method.GET, String.format(Locale.getDefault(), "%s/api/%s/order/delivered", Constants.SERVER_HOST, URL), null,
+                response -> {
+                    try {
+                        Collection<Order> resultList = orderAdapter.fromJSONArray(response, Order.class);
+                        requestListener.successResponse(resultList);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        requestListener.errorResponse(new RequestException(null, e.getMessage()));
+                    }
+                },
+                error -> {
+                    requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                }, Providers.getAuthProvider().getAuthToken());
+
+        Providers.getRequestProvider().addToQueue(assignedOrdersRequest);
+    }
 }
