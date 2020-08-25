@@ -36,7 +36,9 @@ import it.uniba.di.sms1920.everit.utils.request.core.ObjectRequest;
 public class BackgroundLocationService extends Service {
     public static final String ACTION_START_WORKING = "service.work";
     public static final String PARAMETER_AUTH_TOKEN = "auth-token";
-    private static final String SERVER_URL = String.format("%s/api/rider/location", Constants.SERVER_HOST);
+    private static final String LOCATION_UPDATE_SERVER_URL = String.format("%s/api/rider/location", Constants.SERVER_HOST);
+    private static final String START_WORKING_SERVER_URL = String.format("%s/api/rider/start", Constants.SERVER_HOST);
+    private static final String STOP_WORKING_SERVER_URL = String.format("%s/api/rider/stop", Constants.SERVER_HOST);
     private static final String REQUEST_BODY_LATITUDE = "latitude";
     private static final String REQUEST_BODY_LONGITUDE = "longitude";
     private static final String CONSOLE_TAG = "LOCATION SERVICE";
@@ -172,11 +174,25 @@ public class BackgroundLocationService extends Service {
         Notification notification = this.createNotification();
         this.working = true;
         super.startForeground(NotificationSettings.ID, notification);
+        ObjectRequest serverRequest = new ObjectRequest(Request.Method.POST, START_WORKING_SERVER_URL, null,
+            response -> Log.d(CONSOLE_TAG, "Rider's service started on the server"),
+            error -> {
+                Log.e(CONSOLE_TAG, "UUnable to start rider's service on the server: " + error.toString());
+                this.working = false;
+                this.stop();
+            }, this.authToken);
+        this.requestQueue.add(serverRequest);
     }
 
     private void stopWorking() {
         this.stopLocationUpdates();
-        this.working = false;
+        if (this.working) {
+            this.working = false;
+            ObjectRequest serverRequest = new ObjectRequest(Request.Method.POST, STOP_WORKING_SERVER_URL, null,
+                    response -> Log.d(CONSOLE_TAG, "Rider's service stopped on the server"),
+                    error -> Log.e(CONSOLE_TAG, "Unable to stop rider's service on the server: " + error.toString()), this.authToken);
+            this.requestQueue.add(serverRequest);
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -205,7 +221,7 @@ public class BackgroundLocationService extends Service {
             e.printStackTrace();
             return;
         }
-        ObjectRequest serverRequest = new ObjectRequest(Request.Method.POST, SERVER_URL, requestBody,
+        ObjectRequest serverRequest = new ObjectRequest(Request.Method.POST, LOCATION_UPDATE_SERVER_URL, requestBody,
                 response -> Log.d(CONSOLE_TAG, "Location pushed successfully"),
                 error -> Log.e(CONSOLE_TAG, "There was an error on pushing new location: " + error.toString()), this.authToken);
         this.requestQueue.add(serverRequest);
