@@ -14,10 +14,16 @@ import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.rider.activities.accountDetail.AccountDetailActivity;
 import it.uniba.di.sms1920.everit.rider.activities.deliverHistory.DeliveryHistoryListActivity;
 import it.uniba.di.sms1920.everit.rider.activities.works.WorksActivity;
+import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -103,12 +109,43 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
 
             case R.id.exit: {
-                //TODO implementare loguot rider
+                Providers.getAuthProvider().logout(new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        finish();
+                        startActivity(getIntent());
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
+
+                break;
             }
 
         }
         item.setChecked(true);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 }
