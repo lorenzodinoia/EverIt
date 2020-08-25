@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.BaseActivity;
@@ -19,6 +20,8 @@ import it.uniba.di.sms1920.everit.customer.activities.BaseActivity;
 public class AccountDetailFragment extends Fragment {
 
     AccountDetailActivity mParent;
+    private TextView textViewCustomerNameAccountDetail;
+    private TextView textViewEmailCustomerAccountDetail;
     private LinearLayout linearLayoutAccountInfo;
     private LinearLayout linearLayoutChangePassword;
 
@@ -40,6 +43,11 @@ public class AccountDetailFragment extends Fragment {
 
 
     private void initComponent(View viewRoot){
+        textViewCustomerNameAccountDetail = viewRoot.findViewById(R.id.textViewCustomerNameAccountDetail);
+        textViewCustomerNameAccountDetail.setText(mParent.getCustomer().getFullName());
+
+        textViewEmailCustomerAccountDetail = viewRoot.findViewById(R.id.textViewEmailCustomerAccountDetail);
+        textViewEmailCustomerAccountDetail.setText(mParent.getCustomer().getEmail());
 
         linearLayoutAccountInfo = viewRoot.findViewById(R.id.linearLayoutAccountInfo);
         linearLayoutAccountInfo.setOnClickListener(v -> {

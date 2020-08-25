@@ -15,6 +15,18 @@
             android:id="@+id/nav_deliveries"
             android:icon="@android:drawable/ic_menu_search"
             android:title="@string/activity_my_works" />
+
+        <item
+            android:id="@+id/nav_account_detail"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/account_detail" />
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/section_settings">
+        <item android:id="@+id/exit"
+            android:icon="@drawable/ic_logout_12px"
+            android:title="@string/logout"/>
     </group>
 
 </menu>

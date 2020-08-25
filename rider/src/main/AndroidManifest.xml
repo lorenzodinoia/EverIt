@@ -21,6 +21,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activities.accountDetail.AccountDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.works.delivery.DeliveryDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -68,9 +70,10 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/notification_channel_id"/>
+            android:value="@string/notification_channel_id" />
 
-        <service android:name="it.uniba.di.sms1920.everit.rider.RiderNotificationService"
+        <service
+            android:name=".RiderNotificationService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

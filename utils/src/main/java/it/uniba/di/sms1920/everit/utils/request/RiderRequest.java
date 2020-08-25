@@ -24,6 +24,12 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestExceptionFactory;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class RiderRequest extends CRUDRequest<Rider> implements CRUD<Rider> {
+
+    private static final class JSONKeys {
+        private static final String KEY_OLD_PASSWORD = "old_password";
+        private static final String KEY_NEW_PASSWORD = "new_password";
+    }
+
     private final String URL = "rider";
 
     @Override
@@ -43,12 +49,16 @@ public class RiderRequest extends CRUDRequest<Rider> implements CRUD<Rider> {
 
     @Override
     public void update(Rider model, RequestListener<Rider> RequestListener) {
-        throw new UnsupportedOperationException();
+        super.update(model, URL+"/update", RequestListener, Rider.class, true);
     }
 
     @Override
     public void delete(long id, RequestListener<Boolean> RequestListener) {
-        throw new UnsupportedOperationException();
+        super.delete(id, URL+"/delete", RequestListener, true);
+    }
+
+    public void readCurrent(RequestListener<Rider> requestListener){
+        super.read(Providers.getAuthProvider().getUser().getId(), URL, requestListener, Rider.class, true);
     }
 
     public void readAssignedOrders(RequestListener<Collection<Order>> requestListener) {
@@ -136,5 +146,27 @@ public class RiderRequest extends CRUDRequest<Rider> implements CRUD<Rider> {
                 }, Providers.getAuthProvider().getAuthToken());
 
         Providers.getRequestProvider().addToQueue(assignedOrdersRequest);
+    }
+
+    public void changePassword(String oldPassword, String newPassword, RequestListener<Boolean> requestListener){
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put(RiderRequest.JSONKeys.KEY_OLD_PASSWORD, oldPassword);
+            jsonObject.put(RiderRequest.JSONKeys.KEY_NEW_PASSWORD, newPassword);
+
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s/changePassword", Constants.SERVER_HOST, URL), jsonObject,
+                    response -> {
+                        requestListener.successResponse(true);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

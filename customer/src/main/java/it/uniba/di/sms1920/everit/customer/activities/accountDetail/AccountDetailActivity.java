@@ -63,6 +63,7 @@ public class AccountDetailActivity extends AppCompatActivity {
             FragmentManager fm = getSupportFragmentManager();
             if(fm.getBackStackEntryCount() > 1){
                 fm.popBackStack();
+                toolbar.setTitle(R.string.account_detail);
             }
             else {
                 finish();

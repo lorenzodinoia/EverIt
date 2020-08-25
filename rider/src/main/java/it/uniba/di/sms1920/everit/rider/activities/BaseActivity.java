@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.rider.activities.accountDetail.AccountDetailActivity;
 import it.uniba.di.sms1920.everit.rider.activities.works.WorksActivity;
 
 import android.content.Intent;
@@ -76,15 +77,28 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_home:{
+            case R.id.nav_home: {
                 NavOptions navOptions = new NavOptions.Builder().setPopUpTo(R.id.main, true).build();
-                Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.homeFragment, null, navOptions);
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.homeFragment, null, navOptions);
                 break;
             }
-            case R.id.nav_deliveries:
+
+            case R.id.nav_deliveries: {
                 Intent intent = new Intent(this, WorksActivity.class);
                 startActivity(intent);
                 break;
+            }
+
+            case R.id.nav_account_detail: {
+                Intent intent = new Intent(this, AccountDetailActivity.class);
+                startActivity(intent);
+                break;
+            }
+
+            case R.id.exit: {
+                //TODO implementare loguot rider
+            }
+
         }
         item.setChecked(true);
         drawerLayout.closeDrawer(GravityCompat.START);

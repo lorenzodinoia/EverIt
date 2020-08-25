@@ -131,7 +131,8 @@ public class ProfileFragment extends Fragment {
                     customerRequest.update(customer, new RequestListener<Customer>() {
                         @Override
                         public void successResponse(Customer response) {
-                            Toast.makeText(getActivity().getApplicationContext(), R.string.account_updated, Toast.LENGTH_LONG).show();
+                            customer = response;
+                            Toast.makeText(mParent, R.string.account_updated, Toast.LENGTH_LONG).show();
                             buttonEditConfirm.setText(R.string.edit);
                             editTextName.setText(customer.getName());
                             editTextName.setEnabled(false);

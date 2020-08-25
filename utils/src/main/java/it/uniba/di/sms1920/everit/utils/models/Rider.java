@@ -38,4 +38,8 @@ public class Rider extends User {
             return new Rider(this);
         }
     }
+
+    public String getFullName(){
+        return this.getName() + " " + this.getSurname();
+    }
 }

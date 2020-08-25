@@ -63,6 +63,28 @@
     <string name="notification_channel_id" translatable="false">FirebaseNotifications-RiderChannel</string>
     <string name="notification_channel_name">Server notifications</string>
 
+    <string name="account_detail">Account detail</string>
+    <string name="account_info">Account info</string>
+    <string name="privacy_and_security">Privacy and security</string>
+
+    <string name="edit">Edit</string>
+    <string name="confirm">Confirm</string>
+    <string name="account_updated">Account updated</string>
+
+    <string name="logout" translatable="false">Logout</string>
+
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="new_password_conf">Confirm new password</string>
+    <string name="change_password">Change password</string>
+    <string name="delete_account">Delete account</string>
+
+    <string name="message_field_required">Required field</string>
+    <string name="message_password_changed">The password has been successfully changed. Now you need to log in again</string>
+    <string name="new_password_equals_old">New password cannot be equals to the old password</string>
+    <string name="message_password_wrong">The password format is incorrect. The password must be at least 8 characters long and contain at least one number</string>
+    <string name="message_password_confirm_mismatch">Password mismatch</string>
+    <string name="message_confirm_delete">Are you sure you want to delete the account? All data will be deleted</string>
 </resources>
 
 
