@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.restaurateur;
 
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
 
+import it.uniba.di.sms1920.everit.restaurateur.activities.BaseActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.LauncherActivity;
 import it.uniba.di.sms1920.everit.utils.NotificationServiceUtility;
 import it.uniba.di.sms1920.everit.utils.provider.FirebaseTokenProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
@@ -23,51 +26,61 @@ public class RestaurateurNotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        RemoteMessage.Notification remoteNotification = remoteMessage.getNotification();
-        if (remoteNotification != null) {
-            String title = remoteNotification.getTitle();
-            String message = remoteNotification.getBody();
-            String clickAction = remoteNotification.getClickAction();
-            Map<String, String> data = remoteMessage.getData();
-            PendingIntent pendingIntent = null;
+        Map<String, String> data = remoteMessage.getData();
+        String title = "";
+        String message = "";
+        PendingIntent pendingIntent = null;
 
-            if ((clickAction != null) && (clickAction.length() > 0)) {
+        if (data.size() > 0) {
+            if (data.containsKey("title")) {
+                title = data.get("title");
+                data.remove("title");
+            }
+            if (data.containsKey("message")) {
+                message = data.get("message");
+                data.remove("message");
+            }
+            if (data.containsKey("click_action")) {
+                String clickAction = data.get("click_action");
+                data.remove("click_action");
+
                 Intent clickIntent = new Intent();
                 clickIntent.setAction(clickAction);
-                if (data.size() > 0) {
-                    Bundle bundle = NotificationServiceUtility.notificationPayloadToBundle(data);
-                    clickIntent.putExtras(bundle);
-                }
                 if (clickIntent.resolveActivity(this.getPackageManager()) != null) {
-                    //TODO Vedi come cazzo risolvere
-                    /*
-                    Intent launcherIntent = new Intent(this.getApplicationContext(), LauncherActivity.class);
-                    launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    launcherIntent.putExtra(LauncherActivity.FLAG_ONLY_INITIALIZATIONS, true);
+                    Bundle bundle = NotificationServiceUtility.notificationPayloadToBundle(data); //put as arguments the remaining keys which represent the actual payload
+                    clickIntent.putExtras(bundle);
 
-                    TaskStackBuilder intentSequence = TaskStackBuilder.create(getApplicationContext());
-                    intentSequence.addNextIntent(new Intent(this.getApplicationContext(), BaseActivity.class));
-                    intentSequence.addNextIntent(clickIntent);
-                    intentSequence.addNextIntent(launcherIntent);
-                    pendingIntent = intentSequence.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
+                    if (AppLoader.isComponentsLoaded()) {
+                        pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, clickIntent, PendingIntent.FLAG_ONE_SHOT);
+                    }
+                    else { //Needs initializations by launcher activity
+                        Intent launcherActivityIntent = new Intent(this.getApplicationContext(), LauncherActivity.class);
+                        launcherActivityIntent.putExtra(LauncherActivity.FLAG_ONLY_INITIALIZATIONS, true); //Says to the launcher activity to handle only initializations
+                        Intent baseActivityIntent = new Intent(this.getApplicationContext(), BaseActivity.class); //Base activity are put on the bottom of the stack to prevent the app closes
 
-                     */
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this.getApplicationContext());
+                        stackBuilder.addNextIntent(baseActivityIntent);
+                        stackBuilder.addNextIntent(clickIntent);
+                        stackBuilder.addNextIntent(launcherActivityIntent);
+
+                        pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
+                    }
                 }
             }
-
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, this.getApplicationContext().getString(R.string.notification_channel_id))
-                    .setSmallIcon(it.uniba.di.sms1920.everit.utils.R.mipmap.icon_round)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(true);
-            if (pendingIntent != null) {
-                notificationBuilder.setContentIntent(pendingIntent);
-            }
-
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.notify(++notificationCounter, notificationBuilder.build());
         }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, this.getApplicationContext().getString(R.string.notification_channel_id))
+                .setSmallIcon(it.uniba.di.sms1920.everit.utils.R.mipmap.icon_round)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+        if (pendingIntent != null) {
+            notificationBuilder.setContentIntent(pendingIntent);
+        }
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(++notificationCounter, notificationBuilder.build());
     }
 
     @Override

@@ -15,6 +15,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LauncherActivity extends AppCompatActivity {
+    public static final String FLAG_ONLY_INITIALIZATIONS = "launcher.only_initializations";
     private static final float DELAY = 1f;
 
     @Override
@@ -39,8 +40,10 @@ public class LauncherActivity extends AppCompatActivity {
                 authProvider.loginFromSavedCredential(new RequestListener<Restaurateur>() {
                     @Override
                     public void successResponse(Restaurateur response) {
-                        Intent returnLogin= new Intent(getApplicationContext(), BaseActivity.class);
-                        startActivity(returnLogin);
+                        if (!getIntent().hasExtra(FLAG_ONLY_INITIALIZATIONS)) {
+                            Intent loadBaseActivity= new Intent(getApplicationContext(), BaseActivity.class);
+                            startActivity(loadBaseActivity);
+                        }
                         finish();
                     }
 
