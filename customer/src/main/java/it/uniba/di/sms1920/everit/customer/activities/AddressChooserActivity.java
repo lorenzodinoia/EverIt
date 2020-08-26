@@ -58,6 +58,8 @@ public class AddressChooserActivity extends AppCompatActivity {
      */
     private static final Address DEFAULT_POSITION = new Address(41.107834, 16.880462, "via Edoardo Orabona", "Bari");
 
+    private static final String SAVED_USER_QUERY = "saved.user_query";
+
     /**
      * Current user position, initialized to default position
      */
@@ -81,6 +83,7 @@ public class AddressChooserActivity extends AppCompatActivity {
      * List of suggested places by HERE Maps API
      */
     private List<AutoSuggestPlace> suggestPlaces = new ArrayList<>();
+    private String userQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +94,30 @@ public class AddressChooserActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String query;
-        if ((intent != null) && ((query = intent.getStringExtra(PARAMETER_QUERY)) != null)) {
-            //Query string is provided, so the autocomplete request is sent
-            this.editTextQuery.setText(query);
-            this.autocomplete(query);
+        if (savedInstanceState == null) {
+            if ((intent != null) && ((query = intent.getStringExtra(PARAMETER_QUERY)) != null)) {
+                //Query string is provided, so the autocomplete request is sent
+                this.userQuery = query;
+                this.editTextQuery.setText(this.userQuery);
+            }
         }
+        else if (savedInstanceState.containsKey(SAVED_USER_QUERY)) {
+            this.userQuery = savedInstanceState.getString(SAVED_USER_QUERY);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (this.userQuery != null) {
+            this.autocomplete(this.userQuery);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SAVED_USER_QUERY, this.userQuery);
     }
 
     @Override
