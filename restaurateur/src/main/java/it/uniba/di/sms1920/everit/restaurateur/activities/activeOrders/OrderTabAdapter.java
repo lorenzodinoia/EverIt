@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.ui.main;
+package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

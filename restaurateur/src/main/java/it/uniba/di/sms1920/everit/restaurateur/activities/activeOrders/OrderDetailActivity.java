@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 
 public class OrderDetailActivity extends AppCompatActivity {
+
 
     private Order order;
 
@@ -66,6 +68,9 @@ public class OrderDetailActivity extends AppCompatActivity {
             });
 
         }
+        else{
+            order = savedInstanceState.getParcelable(OrderDetailFragment.ORDER);
+        }
     }
 
     @Override
@@ -103,4 +108,10 @@ public class OrderDetailActivity extends AppCompatActivity {
         return order;
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(OrderDetailFragment.ORDER, order);
+    }
 }

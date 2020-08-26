@@ -71,11 +71,14 @@ public class OrderListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.order_list);
         assert recyclerView != null;
 
-        updateData();
-
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateData();
+    }
 
     @Override
     public void onResume() {

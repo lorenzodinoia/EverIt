@@ -49,6 +49,18 @@ public class OrderDetailFragment extends Fragment {
     private Order order;
     private int index;
 
+    private TextView labelOrdertype;
+    private TextView textViewOrderType;
+    private TextView labelDeliveryDate;
+    private TextView textViewLabelOrderNumber;
+    private TextView textViewOrderNumber;
+    private TextView textViewDeliveryTime;
+    private RecyclerView recyclerView;
+    private TextView textViewOrderNotes;
+    private TextView textViewOrderDeliveryPrice;
+    private TextView textViewSubTotalOrderPrice;
+    private TextView textViewOrderTotalPrice;
+
     private MaterialButton confirmButton;
     private MaterialButton searchRider;
 
@@ -73,21 +85,36 @@ public class OrderDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.order_detail, container, false);
 
-        if (order != null) {
-            TextView labelOrdertype = rootView.findViewById(R.id.textViewLabelOrderType);
-            TextView textViewOrderType = rootView.findViewById(R.id.textViewOrderType);
-            TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
-            TextView textViewLabelOrderNumber = rootView.findViewById(R.id.textViewLabelOrderNumber);
-            TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
-            TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
-            RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
-            TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotes);
-            TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewDeliveryCost);
-            TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewSubTotal);
-            TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+        initUi(rootView);
 
-            confirmButton = rootView.findViewById(R.id.btnConfirmOrder);
-            searchRider = rootView.findViewById(R.id.btnSearchRider);
+        return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        initData();
+    }
+
+    private void initUi(View view){
+        labelOrdertype = view.findViewById(R.id.textViewLabelOrderType);
+        textViewOrderType = view.findViewById(R.id.textViewOrderType);
+        labelDeliveryDate = view.findViewById(R.id.labelDeliveryDate);
+        textViewLabelOrderNumber = view.findViewById(R.id.textViewLabelOrderNumber);
+        textViewOrderNumber = view.findViewById(R.id.textViewOrderNumber);
+        textViewDeliveryTime = view.findViewById(R.id.textViewDeliveryDateTime);
+        recyclerView = view.findViewById(R.id.recycleViewProducts);
+        textViewOrderNotes = view.findViewById(R.id.textViewOrderNotes);
+        textViewOrderDeliveryPrice = view.findViewById(R.id.textViewDeliveryCost);
+        textViewSubTotalOrderPrice = view.findViewById(R.id.textViewSubTotal);
+        textViewOrderTotalPrice = view.findViewById(R.id.textViewTotalPrice);
+        confirmButton = view.findViewById(R.id.btnConfirmOrder);
+        searchRider = view.findViewById(R.id.btnSearchRider);
+    }
+
+    private void initData(){
+        if (order != null) {
             bindButton();
 
             labelOrdertype.setText(R.string.order_type);
@@ -114,10 +141,7 @@ public class OrderDetailFragment extends Fragment {
             textViewOrderDeliveryPrice.setText(Float.toString(deliveryCost));
             textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
             setupRecyclerView(recyclerView);
-
         }
-
-        return rootView;
     }
 
     private void bindButton(){
