@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -108,9 +107,11 @@
 
         <View
             android:id="@+id/view7"
-            android:layout_width="351dp"
+            android:layout_width="0dp"
             android:layout_height="2dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="48dp"
+            android:layout_marginEnd="20dp"
             android:background="#c0c0c0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -120,9 +121,11 @@
         <Button
             android:id="@+id/buttonEditConfirm"
             style="@style/ButtonMain"
-            android:layout_width="312dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="48dp"
+            android:layout_marginEnd="50dp"
             android:background="@drawable/btn_bg"
             android:text="@string/edit"
             app:layout_constraintEnd_toEndOf="parent"
