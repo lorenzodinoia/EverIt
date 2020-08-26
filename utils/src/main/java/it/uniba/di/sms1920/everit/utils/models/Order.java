@@ -61,6 +61,8 @@ public class Order extends Model {
         this.deliveryNotes = in.readString();
         this.validationCode = in.readString();
         this.status = Status.valueOf(in.readString());
+        this.late = (in.readInt() == 1);
+        this.pickupTime = (LocalTime) in.readSerializable();
         this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
         this.customer = in.readParcelable(Customer.class.getClassLoader());
         this.createdAt = (LocalDateTime) in.readSerializable();
@@ -224,6 +226,8 @@ public class Order extends Model {
         dest.writeString(this.deliveryNotes);
         dest.writeString(this.validationCode);
         dest.writeString(this.status.name());
+        dest.writeInt((this.late ? 1 : 0));
+        dest.writeSerializable(this.pickupTime);
         dest.writeParcelable(this.restaurateur, flags);
         dest.writeParcelable(this.customer, flags);
         dest.writeSerializable(this.createdAt);

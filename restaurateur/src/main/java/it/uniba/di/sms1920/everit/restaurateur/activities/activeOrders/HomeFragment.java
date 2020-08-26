@@ -20,6 +20,8 @@ import it.uniba.di.sms1920.everit.restaurateur.activities.BaseActivity;
 public class HomeFragment extends Fragment {
 
     private BaseActivity mParent;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -36,8 +38,15 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        TabLayout tabLayout = view.findViewById(R.id.tabs);
-        ViewPager viewPager = view.findViewById(R.id.view_pager);
+        tabLayout = view.findViewById(R.id.tabs);
+        viewPager = view.findViewById(R.id.view_pager);
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         OrderTabAdapter adapter = new OrderTabAdapter(mParent.getSupportFragmentManager(), 0);
         OrderListFragment fragment1 = new OrderListFragment();
@@ -67,8 +76,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-        return view;
     }
 
     @Override

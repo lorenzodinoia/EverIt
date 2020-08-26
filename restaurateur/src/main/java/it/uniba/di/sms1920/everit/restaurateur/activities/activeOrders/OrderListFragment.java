@@ -62,14 +62,15 @@ public class OrderListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_order_list, container, false);
+        if(savedInstanceState == null) {
 
-        if (view.findViewById(R.id.order_detail_container) != null) {
-            mTwoPane = true;
+            if (view.findViewById(R.id.order_detail_container) != null) {
+                mTwoPane = true;
+            }
+
+            textViewEmptyData = view.findViewById(R.id.textViewEmptyDataActiveOrders);
+            recyclerView = view.findViewById(R.id.order_list);
         }
-
-        textViewEmptyData = view.findViewById(R.id.textViewEmptyDataActiveOrders);
-        recyclerView = view.findViewById(R.id.order_list);
-        assert recyclerView != null;
 
         return view;
     }
