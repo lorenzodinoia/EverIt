@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
 
+import java.util.Objects;
+
 import it.uniba.di.sms1920.everit.rider.R;
 
 public class DeliveryHistoryDetailActivity extends AppCompatActivity {
@@ -17,8 +19,11 @@ public class DeliveryHistoryDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deliveryhistory_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();

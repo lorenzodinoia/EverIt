@@ -134,8 +134,7 @@ public class DeliveryHistoryListActivity extends AppCompatActivity {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.deliveryhistory_list_content, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.deliveryhistory_list_content, parent, false);
             return new ViewHolder(view);
         }
 
