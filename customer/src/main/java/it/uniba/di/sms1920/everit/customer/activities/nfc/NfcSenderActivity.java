@@ -52,7 +52,7 @@ public class NfcSenderActivity extends AppCompatActivity implements NfcManager.N
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
-            order = bundle.getParcelable(OrderDetailFragment.ORDER);
+            order = bundle.getParcelable("order"); //TODO Sistema parametro
             /*if(bundle.containsKey(OrderDetailFragment.ORDER)){
 
             }*/

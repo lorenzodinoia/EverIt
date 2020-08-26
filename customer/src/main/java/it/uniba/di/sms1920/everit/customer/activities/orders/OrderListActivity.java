@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -48,61 +49,19 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-
 public class OrderListActivity extends AppCompatActivity {
     private boolean twoPaneMode;
     @SuppressLint("UseSparseArrays")
-    public static final List<Order> orderList = new ArrayList<>();
+    private final ArrayList<Order> orderList = new ArrayList<>();
     private TextView textViewEmptyOrders;
+    private OrderRecyclerViewAdapter recyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_default);
-        toolbar.setTitle(getTitle());
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-
-        if (findViewById(R.id.order_detail_container) != null) {
-            /*
-             * Se il layout è presente vuol dire che l'app è installata su un dispositivo di grandi dimensioni
-             * Pertanto si utilizza la modalità con due pannelli
-             */
-            this.twoPaneMode = true;
-        }
-
-        textViewEmptyOrders = findViewById(R.id.textViewEmptyOrderHistoryCustomer);
-        View recyclerView = findViewById(R.id.order_list);
-        assert recyclerView != null;
-
-        OrderRequest orderRequest = new OrderRequest();
-        orderRequest.readAll(new RequestListener<Collection<Order>>() {
-            @Override
-            public void successResponse(Collection<Order> response) {
-                orderList.clear();
-                if(!response.isEmpty()) {
-                    textViewEmptyOrders.setVisibility(View.INVISIBLE);
-                    orderList.addAll(response);
-                }
-                else{
-                    textViewEmptyOrders.setVisibility(View.VISIBLE);
-                    textViewEmptyOrders.setText(R.string.no_orders);
-                    textViewEmptyOrders.bringToFront();
-                }
-
-                setupRecyclerView((RecyclerView) recyclerView);
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-
-            }
-        });
-
+        this.initUi();
     }
 
     @Override
@@ -112,18 +71,78 @@ public class OrderListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        this.loadData();
+    }
+
+    private void initUi() {
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
+        toolbar.setTitle(getTitle());
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        if (findViewById(R.id.order_detail_container) != null) {
+            /*
+             * Se il layout è presente vuol dire che l'app è installata su un dispositivo di grandi dimensioni
+             * Pertanto si utilizza la modalità con due pannelli
+             */
+            this.twoPaneMode = true;
+        }
+
+        this.textViewEmptyOrders = findViewById(R.id.textViewEmptyOrderHistoryCustomer);
+        View recyclerView = findViewById(R.id.order_list);
+        this.setupRecyclerView((RecyclerView) recyclerView);
+    }
+
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        this.recyclerViewAdapter = new OrderRecyclerViewAdapter(this, orderList, twoPaneMode);
+        recyclerView.setAdapter(this.recyclerViewAdapter);
+    }
+
+    private void loadData() {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.readAll(new RequestListener<Collection<Order>>() {
+            @Override
+            public void successResponse(Collection<Order> response) {
+                orderList.clear();
+                if(!response.isEmpty()) {
+                    textViewEmptyOrders.setVisibility(View.INVISIBLE);
+                    orderList.addAll(response);
+                    if (recyclerViewAdapter != null) {
+                        recyclerViewAdapter.notifyDataSetChanged();
+                    }
+                }
+                else {
+                    textViewEmptyOrders.setVisibility(View.VISIBLE);
+                    textViewEmptyOrders.setText(R.string.no_orders);
+                    textViewEmptyOrders.bringToFront();
+                }
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                promptErrorMessage(error.getMessage());
+            }
+        });
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case android.R.id.home:{
+            case android.R.id.home: {
                 super.onBackPressed();
                 break;
             }
-
-            case R.id.goTo_cart:{
-                if(Providers.getAuthProvider().getUser() != null) {
+            case R.id.goTo_cart: {
+                if (Providers.getAuthProvider().getUser() != null) {
                     Intent cartIntent = new Intent(getApplicationContext(), CartActivity.class);
                     startActivity(cartIntent);
-                }else{
+                }
+                else{
                     Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(loginIntent);
                 }
@@ -132,10 +151,6 @@ public class OrderListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new OrderRecyclerViewAdapter(this, orderList, twoPaneMode));
     }
 
     private void promptErrorMessage(String message){
@@ -167,7 +182,7 @@ public class OrderListActivity extends AppCompatActivity {
                 Order item = (Order) view.getTag();
                 if (twoPaneMode) {
                     Bundle arguments = new Bundle();
-                    arguments.putLong(OrderDetailFragment.ARG_ITEM_ID, item.getId());
+                    arguments.putParcelable(OrderDetailFragment.ARG_ITEM, item);
                     OrderTabManagerFragment fragment = new OrderTabManagerFragment();
                     fragment.setArguments(arguments);
                     parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.order_detail_container, fragment).commit();
@@ -175,7 +190,7 @@ public class OrderListActivity extends AppCompatActivity {
                 else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, OrderDetailActivity.class);
-                    intent.putExtra(OrderDetailFragment.ARG_ITEM_ID, item.getId());
+                    intent.putExtra(OrderDetailActivity.ARG_ITEM_ID, item.getId());
 
                     context.startActivity(intent);
                 }

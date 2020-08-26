@@ -1,34 +1,18 @@
 package it.uniba.di.sms1920.everit.customer.activities.orders;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.tabs.TabLayout;
-import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.orders.tab.NotesFragment;
 import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabManagerFragment;
-import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabPagerAdapter;
-import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.InfoFragment;
-import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.MenuFragment;
-import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.ResultTabPagerAdapter;
-import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.ReviewListFragment;
-import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -41,6 +25,11 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
  * in a {@link OrderListActivity}.
  */
 public class OrderDetailActivity extends AppCompatActivity {
+    public static final String ARG_ITEM_ID = "item_id";
+    private static final String SAVED_ORDER = "saved.order";
+
+    private long orderId;
+    private Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,38 +38,62 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.order_detail);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        long orderId = getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0);
-
-        // Show the Up button in the action bar.
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if ((extras != null) && (extras.containsKey(ARG_ITEM_ID))) {
+                this.orderId = extras.getLong(ARG_ITEM_ID);
+            }
         }
+    }
 
-        if(savedInstanceState == null) {
-            Bundle bundle = new Bundle();
-            bundle.putLong(OrderDetailFragment.ARG_ITEM_ID, orderId);
-            OrderTabManagerFragment orderTabManagerFragment = new OrderTabManagerFragment();
-            orderTabManagerFragment.setArguments(bundle);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().add(R.id.order_activity_detail_container, orderTabManagerFragment);
-            transaction.addToBackStack(null).commit();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if ((this.order == null) && (this.orderId != 0)) { //The order needs to be loaded
+            this.loadData();
         }
+    }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_ORDER, this.order);
+    }
+
+    private void setUpFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(OrderTabManagerFragment.ARG_ITEM, this.order);
+        OrderTabManagerFragment orderTabManagerFragment = new OrderTabManagerFragment();
+        orderTabManagerFragment.setArguments(bundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().add(R.id.order_activity_detail_container, orderTabManagerFragment);
+        transaction.addToBackStack(null).commit();
+    }
+
+    private void loadData() {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.read(this.orderId, new RequestListener<Order>() {
+            @Override
+            public void successResponse(Order response) {
+                order = response;
+                setUpFragment();
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                Utility.showGenericMessage(OrderDetailActivity.this, error.getMessage());
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            navigateUpTo(new Intent(this, OrderListActivity.class));
-            return true;
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
