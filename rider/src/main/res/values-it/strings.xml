@@ -75,4 +75,16 @@
     <string name="message_password_wrong">Il formato della password non è corretto. La password deve essere di almeno 8 caratteri e contenere almeno un numero</string>
     <string name="message_password_confirm_mismatch">La password non corrisponde</string>
     <string name="message_confirm_delete">Sei sicuro di voler eliminare il profilo? Tutti i dati verranno eliminati</string>
+    <string name="title_deliveryhistory_list">Storico consegne</string>
+    <string name="title_deliveryhistory_detail">Dettaglio consegna</string>
+
+    <string name="no_delivered_orders">Nessun ordine consegnato</string>
+
+    <string name="delivery_date">Data consegna:</string>
+    <string name="delivery_address">Indirizzo consegna:</string>
+    <string name="shop_name">Nome attività:</string>
+    <string name="shop_address">Indirizzo attività:</string>
+    <string name="customer_name">Nome cliente:</string>
+    <string name="pickup_time">Orario di consegna:</string>
+    <string name="delivery_notes">Note di consegna:</string>
 </resources>

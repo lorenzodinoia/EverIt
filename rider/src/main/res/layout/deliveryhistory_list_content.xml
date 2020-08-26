@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -20,6 +21,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/imageViewRestaurateur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.35000002"
+                app:srcCompat="@mipmap/icon" />
+
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/textViewOrderNumber"
                 style="@style/TextViewSmall"
@@ -27,17 +42,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/imageViewRestaurateur" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipListActiveOrders"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textViewShopName"
+                style="@style/TextViewLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:clickable="false"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -45,63 +65,47 @@
                 style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/order_delivery_time_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewOrderNumber" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/delivery_date"
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
+                app:layout_constraintTop_toBottomOf="@+id/textViewShopName" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/textViewDeliveryTimeOrder"
                 style="@style/TextViewMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
                 app:layout_constraintTop_toBottomOf="@+id/textViewLabelDeliveryDate" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textViewLabelOrderPrice"
+                android:id="@+id/textViewLabelCustomerAddress"
+                style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/total_price_label"
-                app:layout_constraintBottom_toTopOf="@+id/textViewOrderPrice"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textViewDeliveryTimeOrder" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/delivery_address"
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryTimeOrder" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textViewOrderPrice"
+                android:id="@+id/textViewCustomerAddress"
                 style="@style/TextViewMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textViewDeliveryTimeOrder" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textViewCurrency"
-                style="@style/TextViewMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/currency_type"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textViewOrderPrice" />
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelCustomerAddress" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

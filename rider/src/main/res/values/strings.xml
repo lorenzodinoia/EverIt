@@ -33,10 +33,6 @@
 
     <string name="order_late">The order is late</string>
 
-    <!--<plurals name="proposal_accepted_explanation">
-        <item quantity="one">The delivery proposal has been accepted. Pickup your order from the restaurant within %d minute</item>
-        <item quantity="other">The delivery proposal has been accepted. Pickup your order from the restaurant within %d minutes</item>
-    </plurals> -->
     <string name="pickup_at">Pickup at</string>
     <string name="proposal_refused">Proposal refused</string>
 
@@ -85,6 +81,19 @@
     <string name="message_password_wrong">The password format is incorrect. The password must be at least 8 characters long and contain at least one number</string>
     <string name="message_password_confirm_mismatch">Password mismatch</string>
     <string name="message_confirm_delete">Are you sure you want to delete the account? All data will be deleted</string>
+
+    <string name="title_deliveryhistory_list">Deliveries history</string>
+    <string name="title_deliveryhistory_detail">Delivery history detail</string>
+
+    <string name="no_delivered_orders">No delivered orders</string>
+
+    <string name="delivery_date">Delivery date:</string>
+    <string name="delivery_address">Delivery address:</string>
+    <string name="shop_name">Shop name:</string>
+    <string name="shop_address">Shop address:</string>
+    <string name="customer_name">Customer name:</string>
+    <string name="pickup_time">Pickup time:</string>
+    <string name="delivery_notes">Delivery notes:</string>
 </resources>
 
 

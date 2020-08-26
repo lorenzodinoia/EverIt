@@ -33,7 +33,7 @@
 
             <TextView
                 android:id="@+id/textViewShopNameReviewListContent"
-                style="@style/TextViewMedium"
+                style="@style/TextViewMediumValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -64,7 +64,7 @@
 
             <TextView
                 android:id="@+id/textViewReviewDate"
-                style="@style/TextViewSmall"
+                style="@style/TextViewSmallValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"

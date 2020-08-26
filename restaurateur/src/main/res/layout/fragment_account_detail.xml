@@ -14,12 +14,12 @@
             android:id="@+id/imageViewProfile"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/roundcorner"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_add_a_photo_36"
-            android:background="@drawable/roundcorner"/>
+            app:srcCompat="@drawable/ic_add_profile_picture_12px" />
 
         <TextView
             android:id="@+id/textViewShopNameProfile"
@@ -46,55 +46,45 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
 
-        <TextView
-            android:id="@+id/textViewAccountDetailsLabel"
-            style="@style/TextViewSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="50dp"
-            android:text="@string/account_details"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewEmailProfile" />
-
         <View
             android:id="@+id/viewSettings1"
             android:layout_width="0dp"
             android:layout_height="0.5dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:background="#c0c0c0"
             app:layout_constraintBottom_toTopOf="@+id/linearLayoutAccountInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewAccountDetailsLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewEmailProfile" />
 
         <LinearLayout
             android:id="@+id/linearLayoutAccountInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:background="#FFFFFF"
-            app:layout_constraintTop_toBottomOf="@id/viewSettings1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewSettings1">
 
             <ImageButton
-                android:background="#FFFFFF"
-                android:src="@drawable/ic_baseline_person_outline_24"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:src="@drawable/ic_account_info_24px" />
 
             <TextView
                 style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:text="@string/account_info"/>
+                android:text="@string/account_info" />
 
         </LinearLayout>
 
@@ -103,9 +93,9 @@
             android:layout_width="0dp"
             android:layout_height="0.5dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:background="#c0c0c0"
             app:layout_constraintBottom_toTopOf="@id/linearLayoutChangePassword"
             app:layout_constraintEnd_toEndOf="parent"
@@ -116,25 +106,26 @@
             android:id="@+id/linearLayoutChangePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            app:layout_constraintTop_toBottomOf="@id/viewSettings2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:padding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewSettings2">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_security_24"
-                android:background="#FFFFFF"/>
+                android:background="#FFFFFF"
+                android:src="@drawable/ic_privacy_and_security_24px" />
 
             <TextView
                 style="@style/TextViewSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:text="@string/privacy_and_security"/>
+                android:text="@string/privacy_and_security" />
 
         </LinearLayout>
 
@@ -143,7 +134,7 @@
             android:layout_width="0dp"
             android:layout_height="0.5dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:background="#c0c0c0"
             app:layout_constraintEnd_toEndOf="parent"

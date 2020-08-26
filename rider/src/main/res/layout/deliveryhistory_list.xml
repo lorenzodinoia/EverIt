@@ -2,12 +2,12 @@
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/doneorder_list"
-    android:name="it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListFragment"
+    android:id="@+id/deliveryhistory_list"
+    android:name="it.uniba.di.sms1920.everit.rider.activities.deliverHistory.DeliveryHistoryListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".activities.orderHistory.DoneOrderListActivity"
-    tools:listitem="@layout/doneorder_list_content" />
+    tools:context=".activities.deliverHistory.DeliveryHistoryListActivity"
+    tools:listitem="@layout/deliveryhistory_list_content" />
