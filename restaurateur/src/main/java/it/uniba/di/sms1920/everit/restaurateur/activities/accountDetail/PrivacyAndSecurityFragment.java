@@ -62,13 +62,19 @@ public class PrivacyAndSecurityFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_change_password, container, false);
+        initUi(view);
+        return view;
+    }
 
-        mParent.toolbar.setTitle(R.string.privacy_and_security);
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
+    }
 
+    private void initUi(View view){
         editTextOldPasswordContainer = view.findViewById(R.id.editTextOldPasswordContainer);
         editTextOldPassword = view.findViewById(R.id.editTextOldPassword);
         editTextNewPasswordContainer = view.findViewById(R.id.editTextNewPasswordContainer);
@@ -76,6 +82,11 @@ public class PrivacyAndSecurityFragment extends Fragment {
         editTextConfirmNewPasswordContainer = view.findViewById(R.id.editTextConfirmNewPasswordContainer);
         editTextConfirmNewPassword = view.findViewById(R.id.editTextConfirmNewPassword);
         buttonChangePassword = view.findViewById(R.id.buttonChangePassword);
+        buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
+    }
+
+    private void initData(){
+        mParent.toolbar.setTitle(R.string.privacy_and_security);
         buttonChangePassword.setOnClickListener(v -> {
             String oldPassword = editTextOldPassword.getText().toString();
             String newPassword = editTextNewPassword.getText().toString();
@@ -118,8 +129,6 @@ public class PrivacyAndSecurityFragment extends Fragment {
             }
 
         });
-
-        buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
         buttonDeleteAccount.setOnClickListener(v -> {
             Dialog dialog = new Dialog(mParent);
             dialog.setContentView(R.layout.dialog_message_y_n);
@@ -154,8 +163,6 @@ public class PrivacyAndSecurityFragment extends Fragment {
 
             dialog.show();
         });
-
-        return view;
     }
 
     @Override

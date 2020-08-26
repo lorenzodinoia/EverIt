@@ -15,17 +15,19 @@ import com.google.android.material.tabs.TabLayout;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.BaseActivity;
-import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.ui.main.OrderTabAdapter;
 
 
 public class HomeFragment extends Fragment {
 
     private BaseActivity mParent;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
+    //TODO non funziona ancora, chiedere a lorenzo
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,17 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        TabLayout tabLayout = view.findViewById(R.id.tabs);
-        ViewPager viewPager = view.findViewById(R.id.view_pager);
+        tabLayout = view.findViewById(R.id.tabs);
+        viewPager = view.findViewById(R.id.view_pager);
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         OrderTabAdapter adapter = new OrderTabAdapter(mParent.getSupportFragmentManager(), 0);
         OrderListFragment fragment1 = new OrderListFragment();
@@ -68,7 +76,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        return view;
     }
 
     @Override

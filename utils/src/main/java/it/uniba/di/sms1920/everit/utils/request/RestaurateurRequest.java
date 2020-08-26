@@ -126,7 +126,6 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         //TODO gestire onResponse e onErrorResponse
         MultipartRequest request = new MultipartRequest(String.format("%s/api/%s/%s", Constants.SERVER_HOST, URL, IMAGE), headers,
                 response -> {
-                    Log.d("test", new String(response.data));
                     requestListener.successResponse(response.toString());
                 },
                 error -> Log.d("test", new String(error.networkResponse.data)));

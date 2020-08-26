@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
+import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderDetailFragment;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -72,25 +73,38 @@ public class DeliverOrderActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //TODO crasha qui perchè boh
-        /*Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            if (bundle.containsKey(OrderDetailFragment.ORDER)) {
-                order = bundle.getParcelable(OrderDetailFragment.ORDER);
-            }
-        }*/
+        if(savedInstanceState == null) {
+            /*Bundle bundle = getIntent().getExtras();
+            if(bundle != null) {
+                if (bundle.containsKey(OrderDetailFragment.ORDER)) {
+                    order = bundle.getParcelable(OrderDetailFragment.ORDER);
+                }
+            }*/
+        }
+        else{
+            order = savedInstanceState.getParcelable(OrderDetailFragment.ORDER);
+        }
 
-        initComponent();
+        initUi();
     }
 
-    /*private void nfcIntentSettings(){
-        Toast.makeText(this, "nfc disabled", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
-        startActivity(intent);
-    }*/
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
+    }
 
-    private void initComponent(){
+    private void initUi(){
+        editTextValidationCode1 = findViewById(R.id.editTextValidationCode1);
+        editTextValidationCode2 = findViewById(R.id.editTextValidationCode2);
+        editTextValidationCode3 = findViewById(R.id.editTextValidationCode3);
+        editTextValidationCode4 = findViewById(R.id.editTextValidationCode4);
+        editTextValidationCode5 = findViewById(R.id.editTextValidationCode5);
+        btnConfirm = findViewById(R.id.btnConfirm);
+    }
+
+    private void initData(){
         textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
-
         if(isNfcSupported()){
             IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
             this.registerReceiver(mReceiver, filter);
@@ -100,7 +114,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
             textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
         }
 
-        editTextValidationCode1 = findViewById(R.id.editTextValidationCode1);
         editTextValidationCode1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,7 +134,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
                 }
             }
         });
-        editTextValidationCode2 = findViewById(R.id.editTextValidationCode2);
         editTextValidationCode2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -142,7 +154,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
                 }
             }
         });
-        editTextValidationCode3 = findViewById(R.id.editTextValidationCode3);
         editTextValidationCode3.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -162,7 +173,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
                 }
             }
         });
-        editTextValidationCode4 = findViewById(R.id.editTextValidationCode4);
         editTextValidationCode4.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -183,7 +193,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
                 }
             }
         });
-        editTextValidationCode5 = findViewById(R.id.editTextValidationCode5);
         editTextValidationCode5.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -201,7 +210,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
             }
         });
 
-        btnConfirm = findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(v -> {
             getValidationCodeFromEditText();
             checkValidationCode();
@@ -382,4 +390,11 @@ public class DeliverOrderActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(OrderDetailFragment.ORDER, order);
+    }
 }

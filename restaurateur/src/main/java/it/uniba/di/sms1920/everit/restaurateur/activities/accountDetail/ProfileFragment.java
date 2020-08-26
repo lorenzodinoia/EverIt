@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,19 +81,37 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        initUi(view);
         mParent.toolbar.setTitle(R.string.account_info);
+        return view;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
+    }
+
+    private void initUi(View view){
+        spinnerShopType = view.findViewById(R.id.spinnerShopTypeProfile);
+        editTextVATProfileContainer = view.findViewById(R.id.editTextVATProfileContainer);
+        editTextVATProfile = view.findViewById(R.id.editTextVATProfile);
+        editTextPhoneNumberProfileContainer = view.findViewById(R.id.editTextPhoneNumberProfileContainer);
+        editTextPhoneNumberProfile = view.findViewById(R.id.editTextPhoneNumberProfile);
+        editTextAddressProfileContainer = view.findViewById(R.id.editTextAddressProfileContainer);
+        editTextAddressProfile = view.findViewById(R.id.editTextAddressProfile);
+        buttonEditConfirm = view.findViewById(R.id.buttonEditConfirm);
+    }
+
+    private void initData(){
         ShopTypeRequest shopTypeRequest = new ShopTypeRequest();
         shopTypeRequest.readAll(new RequestListener<Collection<ShopType>>() {
             @Override
             public void successResponse(Collection<ShopType> response) {
                 shopTypeList.addAll(response);
-                init(view);
+                init();
             }
 
             @Override
@@ -117,12 +134,10 @@ public class ProfileFragment extends Fragment {
                 dialog.show();
             }
         });
-        return view;
     }
 
-    public void init(View view){
+    private void init(){
         shopTypeSelected = restaurateur.getShopType();
-        spinnerShopType = view.findViewById(R.id.spinnerShopTypeProfile);
         spinnerShopTypeAdapter = new SpinnerShopTypeAdapter(mParent, android.R.layout.simple_spinner_dropdown_item, shopTypeList);
         spinnerShopType.setAdapter(spinnerShopTypeAdapter);
         spinnerShopType.setEnabled(false);
@@ -140,19 +155,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        editTextVATProfileContainer = view.findViewById(R.id.editTextVATProfileContainer);
-        editTextVATProfile = view.findViewById(R.id.editTextVATProfile);
         editTextVATProfile.setText(restaurateur.getVatNumber());
         editTextVATProfile.setEnabled(false);
 
-        editTextPhoneNumberProfileContainer = view.findViewById(R.id.editTextPhoneNumberProfileContainer);
-        editTextPhoneNumberProfile = view.findViewById(R.id.editTextPhoneNumberProfile);
         editTextPhoneNumberProfile.setText(restaurateur.getPhoneNumber());
         editTextPhoneNumberProfile.setEnabled(false);
 
         address = restaurateur.getAddress();
-        editTextAddressProfileContainer = view.findViewById(R.id.editTextAddressProfileContainer);
-        editTextAddressProfile = view.findViewById(R.id.editTextAddressProfile);
+
         editTextAddressProfile.setText(restaurateur.getAddress().getFullAddress());
         editTextAddressProfile.setEnabled(false);
         editTextAddressProfile.setOnClickListener(v -> {
@@ -160,7 +170,7 @@ public class ProfileFragment extends Fragment {
             startActivityForResult(intent, AddressChooserActivity.REQUEST_ADDRESS);
         });
 
-        buttonEditConfirm = view.findViewById(R.id.buttonEditConfirm);
+
         buttonEditConfirm.setTag("Edit");
         buttonEditConfirm.setOnClickListener(v -> {
             String status = (String) buttonEditConfirm.getTag();

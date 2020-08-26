@@ -72,9 +72,26 @@ public class AccountDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_detail, container, false);
+        initUi(view);
+        return view;
+    }
 
-        //TODO ridimensionare imageView
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
+    }
+
+    private void initUi(View view){
         imageProfile = view.findViewById(R.id.imageViewProfile);
+        textViewShopName = view.findViewById(R.id.textViewShopNameProfile);
+        textViewEmail = view.findViewById(R.id.textViewEmailProfile);
+        linearLayoutAccountInfo = view.findViewById(R.id.linearLayoutAccountInfo);
+        linearLayoutChangePassword = view.findViewById(R.id.linearLayoutChangePassword);
+    }
+
+    private void initData(){
+        //TODO ridimensionare imageView
         imageProfile.setOnClickListener(v -> {
             fetchImageFromGallery();
         });
@@ -89,8 +106,7 @@ public class AccountDetailFragment extends Fragment {
                     .into(imageProfile);
         }
 
-        textViewShopName = view.findViewById(R.id.textViewShopNameProfile);
-        textViewEmail = view.findViewById(R.id.textViewEmailProfile);
+
         textViewShopName.setText(restaurateur.getShopName());
         textViewShopName.setOnClickListener(v -> {
             Dialog dialogNewShopName = new Dialog(mParent);
@@ -168,24 +184,21 @@ public class AccountDetailFragment extends Fragment {
             dialogNewEmail.show();
         });
 
-        linearLayoutAccountInfo = view.findViewById(R.id.linearLayoutAccountInfo);
+
         linearLayoutAccountInfo.setOnClickListener(v -> {
             ProfileFragment profileFragment = new ProfileFragment();
             FragmentManager fragmentManager = mParent.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.containerSettings, profileFragment).addToBackStack(null).commit();
         });
-        linearLayoutChangePassword = view.findViewById(R.id.linearLayoutChangePassword);
+
         linearLayoutChangePassword.setOnClickListener(v -> {
             PrivacyAndSecurityFragment privacyAndSecurityFragment = new PrivacyAndSecurityFragment();
             FragmentManager fragmentManager = mParent.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.containerSettings, privacyAndSecurityFragment).addToBackStack(null).commit();
         });
-
-        return view;
     }
-
 
     @Override
     public void onAttach(@NonNull Context context) {

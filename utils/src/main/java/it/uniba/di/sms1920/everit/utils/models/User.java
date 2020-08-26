@@ -25,6 +25,7 @@ public abstract class User extends Model implements Authenticable {
     }
 
     protected User(Parcel in) {
+        super(in);
         this.name = in.readString();
         this.surname = in.readString();
         this.phoneNumber = in.readString();

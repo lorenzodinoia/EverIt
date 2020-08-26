@@ -101,6 +101,23 @@ public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPe
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if(buttonService.isChecked()){
+            Intent serviceIntent = new Intent(context, BackgroundLocationService.class);
+            context.bindService(serviceIntent, this.serviceConnection, 0);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (context != null) {
+            context.unbindService(this.serviceConnection);
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             if (requestCode == LocationProvider.REQUEST_PERMISSION_BACKGROUND_GPS) {
