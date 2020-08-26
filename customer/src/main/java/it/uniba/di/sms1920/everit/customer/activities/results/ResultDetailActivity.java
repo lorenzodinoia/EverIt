@@ -48,86 +48,15 @@ public class ResultDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result_detail);
 
         Toolbar toolbar = findViewById(R.id.toolbar_default);
-        /*
-        if (restaurateur != null) {
-            toolbar.setTitle(restaurateur.getShopName());
-        }
-
-         */
         setSupportActionBar(toolbar);
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if ((extras != null) && (extras.containsKey(ARG_ITEM_ID))) {
                 this.restaurateurId = extras.getLong(ARG_ITEM_ID);
             }
-            /*
-            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-            restaurateurRequest.read(resultId, new RequestListener<Restaurateur>() {
-                @Override
-                public void successResponse(Restaurateur response) {
-                    restaurateur = response;
-
-                    ReviewRequest reviewRequest = new ReviewRequest();
-                    reviewRequest.readRestaurateurReviewsFromCustomer(restaurateur.getId(), new RequestListener<Collection<Review>>() {
-                        @Override
-                        public void successResponse(Collection<Review> response) {
-                            reviews = new ArrayList<>(response);
-
-                            tabLayout = findViewById(R.id.tabs);
-                            viewPager = findViewById(R.id.viewPager);
-
-                            pagerAdapter = new ResultTabPagerAdapter(getSupportFragmentManager(), 0);
-                            InfoFragment infoFragment = new InfoFragment();
-                            MenuFragment menuFragment = new MenuFragment();
-                            ReviewListFragment reviewListFragment = new ReviewListFragment();
-
-                            pagerAdapter.addFragment(infoFragment, getString(R.string.info));
-                            pagerAdapter.addFragment(menuFragment, getString(R.string.menu));
-                            pagerAdapter.addFragment(reviewListFragment, getString(R.string.reviews));
-
-                            viewPager.setAdapter(pagerAdapter);
-                            tabLayout.setupWithViewPager(viewPager);
-                            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                                @Override
-                                public void onTabSelected(TabLayout.Tab tab) {
-                                    viewPager.setCurrentItem(tab.getPosition());
-                                }
-
-                                @Override
-                                public void onTabUnselected(TabLayout.Tab tab) {
-
-                                }
-
-                                @Override
-                                public void onTabReselected(TabLayout.Tab tab) {
-
-                                }
-                            });
-                            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-
-                        }
-
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            promptErrorMessage(error.getMessage());
-                        }
-                    });
-                }
-
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
-                }
-
-                 });
-            */
         }
         else if ((savedInstanceState.containsKey(SAVED_RESTAURATEUR)) && savedInstanceState.containsKey(SAVED_REVIEWS)) {
             this.restaurateur = savedInstanceState.getParcelable(SAVED_RESTAURATEUR);
