@@ -11,5 +11,6 @@
     <color name="lightGreyAccent">#EFEFEF</color>
     <color name="colorDisabled">#AFAEAE</color>
     <color name="veryLightGreyAccent">#FAF7F7</color>
+    <color name="blackValue">#000000</color>
 
 </resources>
