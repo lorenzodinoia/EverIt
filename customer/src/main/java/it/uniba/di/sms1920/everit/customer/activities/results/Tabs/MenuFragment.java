@@ -1,6 +1,6 @@
 package it.uniba.di.sms1920.everit.customer.activities.results.Tabs;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,7 +22,6 @@ import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
 import it.uniba.di.sms1920.everit.customer.activities.results.CustomExpandibleMenuAdapter;
-import it.uniba.di.sms1920.everit.customer.activities.results.ResultDetailActivity;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.customer.cart.CartConnector;
 import it.uniba.di.sms1920.everit.customer.cart.PartialOrder;
@@ -30,70 +29,88 @@ import it.uniba.di.sms1920.everit.utils.models.ProductCategory;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
 
-public class MenuFragment extends Fragment implements CartConnector{
+public class MenuFragment extends Fragment implements CartConnector {
+    public static final String ARG_ITEM = "item";
+    private static final String SAVED_RESTAURATEUR = "saved.restaurateur";
 
-    private ResultDetailActivity resultDetailActivity;
     private Restaurateur restaurateur;
 
     private ExpandableListView expandableListView ;
     private CustomExpandibleMenuAdapter expandableListAdapter;
     private List<ProductCategory> expandableListDetail = new LinkedList<>();
-
     private MaterialButton buttonOrder;
-
 
     public MenuFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (savedInstanceState == null) {
+            Bundle arguments = getArguments();
+            if ((arguments != null) && (arguments.containsKey(ARG_ITEM))) {
+                this.restaurateur = arguments.getParcelable(ARG_ITEM);
+            }
+        }
+        else if (savedInstanceState.containsKey(SAVED_RESTAURATEUR)) {
+            this.restaurateur = savedInstanceState.getParcelable(SAVED_RESTAURATEUR);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
-
-        expandableListView = rootView.findViewById(R.id.expandableMenu);
-
-        expandableListDetail = (List<ProductCategory>) restaurateur.getProductCategories();
-        expandableListAdapter = new CustomExpandibleMenuAdapter(getActivity(), MenuFragment.this , expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
-
-        buttonOrder = rootView.findViewById(R.id.buttonOrderMenu);
-        buttonOrder.setOnClickListener(v -> {
-            if(Providers.getAuthProvider().getUser() != null) {
-                if (!getCart().isEmpty()) {
-                    Intent goIntent = new Intent(getActivity(), CartActivity.class);
-                    goIntent.putExtra("MIN_PURCHASE", restaurateur.getMinPrice());
-                    startActivity(goIntent);
-                }
-            }
-            else {
-                resultDetailActivity.finish();
-                Intent intent = new Intent(resultDetailActivity, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        return  rootView;
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
+        this.initUi(view);
+        return view;
     }
 
-
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        if(context instanceof ResultDetailActivity){
-            resultDetailActivity = (ResultDetailActivity) context;
-            restaurateur = resultDetailActivity.passRestaurateur();
+    public void onStart() {
+        super.onStart();
+        if (this.restaurateur != null) {
+            this.initData();
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_RESTAURATEUR, this.restaurateur);
+    }
+
+    private void initUi(View view) {
+        this.expandableListView = view.findViewById(R.id.expandableMenu);
+        this.buttonOrder = view.findViewById(R.id.buttonOrderMenu);
+    }
+
+    private void initData() {
+        this.expandableListDetail = (List<ProductCategory>) restaurateur.getProductCategories();
+        this.expandableListAdapter = new CustomExpandibleMenuAdapter(getActivity(), MenuFragment.this , expandableListDetail);
+        this.expandableListView.setAdapter(expandableListAdapter);
+
+        this.buttonOrder.setOnClickListener(v -> {
+            if(Providers.getAuthProvider().getUser() != null) {
+                if (!getCart().isEmpty()) {
+                    Activity parentActivity = getActivity();
+                    if (parentActivity != null) {
+                        Intent cartIntent = new Intent(getActivity(), CartActivity.class);
+                        cartIntent.putExtra("MIN_PURCHASE", restaurateur.getMinPrice());
+                        startActivity(cartIntent);
+                    }
+                }
+            }
+            else {
+                Activity parentActivity = getActivity();
+                if (parentActivity != null) {
+                    Intent loginIntent = new Intent(parentActivity, LoginActivity.class);
+                    startActivity(loginIntent);
+                    parentActivity.finish();
+                }
+            }
+        });
+    }
 
     @Override
     public Cart getCart() {
@@ -117,8 +134,4 @@ public class MenuFragment extends Fragment implements CartConnector{
 
         return partialOrder;
     }
-
-
-
-
 }

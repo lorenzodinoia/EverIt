@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -42,6 +44,7 @@ import java.util.Objects;
 
 public class ResultListActivity extends AppCompatActivity {
     public static final String PARAMETER_ADDRESS = "address";
+    private static final String SAVED_SEARCH_ADDRESS = "saved.search_address";
 
     private boolean twoPaneMode;
     public static final List<Restaurateur> resultList = new ArrayList<>();
@@ -54,36 +57,52 @@ public class ResultListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_list);
 
+        resultList.clear();
+        this.initUi();
+
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            Address searchAddress;
+            if ((intent != null) && ((searchAddress = intent.getParcelableExtra(PARAMETER_ADDRESS)) != null)) {
+                this.searchAddress = searchAddress;
+            }
+        }
+        else if (savedInstanceState.containsKey(SAVED_SEARCH_ADDRESS)) {
+            this.searchAddress = savedInstanceState.getParcelable(SAVED_SEARCH_ADDRESS);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (this.searchAddress != null) {
+            this.search();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_SEARCH_ADDRESS, this.searchAddress);
+    }
+
+    private void initUi() {
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
-
         toolbar.setTitle(R.string.title_result_list);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        resultList.clear();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         if (findViewById(R.id.result_detail_container) != null) {
             twoPaneMode = true;
         }
 
         textViewEmptyResult = findViewById(R.id.textViewEmptyResultCustomer);
-        View recyclerView = findViewById(R.id.result_list);
-        if (recyclerView != null) {
-            setupRecyclerView((RecyclerView) recyclerView);
-        }
 
-        Intent intent = getIntent();
-        Address searchAddress;
-        if ((intent != null) && ((searchAddress = intent.getParcelableExtra(PARAMETER_ADDRESS)) != null)) {
-            this.searchAddress = searchAddress;
-            this.search();
-        }
-        else {
-            Toast.makeText(getApplicationContext(), getString(R.string.no_data), Toast.LENGTH_LONG).show();
-            finish();
-        }
+        View recyclerView = findViewById(R.id.result_list);
+        setupRecyclerView((RecyclerView) recyclerView);
     }
 
     private void search() {
@@ -116,18 +135,6 @@ public class ResultListActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         this.recyclerViewAdapter = new RestaurateurRecyclerViewAdapter(this, ResultListActivity.resultList, twoPaneMode);
         recyclerView.setAdapter(this.recyclerViewAdapter);
-    }
-
-    public static Restaurateur getResultById(long id) {
-        Restaurateur restaurateur = null;
-        for (Restaurateur r : ResultListActivity.resultList) {
-            if (r.getId() == id) {
-                restaurateur = r;
-                break;
-            }
-        }
-
-        return restaurateur;
     }
 
     private void promptErrorMessage(String message){
