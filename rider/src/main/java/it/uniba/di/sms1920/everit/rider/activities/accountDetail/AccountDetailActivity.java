@@ -24,8 +24,6 @@ public class AccountDetailActivity extends AppCompatActivity {
     public static final String ARG_RIDER = "rider";
 
     Toolbar toolbar;
-    Rider rider;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
