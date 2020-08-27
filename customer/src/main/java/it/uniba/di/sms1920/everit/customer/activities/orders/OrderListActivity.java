@@ -112,14 +112,14 @@ public class OrderListActivity extends AppCompatActivity {
                 if(!response.isEmpty()) {
                     textViewEmptyOrders.setVisibility(View.INVISIBLE);
                     orderList.addAll(response);
-                    if (recyclerViewAdapter != null) {
-                        recyclerViewAdapter.notifyDataSetChanged();
-                    }
                 }
                 else {
                     textViewEmptyOrders.setVisibility(View.VISIBLE);
                     textViewEmptyOrders.setText(R.string.no_orders);
                     textViewEmptyOrders.bringToFront();
+                }
+                if (recyclerViewAdapter != null) {
+                    recyclerViewAdapter.notifyDataSetChanged();
                 }
             }
 
