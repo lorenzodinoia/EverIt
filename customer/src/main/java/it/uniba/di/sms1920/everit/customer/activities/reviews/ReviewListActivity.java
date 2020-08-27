@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -28,7 +29,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
@@ -41,67 +41,110 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-
 public class ReviewListActivity extends AppCompatActivity {
-
+    private boolean twoPaneMode;
     private ReviewRecyclerViewAdapter recyclerViewAdapter;
-    public static final List<Review> resultList = new ArrayList<>();
-    private boolean mTwoPane;
+    public final ArrayList<Review> reviewList = new ArrayList<>();
     private TextView textViewEmptyReview;
-    View recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_list);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_default);
-        setSupportActionBar(toolbar);
+        this.initUi();
+    }
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.loadData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.toolbar_cart, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{
+                super.onBackPressed();
+                break;
+            }
+            case R.id.goTo_cart: {
+                if (Providers.getAuthProvider().getUser() != null) {
+                    Intent cartIntent = new Intent(getApplicationContext(), CartActivity.class);
+                    startActivity(cartIntent);
+                }
+                else{
+                    Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(loginIntent);
+                }
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        this.recyclerViewAdapter = new ReviewRecyclerViewAdapter(this, reviewList, twoPaneMode);
+        recyclerView.setAdapter(this.recyclerViewAdapter);
+    }
+
+    private void initUi() {
+        Toolbar toolbar = findViewById(R.id.toolbar_default);
+        toolbar.setTitle(getTitle());
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         if (findViewById(R.id.review_detail_container) != null) {
             /*
              * Se il layout è presente vuol dire che l'app è installata su un dispositivo di grandi dimensioni
              * Pertanto si utilizza la modalità con due pannelli
              */
-            mTwoPane = true;
+            twoPaneMode = true;
         }
 
-        textViewEmptyReview = findViewById(R.id.textViewEmptyReviewCustomer);
-        recyclerView = findViewById(R.id.review_list);
-        if(recyclerView != null){
-            setupRecyclerView((RecyclerView) recyclerView);
-
-        }
-                ReviewRequest reviewRequest = new ReviewRequest();
-                reviewRequest.readCustomerReviews(new RequestListener<Collection<Review>>() {
-                    @Override
-                    public void successResponse(Collection<Review> response) {
-                        resultList.clear();
-                        if(!response.isEmpty()){
-                            textViewEmptyReview.setVisibility(View.INVISIBLE);
-                            resultList.addAll(response);
-                        }
-                        else{
-                            textViewEmptyReview.setVisibility(View.VISIBLE);
-                            textViewEmptyReview.setText(R.string.no_reviews);
-                            textViewEmptyReview.bringToFront();
-                        }
-
-
-                        setupRecyclerView((RecyclerView) recyclerView);
-                    }
-
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        promptErrorMessage(error.getMessage());
-                    }
-                });
+        this.textViewEmptyReview = findViewById(R.id.textViewEmptyReviewCustomer);
+        View recyclerView = findViewById(R.id.review_list);
+        this.setupRecyclerView((RecyclerView) recyclerView);
     }
 
-    private void promptErrorMessage(String message){
+    private void loadData() {
+        ReviewRequest reviewRequest = new ReviewRequest();
+        reviewRequest.readCustomerReviews(new RequestListener<Collection<Review>>() {
+            @Override
+            public void successResponse(Collection<Review> response) {
+                reviewList.clear();
+                if(!response.isEmpty()) {
+                    textViewEmptyReview.setVisibility(View.INVISIBLE);
+
+                    reviewList.addAll(response);
+                }
+                else {
+                    textViewEmptyReview.setVisibility(View.VISIBLE);
+                    textViewEmptyReview.setText(R.string.no_reviews);
+                    textViewEmptyReview.bringToFront();
+                }
+                if (recyclerViewAdapter != null) {
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                promptErrorMessage(error.getMessage());
+            }
+        });
+    }
+
+    private void promptErrorMessage(String message) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
@@ -120,74 +163,27 @@ public class ReviewListActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.toolbar_cart, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                super.onBackPressed();
-                break;
-            }
-
-            case R.id.goTo_cart:{
-                if(Providers.getAuthProvider().getUser() != null) {
-                    Intent cartIntent = new Intent(getApplicationContext(), CartActivity.class);
-                    startActivity(cartIntent);
-                }else{
-                    Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(loginIntent);
-                }
-                break;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        this.recyclerViewAdapter = new ReviewRecyclerViewAdapter(this, ReviewListActivity.resultList, mTwoPane);
-        recyclerView.setAdapter(this.recyclerViewAdapter);
-    }
-
-    public static Review getReviewById(long id) {
-        Review review = null;
-
-        for (Review r : ReviewListActivity.resultList) {
-            if (r.getId() == id) {
-                review = r;
-                break;
-            }
-        }
-
-        return review;
-    }
-
     public static class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecyclerViewAdapter.ViewHolder> {
-
         private final ReviewListActivity parentActivity;
         private final List<Review> results;
-        private final boolean mTwoPane;
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        private final boolean twoPaneMode;
+        private final View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Review item = (Review) view.getTag();
-                if (mTwoPane) {
+                if (twoPaneMode) {
                     Bundle arguments = new Bundle();
-                    arguments.putLong(ReviewDetailFragment.ARG_ITEM_ID, item.getId());
+                    arguments.putParcelable(ReviewDetailFragment.ARG_ITEM, item);
                     ReviewDetailFragment fragment = new ReviewDetailFragment();
                     fragment.setArguments(arguments);
                     parentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.review_detail_container, fragment)
                             .commit();
-                } else {
+                }
+                else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ReviewDetailActivity.class);
-                    intent.putExtra(ReviewDetailFragment.ARG_ITEM_ID, item.getId());
+                    intent.putExtra(ReviewDetailActivity.ARG_ITEM_ID, item.getId());
 
                     context.startActivity(intent);
                 }
@@ -197,13 +193,12 @@ public class ReviewListActivity extends AppCompatActivity {
         ReviewRecyclerViewAdapter(ReviewListActivity parent, List<Review> items, boolean twoPane) {
             results = items;
             parentActivity = parent;
-            mTwoPane = twoPane;
+            twoPaneMode = twoPane;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.review_list_content, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_list_content, parent, false);
             return new ViewHolder(view);
         }
 
@@ -232,18 +227,16 @@ public class ReviewListActivity extends AppCompatActivity {
                 holder.textViewReviewDate.setText(dateAsString);
 
                 holder.itemView.setTag(results.get(position));
-                holder.itemView.setOnClickListener(mOnClickListener);
+                holder.itemView.setOnClickListener(onClickListener);
             }
         }
-
-
 
         @Override
         public int getItemCount() {
             return results.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+        static class ViewHolder extends RecyclerView.ViewHolder {
             final ImageView imageViewRestaurantLogo;
             final TextView textViewShopName;
             final RatingBar ratingBarReviewPreview;
@@ -259,39 +252,5 @@ public class ReviewListActivity extends AppCompatActivity {
                 textViewReviewDate = view.findViewById(R.id.textViewReviewDate);
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateData();
-    }
-
-
-    private void updateData(){
-        ReviewRequest reviewRequest = new ReviewRequest();
-        reviewRequest.readCustomerReviews(new RequestListener<Collection<Review>>() {
-            @Override
-            public void successResponse(Collection<Review> response) {
-                resultList.clear();
-                if(!response.isEmpty()){
-                    textViewEmptyReview.setVisibility(View.INVISIBLE);
-                    resultList.addAll(response);
-                }
-                else{
-                    textViewEmptyReview.setVisibility(View.VISIBLE);
-                    textViewEmptyReview.setText(R.string.no_reviews);
-                    textViewEmptyReview.bringToFront();
-                }
-
-                setupRecyclerView((RecyclerView) recyclerView);
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
-
     }
 }

@@ -20,7 +20,7 @@ public final class ReviewRequest extends CRUDRequest<Review> implements CRUD<Rev
 
     @Override
     public void read(long id, RequestListener<Review> RequestListener) {
-        throw new UnsupportedOperationException();
+        super.read(id, REVIEW, RequestListener, Review.class, false);
     }
 
     @Override

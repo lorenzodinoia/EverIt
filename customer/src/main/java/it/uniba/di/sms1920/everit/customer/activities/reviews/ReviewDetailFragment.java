@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,74 +36,101 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class ReviewDetailFragment extends Fragment {
+    public static final String ARG_ITEM = "item";
+    private static final String SAVED_REVIEW = "saved.review";
 
-    public static final String ARG_ITEM_ID = "item_id";
     private Review review;
-    private ReviewDetailActivity mParent;
+    private AppCompatActivity parentActivity;
     private TextView textViewShopNameReviewDetail;
     private RatingBar ratingBarDF;
     private TextView textViewIndicatorRate;
     private TextView textViewRateDescription;
     private TextView textViewReviewDate;
+    private ImageView imageViewRestaurateur;
 
     public ReviewDetailFragment() {
+        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ((getArguments() != null) && (getArguments().containsKey(ARG_ITEM_ID))) {
-            long id = getArguments().getLong(ARG_ITEM_ID);
-            Log.d("test", Long.toString(id));
-            review = ReviewListActivity.getReviewById(id);
+        if (savedInstanceState == null) {
+            Bundle arguments = getArguments();
+            if ((arguments != null) && (arguments.containsKey(ARG_ITEM))) {
+                this.review = arguments.getParcelable(ARG_ITEM);
+            }
+        }
+        else if (savedInstanceState.containsKey(SAVED_REVIEW)) {
+            this.review = savedInstanceState.getParcelable(SAVED_REVIEW);
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof  AppCompatActivity) {
+            parentActivity = (AppCompatActivity) context;
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.review_detail, container, false);
-
-        if (review != null) {
-            ImageView imageViewRestaurateur = rootView.findViewById(R.id.imageViewRestaurateur);
-            textViewShopNameReviewDetail = rootView.findViewById(R.id.textViewShopNameReviewDetail);
-            ratingBarDF = rootView.findViewById(R.id.ratingBarReviewDetail);
-            textViewIndicatorRate = rootView.findViewById(R.id.textViewRatingIndicatorReviewDetail);
-            textViewRateDescription = rootView.findViewById(R.id.textViewReviewDescription);
-            textViewReviewDate = rootView.findViewById(R.id.textViewReviewDate);
-            MaterialButton btnEditReview = rootView.findViewById(R.id.buttonEditReview);
-            MaterialButton btnDeleteReview = rootView.findViewById(R.id.buttonDeleteReview);
-
-            if(review.getRestaurateur().getImagePath() != null){
-                String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, review.getRestaurateur().getImagePath());
-                Picasso.get()
-                        .load(imageUrl)
-                        .placeholder(R.mipmap.icon)
-                        .fit()
-                        .transform(new CropCircleTransformation())
-                        .into(imageViewRestaurateur);
-            }
-            textViewShopNameReviewDetail.setText(review.getRestaurateur().getShopName());
-            ratingBarDF.setRating(review.getVote());
-            textViewIndicatorRate.setText(String.format("%d/5", review.getVote()));
-            textViewRateDescription.setText(review.getText());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
-            LocalDateTime estimatedDeliveryTime = review.getCreatedAt();
-            String dateAsString = estimatedDeliveryTime.format(formatter);
-            textViewReviewDate.setText(dateAsString);
-            btnEditReview.setOnClickListener(v -> {
-                modifyReview();
-            });
-            btnDeleteReview.setOnClickListener(v -> {
-                deleteReview();
-            });
-        }
-
-        return rootView;
+        View view = inflater.inflate(R.layout.review_detail, container, false);
+        this.initUi(view);
+        return view;
     }
 
-    private void modifyReview(){
-        Dialog dialogModifyReview = new Dialog(mParent);
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (this.review != null) {
+            this.initData();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_REVIEW, this.review);
+    }
+
+    private void initUi(View view) {
+        this.imageViewRestaurateur = view.findViewById(R.id.imageViewRestaurateur);
+        this.textViewShopNameReviewDetail = view.findViewById(R.id.textViewShopNameReviewDetail);
+        this.ratingBarDF = view.findViewById(R.id.ratingBarReviewDetail);
+        this.textViewIndicatorRate = view.findViewById(R.id.textViewRatingIndicatorReviewDetail);
+        this.textViewRateDescription = view.findViewById(R.id.textViewReviewDescription);
+        this.textViewReviewDate = view.findViewById(R.id.textViewReviewDate);
+        MaterialButton btnEditReview = view.findViewById(R.id.buttonEditReview);
+        btnEditReview.setOnClickListener(v -> updateReview());
+        MaterialButton btnDeleteReview = view.findViewById(R.id.buttonDeleteReview);
+        btnDeleteReview.setOnClickListener(v -> deleteReview());
+    }
+
+    private void initData() {
+        if (this.review.getRestaurateur().getImagePath() != null) {
+            String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, this.review.getRestaurateur().getImagePath());
+            Picasso.get()
+                    .load(imageUrl)
+                    .placeholder(R.mipmap.icon)
+                    .fit()
+                    .transform(new CropCircleTransformation())
+                    .into(this.imageViewRestaurateur);
+        }
+        this.textViewShopNameReviewDetail.setText(this.review.getRestaurateur().getShopName());
+        this.ratingBarDF.setRating(this.review.getVote());
+        this.textViewIndicatorRate.setText(String.format("%d/5", review.getVote()));
+        this.textViewRateDescription.setText(this.review.getText());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
+        LocalDateTime estimatedDeliveryTime = this.review.getCreatedAt();
+        String dateAsString = estimatedDeliveryTime.format(formatter);
+        this.textViewReviewDate.setText(dateAsString);
+    }
+
+    private void updateReview() {
+        Dialog dialogModifyReview = new Dialog(parentActivity);
         dialogModifyReview.setContentView(R.layout.dialog_make_review);
 
         TextInputLayout reviewLayout = dialogModifyReview.findViewById(R.id.editTextReviewContainer);
@@ -116,7 +143,7 @@ public class ReviewDetailFragment extends Fragment {
 
         MaterialButton buttonConfirmReview = dialogModifyReview.findViewById(R.id.buttonConfirmReview);
         buttonConfirmReview.setOnClickListener(v1 -> {
-            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, mParent)) {
+            if(Utility.isValidReview(editTextReview.getText().toString(), reviewLayout, parentActivity)) {
                 Review modReview = new Review(
                         review.getId(),
                         (int) ratingBarDialog.getRating(),
@@ -136,7 +163,7 @@ public class ReviewDetailFragment extends Fragment {
                                 response.getCreatedAt(),
                                 review.getCustomer(),
                                 review.getRestaurateur());
-                        updateData();
+                        initData();
                     }
 
                     @Override
@@ -154,15 +181,8 @@ public class ReviewDetailFragment extends Fragment {
         dialogModifyReview.show();
     }
 
-    private void updateData(){
-        textViewShopNameReviewDetail.setText(review.getRestaurateur().getShopName());
-        ratingBarDF.setRating(review.getVote());
-        textViewIndicatorRate.setText(String.format("%d/5", review.getVote()));
-        textViewRateDescription.setText(review.getText());
-    }
-
-    private void deleteReview(){
-        Dialog dialog = new Dialog(mParent);
+    private void deleteReview() {
+        Dialog dialog = new Dialog(parentActivity);
         dialog.setContentView(R.layout.dialog_message_y_n);
 
         TextView title = dialog.findViewById(R.id.textViewTitle);
@@ -178,7 +198,7 @@ public class ReviewDetailFragment extends Fragment {
                 @Override
                 public void successResponse(Boolean response) {
                     dialog.dismiss();
-                    mParent.finish();
+                    parentActivity.finish();
                 }
 
                 @Override
@@ -197,16 +217,8 @@ public class ReviewDetailFragment extends Fragment {
         dialog.show();
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if(context instanceof  ReviewDetailActivity){
-            mParent = (ReviewDetailActivity) context;
-        }
-    }
-
     private void promptErrorMessage(String message){
-        Dialog errorDialog = new Dialog(mParent);
+        Dialog errorDialog = new Dialog(parentActivity);
         errorDialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
         TextView title = errorDialog.findViewById(R.id.textViewTitle);
