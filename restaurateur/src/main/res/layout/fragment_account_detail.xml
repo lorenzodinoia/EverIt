@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <FrameLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".activities.accountDetail.AccountDetailFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -142,7 +141,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:background="#c0c0c0"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
