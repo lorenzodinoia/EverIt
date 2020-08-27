@@ -74,7 +74,7 @@
 
         <TextView
             android:id="@+id/textViewCustomerAddress"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -103,7 +103,7 @@
 
         <TextView
             android:id="@+id/textViewCustomerPhone"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -131,7 +131,7 @@
 
         <TextView
             android:id="@+id/textViewRestaurateurName"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -160,7 +160,7 @@
 
         <TextView
             android:id="@+id/textViewEstimatedDeliveryTime"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -213,7 +213,7 @@
 
                 <TextView
                     android:id="@+id/textViewDeliveryNotes"
-                    style="@style/TextViewSmall"
+                    style="@style/TextViewSmallValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"

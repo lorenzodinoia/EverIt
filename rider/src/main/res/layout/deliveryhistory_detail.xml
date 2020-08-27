@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/textViewShopName"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/textViewShopAddress"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -93,7 +93,7 @@
 
         <TextView
             android:id="@+id/textViewCustomerName"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -117,7 +117,7 @@
 
         <TextView
             android:id="@+id/textViewCustomerAddress"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -154,7 +154,7 @@
 
         <TextView
             android:id="@+id/textViewPickupTime"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -179,7 +179,7 @@
 
         <TextView
             android:id="@+id/textViewDeliveryDateTime"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -245,7 +245,7 @@
 
                     <TextView
                         android:id="@+id/textViewDeliveryNotes"
-                        style="@style/TextViewSmall"
+                        style="@style/TextViewSmallValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"

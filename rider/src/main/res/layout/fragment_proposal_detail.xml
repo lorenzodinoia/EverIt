@@ -60,7 +60,7 @@
 
         <TextView
             android:id="@+id/textViewRestaurateurAddress"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -89,7 +89,7 @@
 
         <TextView
             android:id="@+id/textViewRestaurateurPhoneNumber"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -118,7 +118,7 @@
 
         <TextView
             android:id="@+id/textViewDeliverAddress"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -147,7 +147,7 @@
 
         <TextView
             android:id="@+id/textViewPickupTimeProposal"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
