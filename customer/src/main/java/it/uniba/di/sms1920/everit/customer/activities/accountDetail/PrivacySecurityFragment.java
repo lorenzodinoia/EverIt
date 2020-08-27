@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -32,8 +34,11 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
  * Class used to handle Privacy & Security fragment. This fragment allows user to change his password or delete the account
  */
 public class PrivacySecurityFragment extends Fragment {
+    public static final String ITEM = "item";
+    private static final String SAVED_CUSTOMER = "saved.customer";
+
     private Customer customer;
-    private AccountDetailActivity parentActivity;
+    private AppCompatActivity parentActivity;
     private TextInputEditText editTextOldPassword;
     private TextInputLayout editTextOldPasswordContainer;
     private TextInputEditText editTextNewPassword;
@@ -49,114 +54,139 @@ public class PrivacySecurityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        customer = parentActivity.getCustomer();
-        if (this.customer == null) {
-            promptMessage(getString(R.string.message_generic_error));
+        if (savedInstanceState == null) {
+            Bundle arguments = getArguments();
+            if ((arguments != null) && (arguments.containsKey(ITEM))) {
+                this.customer = arguments.getParcelable(ITEM);
+            }
         }
+        else if (savedInstanceState.containsKey(SAVED_CUSTOMER)) {
+            this.customer = savedInstanceState.getParcelable(SAVED_CUSTOMER);
+        }
+    }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof AppCompatActivity){
+            parentActivity = (AppCompatActivity) context;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_CUSTOMER, this.customer);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.fragment_privacy_security, parent, false);
-        this.initComponent(viewRoot);
-        return viewRoot;
+        View view = inflater.inflate(R.layout.fragment_privacy_security, parent, false);
+        this.initUi(view);
+        return view;
     }
 
-    /**
-     * Initialize all the UI components
-     *
-     * @param viewRoot The view inflated which contains the components
-     */
-    private void initComponent(View viewRoot) {
-        editTextOldPassword = viewRoot.findViewById(R.id.editTextOldPassword);
-        editTextOldPasswordContainer = viewRoot.findViewById(R.id.editTextOldPasswordContainer);
+    private void initUi(View view) {
+        if (this.parentActivity != null) {
+            ActionBar parentActivityToolbar = this.parentActivity.getSupportActionBar();
+            if (parentActivityToolbar != null) {
+                parentActivityToolbar.setTitle(R.string.privacy_and_security);
+            }
+        }
 
-        editTextNewPassword = viewRoot.findViewById(R.id.editTextNewPassword);
-        editTextNewPasswordContainer = viewRoot.findViewById(R.id.editTextNewPasswordContainer);
+        editTextOldPassword = view.findViewById(R.id.editTextOldPassword);
+        editTextOldPasswordContainer = view.findViewById(R.id.editTextOldPasswordContainer);
 
-        editTextPasswordConfirm = viewRoot.findViewById(R.id.editTextPasswordConfirm);
-        editTextPasswordConfirmContainer = viewRoot.findViewById(R.id.editTextPasswordConfirmContainer);
+        editTextNewPassword = view.findViewById(R.id.editTextNewPassword);
+        editTextNewPasswordContainer = view.findViewById(R.id.editTextNewPasswordContainer);
 
-        buttonChangePassword = viewRoot.findViewById(R.id.buttonChangePassword);
-        buttonChangePassword.setOnClickListener(view -> {
-            String oldPassword = this.editTextOldPassword.getText().toString();
-            String newPassword = this.editTextNewPassword.getText().toString();
-            String newPasswordConfirm = this.editTextPasswordConfirm.getText().toString();
+        editTextPasswordConfirm = view.findViewById(R.id.editTextPasswordConfirm);
+        editTextPasswordConfirmContainer = view.findViewById(R.id.editTextPasswordConfirmContainer);
 
-            if (this.checkFieldsFilled(editTextOldPasswordContainer, editTextNewPasswordContainer, editTextPasswordConfirmContainer)) {
-                if (newPassword.equals(newPasswordConfirm)) {
-                    if (Utility.isPasswordValid(newPassword)) {
-                        if(!newPassword.equals(oldPassword)) {
-                            CustomerRequest customerRequest = new CustomerRequest();
-                            customerRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
-                                @Override
-                                public void successResponse(Boolean response) {
-                                    if (response) {
-                                        //The password has been changed, now all user's local data is removed to force a new login. The fragment will be closed
-                                        Providers.getAuthProvider().removeAllUserData();
-                                        Toast.makeText(parentActivity, R.string.message_password_changed, Toast.LENGTH_LONG).show();
-                                        parentActivity.finishAffinity();
-                                        Intent intent = new Intent(parentActivity, LoginActivity.class);
-                                        startActivity(intent);
-                                    }
+        buttonChangePassword = view.findViewById(R.id.buttonChangePassword);
+        buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
+
+        buttonChangePassword.setOnClickListener(v -> this.changePassword());
+        buttonDeleteAccount.setOnClickListener(v-> this.deleteAccount());
+    }
+
+    private void changePassword() {
+        String oldPassword = this.editTextOldPassword.getText().toString();
+        String newPassword = this.editTextNewPassword.getText().toString();
+        String newPasswordConfirm = this.editTextPasswordConfirm.getText().toString();
+
+        if (this.checkFieldsFilled(editTextOldPasswordContainer, editTextNewPasswordContainer, editTextPasswordConfirmContainer)) {
+            if (newPassword.equals(newPasswordConfirm)) {
+                if (Utility.isPasswordValid(newPassword)) {
+                    if(!newPassword.equals(oldPassword)) {
+                        CustomerRequest customerRequest = new CustomerRequest();
+                        customerRequest.changePassword(oldPassword, newPassword, new RequestListener<Boolean>() {
+                            @Override
+                            public void successResponse(Boolean response) {
+                                if (response) { //The password has been changed, now all user's local data is removed to force a new login. The fragment will be closed
+                                    Providers.getAuthProvider().removeAllUserData();
+                                    Toast.makeText(parentActivity, R.string.message_password_changed, Toast.LENGTH_LONG).show();
+                                    parentActivity.finishAffinity();
+                                    Intent intent = new Intent(parentActivity, LoginActivity.class);
+                                    startActivity(intent);
                                 }
+                            }
 
-                                @Override
-                                public void errorResponse(RequestException error) {
-                                    promptMessage(error.getMessage());
-                                }
-                            });
-                        }
-                        else{
-                            editTextNewPasswordContainer.setError(getString(R.string.new_password_equals_old));
-                        }
+                            @Override
+                            public void errorResponse(RequestException error) {
+                                promptMessage(error.getMessage());
+                            }
+                        });
                     }
                     else {
-                        this.editTextNewPasswordContainer.setError(this.parentActivity.getString(R.string.message_password_wrong));
+                        editTextNewPasswordContainer.setError(getString(R.string.new_password_equals_old));
                     }
                 }
                 else {
-                    this.editTextPasswordConfirmContainer.setError(this.parentActivity.getString(R.string.message_password_confirm_mismatch));
+                    this.editTextNewPasswordContainer.setError(this.parentActivity.getString(R.string.message_password_wrong));
                 }
             }
-        });
+            else {
+                this.editTextPasswordConfirmContainer.setError(this.parentActivity.getString(R.string.message_password_confirm_mismatch));
+            }
+        }
+    }
 
-        buttonDeleteAccount = viewRoot.findViewById(R.id.buttonDeleteAccount);
-        buttonDeleteAccount.setOnClickListener(view -> {
+    private void deleteAccount() {
+        Dialog dialog = new Dialog(parentActivity);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
 
-            Dialog dialog = new Dialog(parentActivity);
-            dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(R.string.delete_account);
+        TextView message = dialog.findViewById(R.id.textViewMessage);
+        message.setText(R.string.message_confirm_delete);
+        MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v -> {
+            CustomerRequest customerRequest = new CustomerRequest();
+            customerRequest.delete(customer.getId(), new RequestListener<Boolean>() {
+                @Override
+                public void successResponse(Boolean response) {
+                    parentActivity.finishAffinity();
+                    Intent intent = new Intent(parentActivity, LoginActivity.class);
+                    startActivity(intent);
+                }
 
-            TextView title = dialog.findViewById(R.id.textViewTitle);
-            title.setText(R.string.delete_account);
-            TextView message = dialog.findViewById(R.id.textViewMessage);
-            message.setText(R.string.message_confirm_delete);
-            MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
-            btnOk.setOnClickListener(v -> {
-
-                CustomerRequest customerRequest = new CustomerRequest();
-                customerRequest.delete(customer.getId(), new RequestListener<Boolean>() {
-                    @Override
-                    public void successResponse(Boolean response) {
-                        parentActivity.finishAffinity();
-                        Intent intent = new Intent(parentActivity, LoginActivity.class);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        dialog.dismiss();
-                        promptMessage(error.getMessage());
-                    }
-                });
+                @Override
+                public void errorResponse(RequestException error) {
+                    dialog.dismiss();
+                    promptMessage(error.getMessage());
+                }
             });
-            MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
-            btnCancel.setOnClickListener(v -> dialog.dismiss());
-
-            dialog.show();
         });
+        MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
 
+        dialog.show();
     }
 
     /**
@@ -183,15 +213,7 @@ public class PrivacySecurityFragment extends Fragment {
         return allFieldsCompleted;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if(context instanceof AccountDetailActivity){
-            parentActivity = (AccountDetailActivity) context;
-        }
-    }
-
-    private void promptMessage(String message){
+    private void promptMessage(String message) {
         Dialog dialog = new Dialog(parentActivity);
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 

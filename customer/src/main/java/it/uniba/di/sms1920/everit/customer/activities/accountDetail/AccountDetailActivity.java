@@ -23,7 +23,6 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class AccountDetailActivity extends AppCompatActivity {
-
     Toolbar toolbar;
     private Customer customer;
 
@@ -39,22 +38,28 @@ public class AccountDetailActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.read(Providers.getAuthProvider().getUser().getId(), new RequestListener<Customer>() {
-            @Override
-            public void successResponse(Customer response) {
-                customer = response;
-                AccountDetailFragment accountDetailFragment = new AccountDetailFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.containerSettingsCustomer, accountDetailFragment).addToBackStack(null).commit();
-            }
+        if (savedInstanceState == null) {
+            CustomerRequest customerRequest = new CustomerRequest();
+            customerRequest.read(Providers.getAuthProvider().getUser().getId(), new RequestListener<Customer>() {
+                @Override
+                public void successResponse(Customer response) {
+                    customer = response;
+                    AccountDetailFragment accountDetailFragment = new AccountDetailFragment();
+                    Bundle accountDetailFragmentArguments = new Bundle();
+                    accountDetailFragmentArguments.putParcelable(AccountDetailFragment.ITEM, customer);
+                    accountDetailFragment.setArguments(accountDetailFragmentArguments);
 
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.containerSettingsCustomer, accountDetailFragment).addToBackStack(null).commit();
+                }
+
+                @Override
+                public void errorResponse(RequestException error) {
+                    promptErrorMessage(error.getMessage());
+                }
+            });
+        }
     }
 
     @Override
