@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/textViewLabelOrderNumber"
@@ -42,7 +44,7 @@
 
         <TextView
             android:id="@+id/textViewOrderType"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -52,7 +54,7 @@
 
         <TextView
             android:id="@+id/textViewDeliveryDateTime"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -139,7 +141,7 @@
 
                     <TextView
                         android:id="@+id/textViewOrderNotes"
-                        style="@style/TextViewSmall"
+                        style="@style/TextViewSmallValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
@@ -185,7 +187,7 @@
 
         <TextView
             android:id="@+id/textViewSymbol"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -199,7 +201,7 @@
 
         <TextView
             android:id="@+id/textViewSymbol2"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/currency_type"
@@ -259,13 +261,12 @@
 
         <TextView
             android:id="@+id/textViewSubTotal"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="16dp"
-            android:text=""
             app:layout_constraintBottom_toTopOf="@+id/textViewDeliveryCost"
             app:layout_constraintEnd_toStartOf="@+id/textViewSymbol"
             app:layout_constraintTop_toBottomOf="@+id/cardViewOrderNotes"
@@ -273,11 +274,10 @@
 
         <TextView
             android:id="@+id/textViewDeliveryCost"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:text=""
             app:layout_constraintEnd_toStartOf="@+id/textViewSymbol2"
             app:layout_constraintTop_toBottomOf="@+id/textViewSubTotal"
             android:layout_marginTop="8dp"/>
@@ -289,7 +289,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
             android:layout_marginEnd="4dp"
-            android:text=""
             app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3"
             app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryCost" />
 
