@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -51,6 +53,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_profile, parent, false);
+
         customer = mParent.getCustomer();
         mParent.toolbar.setTitle(R.string.account_info);
         initComponent(viewRoot);
@@ -132,7 +135,10 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void successResponse(Customer response) {
                             customer = response;
-                            Toast.makeText(mParent, R.string.account_updated, Toast.LENGTH_LONG).show();
+
+                            Snackbar.make(viewRoot, R.string.account_updated, Snackbar.LENGTH_SHORT).show();
+
+                            //Toast.makeText(mParent, R.string.account_updated, Toast.LENGTH_LONG).show();
                             buttonEditConfirm.setText(R.string.edit);
                             editTextName.setText(customer.getName());
                             editTextName.setEnabled(false);

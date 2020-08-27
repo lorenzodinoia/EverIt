@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -95,7 +96,9 @@ public class PrivacySecurityFragment extends Fragment {
                                     if (response) {
                                         //The password has been changed, now all user's local data is removed to force a new login. The fragment will be closed
                                         Providers.getAuthProvider().removeAllUserData();
-                                        Toast.makeText(parentActivity, R.string.message_password_changed, Toast.LENGTH_LONG).show();
+
+                                        Snackbar.make(viewRoot, R.string.message_password_changed, Snackbar.LENGTH_SHORT);
+                                        //Toast.makeText(parentActivity, R.string.message_password_changed, Toast.LENGTH_LONG).show();
                                         parentActivity.finishAffinity();
                                         Intent intent = new Intent(parentActivity, LoginActivity.class);
                                         startActivity(intent);

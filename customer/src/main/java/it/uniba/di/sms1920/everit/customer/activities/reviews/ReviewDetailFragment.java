@@ -17,6 +17,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
@@ -178,6 +180,9 @@ public class ReviewDetailFragment extends Fragment {
                 @Override
                 public void successResponse(Boolean response) {
                     dialog.dismiss();
+
+                    //Snackbar.make(rootView, "Review deleted", Snackbar.LENGTH_SHORT);
+
                     mParent.finish();
                 }
 
