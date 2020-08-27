@@ -5,12 +5,14 @@ import android.os.Bundle;
 
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -18,8 +20,13 @@ import android.widget.ImageView;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.results.Tabs.InfoFragment;
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Review;
+import it.uniba.di.sms1920.everit.utils.request.ReviewRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 /**
  * An activity representing a single Review detail screen. This
@@ -28,41 +35,69 @@ import it.uniba.di.sms1920.everit.utils.models.Review;
  * in a {@link ReviewListActivity}.
  */
 public class ReviewDetailActivity extends AppCompatActivity {
+    public static final String ARG_ITEM_ID = "item_id";
+    private static final String SAVED_REVIEW = "saved.review";
+    private long reviewId;
+    private Review review;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_detail);
 
-        long reviewId = getIntent().getLongExtra(ReviewDetailFragment.ARG_ITEM_ID, 0);
-        Review review = ReviewListActivity.getReviewById(reviewId);
-
         Toolbar toolbar = findViewById(R.id.toolbar_default);
-        if(review != null){
-            toolbar.setTitle(review.getRestaurateur().getShopName());
-        }
-
         setSupportActionBar(toolbar);
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putLong(ReviewDetailFragment.ARG_ITEM_ID,
-                    getIntent().getLongExtra(ReviewDetailFragment.ARG_ITEM_ID, 0));
-            /*arguments.putString(ReviewDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(ReviewDetailFragment.ARG_ITEM_ID));*/
-            Log.d("test", Boolean.toString(arguments.isEmpty()));
-            ReviewDetailFragment fragment = new ReviewDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.review_detail_container, fragment)
-                    .commit();
+            Bundle extras = getIntent().getExtras();
+            if ((extras != null) && (extras.containsKey(ARG_ITEM_ID))) {
+                this.reviewId = extras.getLong(ARG_ITEM_ID);
+            }
         }
+        else if (savedInstanceState.containsKey(SAVED_REVIEW)) {
+            this.review = savedInstanceState.getParcelable(SAVED_REVIEW);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (this.review == null) { //The review needs to be loaded
+            this.loadData();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_REVIEW, this.review);
+    }
+
+    private void setUpFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ReviewDetailFragment.ARG_ITEM, this.review);
+        ReviewDetailFragment fragment = new ReviewDetailFragment();
+        fragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.review_detail_container, fragment);
+        fragmentTransaction.addToBackStack(null).commit();
+    }
+
+    private void loadData() {
+        ReviewRequest reviewRequest = new ReviewRequest();
+        reviewRequest.read(this.reviewId, new RequestListener<Review>() {
+            @Override
+            public void successResponse(Review response) {
+                review = response;
+                setUpFragment();
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                Utility.showGenericMessage(ReviewDetailActivity.this, error.getMessage());
+            }
+        });
     }
 
     @Override

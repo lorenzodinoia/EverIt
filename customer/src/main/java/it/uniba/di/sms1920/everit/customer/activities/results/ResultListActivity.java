@@ -114,14 +114,14 @@ public class ResultListActivity extends AppCompatActivity {
                 if(!response.isEmpty()){
                     textViewEmptyResult.setVisibility(View.INVISIBLE);
                     resultList.addAll(response);
-                    if (recyclerViewAdapter != null) {
-                        recyclerViewAdapter.notifyDataSetChanged();
-                    }
                 }
                 else{
                     textViewEmptyResult.setVisibility(View.VISIBLE);
                     textViewEmptyResult.setText(R.string.no_results);
                     textViewEmptyResult.bringToFront();
+                }
+                if (recyclerViewAdapter != null) {
+                    recyclerViewAdapter.notifyDataSetChanged();
                 }
             }
 

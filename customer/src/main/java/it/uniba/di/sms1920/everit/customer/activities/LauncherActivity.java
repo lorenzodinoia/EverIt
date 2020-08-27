@@ -55,8 +55,13 @@ public class LauncherActivity extends AppCompatActivity {
                         if (getIntent().hasExtra(FLAG_REQUIRE_LOGIN)) {
                             Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(loginIntent);
+                            finish();
                         }
-                        finish();
+                        else {
+                            Intent intent = new Intent(LauncherActivity.this, BaseActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 });
             }
