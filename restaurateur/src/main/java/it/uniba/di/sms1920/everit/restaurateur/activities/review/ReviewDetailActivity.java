@@ -4,14 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.ActionBar;
-
 import android.view.MenuItem;
-
 import java.util.Objects;
-
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
 public class ReviewDetailActivity extends AppCompatActivity {

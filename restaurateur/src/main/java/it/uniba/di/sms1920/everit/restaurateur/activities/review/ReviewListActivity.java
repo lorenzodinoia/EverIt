@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -40,6 +39,7 @@ public class ReviewListActivity extends AppCompatActivity {
     private boolean mTwoPane;
     public static final List<Review> reviewList = new ArrayList<>();
     private TextView textViewEmptyDataReviewRestaurateur;
+    private View recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,15 @@ public class ReviewListActivity extends AppCompatActivity {
         }
 
         textViewEmptyDataReviewRestaurateur = findViewById(R.id.textViewEmptyDataReviewRestaurateur);
-        View recyclerView = findViewById(R.id.review_list);
+        recyclerView = findViewById(R.id.review_list);
         assert recyclerView != null;
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         ReviewRequest reviewRequest = new ReviewRequest();
         reviewRequest.readRestaurateurReviews(new RequestListener<Collection<Review>>() {
             @Override
@@ -81,7 +88,6 @@ public class ReviewListActivity extends AppCompatActivity {
                 promptErrorMessage(error.getMessage());
             }
         });
-
     }
 
     public static Review getReviewById(long id) {
@@ -98,7 +104,7 @@ public class ReviewListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new ReviewwRecyclerViewAdapter(this, reviewList, mTwoPane));
+        recyclerView.setAdapter(new ReviewRecyclerViewAdapter(this, reviewList, mTwoPane));
     }
 
 
@@ -111,8 +117,8 @@ public class ReviewListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class ReviewwRecyclerViewAdapter
-            extends RecyclerView.Adapter<ReviewwRecyclerViewAdapter.ViewHolder> {
+    public static class ReviewRecyclerViewAdapter
+            extends RecyclerView.Adapter<ReviewRecyclerViewAdapter.ViewHolder> {
 
         private final ReviewListActivity mParentActivity;
         private final List<Review> mValues;
@@ -139,9 +145,9 @@ public class ReviewListActivity extends AppCompatActivity {
             }
         };
 
-        ReviewwRecyclerViewAdapter(ReviewListActivity parent,
-                                      List<Review> items,
-                                      boolean twoPane) {
+        ReviewRecyclerViewAdapter(ReviewListActivity parent,
+                                  List<Review> items,
+                                  boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
             mTwoPane = twoPane;

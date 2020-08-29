@@ -22,6 +22,7 @@
                 android:id="@+id/textViewOrderNumber"
                 style="@style/TextViewSmall"
                 android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="14dp"
                 android:layout_marginEnd="8dp"

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -42,7 +41,7 @@ public class OpeningTimeSelectionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState == null){
-            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+            restaurateurBuilder = signUpActivity.getRestaurateur();
         }
         else {
             restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
@@ -57,10 +56,22 @@ public class OpeningTimeSelectionFragment extends Fragment {
 
         textViewErrorOpeningTimes = viewRoot.findViewById(R.id.textViewErrorOpeningTimes);
         btnBack = viewRoot.findViewById(R.id.buttonBackOpeningTime);
+        btnNext = viewRoot.findViewById(R.id.btnNextOpeningTime);
+
+        openingDateTimeFragment = new OpeningDateTimeFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.opening_time_container, openingDateTimeFragment).addToBackStack(null).commit();
+
+        return viewRoot;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
         btnBack.setOnClickListener(view -> {
             signUpActivity.getSupportFragmentManager().popBackStack();
         });
-        btnNext = viewRoot.findViewById(R.id.btnNextOpeningTime);
         btnNext.setOnClickListener(view -> {
             textViewErrorOpeningTimes.setText("");
             boolean valid = false;
@@ -85,7 +96,6 @@ public class OpeningTimeSelectionFragment extends Fragment {
             }
 
         });
-        return viewRoot;
     }
 
     @Override
@@ -103,12 +113,10 @@ public class OpeningTimeSelectionFragment extends Fragment {
         super.onDetach();
     }
 
-    @Override
+    /*@Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        openingDateTimeFragment = new OpeningDateTimeFragment();
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.opening_time_container, openingDateTimeFragment).addToBackStack(null).commit(); 
-    }
+
+    }*/
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

@@ -44,6 +44,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
     private boolean mTwoPane;
     public static final List<Order> orders = new ArrayList<>();
     private TextView textViewEmptyOrders;
+    private View recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,15 @@ public class DoneOrderListActivity extends AppCompatActivity {
         }
 
         textViewEmptyOrders = findViewById(R.id.textViewEmptyDataOrderHistory);
-        View recyclerView = findViewById(R.id.doneorder_list);
+        recyclerView = findViewById(R.id.doneorder_list);
         assert recyclerView != null;
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.readDoneOrders(new RequestListener<Collection<Order>>() {
@@ -85,6 +93,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
                 promptErrorMessage(error.getMessage());
             }
         });
+
     }
 
     public static Order getOrderById(long id) {

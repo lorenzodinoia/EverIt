@@ -29,6 +29,18 @@ public class DoneOrderDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
     private Order mItem;
+    private TextView labelOrdertype;
+    private TextView textViewOrderType;
+    private TextView labelDeliveryDate;
+    private TextView textViewLabelOrderNumber;
+    private TextView textViewOrderNumber;
+    private TextView textViewDeliveryTime;
+    private RecyclerView recyclerView;
+    private TextView textViewOrderNotes;
+    private TextView textViewOrderDeliveryPrice;
+    private TextView textViewSubTotalOrderPrice;
+    private TextView textViewOrderTotalPrice;
+
 
     public DoneOrderDetailFragment() {
     }
@@ -37,9 +49,11 @@ public class DoneOrderDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            long id = getArguments().getLong(ARG_ITEM_ID);
-            mItem = DoneOrderListActivity.getOrderById(id);
+        if(getArguments() != null) {
+            if (getArguments().containsKey(ARG_ITEM_ID)) {
+                long id = getArguments().getLong(ARG_ITEM_ID);
+                mItem = DoneOrderListActivity.getOrderById(id);
+            }
         }
     }
 
@@ -48,30 +62,38 @@ public class DoneOrderDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.doneorder_detail, container, false);
 
         if (mItem != null) {
-            TextView labelOrdertype = rootView.findViewById(R.id.textViewLabelOrderType);
-            TextView textViewOrderType = rootView.findViewById(R.id.textViewOrderType);
-            TextView labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
-            TextView textViewLabelOrderNumber = rootView.findViewById(R.id.textViewLabelOrderNumber);
-            TextView textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
-            TextView textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
-            RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewProducts);
-            TextView textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotes);
-            TextView textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewSubTotal);
-            TextView textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewDeliveryCost);
-            TextView textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+            labelOrdertype = rootView.findViewById(R.id.textViewLabelOrderType);
+            textViewOrderType = rootView.findViewById(R.id.textViewOrderType);
+            labelDeliveryDate = rootView.findViewById(R.id.labelDeliveryDate);
+            textViewLabelOrderNumber = rootView.findViewById(R.id.textViewLabelOrderNumber);
+            textViewOrderNumber = rootView.findViewById(R.id.textViewOrderNumber);
+            textViewDeliveryTime = rootView.findViewById(R.id.textViewDeliveryDateTime);
+            recyclerView = rootView.findViewById(R.id.recycleViewProducts);
+            textViewOrderNotes = rootView.findViewById(R.id.textViewOrderNotes);
+            textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewSubTotal);
+            textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewDeliveryCost);
+            textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+        }
 
+        return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(mItem != null) {
             labelOrdertype.setText(R.string.order_type);
-            if(mItem.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+            if (mItem.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
                 textViewOrderType.setText(R.string.home_delivery);
-            }
-            else{
+            } else {
                 textViewOrderType.setText(R.string.take_away);
             }
 
             textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
             labelDeliveryDate.setText(getString(R.string.delivery_date_label) + ":");
 
-            textViewOrderNumber.setText("#"+mItem.getId());
+            textViewOrderNumber.setText("#" + mItem.getId());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
             LocalDateTime estimatedDeliveryTime = mItem.getEstimatedDeliveryTime();
@@ -86,10 +108,7 @@ public class DoneOrderDetailFragment extends Fragment {
             textViewOrderTotalPrice.setText(Float.toString(mItem.getTotalCost() + deliveryCost));
 
             setupRecyclerView(recyclerView);
-
         }
-
-        return rootView;
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {

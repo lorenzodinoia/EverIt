@@ -58,7 +58,7 @@ public class SignUp3Fragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState == null){
-            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+            restaurateurBuilder = signUpActivity.getRestaurateur();
         }
         else{
             restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
@@ -70,52 +70,59 @@ public class SignUp3Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up3, container, false);
-        this.initComponent(viewRoot);
-        return viewRoot;
-    }
 
-    private void initComponent(View viewRoot){
         editTextEmailContainer = viewRoot.findViewById(R.id.editTextEmailContainerSignUp);
         editTextEmail = viewRoot.findViewById(R.id.editTextEmailSignUp);
         editTextPasswordContainer = viewRoot.findViewById(R.id.editTextPasswordContainerSignUp);
         editTextPassword = viewRoot.findViewById(R.id.editTextPasswordSignUp);
         editTextConfirmPasswordContainer = viewRoot.findViewById(R.id.editTextConfirmPasswordContainerSignUp);
         editTextConfirmPassword = viewRoot.findViewById(R.id.editTextConfirmPasswordSignUp);
-
         btnBack = viewRoot.findViewById(R.id.buttonBack2);
+        btnSignUp = viewRoot.findViewById(R.id.buttonSignUpAll);
+
+        return viewRoot;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
+    }
+
+    private void initData(){
+
         btnBack.setOnClickListener(view -> {
             signUpActivity.getSupportFragmentManager().popBackStack();
         });
-        btnSignUp = viewRoot.findViewById(R.id.buttonSignUpAll);
+
         btnSignUp.setOnClickListener(view -> {
 
             boolean flag = true;
-            if(Utility.isEmailValid(editTextEmail. getText().toString())){
-                editTextEmailContainer.setError(null);
-            }else{
+            if(!Utility.isEmailValid(editTextEmail. getText().toString())){
                 flag = false;
                 editTextEmailContainer.setError(getString(R.string.error_email));
+            }else{
+                editTextEmailContainer.setError(null);
             }
 
-            if(Utility.isPasswordValid(editTextPassword.getText().toString())){
-                editTextPasswordContainer.setError(null);
-            }else{
+            if(!Utility.isPasswordValid(editTextPassword.getText().toString())){
                 flag = false;
                 editTextPasswordContainer.setError(getString(R.string.error_password));
+            }else{
+                editTextPasswordContainer.setError(null);
             }
 
-            if(Utility.isPasswordValid(editTextConfirmPassword.getText().toString())){
+            if(!Utility.isPasswordValid(editTextConfirmPassword.getText().toString())){
+                flag = false;
+                editTextConfirmPasswordContainer.setError(getString(R.string.error_password));
+            }else{
                 if(editTextPassword.getText().toString().equals(editTextConfirmPassword.getText().toString())){
                     editTextConfirmPasswordContainer.setError(null);
                 }else{
                     flag = false;
                     editTextConfirmPasswordContainer.setError(getString(R.string.error_match_password));
                 }
-            }else{
-                flag = false;
-                editTextConfirmPasswordContainer.setError(getString(R.string.error_password));
             }
-
 
             if(flag){
                 restaurateurBuilder.setEmail(editTextEmail.getText().toString());

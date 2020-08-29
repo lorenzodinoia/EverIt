@@ -30,9 +30,11 @@ public class OpeningDateTimeActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        OpeningDateTimeFragment openingDateTimeFragment = new OpeningDateTimeFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.containerOpeningDateTimeFragmentActivity, openingDateTimeFragment).addToBackStack(null).commit();
+        if(savedInstanceState == null) {
+            OpeningDateTimeFragment openingDateTimeFragment = new OpeningDateTimeFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.containerOpeningDateTimeFragmentActivity, openingDateTimeFragment).addToBackStack(null).commit();
+        }
 
     }
 
