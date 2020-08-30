@@ -11,20 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ExpandableListView
-            android:id="@+id/expandableMenu"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="80dp"
-            android:childDivider="@color/greyAccent"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="0.5dp"
-            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            android:nestedScrollingEnabled="true"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/buttonOrderMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ExpandableListView
+                android:id="@+id/expandableMenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:childDivider="@color/greyAccent"
+                android:divider="@color/greyAccent"
+                android:dividerHeight="0.5dp"
+                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                android:nestedScrollingEnabled="true" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/buttonOrderMenu"

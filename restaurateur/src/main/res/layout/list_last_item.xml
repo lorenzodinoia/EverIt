@@ -2,8 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="100dp"
     android:layout_width="match_parent"
+    android:layout_height="100dp"
     android:background="@color/veryLightGreyAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,13 +12,12 @@
 
         <Button
             android:id="@+id/btnAddItem"
-            style="@style/ButtonIconOnly"
+            style="@style/ButtonIconColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:focusable="false"
             app:icon="@drawable/ic_plus"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
