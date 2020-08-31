@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/veryLightGreyAccent">
+    android:layout_height="100dp">
 
     <TextView
         android:id="@+id/expandedListItem"
@@ -14,12 +13,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="10dp"
-        android:maxLines="2"
         android:scrollHorizontally="false"
         android:singleLine="false"
         app:layout_constraintEnd_toStartOf="@+id/btnDelItem"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <TextView
@@ -28,17 +26,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
-        android:maxLines="2"
         android:scrollHorizontally="false"
         android:singleLine="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toStartOf="@+id/btnDelItem"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expandedListItem"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDelItem"
+        app:layout_constraintVertical_bias="0.04000002" />
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -65,7 +61,7 @@
         app:icon="@drawable/ic_minus_slim"
         app:iconGravity="textStart"
         app:layout_constraintEnd_toStartOf="@+id/editTextNumberContainer"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"  />
 
     <Button
         android:id="@+id/btnModItem"
@@ -108,7 +104,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnModItem"
         app:layout_constraintVertical_bias="1.0" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

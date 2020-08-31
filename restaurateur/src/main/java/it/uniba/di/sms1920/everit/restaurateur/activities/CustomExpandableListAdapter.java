@@ -98,7 +98,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             });
         }
         else {
-            convertView = layoutInflater.inflate(it.uniba.di.sms1920.everit.utils.R.layout.list_item, null);
+            convertView = layoutInflater.inflate(R.layout.list_item_restaurateur, null);
 
             TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
             expandedListTextView.setText(product.getName());
@@ -110,8 +110,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             productPrice.setText(String.valueOf(product.getPrice()));
 
             MaterialButton btnModItem = convertView.findViewById(R.id.btnModItem);
-            Drawable iconMod = this.context.getDrawable(android.R.drawable.ic_menu_edit);
-            btnModItem.setIcon(iconMod);
             btnModItem.setOnClickListener(v -> {
                 Dialog dialogModItem = new Dialog(context);
                 dialogModItem.setContentView(R.layout.dialog_mod_item);
@@ -159,8 +157,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             });
 
             MaterialButton btnDelItem = convertView.findViewById(R.id.btnDelItem);
-            Drawable iconDel = this.context.getDrawable(android.R.drawable.ic_menu_delete);
-            btnDelItem.setIcon(iconDel);
             btnDelItem.setOnClickListener(v -> {
                 Dialog dialog = new Dialog(context);
                 dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);

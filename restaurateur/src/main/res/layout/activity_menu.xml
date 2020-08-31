@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:childDivider="@color/greyAccent"
-            android:divider="@android:color/darker_gray"
+            android:divider="@color/greyAccent"
             android:dividerHeight="0.5dp"
             android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
     </LinearLayout>
@@ -36,9 +36,11 @@
     <Button
         android:id="@+id/btnAddCategory"
         style="@style/ButtonMain"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/btn_bg"
         android:text="@string/addNewCat"
         app:layout_constraintBottom_toBottomOf="parent"
