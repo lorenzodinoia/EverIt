@@ -56,7 +56,7 @@
     <string name="review_number">Review number:</string>
 
     <string name="home_delivery">Home delivery</string>
-    <string name="take_away" translatable="false">Take away</string>
+
     <string name="order_type">Order type</string>
     <string name="pickup_address">Pickup address</string>
     <string name="pickup_date">Pickup date</string>
@@ -114,8 +114,7 @@
     <string name="total">Total</string>
     <string name="DeleteCart">Delete cart</string>
     <string name="hint_spinner_delivery">Choose the delivery time.</string>
-    <string name="HOME_DELIVERY">HOME DELIVERY</string>
-    <string name="CUSTOMER_PICKUP">CUSTOMER PICKUP</string>
+    <string name="takeaway" translatable="false">Takeaway</string>
     <string name="menu">Menù</string>
     <string name="review_hint">Write your review here</string>
     <string name="make_review">Write a review</string>

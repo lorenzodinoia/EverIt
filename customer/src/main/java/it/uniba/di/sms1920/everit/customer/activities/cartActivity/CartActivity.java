@@ -27,7 +27,6 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        //TODO sta toolbar è messa da xml e non inclusa perchè altrimenti si rompe a caso
         Toolbar toolbar = findViewById(R.id.toolbarCart);
         setSupportActionBar(toolbar);
 
