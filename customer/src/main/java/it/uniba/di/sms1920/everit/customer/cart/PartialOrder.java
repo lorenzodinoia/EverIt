@@ -99,6 +99,7 @@ public class PartialOrder {
         }
     }
 
+
     public void deleteProduct(Product product) {
         this.products.remove(product);
     }
