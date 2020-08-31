@@ -208,7 +208,6 @@ public class AccountDetailFragment extends Fragment {
         }
     }
 
-    //TODO crasha se provi ad inserire un immagine
     void fetchImageFromGallery() {
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");

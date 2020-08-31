@@ -41,8 +41,6 @@ public class SignUp2Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    //TODO se si gira due volte, crasha
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

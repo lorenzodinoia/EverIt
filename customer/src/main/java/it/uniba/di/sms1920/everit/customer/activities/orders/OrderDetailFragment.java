@@ -171,7 +171,7 @@ public class OrderDetailFragment extends Fragment {
                 buttonReceiveOrder.setText(R.string.send_code);
                 buttonReceiveOrder.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), NfcSenderActivity.class);
-                    intent.putExtra("order", order); //TODO Sistema parametro
+                    intent.putExtra("order", order);
                     startActivity(intent);
                 });
             }
