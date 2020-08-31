@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+import org.w3c.dom.Text;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.Constants;
@@ -23,6 +24,13 @@ public class ReviewDetailFragment extends Fragment {
 
     private Review mItem;
 
+    private TextView textViewOrderNumberDetail;
+    private TextView textViewCustomerNameDetail;
+    private TextView textViewReviewDate;
+    private RatingBar ratingBarReviewDetail;
+    private TextView textViewRatingIndicatorReviewDetail;
+    private TextView textViewReviewDescription;
+
 
     public ReviewDetailFragment() {
     }
@@ -31,9 +39,11 @@ public class ReviewDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            long id =  getArguments().getLong(ARG_ITEM_ID);
-            mItem = ReviewListActivity.getReviewById(id);
+        if(getArguments() != null) {
+            if (getArguments().containsKey(ARG_ITEM_ID)) {
+                long id = getArguments().getLong(ARG_ITEM_ID);
+                mItem = ReviewListActivity.getReviewById(id);
+            }
         }
     }
 
@@ -42,20 +52,31 @@ public class ReviewDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.review_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.textViewOrderNumberDetail)).setText("#"+mItem.getId());
-            ((TextView) rootView.findViewById(R.id.textViewCustomerNameDetail)).setText(mItem.getCustomer().getName());
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
-            LocalDateTime estimatedDeliveryTime = mItem.getCreatedAt();
-            String dateAsString = estimatedDeliveryTime.format(formatter);
-            ((TextView) rootView.findViewById(R.id.textViewReviewDate)).setText(dateAsString);
-            ((RatingBar) rootView.findViewById(R.id.ratingBarReviewDetail)).setRating(mItem.getVote());
-            ((TextView) rootView.findViewById(R.id.textViewRatingIndicatorReviewDetail)).setText(String.format("%d/5", mItem.getVote()));
-            ((TextView) rootView.findViewById(R.id.textViewReviewDescription)).setText(mItem.getText());
+            textViewOrderNumberDetail = rootView.findViewById(R.id.textViewOrderNumberDetail);
+            textViewCustomerNameDetail = rootView.findViewById(R.id.textViewCustomerNameDetail);
+            textViewReviewDate = rootView.findViewById(R.id.textViewReviewDate);
+            ratingBarReviewDetail = rootView.findViewById(R.id.ratingBarReviewDetail);
+            textViewRatingIndicatorReviewDetail = rootView.findViewById(R.id.textViewRatingIndicatorReviewDetail);
+            textViewReviewDescription = rootView.findViewById(R.id.textViewReviewDescription);
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(mItem != null){
+            textViewOrderNumberDetail.setText("#"+mItem.getId());
+            textViewCustomerNameDetail.setText(mItem.getCustomer().getName());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
+            LocalDateTime estimatedDeliveryTime = mItem.getCreatedAt();
+            String dateAsString = estimatedDeliveryTime.format(formatter);
+            textViewReviewDate.setText(dateAsString);
+            ratingBarReviewDetail.setRating(mItem.getVote());
+            textViewRatingIndicatorReviewDetail.setText(String.format("%d/5", mItem.getVote()));
+            textViewReviewDescription.setText(mItem.getText());
+        }
     }
 }

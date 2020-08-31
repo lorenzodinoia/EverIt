@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class SignUp1Fragment extends Fragment {
 
-    private final String ARG_RESTAURATEUR_SIGNUP1 = "restaurateur_signup1";
+    public static final String SIGNUP1 = "signup1";
     private final String ARG_SHOP_TYPES = "shop_types_signup1";
     private final String ARG_ADDRESS = "address_signup1";
 
@@ -68,7 +69,6 @@ public class SignUp1Fragment extends Fragment {
     private Spinner spinnerShopType;
     private SpinnerShopTypeAdapter spinnerAdapter;
     private ArrayList<ShopType> shopTypes = new ArrayList<>();
-    private ShopType shopTypeSelected;
     private TextView textViewEmptyShopType;
 
     public SignUp1Fragment() {
@@ -79,45 +79,67 @@ public class SignUp1Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("test", "onCreate");
+
+        shopTypes.clear();
+
+        if(savedInstanceState != null) {
+            address = savedInstanceState.getParcelable(ARG_ADDRESS);
+            ShopType first = new ShopType(-1, getString(R.string.default_shop_type));
+            shopTypes.add(first);
+            shopTypes.addAll(Objects.requireNonNull(savedInstanceState.getParcelableArrayList(ARG_SHOP_TYPES)));
+        }
+
+        restaurateurBuilder = signUpActivity.getRestaurateur();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up1, parent, false);
-
-        shopTypes.clear();
-
-        if(savedInstanceState == null) {
-            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
-            initShopTypes(viewRoot);
-        }
-        else{
-            address = savedInstanceState.getParcelable(ARG_ADDRESS);
-            restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR_SIGNUP1);
-            ShopType first = new ShopType(-1, getString(R.string.default_shop_type));
-            shopTypes.add(first);
-            shopTypes.addAll(Objects.requireNonNull(savedInstanceState.getParcelableArrayList(ARG_SHOP_TYPES)));
-            initComponent(viewRoot);
-        }
+        Log.d("test", "onCreateView");
+        initComponent(viewRoot);
         return viewRoot;
     }
 
-    private void initShopTypes(View viewRoot){
-        ShopTypeRequest shopTypeRequest = new ShopTypeRequest();
-        shopTypeRequest.readAll(new RequestListener<Collection<ShopType>>() {
-            @Override
-            public void successResponse(Collection<ShopType> response) {
-                ShopType first = new ShopType(-1, getString(R.string.default_shop_type));
-                shopTypes.add(first);
-                shopTypes.addAll(response);
-                initComponent(viewRoot);
-            }
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("test", "onStart");
+        if(!shopTypes.isEmpty()){
+            setSpinner();
+            initData();
+        }
+        else{
+            ShopTypeRequest shopTypeRequest = new ShopTypeRequest();
+            shopTypeRequest.readAll(new RequestListener<Collection<ShopType>>() {
+                @Override
+                public void successResponse(Collection<ShopType> response) {
+                    ShopType first = new ShopType(-1, getString(R.string.default_shop_type));
+                    shopTypes.add(first);
+                    shopTypes.addAll(response);
+                    setSpinner();
+                    initData();
+                }
 
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
+                @Override
+                public void errorResponse(RequestException error) {
+                    promptErrorMessage(error.getMessage());
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("test", "onPause");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("test", "onDestroy");
     }
 
     private void initComponent(View viewRoot) {
@@ -129,8 +151,13 @@ public class SignUp1Fragment extends Fragment {
         editTextVAT = viewRoot.findViewById(R.id.editTextVAT);
         editTextAddressContainer = viewRoot.findViewById(R.id.editTextAddressContainer);
         editTextAddress = viewRoot.findViewById(R.id.editTextAddress);
+        textViewEmptyShopType = viewRoot.findViewById(R.id.textViewEmptyShopType);
+        btnNext = viewRoot.findViewById(R.id.btnNext);
+        spinnerShopType = viewRoot.findViewById(R.id.spinnerShopType);
 
-        setSpinner(viewRoot);
+    }
+
+    private void initData(){
 
         if(restaurateurBuilder != null) {
             if (restaurateurBuilder.getShopName() != null) {
@@ -146,13 +173,11 @@ public class SignUp1Fragment extends Fragment {
                 spinnerShopType.setSelection((int) restaurateurBuilder.getShopType().getId());
             }
         }
-        textViewEmptyShopType = viewRoot.findViewById(R.id.textViewEmptyShopType);
 
         editTextAddress.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity().getApplicationContext(), AddressChooserActivity.class);
             startActivityForResult(intent, AddressChooserActivity.REQUEST_ADDRESS);
         });
-        btnNext = viewRoot.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
             boolean flag = true;
 
@@ -178,7 +203,7 @@ public class SignUp1Fragment extends Fragment {
                 editTextVATContainer.setError(null);
             }
 
-            if(shopTypeSelected == null){
+            if(restaurateurBuilder.getShopType() == null){
                 flag = false;
                 textViewEmptyShopType.setText(R.string.error_shop_type);
                 textViewEmptyShopType.setTextColor(Color.parseColor("#ae0022"));
@@ -197,29 +222,28 @@ public class SignUp1Fragment extends Fragment {
                 restaurateurBuilder.setShopName(editTextShopName.getText().toString());
                 restaurateurBuilder.setPhoneNumber(editTextPhoneNumber.getText().toString());
                 restaurateurBuilder.setVatNumber(editTextVAT.getText().toString());
-                restaurateurBuilder.setShopType(shopTypeSelected);
 
                 restaurateurBuilder.setAddress(address);
                 SignUp2Fragment fragment2 = new SignUp2Fragment();
                 FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.containerSignUp, fragment2).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.containerSignUp, fragment2).addToBackStack(SignUp2Fragment.SIGNUP2).commit();
             }
         });
+
     }
 
-    private void setSpinner(View viewRoot){
-        spinnerShopType = viewRoot.findViewById(R.id.spinnerShopType);
+    private void setSpinner(){
         spinnerAdapter = new SpinnerShopTypeAdapter(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, shopTypes);
         spinnerShopType.setAdapter(spinnerAdapter);
         spinnerShopType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0){
-                    shopTypeSelected = spinnerAdapter.getItem(position);
+                    restaurateurBuilder.setShopType(spinnerAdapter.getItem(position));
                 }
                 else{
-                    shopTypeSelected = null;
+                    restaurateurBuilder.setShopType(null);
                 }
             }
 
@@ -249,7 +273,6 @@ public class SignUp1Fragment extends Fragment {
 
         if(context instanceof SignUpActivity){
             signUpActivity = (SignUpActivity) context;
-            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
         }
     }
 
@@ -277,10 +300,6 @@ public class SignUp1Fragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(ARG_ADDRESS, address);
-        if(shopTypeSelected != null){
-            restaurateurBuilder.setShopType(shopTypeSelected);
-        }
-        outState.putParcelable(ARG_RESTAURATEUR_SIGNUP1, restaurateurBuilder);
 
         shopTypes.remove(0);
         outState.putParcelableArrayList(ARG_SHOP_TYPES, shopTypes);

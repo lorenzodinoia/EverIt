@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,19 +24,16 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 public class SignUp2Fragment extends Fragment {
 
-    private final String ARG_RESTAURATEUR = "restaurateur_builder_signup2";
+    public static final String SIGNUP2 = "signup2";
     private SignUpActivity signUpActivity;
     private Restaurateur.Builder restaurateurBuilder;
 
     private TextInputEditText editTextMaxDeliveryPerTimeSlot;
     private TextInputLayout editTextMaxDeliveryPerTimeSlotContainer;
-
     private TextInputEditText editTextDeliveryCost;
     private TextInputLayout editTextDeliveryCostContainer;
-
     private TextInputEditText editTextMinPrice;
     private TextInputLayout editTextMinPriceContainer;
-
     private MaterialButton btnContinue;
     private MaterialButton btnBack;
 
@@ -42,40 +41,91 @@ public class SignUp2Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    //TODO se si gira due volte, crasha
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
-        /*if(savedInstanceState == null) {
-            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
-        }
-        else{
-            restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
-        }*/
-
+        restaurateurBuilder = signUpActivity.getRestaurateur();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up2, parent, false);
 
-        this.initComponent(viewRoot);
+        editTextMaxDeliveryPerTimeSlotContainer = viewRoot.findViewById(R.id.editTextNumDeliveryPerTimeSlotContainer);
+        editTextMaxDeliveryPerTimeSlot = viewRoot.findViewById(R.id.editTextNumDeliveryPerTimeSlot);
+        editTextDeliveryCostContainer = viewRoot.findViewById(R.id.editTextDeliveryCostContainer);
+        editTextDeliveryCost = viewRoot.findViewById(R.id.editTextDeliveryCost);
+        editTextMinPriceContainer = viewRoot.findViewById(R.id.editTextMinPriceContainer);
+        editTextMinPrice = viewRoot.findViewById(R.id.editTextMinPrice);
+        btnBack = viewRoot.findViewById(R.id.buttonBack);
+        btnContinue = viewRoot.findViewById(R.id.buttonContinue);
 
         return viewRoot;
     }
 
-    private void initComponent(View viewRoot) {
-        editTextMaxDeliveryPerTimeSlotContainer = viewRoot.findViewById(R.id.editTextNumDeliveryPerTimeSlotContainer);
-        editTextMaxDeliveryPerTimeSlot = viewRoot.findViewById(R.id.editTextNumDeliveryPerTimeSlot);
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
+    }
 
-        editTextDeliveryCostContainer = viewRoot.findViewById(R.id.editTextDeliveryCostContainer);
-        editTextDeliveryCost = viewRoot.findViewById(R.id.editTextDeliveryCost);
+    private void initData() {
 
-        editTextMinPriceContainer = viewRoot.findViewById(R.id.editTextMinPriceContainer);
-        editTextMinPrice = viewRoot.findViewById(R.id.editTextMinPrice);
+        editTextMaxDeliveryPerTimeSlot.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.equals("")) {
+                    restaurateurBuilder.setMaxDeliveryPerTimeSlot(Integer.parseInt(s.toString()));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editTextDeliveryCost.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.equals("")) {
+                    restaurateurBuilder.setDeliveryCost(Float.parseFloat(s.toString()));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editTextMinPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.equals("")) {
+                    restaurateurBuilder.setMinPrice(Float.parseFloat(s.toString()));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         if(restaurateurBuilder.getMaxDeliveryPerTimeSlot() > 0) {
             editTextMaxDeliveryPerTimeSlot.setText(Integer.toString(restaurateurBuilder.getMaxDeliveryPerTimeSlot()));
@@ -89,14 +139,11 @@ public class SignUp2Fragment extends Fragment {
             editTextMinPrice.setText(Float.toString(restaurateurBuilder.getMinPrice()));
         }
 
-        btnBack = viewRoot.findViewById(R.id.buttonBack);
+
         btnBack.setOnClickListener(view -> {
-            restaurateurBuilder.setMaxDeliveryPerTimeSlot(Integer.parseInt(editTextMaxDeliveryPerTimeSlot.getText().toString()));
-            restaurateurBuilder.setDeliveryCost(Float.parseFloat(editTextDeliveryCost.getText().toString()));
-            restaurateurBuilder.setMinPrice(Float.parseFloat(editTextMinPrice.getText().toString()));
             signUpActivity.getSupportFragmentManager().popBackStack();
         });
-        btnContinue = viewRoot.findViewById(R.id.buttonContinue);
+
         btnContinue.setOnClickListener(view -> {
 
             boolean flag = true;
@@ -132,8 +179,8 @@ public class SignUp2Fragment extends Fragment {
                 if (editTextDeliveryCost.getText().toString().trim().length() > 0) {
                     restaurateurBuilder.setDeliveryCost(Float.parseFloat(editTextDeliveryCost.getText().toString()));
                 }
-                if(editTextDeliveryCost.getText().toString().trim().length() > 0) {
-                    restaurateurBuilder.setMinPrice(Float.parseFloat(editTextDeliveryCost.getText().toString()));
+                if(editTextMinPrice.getText().toString().trim().length() > 0) {
+                    restaurateurBuilder.setMinPrice(Float.parseFloat(editTextMinPrice.getText().toString()));
                 }
 
                 OpeningTimeSelectionFragment openingTimeSelectionFragment = new OpeningTimeSelectionFragment();
@@ -153,10 +200,5 @@ public class SignUp2Fragment extends Fragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
 
-        outState.putParcelable(ARG_RESTAURATEUR, restaurateurBuilder);
-    }
 }

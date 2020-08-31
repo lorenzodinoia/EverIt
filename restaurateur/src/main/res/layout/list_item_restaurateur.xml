@@ -11,13 +11,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
         android:scrollHorizontally="false"
         android:singleLine="false"
-        app:layout_constraintEnd_toStartOf="@+id/btnDelItem"
+        app:layout_constraintEnd_toStartOf="@+id/btnModItem"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
@@ -26,53 +26,40 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="8dp"
         android:scrollHorizontally="false"
         android:singleLine="false"
-        app:layout_constraintBottom_toTopOf="@+id/view"
-        app:layout_constraintEnd_toStartOf="@+id/btnDelItem"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDelItem"
-        app:layout_constraintVertical_bias="0.04000002" />
-
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/editTextNumberContainer"
-        style="@style/TextViewMedium"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:gravity="center"
-        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnModItem"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <Button
-        android:id="@+id/btnDelItem"
-        style="@style/ButtonIconColor"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:focusable="false"
-        app:icon="@drawable/ic_minus_slim"
-        app:iconGravity="textStart"
-        app:layout_constraintEnd_toStartOf="@+id/editTextNumberContainer"
-        app:layout_constraintTop_toTopOf="parent"  />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expandedListItem"
+        app:layout_constraintVertical_bias="0.49" />
 
     <Button
         android:id="@+id/btnModItem"
         style="@style/ButtonIconColor"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:focusable="false"
+        app:icon="@drawable/ic_modify_24px"
+        app:iconGravity="textStart"
+        app:layout_constraintEnd_toStartOf="@+id/btnDelItem"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnDelItem"
+        style="@style/ButtonIconColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:focusable="false"
         android:gravity="center"
-        app:icon="@drawable/ic_plus"
+        app:icon="@drawable/ic_delete_24px"
         app:iconGravity="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

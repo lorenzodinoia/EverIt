@@ -37,6 +37,7 @@ public class OpeningDateTimeFragment extends Fragment {
     private final String ARG_RESTAURATEUR = "restaurateur_opening_datetime_fragment";
     private final String ARG_RESTAURATEUR_BUILDER = "restaurateur_builder_opening_datetime_fragment";
 
+    private OpeningDateTimeFragment fragment = this;
     private SignUpActivity signUpActivity;
     private ExpandableListView expandableListView;
     private OpeningDateTimeExpandableListAdapter expandableListAdapter;
@@ -53,6 +54,15 @@ public class OpeningDateTimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null) {
+            if (savedInstanceState.containsKey(ARG_RESTAURATEUR)){
+                restaurateur = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
+            }
+            else{
+                restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR_BUILDER);
+            }
+        }
+
     }
 
     @Override
@@ -61,46 +71,41 @@ public class OpeningDateTimeFragment extends Fragment {
 
         View viewRoot = inflater.inflate(R.layout.fragment_opening_date_time, parent, false);
 
-        if(savedInstanceState == null) {
-            if (restaurateurBuilder == null) {
-                RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
-                restaurateurRequest.getCurrentUser(new RequestListener() {
-                    @Override
-                    public void successResponse(Object response) {
-                        restaurateur = (Restaurateur) response;
-                        initComponent(viewRoot);
-                    }
-
-                    @Override
-                    public void errorResponse(RequestException error) {
-                        promptErrorMessageWithClosure(error.getMessage());
-                    }
-                });
-            } else {
-                initComponent(viewRoot);
-            }
-        }
-        else{
-            if (savedInstanceState.containsKey(ARG_RESTAURATEUR)){
-                restaurateur = savedInstanceState.getParcelable(ARG_RESTAURATEUR);
-            }
-            else{
-                restaurateurBuilder = savedInstanceState.getParcelable(ARG_RESTAURATEUR_BUILDER);
-            }
-
-            initComponent(viewRoot);
-        }
+        expandableListView = viewRoot.findViewById(R.id.expandableMenuOpening);
 
         return viewRoot;
     }
 
-    private void initComponent(View view) {
-        expandableListView = view.findViewById(R.id.expandableMenuOpening);
-        //add data to expandible list detail
-        fillListDetail();
-        expandableListAdapter = new OpeningDateTimeExpandableListAdapter(getActivity(), expandableListDetail, this);
-        expandableListView.setAdapter(expandableListAdapter);
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (restaurateurBuilder == null) {
+            RestaurateurRequest restaurateurRequest = new RestaurateurRequest();
+            restaurateurRequest.getCurrentUser(new RequestListener() {
+                @Override
+                public void successResponse(Object response) {
+                    restaurateur = (Restaurateur) response;
+                    //add data to expandible list detail
+                    fillListDetail();
+                    expandableListAdapter = new OpeningDateTimeExpandableListAdapter(getActivity(), expandableListDetail, fragment);
+                    expandableListView.setAdapter(expandableListAdapter);
+                }
+
+                @Override
+                public void errorResponse(RequestException error) {
+                    promptErrorMessageWithClosure(error.getMessage());
+                }
+            });
+        }
+        else{
+            //add data to expandible list detail
+            fillListDetail();
+            expandableListAdapter = new OpeningDateTimeExpandableListAdapter(getActivity(), expandableListDetail, this);
+            expandableListView.setAdapter(expandableListAdapter);
+        }
     }
+
 
     private void setExpandableListData(){
         expandableListDetail.clear();
@@ -226,7 +231,7 @@ public class OpeningDateTimeFragment extends Fragment {
         if(context instanceof  SignUpActivity){
             signUpActivity = (SignUpActivity) context;
             restaurateurBuilder = null;
-            restaurateurBuilder = signUpActivity.getRestaurateurBuilder();
+            restaurateurBuilder = signUpActivity.getRestaurateur();
         }
 
     }

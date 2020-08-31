@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +17,9 @@ import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Restaurateur.Builder restaurateur;
+    private static Restaurateur.Builder restaurateur;
     private static String RESTAURATEUR_ITEM_KEY = "restaurateur_item";
-
+    private static FrameLayout containerSignUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
             restaurateur = new Restaurateur.Builder();
             SignUp1Fragment fragmentSignUp1 = new SignUp1Fragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(null).commit();
+            fragmentTransaction.add(R.id.containerSignUp, fragmentSignUp1).addToBackStack(SignUp1Fragment.SIGNUP1).commit();
         }
         else{
             restaurateur = savedInstanceState.getParcelable(RESTAURATEUR_ITEM_KEY);
@@ -66,12 +67,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void setRestaurateur(Restaurateur.Builder restaurateur) {
-        this.restaurateur = restaurateur;
+        SignUpActivity.restaurateur = restaurateur;
     }
 
-    public Restaurateur.Builder getRestaurateurBuilder(){
-        return restaurateur;
-    }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -80,13 +78,4 @@ public class SignUpActivity extends AppCompatActivity {
         outState.putParcelable(RESTAURATEUR_ITEM_KEY, restaurateur);
     }
 
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if(savedInstanceState != null){
-            if(savedInstanceState.containsKey(RESTAURATEUR_ITEM_KEY)){
-                restaurateur = savedInstanceState.getParcelable(RESTAURATEUR_ITEM_KEY);
-            }
-        }
-    }
 }

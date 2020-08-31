@@ -16,7 +16,8 @@
             style="@style/EditTextMain"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonSearchQuery"
             app:layout_constraintStart_toEndOf="@+id/buttonBack"
             app:layout_constraintTop_toTopOf="parent">
@@ -31,10 +32,10 @@
         <Button
             android:id="@+id/buttonSearchQuery"
             style="@style/ButtonIconOnly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="53dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="6dp"
             android:backgroundTint="@color/colorAccent"
             app:icon="@drawable/ic_search_24x24"
             app:iconTint="@color/whiteAccent"
@@ -44,13 +45,14 @@
         <Button
             android:id="@+id/buttonBack"
             style="@style/ButtonIconOnly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
             app:icon="@drawable/ic_arrow_back_24x24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
@@ -65,7 +67,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
         <fragment class="com.here.android.mpa.mapping.AndroidXMapFragment"
