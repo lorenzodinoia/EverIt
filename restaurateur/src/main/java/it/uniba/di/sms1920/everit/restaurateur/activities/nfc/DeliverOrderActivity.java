@@ -7,8 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
@@ -16,6 +14,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -36,17 +35,11 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class DeliverOrderActivity extends AppCompatActivity {
-
+    public static final String ARG_ITEM = "item";
+    private static final String SAVED_ORDER = "saved.order";
     public static final String MIME_TEXT_PLAIN = "text/plain";
 
     private Order order;
-    private DeliverOrderActivity activity = this;
-    private int validationCode;
-    int first;
-    int second;
-    int third;
-    int fourth;
-    int fifth;
 
     private NfcAdapter nfcAdapter;
 
@@ -56,15 +49,62 @@ public class DeliverOrderActivity extends AppCompatActivity {
     private TextInputEditText editTextValidationCode3;
     private TextInputEditText editTextValidationCode4;
     private TextInputEditText editTextValidationCode5;
-
-    private MaterialButton btnConfirm;
+    private MaterialButton buttonConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_deliver_order);
 
+        this.initUi();
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if((extras != null) && (extras.containsKey(ARG_ITEM))) {
+                this.order = extras.getParcelable(ARG_ITEM);
+            }
+        }
+        else if (savedInstanceState.containsKey(SAVED_ORDER)) {
+            this.order = savedInstanceState.getParcelable(SAVED_ORDER);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.initNFC();
+        if (this.order != null) {
+            initData();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(OrderDetailFragment.ORDER, order);
+    }
+
+    private void initNFC() {
+        if (isNfcSupported()) {
+            if(this.nfcAdapter.isEnabled()) {
+                this.enableForegroundDispatch(this, this.nfcAdapter);
+            }
+            else {
+                Toast.makeText(this, "NFC disabled on this device. Turn on to exchange code", Toast.LENGTH_SHORT).show();
+                this.openNFCSettings(); //TODO Chiedere all'utente prima di aprire le impostazioni
+            }
+        }
+        else {
+            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openNFCSettings() {
+        Intent settingsIntent = new Intent(Settings.ACTION_NFC_SETTINGS);
+        startActivity(settingsIntent);
+    }
+
+    private void initUi(){
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         toolbar.setTitle(R.string.deliver_order);
         setSupportActionBar(toolbar);
@@ -72,57 +112,30 @@ public class DeliverOrderActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //TODO crasha qui perchè boh
-        if(savedInstanceState == null) {
-            /*Bundle bundle = getIntent().getExtras();
-            if(bundle != null) {
-                if (bundle.containsKey(OrderDetailFragment.ORDER)) {
-                    order = bundle.getParcelable(OrderDetailFragment.ORDER);
-                }
-            }*/
-        }
-        else{
-            order = savedInstanceState.getParcelable(OrderDetailFragment.ORDER);
-        }
-
-        initUi();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initData();
-    }
-
-    private void initUi(){
         editTextValidationCode1 = findViewById(R.id.editTextValidationCode1);
         editTextValidationCode2 = findViewById(R.id.editTextValidationCode2);
         editTextValidationCode3 = findViewById(R.id.editTextValidationCode3);
         editTextValidationCode4 = findViewById(R.id.editTextValidationCode4);
         editTextValidationCode5 = findViewById(R.id.editTextValidationCode5);
-        btnConfirm = findViewById(R.id.btnConfirm);
+        buttonConfirm = findViewById(R.id.btnConfirm);
     }
 
     private void initData(){
         textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
-        if(isNfcSupported()){
-            IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
-            this.registerReceiver(mReceiver, filter);
+        if (this.isNfcSupported()) {
             textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc);
         }
-        else{
+        else {
             textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
         }
 
         editTextValidationCode1.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("")) {
-                    first = Integer.parseInt(s.toString());
                     editTextValidationCode1.clearFocus();
                 }
             }
@@ -136,15 +149,13 @@ public class DeliverOrderActivity extends AppCompatActivity {
         });
         editTextValidationCode2.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("")) {
-                    second = Integer.parseInt(s.toString());
+                    editTextValidationCode2.clearFocus();
                 }
-                editTextValidationCode2.clearFocus();
             }
 
             @Override
@@ -156,13 +167,11 @@ public class DeliverOrderActivity extends AppCompatActivity {
         });
         editTextValidationCode3.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("")) {
-                    third = Integer.parseInt(s.toString());
                     editTextValidationCode3.clearFocus();                }
             }
 
@@ -175,13 +184,11 @@ public class DeliverOrderActivity extends AppCompatActivity {
         });
         editTextValidationCode4.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("")) {
-                    fourth = Integer.parseInt(s.toString());
                     editTextValidationCode4.clearFocus();
                 }
             }
@@ -195,38 +202,37 @@ public class DeliverOrderActivity extends AppCompatActivity {
         });
         editTextValidationCode5.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("")) {
-                    fifth = Integer.parseInt(s.toString());
+                    editTextValidationCode5.clearFocus();
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
-        btnConfirm.setOnClickListener(v -> {
+        buttonConfirm.setOnClickListener(v -> {
             getValidationCodeFromEditText();
             checkValidationCode();
         });
     }
 
-    private void checkValidationCode(){
+    private void checkValidationCode() {
+        final int validationCode = this.getValidationCodeFromEditText();
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.deliverOrderAsRestaurateur(19, validationCode, new RequestListener<Boolean>() {
+        orderRequest.deliverOrderAsRestaurateur(this.order.getId(), validationCode, new RequestListener<Boolean>() {
             @Override
             public void successResponse(Boolean response) {
-                if(response){
-                    Toast.makeText(activity, R.string.delivered, Toast.LENGTH_LONG).show();
+                if(response) {
+                    Toast.makeText(DeliverOrderActivity.this, R.string.delivered, Toast.LENGTH_LONG).show();
                     finish();
                 }
-                else{
-                    Toast.makeText(activity, R.string.wrong_validation_code, Toast.LENGTH_LONG).show();
+                else {
+                    Toast.makeText(DeliverOrderActivity.this, R.string.wrong_validation_code, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -237,44 +243,59 @@ public class DeliverOrderActivity extends AppCompatActivity {
         });
     }
 
-    private void getValidationCodeFromEditText(){
-        validationCode = 0;
-        validationCode += first*10000;
-        validationCode += second*1000;
-        validationCode += third*100;
-        validationCode += fourth*10;
-        validationCode += fifth;
+    private int getValidationCodeFromEditText() {
+        StringBuilder validationCodeBuilder = new StringBuilder();
+        validationCodeBuilder.append(editTextValidationCode1.getText().toString());
+        validationCodeBuilder.append(editTextValidationCode2.getText().toString());
+        validationCodeBuilder.append(editTextValidationCode3.getText().toString());
+        validationCodeBuilder.append(editTextValidationCode4.getText().toString());
+        validationCodeBuilder.append(editTextValidationCode5.getText().toString());
+
+        return Integer.parseInt(validationCodeBuilder.toString());
     }
 
-    private boolean isNfcSupported(){
-        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        return this.nfcAdapter != null;
+    private void setValidationCodeToEditText(String validationCode) {
+        if (validationCode.length() == 5) {
+            this.editTextValidationCode1.setText(String.valueOf(validationCode.charAt(0)));
+            this.editTextValidationCode2.setText(String.valueOf(validationCode.charAt(1)));
+            this.editTextValidationCode3.setText(String.valueOf(validationCode.charAt(2)));
+            this.editTextValidationCode4.setText(String.valueOf(validationCode.charAt(3)));
+            this.editTextValidationCode5.setText(String.valueOf(validationCode.charAt(4)));
+        }
+    }
+
+    private boolean isNfcSupported() {
+        if (this.nfcAdapter != null) {
+            return true;
+        }
+        else {
+            this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            return this.nfcAdapter != null;
+        }
     }
 
     @SuppressLint("MissingSuperCall")
     @Override
     protected void onNewIntent(Intent intent) {
-        receiveMessageFromDevice(intent);
+        this.receiveMessageFromDevice(intent);
     }
 
-    private void receiveMessageFromDevice(Intent intent){
+    private void receiveMessageFromDevice(Intent intent) {
         String action = intent.getAction();
-        if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
             Parcelable[] parcelables = intent.getParcelableArrayExtra((NfcAdapter.EXTRA_NDEF_MESSAGES));
-
-            NdefMessage inNdefMessage = (NdefMessage) parcelables[0];
-            NdefRecord[] inNdefRecords = inNdefMessage.getRecords();
-            NdefRecord ndefRecord_0 = inNdefRecords[0];
-
-            String inMessage = new String(ndefRecord_0.getPayload());
-            //TODO verificare contenuto inMessage
-            validationCode = Integer.parseInt(inMessage);
-            checkValidationCode();
+            if ((parcelables != null) && (parcelables.length > 0)) {
+                NdefMessage inNdefMessage = (NdefMessage) parcelables[0];
+                NdefRecord[] inNdefRecords = inNdefMessage.getRecords();
+                NdefRecord ndefRecord = inNdefRecords[0];
+                String inMessage = new String(ndefRecord.getPayload());
+                this.setValidationCodeToEditText(inMessage);
+                this.checkValidationCode();
+            }
         }
     }
 
     public void enableForegroundDispatch(AppCompatActivity activity, NfcAdapter adapter){
-
         final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -288,7 +309,8 @@ public class DeliverOrderActivity extends AppCompatActivity {
         filters[0].addCategory(Intent.CATEGORY_DEFAULT);
         try {
             filters[0].addDataType(MIME_TEXT_PLAIN);
-        } catch (IntentFilter.MalformedMimeTypeException e){
+        }
+        catch (IntentFilter.MalformedMimeTypeException e){
             //TODO gestire exception
             throw new RuntimeException("Check mime type");
         }
@@ -296,48 +318,16 @@ public class DeliverOrderActivity extends AppCompatActivity {
         adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
 
-    public void disableForegroundDispatch(final AppCompatActivity activity, NfcAdapter adapter){
+    public void disableForegroundDispatch(final AppCompatActivity activity, NfcAdapter adapter) {
         adapter.disableForegroundDispatch(activity);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if(isNfcSupported()) {
-            if(nfcAdapter.isEnabled()){
-                enableForegroundDispatch(this, this.nfcAdapter);
-                receiveMessageFromDevice(getIntent());
-            }
-            else{
-                //nfcIntentSettings();
-            }
-        }
-        else{
-            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(isNfcSupported()) {
-            if(nfcAdapter.isEnabled()){
-                disableForegroundDispatch(this, this.nfcAdapter);
-            }
-            else{
-                //nfcIntentSettings();
-            }
+        if((this.isNfcSupported()) && (this.nfcAdapter.isEnabled())) {
+            disableForegroundDispatch(this, this.nfcAdapter);
         }
-        else{
-            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -365,36 +355,5 @@ public class DeliverOrderActivity extends AppCompatActivity {
         });
 
         dialog.show();
-    }
-
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-            if (action.equals(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE,
-                        NfcAdapter.STATE_OFF);
-                switch (state) {
-                    case NfcAdapter.STATE_OFF:
-                        textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc_off_nfc);
-                        break;
-                    case NfcAdapter.STATE_TURNING_OFF:
-                        break;
-                    case NfcAdapter.STATE_ON:
-                        textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc);
-                        break;
-                    case NfcAdapter.STATE_TURNING_ON:
-                        break;
-                }
-            }
-        }
-    };
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(OrderDetailFragment.ORDER, order);
     }
 }

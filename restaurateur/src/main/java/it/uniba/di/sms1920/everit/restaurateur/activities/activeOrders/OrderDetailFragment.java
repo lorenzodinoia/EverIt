@@ -302,7 +302,7 @@ public class OrderDetailFragment extends Fragment {
         searchRider.setText(R.string.deliver_order);
         searchRider.setOnClickListener(v -> {
             Intent intent = new Intent(mParent, DeliverOrderActivity.class);
-            intent.putExtra(ORDER, order);
+            intent.putExtra(DeliverOrderActivity.ARG_ITEM, order);
             startActivity(intent);
 
         });

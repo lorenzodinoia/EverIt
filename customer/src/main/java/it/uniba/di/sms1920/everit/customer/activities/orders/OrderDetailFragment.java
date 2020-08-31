@@ -17,7 +17,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import it.uniba.di.sms1920.everit.customer.ProductRecyclerViewAdapter;
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.nfc.NfcSenderActivity;
+import it.uniba.di.sms1920.everit.customer.activities.nfc.OrderReceiverActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 
@@ -170,8 +170,8 @@ public class OrderDetailFragment extends Fragment {
                 buttonReceiveOrder.setVisibility(View.VISIBLE);
                 buttonReceiveOrder.setText(R.string.send_code);
                 buttonReceiveOrder.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), NfcSenderActivity.class);
-                    intent.putExtra("order", order); //TODO Sistema parametro
+                    Intent intent = new Intent(getActivity(), OrderReceiverActivity.class);
+                    intent.putExtra(OrderReceiverActivity.ARG_ITEM, order); //TODO Sistema parametro
                     startActivity(intent);
                 });
             }
