@@ -126,6 +126,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 Providers.getAuthProvider().logout(new RequestListener<Boolean>() {
                     @Override
                     public void successResponse(Boolean response) {
+                        Cart cart = Cart.getInstance();
+                        if (cart != null) {
+                            cart.clear();
+                        }
                         finish();
                         startActivity(getIntent());
                     }
