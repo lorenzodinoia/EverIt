@@ -84,8 +84,10 @@ public class DeliveryHistoryDetailFragment extends Fragment {
             textViewCustomerAddress.setText(order.getDeliveryAddress().getFullAddress());
             textViewPickupTime.setText(order.getPickupTimeAsString());
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
             textViewDeliveryDateTime.setText(order.getActualDeliveryTime().format(formatter));
+
+            //textViewDeliveryDateTime.setText(order.getActualDeliveryTime());
 
             textViewDeliveryNotes.setText(order.getDeliveryNotes());
         }
