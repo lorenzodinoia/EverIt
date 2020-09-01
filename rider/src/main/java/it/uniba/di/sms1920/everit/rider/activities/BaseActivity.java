@@ -10,6 +10,8 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import it.uniba.di.sms1920.everit.rider.BackgroundLocationService;
+import it.uniba.di.sms1920.everit.rider.IBackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.rider.activities.accountDetail.AccountDetailActivity;
 import it.uniba.di.sms1920.everit.rider.activities.deliverHistory.DeliveryHistoryListActivity;
@@ -19,17 +21,35 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private IBackgroundLocationService backgroundLocationService;
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            backgroundLocationService = IBackgroundLocationService.Stub.asInterface(service);
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            backgroundLocationService = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +61,19 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         init();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent serviceIntent = new Intent(this, BackgroundLocationService.class);
+        this.bindService(serviceIntent, this.serviceConnection, 0);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.unbindService(this.serviceConnection);
     }
 
     private void init() {
@@ -91,8 +124,18 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
 
             case R.id.nav_deliveries: {
-                Intent intent = new Intent(this, WorksActivity.class);
-                startActivity(intent);
+                try {
+                    if ((this.backgroundLocationService != null) && (this.backgroundLocationService.isWorking())) {
+                        Intent intent = new Intent(this, WorksActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(this, "Servizio non avviato", Toast.LENGTH_LONG).show(); //TODO Inserire messaggio appropriato
+                    }
+                }
+                catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
 
