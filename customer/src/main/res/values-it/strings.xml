@@ -136,4 +136,7 @@
 
     <string name="send_code">Invia codice</string>
     <string name="message_nfc_sender_activity">Comunica questo codice al momento della consegna. E\' possibile scambiare il codice anche via NFC</string>
+    <string name="show_on_map">Mostra sulla mappa</string>
+    <string name="call_shop">Chiama questa attività</string>
+    <string name="current_state">Stato corrente:</string>
 </resources>

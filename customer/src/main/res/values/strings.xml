@@ -150,4 +150,7 @@
 
     <string name="send_code">Send code</string>
     <string name="message_nfc_sender_activity">Communicate this code upon delivery to complete the procedure. It is also possible to exchange code via NFC</string>
+    <string name="show_on_map">Show on map</string>
+    <string name="call_shop">Call this shop</string>
+    <string name="current_state">Current state:</string>
 </resources>
