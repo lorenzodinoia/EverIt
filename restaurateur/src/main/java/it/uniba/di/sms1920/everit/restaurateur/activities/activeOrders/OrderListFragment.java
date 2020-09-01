@@ -1,6 +1,5 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
@@ -29,6 +27,7 @@ import java.util.List;
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.restaurateur.activities.BaseActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
@@ -37,16 +36,16 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class OrderListFragment extends Fragment {
+    public static final String ARG_ORDER_TYPE = "order_type";
+    public static final int ORDER_TYPE_NOT_CONFIRMED = 0;
+    public static final int ORDER_TYPE_TO_DO = 1;
 
-    private static final int NOT_CONFIRMED = 0;
-    private static final int TO_DO = 1;
-
-    private  boolean mTwoPane;
-    public static final List<Order> orderList = new ArrayList<>();
-    private BaseActivity mParent;
-    private int index;
-    private OrderRecyclerViewAdapter adapter;
-    View recyclerView;
+    private boolean twoPaneMode;
+    public ArrayList<Order> orderList = new ArrayList<>();
+    private BaseActivity parentBaseActivity;
+    private int orderType;
+    private OrderRecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView recyclerView;
     private TextView textViewEmptyData;
 
     public OrderListFragment() {
@@ -56,115 +55,101 @@ public class OrderListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        if ((arguments != null) && (arguments.containsKey(ARG_ORDER_TYPE))) {
+            this.orderType = arguments.getInt(ARG_ORDER_TYPE);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_order_list, container, false);
-        if(savedInstanceState == null) {
-
-            if (view.findViewById(R.id.order_detail_container) != null) {
-                mTwoPane = true;
-            }
-
-            textViewEmptyData = view.findViewById(R.id.textViewEmptyDataActiveOrders);
-            recyclerView = view.findViewById(R.id.order_list);
-        }
-
+        this.initUi(view);
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        updateData();
+        this.loadData();
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateData();
-    }
-
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof BaseActivity){
-            mParent = (BaseActivity) context;
+        if(context instanceof BaseActivity) {
+            this.parentBaseActivity = (BaseActivity) context;
         }
     }
 
-
-    public void setIndex(int index){
-        this.index = index;
+    private void initUi(View view) {
+        if (view.findViewById(R.id.order_detail_container) != null) {
+            this.twoPaneMode = true;
+        }
+        this.recyclerView = view.findViewById(R.id.order_list);
+        this.textViewEmptyData = view.findViewById(R.id.textViewEmptyDataActiveOrders);
+        this.setupRecyclerView();
     }
 
-    public void updateData(){
+    private void setupRecyclerView() {
+        this.recyclerViewAdapter = new OrderListFragment.OrderRecyclerViewAdapter(this, orderList, twoPaneMode, parentBaseActivity);
+        this.recyclerView.setAdapter(recyclerViewAdapter);
+    }
+
+    public void loadData() {
         OrderRequest orderRequest = new OrderRequest();
-        if(index == NOT_CONFIRMED){
+        if (this.orderType == ORDER_TYPE_NOT_CONFIRMED) {
             orderRequest.readPendingOrders(new RequestListener<Collection<Order>>() {
                 @Override
                 public void successResponse(Collection<Order> response) {
-                    orderList.clear();
-                    if(!response.isEmpty()){
-                        textViewEmptyData.setVisibility(View.INVISIBLE);
-                        orderList.addAll(response);
-                    }
-                    else{
-                        textViewEmptyData.setVisibility(View.VISIBLE);
-                        textViewEmptyData.setText(R.string.empty_order_not_confirmed);
-                    }
-
-                    if(adapter == null){
-                        setupRecyclerView((RecyclerView) recyclerView);
-                    }
-                    else{
-                        adapter.notifyDataSetChanged();
-                    }
-
+                    setupData(response);
                 }
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
+                    Context context = getContext();
+                    if (context != null) {
+                        Utility.showGenericMessage(context, error.getMessage());
+                    }
                 }
             });
         }
-        else if(index == TO_DO){
+        else if (this.orderType == ORDER_TYPE_TO_DO) {
             orderRequest.readToDoOrders(new RequestListener<Collection<Order>>() {
                 @Override
                 public void successResponse(Collection<Order> response) {
-                    orderList.clear();
-                    if(!response.isEmpty()){
-                        textViewEmptyData.setVisibility(View.INVISIBLE);
-                        orderList.addAll(response);
-                    }
-                    else{
-                        textViewEmptyData.setVisibility(View.VISIBLE);
-                        textViewEmptyData.setText(R.string.empty_order_to_do);
-                    }
-
-                    if(adapter == null){
-                        setupRecyclerView((RecyclerView) recyclerView);
-                    }
-                    else{
-                        adapter.notifyDataSetChanged();
-                    }
+                    setupData(response);
                 }
 
                 @Override
                 public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
+                    Context context = getContext();
+                    if (context != null) {
+                        Utility.showGenericMessage(context, error.getMessage());
+                    }
                 }
             });
         }
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        adapter = new OrderListFragment.OrderRecyclerViewAdapter(this, orderList, mTwoPane, mParent);
-        recyclerView.setAdapter(adapter);
+    private void setupData(Collection<Order> orders) {
+        this.orderList.clear();
+        if (!orders.isEmpty()) {
+            this.textViewEmptyData.setVisibility(View.INVISIBLE);
+            this.orderList.addAll(orders);
+        }
+        else {
+            this.textViewEmptyData.setVisibility(View.VISIBLE);
+            if (this.orderType == ORDER_TYPE_NOT_CONFIRMED) {
+                this.textViewEmptyData.setText(R.string.empty_order_not_confirmed);
+            }
+            else if (this.orderType == ORDER_TYPE_TO_DO) {
+                this.textViewEmptyData.setText(R.string.empty_order_to_do);
+            }
+        }
+        if (this.recyclerViewAdapter != null) {
+            this.recyclerViewAdapter.notifyDataSetChanged();
+        }
     }
 
     public static class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderListFragment.OrderRecyclerViewAdapter.ViewHolder> {
@@ -178,17 +163,15 @@ public class OrderListFragment extends Fragment {
                 Order item = (Order) view.getTag();
                 if (twoPaneMode) {
                     Bundle arguments = new Bundle();
-                    arguments.putLong(OrderDetailFragment.ARG_ITEM_ID, item.getId());
-                    arguments.putInt(OrderDetailFragment.INDEX, parentActivity.index);
+                    arguments.putParcelable(OrderDetailFragment.ARG_ITEM, item);
                     OrderDetailFragment fragment = new OrderDetailFragment();
                     fragment.setArguments(arguments);
-                    parentActivity.mParent.getSupportFragmentManager().beginTransaction().replace(R.id.order_detail_container, fragment).commit();
+                    parentActivity.parentBaseActivity.getSupportFragmentManager().beginTransaction().replace(R.id.order_detail_container, fragment).commit();
                 }
                 else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, OrderDetailActivity.class);
-                    intent.putExtra(OrderDetailFragment.ARG_ITEM_ID, item.getId());
-                    intent.putExtra(OrderDetailFragment.INDEX, parentActivity.index);
+                    intent.putExtra(OrderDetailActivity.ARG_ITEM_ID, item.getId());
                     context.startActivity(intent);
                 }
             }
@@ -254,23 +237,5 @@ public class OrderListFragment extends Fragment {
                 textViewDeliveryDate = view.findViewById(R.id.textViewDeliveryTimeOrder);
             }
         }
-    }
-
-    private void promptErrorMessage(String message){
-        Dialog dialog = new Dialog(mParent);
-        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
-
-        TextView title = dialog.findViewById(R.id.textViewTitle);
-        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
-
-        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
-        textViewMessage.setText(message);
-
-        Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
-        });
-
-        dialog.show();
     }
 }
