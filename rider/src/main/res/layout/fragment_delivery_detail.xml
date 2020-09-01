@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -8,27 +10,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
     tools:context=".activities.works.delivery.DeliveryDetailActivity">
 
-    <TextView
-        android:id="@+id/textViewOrderNumberDeliver"
-        style="@style/TextViewSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustomerName" />
+
 
     <LinearLayout
         android:id="@+id/linearLayoutCustomerName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,11 +28,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageViewCustomerName"
+            android:id="@+id/imageViewCustomer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_baseline_time_40" />
+            app:srcCompat="@drawable/ic_user_40px" />
 
         <TextView
             android:id="@+id/textViewCustomer"
@@ -52,6 +44,16 @@
             android:layout_marginBottom="8dp" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewOrderNumberDeliver"
+        style="@style/TextViewSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustomerName" />
 
     <LinearLayout
         android:id="@+id/linearLayoutCustomerAddress"
@@ -70,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_baseline_time_40" />
+            app:srcCompat="@drawable/ic_customer_40px" />
 
         <TextView
             android:id="@+id/textViewCustomerAddress"
@@ -99,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_baseline_time_40" />
+            app:srcCompat="@drawable/ic_phone_40px" />
 
         <TextView
             android:id="@+id/textViewCustomerPhone"
@@ -127,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_outline_restaurant_40" />
+            app:srcCompat="@drawable/ic_shop_40px" />
 
         <TextView
             android:id="@+id/textViewRestaurateurName"
@@ -156,7 +158,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_baseline_time_40" />
+            app:srcCompat="@drawable/ic_time_40px" />
 
         <TextView
             android:id="@+id/textViewEstimatedDeliveryTime"
@@ -233,7 +235,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/deliver_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

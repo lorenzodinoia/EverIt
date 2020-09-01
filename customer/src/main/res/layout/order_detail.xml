@@ -145,21 +145,34 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:text="@string/in_preparation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labelOrderStatus" />
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipLate"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:padding="0dp"
+            android:visibility="gone"
+            app:chipBackgroundColor="@color/colorWarning"
+            app:chipEndPadding="13dp"
+            app:layout_constraintEnd_toStartOf="@+id/textViewOrderLate"
+            app:layout_constraintStart_toEndOf="@id/textViewOrderStatus"
+            app:layout_constraintTop_toBottomOf="@id/labelOrderStatus" />
 
         <TextView
             android:id="@+id/textViewOrderLate"
             style="@style/TextViewMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:text="@string/late"
             android:textColor="@color/colorWarning"
             android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@id/textViewOrderStatus"
+            app:layout_constraintStart_toEndOf="@id/chipLate"
             app:layout_constraintTop_toBottomOf="@+id/labelOrderStatus" />
 
 
