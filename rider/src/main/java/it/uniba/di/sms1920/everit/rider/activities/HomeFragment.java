@@ -26,8 +26,12 @@ import java.util.Arrays;
 import it.uniba.di.sms1920.everit.rider.BackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.IBackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.provider.LocationProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback {
     private Context context;
@@ -67,18 +71,38 @@ public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPe
                 }
             }
             else {
-                try {
-                    if (backgroundLocationService != null) {
-                        backgroundLocationService.stop();
+                RiderRequest riderRequest = new RiderRequest();
+                riderRequest.canStopService(new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        if (response) {
+                            try {
+                                if (backgroundLocationService != null) {
+                                    backgroundLocationService.stop();
+                                }
+                                else {
+                                    Intent serviceIntent = new Intent(getContext(), BackgroundLocationService.class);
+                                    context.stopService(serviceIntent);
+                                }
+                            }
+                            catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Hai dei lavori in sospeso", Toast.LENGTH_LONG).show(); //TODO Sostituire con messaggio appropriato
+                            checkServiceButton();
+                        }
                     }
-                    else {
-                        Intent serviceIntent = new Intent(getContext(), BackgroundLocationService.class);
-                        context.stopService(serviceIntent);
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        Context context = getContext();
+                        if (context != null) {
+                            Utility.showGenericMessage(context, error.getMessage());
+                        }
                     }
-                }
-                catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                });
             }
         }
     };
