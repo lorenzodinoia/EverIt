@@ -94,4 +94,5 @@
     <string name="customer_address">Indirizzo cliente:</string>
     <string name="customer_phone">Telefono cliente:</string>
     <string name="esimated_delivery_time">Orario di consegna previsto:</string>
+    <string name="proposal_to_activeOrder">Grazie! Abbiamo spostato la proposta negli ordini attivi</string>
 </resources>

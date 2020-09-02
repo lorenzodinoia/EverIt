@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailActivity;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
@@ -99,7 +101,10 @@ public class Cart3Fragment extends Fragment {
 
                 buttonFinishOrder = viewRoot.findViewById(R.id.buttonFinishOrder);
                 buttonFinishOrder.setOnClickListener(v -> {
-
+                    Intent intent = new Intent(getContext(), CartAnimConfirmActivity.class);
+                    startActivity(intent);
+                    //TODO si rompe
+                    /**
                     if(homeDelivery.isChecked()){
                         cart.getPartialOrder().setOrderType(Order.OrderType.HOME_DELIVERY);
                     }else if(customerPickup.isChecked()) {
@@ -115,9 +120,8 @@ public class Cart3Fragment extends Fragment {
                         @Override
                         public void successResponse(Order response) {
                             cart.clear();
-                            mParent.finish();
-                            Intent intent = new Intent(mParent, OrderDetailActivity.class);
-                            intent.putExtra(ARG_ITEM_ID, response.getId());
+                            finishAffinity();
+                            Intent intent = new Intent(getContext(), CartAnimConfirmActivity.class);
                             startActivity(intent);
                             
                         }
@@ -127,7 +131,7 @@ public class Cart3Fragment extends Fragment {
                             promptErrorMessage(error.getMessage());
                         }
                     });
-
+                */
                 });
 
                 buttonBack = viewRoot.findViewById(R.id.buttonBack);

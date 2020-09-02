@@ -175,7 +175,7 @@ public class ProposalDetailFragment extends Fragment {
             @Override
             public void successResponse(Boolean response) {
                 if (response) {
-                    //TODO aggiungere messaggio di feedback
+                    getActivity().finish(); //TODO messaggio?
                 }
             }
 
