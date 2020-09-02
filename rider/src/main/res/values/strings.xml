@@ -101,6 +101,7 @@
     <string name="customer_address">Customer address:</string>
     <string name="customer_phone">Customer phone:</string>
     <string name="esimated_delivery_time">Estimated delivery time:</string>
+    <string name="proposal_to_activeOrder">Thank you! We moved this proposal to the active orders section</string>
 </resources>
 
 
