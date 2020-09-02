@@ -88,6 +88,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
     }
 
+    //TODO quando torna indietro dal riepilogo ordine non ha il finish affinity e si rompe tutto
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

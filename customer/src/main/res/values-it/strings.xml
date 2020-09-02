@@ -133,5 +133,12 @@
     <string name="notification_channel_name">Notifiche via server</string>
 
     <string name="send_code">Invia codice</string>
+
+    <string name="message_nfc_sender_activity_with_no_nfc">Comunica questo codice al momento della consegna</string>
     <string name="message_nfc_sender_activity">Comunica questo codice al momento della consegna. E\' possibile scambiare il codice anche via NFC</string>
+    <string name="message_nfc_sender_with_activation_request_nfc">Comunica questo codice al momento della consegna. E\' possibile scambiare il codice anche via NFC ma prima attivalo</string>
+
+    <string name="code_sent_successfully">Codice inviato con successo</string>
+    <string name="nfc_not_supported">Nfc non supportato su questo dispositivo</string>
+
 </resources>

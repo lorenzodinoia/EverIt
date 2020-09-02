@@ -21,10 +21,14 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public static final String INTENT_FLAG = "intent_flag";
+
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonLogin;
     private Button buttonGoToSignUp;
+    private boolean intent_flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +39,19 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if(savedInstanceState == null) {
+            if(getIntent().getExtras().containsKey(INTENT_FLAG)){
+                intent_flag = true;
+            }
             this.initComponents();
         }
     }
 
     private void initComponents() {
-        this.editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        this.editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        this.buttonGoToSignUp = (Button) findViewById(R.id.buttonGoToSignUp);
+        this.editTextEmail = findViewById(R.id.editTextEmail);
+        this.editTextPassword = findViewById(R.id.editTextPassword);
+        this.buttonGoToSignUp = findViewById(R.id.buttonGoToSignUp);
         this.buttonGoToSignUp.setOnClickListener(view -> launchSignUpActivity());
-        this.buttonLogin = (Button) findViewById(R.id.buttonLoginAL);
+        this.buttonLogin = findViewById(R.id.buttonLoginAL);
         this.buttonLogin.setOnClickListener(view -> {
             String email = this.editTextEmail.getText().toString();
             String password = this.editTextPassword.getText().toString();
@@ -64,7 +71,16 @@ public class LoginActivity extends AppCompatActivity {
         auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Rider>() {
             @Override
             public void successResponse(Rider response) {
-                Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
+                Intent intent;
+
+                if(intent_flag){
+                    //TODO modificare activity
+                    intent = new Intent(getApplicationContext(), BaseActivity.class);
+                }
+                else{
+                    intent = new Intent(getApplicationContext(), BaseActivity.class);
+                }
+
                 startActivity(intent);
                 finish();
             }

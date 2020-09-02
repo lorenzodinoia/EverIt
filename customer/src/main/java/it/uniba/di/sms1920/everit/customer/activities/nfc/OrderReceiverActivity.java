@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -78,7 +77,7 @@ public class OrderReceiverActivity extends AppCompatActivity implements NfcManag
 
     @Override
     public void signalResult() {
-        Toast.makeText(this, "Codice inviato con successo", Toast.LENGTH_LONG).show(); //TODO Mettere stringa
+        Toast.makeText(this, R.string.code_sent_successfully,Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -89,17 +88,18 @@ public class OrderReceiverActivity extends AppCompatActivity implements NfcManag
 
     private void initNFC() {
         if(!isNfcSupported()) {
-            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
+            textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_activity_with_no_nfc);
+            Toast.makeText(this, R.string.nfc_not_supported, Toast.LENGTH_SHORT).show();
         }
         else {
             if (this.nfcAdapter.isEnabled()) {
                 this.nfcManager = new NfcManager(this);
                 this.nfcAdapter.setOnNdefPushCompleteCallback(nfcManager, this);
                 this.nfcAdapter.setNdefPushMessageCallback(nfcManager, this);
+                textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_activity);
             }
             else {
-                Toast.makeText(this, "NFC disabled on this device. Turn on to exchange code", Toast.LENGTH_SHORT).show();
-                this.openNFCSettings(); //TODO Chiedere all'utente prima di aprire le impostazioni
+                textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_with_activation_request_nfc);
             }
         }
     }
@@ -137,11 +137,6 @@ public class OrderReceiverActivity extends AppCompatActivity implements NfcManag
         editTextValidationCode3.setText(String.valueOf(validationCode.charAt(2)));
         editTextValidationCode4.setText(String.valueOf(validationCode.charAt(3)));
         editTextValidationCode5.setText(String.valueOf(validationCode.charAt(4)));
-    }
-
-    private void openNFCSettings() {
-        Intent settingsIntent = new Intent(Settings.ACTION_NFC_SETTINGS);
-        startActivity(settingsIntent);
     }
 
     private boolean isNfcSupported() {

@@ -81,6 +81,7 @@ public class ReviewListActivity extends AppCompatActivity {
                 }
                 else{
                     Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    loginIntent.putExtra(LoginActivity.INTENT_FLAG, 0);
                     startActivity(loginIntent);
                 }
                 break;

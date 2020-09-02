@@ -144,6 +144,7 @@ public class OrderListActivity extends AppCompatActivity {
                 }
                 else{
                     Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    loginIntent.putExtra(LoginActivity.INTENT_FLAG, 0);
                     startActivity(loginIntent);
                 }
                 break;
@@ -219,7 +220,7 @@ public class OrderListActivity extends AppCompatActivity {
                     holder.chipListCustomerOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(parentActivity, R.color.colorPrimary)));
                 }
                 else{
-                    holder.chipListCustomerOrders.setText(R.string.take_away);
+                    holder.chipListCustomerOrders.setText(R.string.takeaway);
                     holder.chipListCustomerOrders.setChipIcon(ContextCompat.getDrawable(parentActivity, R.drawable.ic_take_away_12px));
                     holder.chipListCustomerOrders.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(parentActivity, R.color.colorAccent)));
                 }

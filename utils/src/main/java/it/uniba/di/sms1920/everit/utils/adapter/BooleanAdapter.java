@@ -8,6 +8,7 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 
 public final class BooleanAdapter implements JsonDeserializer<Boolean> {
+
     @Override
     public Boolean deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         try {
@@ -19,4 +20,5 @@ public final class BooleanAdapter implements JsonDeserializer<Boolean> {
             return value.equals("true");
         }
     }
+
 }
