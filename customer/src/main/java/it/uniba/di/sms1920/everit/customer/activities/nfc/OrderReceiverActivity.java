@@ -89,7 +89,6 @@ public class OrderReceiverActivity extends AppCompatActivity implements NfcManag
     private void initNFC() {
         if(!isNfcSupported()) {
             textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_activity_with_no_nfc);
-            Toast.makeText(this, R.string.nfc_not_supported, Toast.LENGTH_SHORT).show();
         }
         else {
             if (this.nfcAdapter.isEnabled()) {

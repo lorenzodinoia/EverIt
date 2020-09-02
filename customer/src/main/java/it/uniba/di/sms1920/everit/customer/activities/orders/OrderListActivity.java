@@ -86,10 +86,6 @@ public class OrderListActivity extends AppCompatActivity {
         }
 
         if (findViewById(R.id.order_detail_container) != null) {
-            /*
-             * Se il layout è presente vuol dire che l'app è installata su un dispositivo di grandi dimensioni
-             * Pertanto si utilizza la modalità con due pannelli
-             */
             this.twoPaneMode = true;
         }
 

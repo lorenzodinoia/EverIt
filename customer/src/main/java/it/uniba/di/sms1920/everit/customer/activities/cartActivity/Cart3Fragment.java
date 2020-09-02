@@ -119,6 +119,7 @@ public class Cart3Fragment extends Fragment {
                             Intent intent = new Intent(mParent, OrderDetailActivity.class);
                             intent.putExtra(ARG_ITEM_ID, response.getId());
                             startActivity(intent);
+                            
                         }
 
                         @Override
