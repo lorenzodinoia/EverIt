@@ -23,10 +23,16 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public static final String INTENT_FLAG = "intent_flag";
+
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
     private MaterialButton buttonLogin;
     private MaterialButton buttonGoToSignUp;
+
+    //used to check what to do on success response of login method
+    private boolean intent_flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,9 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if(savedInstanceState == null) {
+            if(getIntent().getExtras().containsKey(INTENT_FLAG)){
+                intent_flag = true;
+            }
             this.initComponents();
         }
     }
@@ -85,8 +94,11 @@ public class LoginActivity extends AppCompatActivity {
         auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Customer>() {
             @Override
             public void successResponse(Customer response) {
-                Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
-                startActivity(intent);
+                if(!intent_flag){
+                    Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
+                    startActivity(intent);
+                }
+
                 finish();
             }
 

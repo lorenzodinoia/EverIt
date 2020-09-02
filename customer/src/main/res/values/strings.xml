@@ -56,7 +56,7 @@
     <string name="review_number">Review number:</string>
 
     <string name="home_delivery">Home delivery</string>
-    <string name="take_away" translatable="false">Take away</string>
+
     <string name="order_type">Order type</string>
     <string name="pickup_address">Pickup address</string>
     <string name="pickup_date">Pickup date</string>
@@ -114,8 +114,7 @@
     <string name="total">Total</string>
     <string name="DeleteCart">Delete cart</string>
     <string name="hint_spinner_delivery">Choose the delivery time.</string>
-    <string name="HOME_DELIVERY">HOME DELIVERY</string>
-    <string name="TAKE_AWAY" translatable="false">TAKE AWAY</string>
+    <string name="takeaway" translatable="false">Takeaway</string>
     <string name="menu">Menù</string>
     <string name="review_hint">Write your review here</string>
     <string name="make_review">Write a review</string>
@@ -149,9 +148,15 @@
     <string name="notification_channel_name">Server notifications</string>
 
     <string name="send_code">Send code</string>
+
+    <string name="message_nfc_sender_activity_with_no_nfc">Communicate this code upon delivery to complete the procedure</string>
     <string name="message_nfc_sender_activity">Communicate this code upon delivery to complete the procedure. It is also possible to exchange code via NFC</string>
+    <string name="message_nfc_sender_with_activation_request_nfc">Communicate this code upon delivery to complete the procedure. It is also possible to exchange code via NFC but first turn it on</string>
+
+    <string name="code_sent_successfully">Code sent successfully</string>
+    <string name="nfc_not_supported">Nfc is not supported on this device</string>
+
     <string name="show_on_map">Show on map</string>
     <string name="call_shop">Call this shop</string>
     <string name="current_state">Current state:</string>
-    <string name="back_home">Back to the Home</string>
 </resources>

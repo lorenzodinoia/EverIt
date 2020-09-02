@@ -116,7 +116,7 @@ public class OrderDetailFragment extends Fragment {
             labelDeliveryDate.setText(R.string.delivery_date_label);
         }
         else {
-            textViewOrderType.setText(R.string.take_away);
+            textViewOrderType.setText(R.string.takeaway);
             labelDeliveryAddress.setText(R.string.pickup_address);
             textViewDeliveryAddress.setText(order.getRestaurateur().getAddress().getFullAddress());
             labelDeliveryDate.setText(R.string.pickup_date);

@@ -110,8 +110,9 @@ public class MenuFragment extends Fragment implements CartConnector {
                 Activity parentActivity = getActivity();
                 if (parentActivity != null) {
                     Intent loginIntent = new Intent(parentActivity, LoginActivity.class);
+                    loginIntent.putExtra(LoginActivity.INTENT_FLAG, 0);
                     startActivity(loginIntent);
-                    parentActivity.finish();
+                    //parentActivity.finish();
                 }
             }
         });

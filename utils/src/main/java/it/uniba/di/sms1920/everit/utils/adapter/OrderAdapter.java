@@ -17,7 +17,6 @@ import org.threeten.bp.LocalTime;
 import java.lang.reflect.Type;
 
 import it.uniba.di.sms1920.everit.utils.Address;
-import it.uniba.di.sms1920.everit.utils.models.Customer;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
@@ -85,9 +84,12 @@ public class OrderAdapter implements JsonSerializer<Order>, JsonDeserializer<Ord
         int orderType = jsonObject.get(Keys.ORDER_TYPE).getAsInt();
         jsonObject.remove(Keys.ORDER_TYPE);
 
-        boolean late;
-        int lateInt = jsonObject.get(Keys.LATE).getAsInt();
-        late = lateInt != 0;
+        String lateStr = jsonObject.get(Keys.LATE).toString();
+        boolean late = false;
+        if(lateStr.equals("1")){
+            late = true;
+        }
+
         jsonObject.remove(Keys.LATE);
 
 

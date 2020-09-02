@@ -123,6 +123,7 @@ public class Cart3Fragment extends Fragment {
                             finishAffinity();
                             Intent intent = new Intent(getContext(), CartAnimConfirmActivity.class);
                             startActivity(intent);
+                            
                         }
 
                         @Override
