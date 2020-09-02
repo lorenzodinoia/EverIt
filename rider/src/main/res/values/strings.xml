@@ -99,7 +99,7 @@
     <string name="service_not_started">Enter service to access this section.</string>
     <string name="shop_phone">Shop phone number:</string>
     <string name="customer_address">Customer address:</string>
-    <string name="customer_phone">Customer phone number:</string>
+    <string name="customer_phone">Customer phone:</string>
     <string name="esimated_delivery_time">Estimated delivery time:</string>
 </resources>
 
