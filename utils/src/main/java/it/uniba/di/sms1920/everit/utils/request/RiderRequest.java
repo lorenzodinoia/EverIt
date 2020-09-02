@@ -188,4 +188,25 @@ public class RiderRequest extends CRUDRequest<Rider> implements CRUD<Rider> {
 
         Providers.getRequestProvider().addToQueue(assignedOrdersRequest);
     }
+
+    public void canStopService(RequestListener<Boolean> requestListener) {
+        final String messageKey = "message";
+        ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s/service/canStop", Constants.SERVER_HOST, URL), null,
+                response -> {
+                    if (response.has(messageKey)) {
+                        try {
+                            String booleanAsString = response.getString(messageKey);
+                            requestListener.successResponse(booleanAsString.equals("true"));
+                        }
+                        catch (JSONException e) {
+                            requestListener.errorResponse(new RequestException(null, e.getMessage()));
+                        }
+                    }
+                },
+                error -> {
+                    requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                }, Providers.getAuthProvider().getAuthToken());
+
+        Providers.getRequestProvider().addToQueue(request);
+    }
 }

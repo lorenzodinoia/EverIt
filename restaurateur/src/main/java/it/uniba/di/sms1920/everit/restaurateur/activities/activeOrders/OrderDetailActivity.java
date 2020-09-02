@@ -1,10 +1,8 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,73 +12,81 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Objects;
-
 import it.uniba.di.sms1920.everit.restaurateur.R;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
-
 public class OrderDetailActivity extends AppCompatActivity {
+    public static final String ARG_ITEM_ID = "item_id";
 
-
+    private long orderId;
     private Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         if (savedInstanceState == null) {
-            long id = getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID, 0);
-
-            OrderRequest orderRequest = new OrderRequest();
-            orderRequest.readAsRestaurauter(id, new RequestListener<Order>() {
-                @Override
-                public void successResponse(Order response) {
-                    order = response;
-                    Bundle arguments = new Bundle();
-                    if(response.getStatus() == Order.Status.ORDERED){
-                        arguments.putInt(OrderDetailFragment.INDEX, 0);
-                    }
-                    else{
-                        arguments.putInt(OrderDetailFragment.INDEX, 1);
-                    }
-
-                    OrderDetailFragment fragment = new OrderDetailFragment();
-                    fragment.setArguments(arguments);
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.order_detail_container, fragment)
-                            .commit();
+            Bundle extras = getIntent().getExtras();
+            if ((extras != null) && (extras.containsKey(ARG_ITEM_ID))) {
+                Object idObject = getIntent().getExtras().get(ARG_ITEM_ID);
+                if (idObject instanceof String) {
+                    this.orderId = Long.parseLong((String) idObject);
                 }
-
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
+                else if (idObject instanceof Long) {
+                    this.orderId = (long) idObject;
                 }
-            });
+            }
+        }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if ((this.order == null) && (this.orderId != 0)) { //The order needs to be loaded
+            this.loadData();
         }
-        else{
-            order = savedInstanceState.getParcelable(OrderDetailFragment.ORDER);
-        }
+    }
+
+    private void loadData() {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.readAsRestaurauter(this.orderId, new RequestListener<Order>() {
+            @Override
+            public void successResponse(Order response) {
+                order = response;
+                setUpFragment();
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                promptErrorMessage(error.getMessage());
+            }
+        });
+    }
+
+    private void setUpFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(OrderDetailFragment.ARG_ITEM, this.order);
+        OrderDetailFragment fragment = new OrderDetailFragment();
+        fragment.setArguments(bundle);
+        this.getSupportFragmentManager().beginTransaction().add(R.id.order_detail_container, fragment).commit();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-
-            navigateUpTo(new Intent(this, OrderListFragment.class));
-
-            return true;
+            this.finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -102,16 +108,5 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
 
         dialog.show();
-    }
-
-    public Order getOrder(){
-        return order;
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelable(OrderDetailFragment.ORDER, order);
     }
 }

@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
+
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -42,6 +44,7 @@ public class OrderDetailFragment extends Fragment {
     private TextView textViewSubTotal;
     private TextView textViewDeliveryCost;
     private TextView textViewTotalPrice;
+    private Chip chipLate;
     private Button buttonReceiveOrder;
     private RecyclerView recyclerView;
 
@@ -95,6 +98,7 @@ public class OrderDetailFragment extends Fragment {
         this.textViewDeliveryTime = view.findViewById(R.id.textViewDeliveryDateTime);
         this.textViewOrderStatus = view.findViewById(R.id.textViewOrderStatus);
         this.textViewOrderLate = view.findViewById(R.id.textViewOrderLate);
+        this.chipLate = view.findViewById(R.id.chipLate);
         this.textViewSubTotal = view.findViewById(R.id.textViewSubTotal);
         this.textViewDeliveryCost = view.findViewById(R.id.textViewDeliveryCost);
         this.textViewTotalPrice = view.findViewById(R.id.textViewTotalPrice);
@@ -120,6 +124,7 @@ public class OrderDetailFragment extends Fragment {
 
         if(order.isLate()){
             textViewOrderLate.setVisibility(View.VISIBLE);
+            chipLate.setVisibility(View.VISIBLE);
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);

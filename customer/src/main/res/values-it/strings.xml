@@ -141,4 +141,7 @@
     <string name="code_sent_successfully">Codice inviato con successo</string>
     <string name="nfc_not_supported">Nfc non supportato su questo dispositivo</string>
 
+    <string name="show_on_map">Mostra sulla mappa</string>
+    <string name="call_shop">Chiama questa attività</string>
+    <string name="current_state">Stato corrente:</string>
 </resources>

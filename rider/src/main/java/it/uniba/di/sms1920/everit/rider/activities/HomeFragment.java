@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.IBinder;
@@ -21,13 +22,19 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Arrays;
 
 import it.uniba.di.sms1920.everit.rider.BackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.IBackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.provider.LocationProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;
+import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
+import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback {
     private Context context;
@@ -67,18 +74,41 @@ public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPe
                 }
             }
             else {
-                try {
-                    if (backgroundLocationService != null) {
-                        backgroundLocationService.stop();
+                RiderRequest riderRequest = new RiderRequest();
+                riderRequest.canStopService(new RequestListener<Boolean>() {
+                    @Override
+                    public void successResponse(Boolean response) {
+                        if (response) {
+                            try {
+                                if (backgroundLocationService != null) {
+                                    backgroundLocationService.stop();
+                                }
+                                else {
+                                    Intent serviceIntent = new Intent(getContext(), BackgroundLocationService.class);
+                                    context.stopService(serviceIntent);
+                                }
+                            }
+                            catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else {
+                            Snackbar snackbar = Snackbar.make(buttonView, R.string.pending_works, Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction(R.string.got_it, v -> snackbar.dismiss());
+                            snackbar.show();
+
+                            checkServiceButton();
+                        }
                     }
-                    else {
-                        Intent serviceIntent = new Intent(getContext(), BackgroundLocationService.class);
-                        context.stopService(serviceIntent);
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        Context context = getContext();
+                        if (context != null) {
+                            Utility.showGenericMessage(context, error.getMessage());
+                        }
                     }
-                }
-                catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                });
             }
         }
     };

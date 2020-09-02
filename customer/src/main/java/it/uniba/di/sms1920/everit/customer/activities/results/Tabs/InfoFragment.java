@@ -10,8 +10,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.Locale;
 
@@ -25,7 +29,9 @@ public class InfoFragment extends Fragment {
     private Restaurateur restaurateur;
 
     private TextView textViewPhoneNumber, textViewAddress, textViewOpenClosed, textViewDeliveryCost, textViewMinPurchase;
+    private ImageView imageViewOpenClosed;
     private LinearLayout layoutCall, layoutAddress;
+    private MaterialButton buttonCall, buttonMap;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -77,6 +83,10 @@ public class InfoFragment extends Fragment {
         textViewDeliveryCost = view.findViewById(R.id.textViewDeliveryCost);
         textViewMinPurchase = view.findViewById(R.id.textViewMinPurchase);
         textViewOpenClosed = view.findViewById(R.id.textViewOpenClosed);
+        imageViewOpenClosed = view.findViewById(R.id.imageViewOpenClosed);
+
+        buttonCall = view.findViewById(R.id.buttonCall);
+        buttonMap = view.findViewById(R.id.buttonMap);
     }
 
     private void initData() {
@@ -85,21 +95,29 @@ public class InfoFragment extends Fragment {
         textViewDeliveryCost.setText(String.valueOf(restaurateur.getDeliveryCost()));
         textViewMinPurchase.setText(String.valueOf(restaurateur.getMinPrice()));
 
-        layoutCall.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + restaurateur.getPhoneNumber()));
-            startActivity(intent);
-        });
+        layoutCall.setOnClickListener(v -> callShop());
+        buttonCall.setOnClickListener(v -> callShop());
 
         layoutAddress.setOnClickListener(v -> startMap(restaurateur.getAddress().getLongitude(), restaurateur.getAddress().getLatitude(), restaurateur.getShopName()));
+        buttonMap.setOnClickListener(v -> startMap(restaurateur.getAddress().getLongitude(), restaurateur.getAddress().getLatitude(), restaurateur.getShopName()));
 
         if (restaurateur.isOpen()) {
+            imageViewOpenClosed.setImageResource(it.uniba.di.sms1920.everit.utils.R.drawable.ic_open_40px);
             textViewOpenClosed.setText(getString(R.string.open_shop));
         }
         else {
+            imageViewOpenClosed.setImageResource(it.uniba.di.sms1920.everit.utils.R.drawable.ic_close_40px);
             textViewOpenClosed.setText(getString(R.string.closed_shop));
         }
+
     }
+
+    private void callShop(){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + restaurateur.getPhoneNumber()));
+        startActivity(intent);
+    }
+
 
     private void startMap(double latitude, double longitude, String nameLocation){
         Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));

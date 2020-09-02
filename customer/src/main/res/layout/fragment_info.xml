@@ -1,220 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".activities.results.Tabs.InfoFragment">
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="8dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutInfoContainer"
+        <LinearLayout
+            android:id="@+id/layoutAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/layoutAddress"
-                android:layout_width="match_parent"
+
+            <ImageView
+                android:id="@+id/imageViewAddress"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:tint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_pin_40px" />
 
-
-                <ImageView
-                    android:id="@+id/imageViewAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_location_on_accent" />
-
-                <TextView
-                    android:id="@+id/textViewLabelAddress"
-                    style="@style/TextViewSmall"
-                    android:text="@string/address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="6dp" />
-
-                <TextView
-                    android:id="@+id/textViewAddress"
-                    style="@style/TextViewMediumValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutOpenClosed"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textViewLabelAddress"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutAddress">
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/address" />
 
-                <ImageView
-                    android:id="@+id/imageViewOpenClosed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_event_note_accent" />
-
-                <TextView
-                    android:id="@+id/textViewLabelOpenClosed"
-                    style="@style/TextViewSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/open_shop" />
-
-                <TextView
-                    android:id="@+id/textViewOpenClosed"
-                    style="@style/TextViewMediumValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutCall"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textViewAddress"
+                style="@style/TextViewMediumValue"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutOpenClosed">
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp" />
 
-                <ImageView
-                    android:id="@+id/imageViewCall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_local_phone_accent" />
 
-                <TextView
-                    android:id="@+id/textViewLabelCall"
-                    style="@style/TextViewSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/phone_number" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textViewCall"
-                    style="@style/TextViewMediumValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp" />
+        <LinearLayout
+            android:id="@+id/layoutOpenClosed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutAddress">
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutMinPurchase"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageViewOpenClosed"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutCall">
+                android:tint="@color/colorAccent" />
 
-                <ImageView
-                    android:id="@+id/imageViewMinPurchase"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_baseline_attach_money_accent" />
-
-                <TextView
-                    android:id="@+id/textViewMinPurchaseInfo"
-                    style="@style/TextViewSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/minimum_purchase" />
-
-                <TextView
-                    android:id="@+id/textViewMinPurchase"
-                    style="@style/TextViewMediumValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:id="@+id/textViewCurrency"
-                    style="@style/TextViewMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/currency_type" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutDeliveryCost"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textViewLabelOpenClosed"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutMinPurchase">
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/current_state" />
 
-                <ImageView
-                    android:id="@+id/imageViewDeliveryCost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_baseline_directions_bike_accent" />
+            <TextView
+                android:id="@+id/textViewOpenClosed"
+                style="@style/TextViewMediumValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp" />
 
-                <TextView
-                    android:id="@+id/textViewDeliveryCostInfo"
-                    style="@style/TextViewSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/delivey_cost" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textViewDeliveryCost"
-                    style="@style/TextViewMediumValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="8dp" />
+        <LinearLayout
+            android:id="@+id/layoutCall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutOpenClosed">
 
-                <TextView
-                    android:id="@+id/textViewCurrency2"
-                    style="@style/TextViewMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/currency_type" />
+            <ImageView
+                android:id="@+id/imageViewCall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_phone_40px" />
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/textViewLabelCall"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/phone_number" />
+
+            <TextView
+                android:id="@+id/dots"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="2dp"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/textViewCall"
+                style="@style/TextViewMediumValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutMinPurchase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutCall">
+
+            <ImageView
+                android:id="@+id/imageViewMinPurchase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:tint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_money_40px" />
+
+            <TextView
+                android:id="@+id/textViewMinPurchaseInfo"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/minimum_purchase" />
+
+            <TextView
+                android:id="@+id/textViewMinPurchase"
+                style="@style/TextViewMediumValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/textViewCurrency"
+                style="@style/TextViewMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/currency_type" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutDeliveryCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutMinPurchase">
+
+            <ImageView
+                android:id="@+id/imageViewDeliveryCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_scooter_40px" />
+
+            <TextView
+                android:id="@+id/textViewDeliveryCostInfo"
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/delivey_cost" />
+
+            <TextView
+                android:id="@+id/textViewDeliveryCost"
+                style="@style/TextViewMediumValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/textViewCurrency2"
+                style="@style/TextViewMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/currency_type" />
+
+        </LinearLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@color/greyAccent"
+            app:layout_constraintBottom_toTopOf="@+id/buttonMap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </FrameLayout>
+
+        <Button
+            android:id="@+id/buttonMap"
+            style="@style/ButtonAccent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/btn_bg"
+            android:text="@string/show_on_map"
+            app:layout_constraintBottom_toTopOf="@id/buttonCall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <Button
+            android:id="@+id/buttonCall"
+            style="@style/ButtonMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/btn_bg"
+            android:text="@string/call_shop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </ScrollView>

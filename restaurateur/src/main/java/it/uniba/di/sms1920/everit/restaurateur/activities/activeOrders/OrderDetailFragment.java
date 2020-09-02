@@ -40,16 +40,13 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class OrderDetailFragment extends Fragment {
+    public static final String ARG_ITEM = "item";
+    private static final String SAVED_ORDER = "saved.order";
 
-    public static final String ARG_ITEM_ID = "item_id";
-    public static final String INDEX = "fragment_index";
-    public static final String ORDER = "order";
-
-    private OrderDetailActivity mParent;
+    private OrderDetailActivity parentActivity;
     private Order order;
-    private int index;
 
-    private TextView labelOrdertype;
+    private TextView labelOrderType;
     private TextView textViewOrderType;
     private TextView labelDeliveryDate;
     private TextView textViewLabelOrderNumber;
@@ -66,39 +63,48 @@ public class OrderDetailFragment extends Fragment {
 
     private String timePicker;
 
-
     public OrderDetailFragment() {
+        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(INDEX)) {
-            index = getArguments().getInt(INDEX);
-            order = mParent.getOrder();
+        if (savedInstanceState == null) {
+            Bundle arguments = getArguments();
+            if ((arguments != null) && (arguments.containsKey(ARG_ITEM))) {
+                this.order = arguments.getParcelable(ARG_ITEM);
+            }
+        }
+        else if (savedInstanceState.containsKey(SAVED_ORDER)) {
+            this.order = savedInstanceState.getParcelable(SAVED_ORDER);
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.order_detail, container, false);
-
-        initUi(rootView);
-
-        return rootView;
+        View view = inflater.inflate(R.layout.order_detail, container, false);
+        this.initUi(view);
+        return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        initData();
+        if (this.order != null) {
+            this.initData();
+        }
     }
 
-    private void initUi(View view){
-        labelOrdertype = view.findViewById(R.id.textViewLabelOrderType);
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_ORDER, this.order);
+    }
+
+    private void initUi(View view) {
+        labelOrderType = view.findViewById(R.id.textViewLabelOrderType);
         textViewOrderType = view.findViewById(R.id.textViewOrderType);
         labelDeliveryDate = view.findViewById(R.id.labelDeliveryDate);
         textViewLabelOrderNumber = view.findViewById(R.id.textViewLabelOrderNumber);
@@ -113,40 +119,37 @@ public class OrderDetailFragment extends Fragment {
         searchRider = view.findViewById(R.id.btnSearchRider);
     }
 
-    private void initData(){
-        if (order != null) {
-            bindButton();
+    private void initData() {
+        this.setUpButton();
 
-            labelOrdertype.setText(R.string.order_type);
-            if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
-                textViewOrderType.setText(R.string.home_delivery);
-            }
-            else{
-                textViewOrderType.setText(R.string.take_away);
-            }
-
-            textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
-            labelDeliveryDate.setText(getString(R.string.delivery_date_label) + ":");
-            textViewOrderNumber.setText("#"+order.getId());
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
-            LocalDateTime estimatedDeliveryTime = order.getEstimatedDeliveryTime();
-            String dateAsString = estimatedDeliveryTime.format(formatter);
-            textViewDeliveryTime.setText(dateAsString);
-
-            textViewSubTotalOrderPrice.setText(Float.toString(order.getTotalCost()));
-            Restaurateur restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
-            textViewOrderNotes.setText(order.getOrderNotes());
-            float deliveryCost = restaurateur.getDeliveryCost();
-            textViewOrderDeliveryPrice.setText(Float.toString(deliveryCost));
-            textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
-            setupRecyclerView(recyclerView);
+        labelOrderType.setText(R.string.order_type);
+        if (order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+            textViewOrderType.setText(R.string.home_delivery);
         }
+        else {
+            textViewOrderType.setText(R.string.take_away);
+        }
+
+        textViewLabelOrderNumber.setText(getString(R.string.order_number) + ":");
+        labelDeliveryDate.setText(getString(R.string.delivery_date_label) + ":");
+        textViewOrderNumber.setText("#"+order.getId());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
+        LocalDateTime estimatedDeliveryTime = order.getEstimatedDeliveryTime();
+        String dateAsString = estimatedDeliveryTime.format(formatter);
+        textViewDeliveryTime.setText(dateAsString);
+
+        textViewSubTotalOrderPrice.setText(Float.toString(order.getTotalCost()));
+        Restaurateur restaurateur = (Restaurateur) Providers.getAuthProvider().getUser();
+        textViewOrderNotes.setText(order.getOrderNotes());
+        float deliveryCost = restaurateur.getDeliveryCost();
+        textViewOrderDeliveryPrice.setText(Float.toString(deliveryCost));
+        textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
+        setupRecyclerView(recyclerView);
     }
 
-    private void bindButton(){
-
-        if(index == 0){
+    private void setUpButton() {
+        if (this.order.getStatus() == Order.Status.ORDERED) {
             confirmButton.setVisibility(View.VISIBLE);
             confirmButton.setOnClickListener(v -> {
                 OrderRequest orderRequest = new OrderRequest();
@@ -154,7 +157,7 @@ public class OrderDetailFragment extends Fragment {
                     orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
                         @Override
                         public void successResponse(Order response) {
-                            mParent.finish();
+                            parentActivity.finish();
                         }
 
                         @Override
@@ -163,11 +166,11 @@ public class OrderDetailFragment extends Fragment {
                         }
                     });
                 }
-                else{
+                else {
                     orderRequest.markAsInProgress(order.getId(), new RequestListener<Order>() {
                         @Override
                         public void successResponse(Order response) {
-                            mParent.finish();
+                            parentActivity.finish();
                         }
 
                         @Override
@@ -180,16 +183,16 @@ public class OrderDetailFragment extends Fragment {
 
             searchRider.setVisibility(View.GONE);
         }
-        else{
-            if(order.isLate()){
+        else {
+            if (order.isLate()) {
                 disableConfirmButton();
             }
-            else{
+            else {
                 confirmButton.setFocusable(true);
                 confirmButton.setClickable(true);
                 confirmButton.setVisibility(View.VISIBLE);
                 confirmButton.setText(R.string.late_button);
-                confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.colorWarning));
+                confirmButton.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.colorWarning));
                 confirmButton.setOnClickListener(v -> {
                     OrderRequest orderRequest = new OrderRequest();
                     orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
@@ -207,7 +210,7 @@ public class OrderDetailFragment extends Fragment {
                 });
             }
 
-            if(order.getStatus().equals(Order.Status.CONFIRMED)){
+            if(order.getStatus().equals(Order.Status.CONFIRMED)) {
                 searchRider.setText(R.string.search_rider);
                 ProposalRequest proposalRequest = new ProposalRequest();
                 proposalRequest.checkProposalsState(order.getId(), new RequestListener<Boolean>() {
@@ -219,7 +222,7 @@ public class OrderDetailFragment extends Fragment {
                         else{
                             searchRider.setOnClickListener(v -> {
                                 OrderRequest orderRequest = new OrderRequest();
-                                Dialog dialog = new Dialog(mParent);
+                                Dialog dialog = new Dialog(parentActivity);
                                 dialog.setContentView(R.layout.dialog_set_pickup_time);
                                 TextView textViewLabel = dialog.findViewById(R.id.textViewLabelPickupTimeSelection);
                                 textViewLabel.setText(R.string.message_pickup_time_dialog);
@@ -262,11 +265,11 @@ public class OrderDetailFragment extends Fragment {
                 });
 
             }
-            else if(order.getStatus().equals(Order.Status.IN_PROGRESS)){
-                if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
+            else if (order.getStatus().equals(Order.Status.IN_PROGRESS)) {
+                if (order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
                     searchRider.setVisibility(View.GONE);
                 }
-                else{
+                else {
                     searchRider.setText(R.string.order_ready);
                     searchRider.setOnClickListener(v -> {
                         OrderRequest orderRequest = new OrderRequest();
@@ -285,34 +288,34 @@ public class OrderDetailFragment extends Fragment {
                     });
                 }
             }
-            else{
+            else {
                 confirmButton.setVisibility(View.GONE);
                 setButtonDeliverOrder();
             }
         }
     }
 
-    private void disableSearchRiderButton(){
+    private void disableSearchRiderButton() {
         searchRider.setFocusable(false);
         searchRider.setClickable(false);
-        searchRider.setBackgroundColor(ContextCompat.getColor(mParent, R.color.lightGreyAccent));
+        searchRider.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
     }
 
-    private void setButtonDeliverOrder(){
+    private void setButtonDeliverOrder() {
         searchRider.setText(R.string.deliver_order);
         searchRider.setOnClickListener(v -> {
-            Intent intent = new Intent(mParent, DeliverOrderActivity.class);
+            Intent intent = new Intent(parentActivity, DeliverOrderActivity.class);
             intent.putExtra(DeliverOrderActivity.ARG_ITEM, order);
             startActivity(intent);
 
         });
     }
 
-    private void disableConfirmButton(){
+    private void disableConfirmButton() {
         confirmButton.setText(R.string.late_button);
         confirmButton.setFocusable(false);
         confirmButton.setClickable(false);
-        confirmButton.setBackgroundColor(ContextCompat.getColor(mParent, R.color.lightGreyAccent));
+        confirmButton.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -327,7 +330,7 @@ public class OrderDetailFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if(context instanceof OrderDetailActivity){
-            mParent = (OrderDetailActivity) context;
+            parentActivity = (OrderDetailActivity) context;
         }
     }
 
@@ -392,7 +395,7 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void promptErrorMessage(String message){
-        Dialog dialog = new Dialog(mParent);
+        Dialog dialog = new Dialog(parentActivity);
         dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
         TextView title = dialog.findViewById(R.id.textViewTitle);

@@ -81,7 +81,7 @@ public class DeliverOrderActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(OrderDetailFragment.ORDER, order);
+        outState.putParcelable(SAVED_ORDER, order);
     }
 
     private void initNFC() {
