@@ -44,7 +44,13 @@ public class OrderDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if ((extras != null) && (extras.containsKey(ARG_ITEM_ID))) {
-                this.orderId = extras.getLong(ARG_ITEM_ID);
+                Object idObject = extras.get(ARG_ITEM_ID);
+                if (idObject instanceof String) {
+                    this.orderId = Long.parseLong((String) idObject);
+                }
+                else if (idObject instanceof Long) {
+                    this.orderId = (long) idObject;
+                }
             }
         }
     }
