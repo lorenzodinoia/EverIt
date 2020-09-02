@@ -44,7 +44,7 @@ public class Review extends Model {
         super(in);
         this.vote = in.readInt();
         this.text = in.readString();
-        this.createdAt = in.readParcelable(LocalDateTime.class.getClassLoader());
+        this.createdAt = (LocalDateTime) in.readSerializable();
         this.customer = in.readParcelable(Customer.class.getClassLoader());
         this.restaurateur = in.readParcelable(Restaurateur.class.getClassLoader());
     }
