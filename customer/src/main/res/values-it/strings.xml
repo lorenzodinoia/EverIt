@@ -76,7 +76,6 @@
     <string name="DeleteCart">Cancella carrello</string>
     <string name="hint_spinner_delivery">Scegli l\'orario di consegna</string>
     <string name="HOME_DELIVERY">CONSEGNA A DOMICILIO</string>
-    <string name="CUSTOMER_PICKUP">RITIRO ORDINE PRESSO LOCALE</string>
     <string name="menu">Menù</string>
     <string name="review_hint">Scrivi qui la tua recensione</string>
     <string name="make_review">Scrivi una recensione</string>
