@@ -59,13 +59,26 @@
             app:srcCompat="@drawable/ic_shop_40px" />
 
         <TextView
+            android:id="@+id/textViewLabelRestaurateurAddress"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/shop_address" />
+
+        <TextView
             android:id="@+id/textViewRestaurateurAddress"
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:drawableEnd="@drawable/ic_chain_20px"
+            android:drawableTint="@color/colorPrimary"
+            android:drawablePadding="5dp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -88,13 +101,26 @@
             app:srcCompat="@drawable/ic_phone_40px" />
 
         <TextView
+            android:id="@+id/textViewLabelRestaurateurPhoneNumber"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/shop_phone" />
+
+        <TextView
             android:id="@+id/textViewRestaurateurPhoneNumber"
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:drawableEnd="@drawable/ic_chain_20px"
+            android:drawableTint="@color/colorPrimary"
+            android:drawablePadding="5dp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -117,13 +143,25 @@
             app:srcCompat="@drawable/ic_customer_40px" />
 
         <TextView
+            android:id="@+id/textViewLabelCustomerAddress"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/customer_address"/>
+
+        <TextView
             android:id="@+id/textViewDeliverAddress"
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:drawableEnd="@drawable/ic_chain_20px"
+            android:drawableTint="@color/colorPrimary"
+            android:drawablePadding="5dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -144,6 +182,15 @@
             android:layout_height="wrap_content"
             android:tint="@color/colorAccent"
             app:srcCompat="@drawable/ic_time_40px" />
+
+        <TextView
+            android:id="@+id/textViewLabelPickupTime"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/pickup_time" />
 
         <TextView
             android:id="@+id/textViewPickupTimeProposal"
