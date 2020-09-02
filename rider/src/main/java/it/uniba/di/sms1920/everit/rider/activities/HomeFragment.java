@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.IBinder;
@@ -20,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
 
@@ -90,7 +93,10 @@ public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPe
                             }
                         }
                         else {
-                            Toast.makeText(getContext(), "Hai dei lavori in sospeso", Toast.LENGTH_LONG).show(); //TODO Sostituire con messaggio appropriato
+                            Snackbar snackbar = Snackbar.make(buttonView, R.string.pending_works, Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction(R.string.got_it, v -> snackbar.dismiss());
+                            snackbar.show();
+
                             checkServiceButton();
                         }
                     }

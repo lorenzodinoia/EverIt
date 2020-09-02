@@ -87,4 +87,7 @@
     <string name="customer_name">Nome cliente:</string>
     <string name="pickup_time">Orario di consegna:</string>
     <string name="delivery_notes">Note di consegna:</string>
+    <string name="pending_works">Hai degli ordini in sospeso.</string>
+    <string name="got_it">Ho capito</string>
+    <string name="service_not_started">Entra in servizio per accedere a questa sezione.</string>
 </resources>

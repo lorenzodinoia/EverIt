@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -130,7 +131,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(intent);
                     }
                     else {
-                        Toast.makeText(this, "Servizio non avviato", Toast.LENGTH_LONG).show(); //TODO Inserire messaggio appropriato
+                        Snackbar snackbar = Snackbar.make(navigationView, R.string.service_not_started, Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction(R.string.got_it, v -> snackbar.dismiss());
+                        snackbar.show();
                     }
                 }
                 catch (RemoteException e) {
@@ -185,9 +188,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         textViewMessage.setText(message);
 
         Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
-        });
+        btnOk.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }

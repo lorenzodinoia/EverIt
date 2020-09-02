@@ -94,6 +94,9 @@
     <string name="customer_name">Customer name:</string>
     <string name="pickup_time">Pickup time:</string>
     <string name="delivery_notes">Delivery notes:</string>
+    <string name="pending_works">You have pending orders.</string>
+    <string name="got_it">Got it</string>
+    <string name="service_not_started">Enter service to access this section.</string>
 </resources>
 
 
