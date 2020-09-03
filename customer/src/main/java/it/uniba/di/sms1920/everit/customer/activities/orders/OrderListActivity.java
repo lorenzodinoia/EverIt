@@ -55,7 +55,7 @@ public class OrderListActivity extends AppCompatActivity {
     private boolean twoPaneMode;
     @SuppressLint("UseSparseArrays")
     private final ArrayList<Order> orderList = new ArrayList<>();
-    private int backstackEntryCount;
+
     private TextView textViewEmptyOrders;
     private OrderRecyclerViewAdapter recyclerViewAdapter;
 
@@ -133,15 +133,7 @@ public class OrderListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home: {
-                backstackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-                if(backstackEntryCount == 0){
-                    finishAffinity();
-                    Intent intent = new Intent(this, BaseActivity.class);
-                    startActivity(intent);
-                }else{
-                    super.onBackPressed();
-                }
-                break;
+                finish();
             }
             case R.id.goTo_cart: {
                 if (Providers.getAuthProvider().getUser() != null) {

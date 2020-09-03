@@ -38,7 +38,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class Cart3Fragment extends Fragment {
 
-    private static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_ID = "item_id";
 
     private Cart cart;
     private CartActivity mParent;
@@ -101,10 +101,6 @@ public class Cart3Fragment extends Fragment {
 
                 buttonFinishOrder = viewRoot.findViewById(R.id.buttonFinishOrder);
                 buttonFinishOrder.setOnClickListener(v -> {
-                    Intent intent = new Intent(getContext(), CartAnimConfirmActivity.class);
-                    startActivity(intent);
-                    //TODO si rompe
-                    /**
                     if(homeDelivery.isChecked()){
                         cart.getPartialOrder().setOrderType(Order.OrderType.HOME_DELIVERY);
                     }else if(customerPickup.isChecked()) {
@@ -120,8 +116,9 @@ public class Cart3Fragment extends Fragment {
                         @Override
                         public void successResponse(Order response) {
                             cart.clear();
-                            finishAffinity();
+                            mParent.finishAffinity();
                             Intent intent = new Intent(getContext(), CartAnimConfirmActivity.class);
+                            intent.putExtra(ARG_ITEM_ID, response.getId());
                             startActivity(intent);
                             
                         }
@@ -131,7 +128,6 @@ public class Cart3Fragment extends Fragment {
                             promptErrorMessage(error.getMessage());
                         }
                     });
-                */
                 });
 
                 buttonBack = viewRoot.findViewById(R.id.buttonBack);
