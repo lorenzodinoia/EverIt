@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.customer.activities.orders;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.BaseActivity;
 import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabManagerFragment;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
@@ -94,12 +96,19 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
     }
 
-    //TODO quando torna indietro dal riepilogo ordine non ha il finish affinity e si rompe tutto
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            finish();
+
+            if(isTaskRoot()){
+                finish();
+                Intent intent = new Intent(this, BaseActivity.class);
+                startActivity(intent);
+            }else {
+                finish();
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }

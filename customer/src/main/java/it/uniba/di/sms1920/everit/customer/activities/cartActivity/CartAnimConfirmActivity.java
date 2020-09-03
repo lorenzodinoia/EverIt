@@ -17,6 +17,8 @@ import com.google.android.material.button.MaterialButton;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.activities.BaseActivity;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailActivity;
+import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailFragment;
 import it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity;
 
 public class CartAnimConfirmActivity extends AppCompatActivity {
@@ -25,6 +27,7 @@ public class CartAnimConfirmActivity extends AppCompatActivity {
     private View view;
     private TextView textViewOrderSuccess;
     private Button buttonHome, buttonDetail;
+    private long orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,12 @@ public class CartAnimConfirmActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_default);
         setSupportActionBar(toolbar);
         toolbar.setVisibility(View.GONE);
+
+        if(getIntent().getExtras() != null){
+            if(getIntent().getExtras().containsKey(Cart3Fragment.ARG_ITEM_ID)){
+                orderId = getIntent().getExtras().getLong(Cart3Fragment.ARG_ITEM_ID);
+            }
+        }
 
         iconConfirm = findViewById(R.id.ic_confirm);
         view = findViewById(R.id.content);
@@ -54,14 +63,15 @@ public class CartAnimConfirmActivity extends AppCompatActivity {
         });
 
         buttonHome.setOnClickListener(v -> {
-            finishAffinity();
+            finish();
             Intent intent = new Intent(this, BaseActivity.class);
             startActivity(intent);
         });
 
         buttonDetail.setOnClickListener(v -> {
-            finishAffinity();
-            Intent intent = new Intent(this, OrderListActivity.class);
+            finish();
+            Intent intent = new Intent(this, OrderDetailActivity.class);
+            intent.putExtra(OrderDetailActivity.ARG_ITEM_ID, orderId);
             startActivity(intent);
         });
 
@@ -95,4 +105,5 @@ public class CartAnimConfirmActivity extends AppCompatActivity {
         textViewOrderSuccess.startAnimation(fadeIn);
 
     }
+
 }
