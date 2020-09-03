@@ -160,4 +160,5 @@
     <string name="call_shop">Call this shop</string>
     <string name="current_state">Current state:</string>
     <string name="back_home">Back to the Home</string>
+    <string name="order_success">Order placed successfully!</string>
 </resources>

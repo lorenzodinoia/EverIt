@@ -86,7 +86,6 @@
         <item name="android:textColor">@color/blackValue</item>
     </style>
 
-
     <style name="spinnerCustom" parent="Widget.AppCompat.Spinner">
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:paddingLeft">8dp</item>
