@@ -134,7 +134,10 @@ public class OrderListActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home: {
                 finish();
+                break;
             }
+
+
             case R.id.goTo_cart: {
                 if (Providers.getAuthProvider().getUser() != null) {
                     Intent cartIntent = new Intent(getApplicationContext(), CartActivity.class);
