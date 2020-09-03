@@ -25,7 +25,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.nfc.OrderReceiverActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.accountDetail.AccountDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -68,7 +69,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LauncherActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
