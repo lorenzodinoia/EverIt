@@ -197,7 +197,6 @@ public class ProfileFragment extends Fragment {
                         customer = response;
 
                         Snackbar.make(button, R.string.account_updated, Snackbar.LENGTH_SHORT).show();
-                        //Toast.makeText(parentActivity, R.string.account_updated, Toast.LENGTH_LONG).show();
                         buttonEditConfirm.setText(R.string.edit);
 
                         editTextName.setText(customer.getName());

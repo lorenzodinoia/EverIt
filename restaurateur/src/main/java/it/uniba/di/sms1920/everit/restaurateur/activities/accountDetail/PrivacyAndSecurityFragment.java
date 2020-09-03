@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -101,7 +102,7 @@ public class PrivacyAndSecurityFragment extends Fragment {
                                 @Override
                                 public void successResponse(Boolean response) {
                                     Providers.getAuthProvider().removeAllUserData();
-                                    Toast.makeText(mParent, R.string.message_password_changed, Toast.LENGTH_LONG).show();
+                                    Snackbar.make(buttonChangePassword, R.string.message_password_changed, Snackbar.LENGTH_SHORT).show();
                                     mParent.finishAffinity();
                                     Intent intent = new Intent(mParent, LoginActivity.class);
                                     startActivity(intent);
