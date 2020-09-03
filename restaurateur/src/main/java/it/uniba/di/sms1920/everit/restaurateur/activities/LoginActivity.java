@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String INTENT_FLAG = "intent_flag";
 
+    private Toolbar toolbar;
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
     private MaterialButton buttonLogin;
@@ -35,14 +37,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         if(savedInstanceState == null) {
-            if(getIntent().getExtras().containsKey(INTENT_FLAG)){
-                intent_flag = true;
+            if(getIntent().getExtras() != null) {
+                if (getIntent().getExtras().containsKey(INTENT_FLAG)) {
+                    intent_flag = true;
+                }
             }
             this.initComponents();
         }
     }
 
     private void initComponents() {
+        toolbar = findViewById(R.id.toolbar_default);
+        toolbar.setTitle(getTitle());
+        setSupportActionBar(toolbar);
+
         this.editTextEmail = this.findViewById(R.id.editTextEmail);
         this.editTextPassword = this.findViewById(R.id.editTextPassword);
         this.buttonGoToSignUp = this.findViewById(R.id.buttonGoToSignUp);
