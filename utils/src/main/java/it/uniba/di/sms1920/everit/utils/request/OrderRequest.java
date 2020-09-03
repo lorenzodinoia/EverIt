@@ -22,9 +22,10 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order> {
 
-    private final String CUSTOMER = "customer";
-    private final String RESTAURATEUR = "restaurateur";
-    private final String ORDER = "/order";
+    private static final String CUSTOMER = "customer";
+    private static final String RESTAURATEUR = "restaurateur";
+    private static final String ORDER = "/order";
+    private static final String RIDER = "rider";
 
     @Override
     public void create(Order model, RequestListener<Order> RequestListener) {
@@ -205,7 +206,6 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
     }
 
     public void deliverOrderAsRestaurateur(long idOrder, int validationCode, RequestListener<Boolean> requestListener){
-
         try {
             ObjectRequest request = new ObjectRequest(Request.Method.GET, String.format("%s/api/%s%s/%d/validateCode/%d", Constants.SERVER_HOST, RESTAURATEUR, ORDER, idOrder, validationCode), null,
                     response -> {
@@ -220,7 +220,30 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
                     }, Providers.getAuthProvider().getAuthToken());
 
             Providers.getRequestProvider().addToQueue(request);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deliverOrderAsRider(long idOrder, int validationCode, RequestListener<Boolean> requestListener) {
+        try {
+            String url = String.format("%s/api/%s%s/%d/validateCode/%d", Constants.SERVER_HOST, RIDER, ORDER, idOrder, validationCode);
+            ObjectRequest request = new ObjectRequest(Request.Method.GET, url, null,
+                    response -> {
+                        try {
+                            requestListener.successResponse(response.getBoolean("message"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

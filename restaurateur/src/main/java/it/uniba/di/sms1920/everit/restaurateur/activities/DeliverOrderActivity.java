@@ -1,4 +1,4 @@
-package it.uniba.di.sms1920.everit.restaurateur.activities.nfc;
+package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +28,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.activeOrders.OrderDetailFragment;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;

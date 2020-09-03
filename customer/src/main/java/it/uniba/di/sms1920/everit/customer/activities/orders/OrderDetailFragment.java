@@ -170,16 +170,14 @@ public class OrderDetailFragment extends Fragment {
         textViewDeliveryCost.setText(Float.toString(deliveryCost));
         textViewTotalPrice.setText(Float.toString(order.getTotalCost()+deliveryCost));
 
-        if(order.getOrderType().equals(Order.OrderType.TAKEAWAY)) {
-            if(orderStatus.equals(Order.Status.READY)) {
-                buttonReceiveOrder.setVisibility(View.VISIBLE);
-                buttonReceiveOrder.setText(R.string.send_code);
-                buttonReceiveOrder.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), OrderReceiverActivity.class);
-                    intent.putExtra(OrderReceiverActivity.ARG_ITEM, order); //TODO Sistema parametro
-                    startActivity(intent);
-                });
-            }
+        if((orderStatus.equals(Order.Status.READY)) || (orderStatus.equals(Order.Status.DELIVERING))) {
+            buttonReceiveOrder.setVisibility(View.VISIBLE);
+            buttonReceiveOrder.setText(R.string.send_code);
+            buttonReceiveOrder.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), OrderReceiverActivity.class);
+                intent.putExtra(OrderReceiverActivity.ARG_ITEM, order); //TODO Sistema parametro
+                startActivity(intent);
+            });
         }
 
         recyclerView.setAdapter(new ProductRecyclerViewAdapter(order.getProducts()));

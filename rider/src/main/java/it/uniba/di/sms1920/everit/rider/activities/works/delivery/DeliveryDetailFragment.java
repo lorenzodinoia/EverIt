@@ -20,6 +20,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.rider.activities.DeliverOrderActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 
@@ -92,10 +93,6 @@ public class DeliveryDetailFragment extends Fragment {
         this.textViewDeliveryNotes = view.findViewById(R.id.textViewDeliveryNotes);
 
         this.buttonOrderDelivery = view.findViewById(R.id.buttonOrderDelivery);
-        this.buttonOrderDelivery.setOnClickListener(v -> {
-            //TODO Click sul pulsante per la consegna
-
-        });
     }
 
     private void initData() {
@@ -127,6 +124,12 @@ public class DeliveryDetailFragment extends Fragment {
             this.cardViewDeliveryNotes.setVisibility(View.VISIBLE);
             this.textViewDeliveryNotes.setText(deliveryNotes);
         }
+
+        this.buttonOrderDelivery.setOnClickListener(v -> {
+            Intent deliverOrderIntent = new Intent(getContext(), DeliverOrderActivity.class);
+            deliverOrderIntent.putExtra(DeliverOrderActivity.ARG_ITEM, this.delivery);
+            startActivity(deliverOrderIntent);
+        });
     }
 
     private void startMap(double latitude, double longitude, String nameLocation) {

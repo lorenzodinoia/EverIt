@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
-import it.uniba.di.sms1920.everit.restaurateur.activities.nfc.DeliverOrderActivity;
+import it.uniba.di.sms1920.everit.restaurateur.activities.DeliverOrderActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Product;
