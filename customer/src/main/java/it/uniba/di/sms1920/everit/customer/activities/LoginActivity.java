@@ -46,8 +46,10 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if(savedInstanceState == null) {
-            if(getIntent().getExtras().containsKey(INTENT_FLAG)){
-                intent_flag = true;
+            if(getIntent().getExtras() != null) {
+                if (getIntent().getExtras().containsKey(INTENT_FLAG)) {
+                    intent_flag = true;
+                }
             }
             this.initComponents();
         }

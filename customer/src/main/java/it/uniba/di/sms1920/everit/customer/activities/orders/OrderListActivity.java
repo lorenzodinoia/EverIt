@@ -38,6 +38,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.customer.activities.BaseActivity;
+import it.uniba.di.sms1920.everit.customer.activities.HomeFragment;
 import it.uniba.di.sms1920.everit.customer.activities.cartActivity.CartActivity;
 import it.uniba.di.sms1920.everit.customer.activities.LoginActivity;
 import it.uniba.di.sms1920.everit.customer.activities.orders.tab.OrderTabManagerFragment;
@@ -53,6 +55,7 @@ public class OrderListActivity extends AppCompatActivity {
     private boolean twoPaneMode;
     @SuppressLint("UseSparseArrays")
     private final ArrayList<Order> orderList = new ArrayList<>();
+    private int backstackEntryCount;
     private TextView textViewEmptyOrders;
     private OrderRecyclerViewAdapter recyclerViewAdapter;
 
@@ -130,7 +133,14 @@ public class OrderListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home: {
-                super.onBackPressed();
+                backstackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+                if(backstackEntryCount == 0){
+                    finishAffinity();
+                    Intent intent = new Intent(this, BaseActivity.class);
+                    startActivity(intent);
+                }else{
+                    super.onBackPressed();
+                }
                 break;
             }
             case R.id.goTo_cart: {

@@ -145,4 +145,5 @@
     <string name="call_shop">Chiama questa attività</string>
     <string name="current_state">Stato corrente:</string>
     <string name="back_home">Ritorna alla Home</string>
+    <string name="order_success">Ordine effettuato con successo!</string>
 </resources>

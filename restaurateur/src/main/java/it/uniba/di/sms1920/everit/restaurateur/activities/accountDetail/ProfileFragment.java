@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -209,6 +210,8 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void successResponse(Restaurateur response) {
                             restaurateur = response;
+                            Snackbar.make(buttonEditConfirm, R.string.account_edited, Snackbar.LENGTH_SHORT).show();
+
                             buttonEditConfirm.setTag("Edit");
                             buttonEditConfirm.setText(R.string.edit);
                             spinnerShopType.setEnabled(false);
@@ -216,7 +219,6 @@ public class ProfileFragment extends Fragment {
                             editTextVATProfile.setEnabled(false);
                             editTextPhoneNumberProfile.setEnabled(false);
                             editTextAddressProfile.setEnabled(false);
-                            Toast.makeText(mParent, R.string.account_edited, Toast.LENGTH_LONG).show();
                         }
 
                         @Override

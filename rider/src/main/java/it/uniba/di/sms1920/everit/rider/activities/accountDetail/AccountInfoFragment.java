@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -141,7 +142,8 @@ public class AccountInfoFragment extends Fragment {
                             @Override
                             public void successResponse(Rider response) {
                                 rider = response;
-                                Toast.makeText(mParent, R.string.account_updated, Toast.LENGTH_LONG).show();
+
+                                Snackbar.make(buttonEditConfirm, R.string.account_updated, Snackbar.LENGTH_SHORT).show();
                                 buttonEditConfirm.setText(R.string.edit);
                                 editTextName.setText(rider.getName());
                                 editTextName.setEnabled(false);

@@ -76,6 +76,16 @@ public class ResultDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(SAVED_RESTAURATEUR, this.restaurateur);
@@ -162,14 +172,6 @@ public class ResultDetailActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {}
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-    }
-
-    public Restaurateur passRestaurateur(){
-        return  this.restaurateur;
-    }
-
-    public ArrayList<Review> passRestaurateurReviews() {
-        return this.reviews;
     }
 
     private void promptErrorMessage(String message){
