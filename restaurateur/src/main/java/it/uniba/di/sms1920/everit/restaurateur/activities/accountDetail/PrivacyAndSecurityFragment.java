@@ -130,6 +130,7 @@ public class PrivacyAndSecurityFragment extends Fragment {
             }
 
         });
+
         buttonDeleteAccount.setOnClickListener(v -> {
             Dialog dialog = new Dialog(mParent);
             dialog.setContentView(R.layout.dialog_message_y_n);
@@ -185,9 +186,7 @@ public class PrivacyAndSecurityFragment extends Fragment {
         textViewMessage.setText(message);
 
         Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
-        });
+        btnOk.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }
