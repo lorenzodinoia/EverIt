@@ -175,7 +175,7 @@ public class OrderDetailFragment extends Fragment {
             buttonReceiveOrder.setText(R.string.send_code);
             buttonReceiveOrder.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), OrderReceiverActivity.class);
-                intent.putExtra(OrderReceiverActivity.ARG_ITEM, order); //TODO Sistema parametro
+                intent.putExtra(OrderReceiverActivity.ARG_ITEM, order);
                 startActivity(intent);
             });
         }
