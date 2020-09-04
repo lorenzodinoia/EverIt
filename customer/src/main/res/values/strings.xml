@@ -113,7 +113,7 @@
     <string name="sub_total">Sub-total:</string>
     <string name="total">Total</string>
     <string name="DeleteCart">Delete cart</string>
-    <string name="hint_spinner_delivery">Choose the delivery time.</string>
+    <string name="hint_spinner_delivery">Choose the delivery time</string>
     <string name="takeaway" translatable="false">Takeaway</string>
     <string name="menu">Menù</string>
     <string name="review_hint">Write your review here</string>
@@ -161,4 +161,8 @@
     <string name="current_state">Current state:</string>
     <string name="back_home">Back to the Home</string>
     <string name="order_success">Order placed successfully!</string>
+    <string name="hint_order_notes">ex: lactose intolerant</string>
+    <string name="hint_delivery_notes">ex: I\'ll pay with a 50 banknote</string>
+    <string name="description_home_delivery">Choose the time you prefer, we will take care of the rest. Enjoy!</string>
+    <string name="description_take_away">Your order will be ready for the selected time, you just have to pick it up!</string>
 </resources>

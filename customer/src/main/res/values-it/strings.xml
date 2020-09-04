@@ -146,4 +146,8 @@
     <string name="current_state">Stato corrente:</string>
     <string name="back_home">Ritorna alla Home</string>
     <string name="order_success">Ordine effettuato con successo!</string>
+    <string name="hint_order_notes">es: intollerante al lattosio</string>
+    <string name="hint_delivery_notes">es: pagherò con una banconota da 50</string>
+    <string name="description_home_delivery">Scegli l\'orario che preferisci, al resto ci penseremo noi. Buon appetito!</string>
+    <string name="description_take_away">Il tuo ordine sarà pronto per l\'orario selezionato, dovrai solo passare a ritirarlo!</string>
 </resources>

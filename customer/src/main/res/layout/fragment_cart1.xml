@@ -60,7 +60,7 @@
 
         <TextView
             android:id="@+id/textViewSymbol4"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -120,7 +120,7 @@
 
         <TextView
             android:id="@+id/textViewSymbol"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -134,7 +134,7 @@
 
         <TextView
             android:id="@+id/textViewSymbol2"
-            style="@style/TextViewMedium"
+            style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -248,7 +248,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_bg"
             android:text="@string/DeleteCart"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -264,7 +264,7 @@
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_bg"
             android:text="@string/Continue"
             app:layout_constraintBottom_toBottomOf="parent"
