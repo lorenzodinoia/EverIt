@@ -49,8 +49,6 @@ public class AccountDetailFragment extends Fragment {
 
     private static int PICK_IMAGE = 1;
 
-    //TODO crasha se si chiude il server e si aggiorna immagine
-
     public AccountDetailFragment() {
         // Required empty public constructor
     }
@@ -91,7 +89,6 @@ public class AccountDetailFragment extends Fragment {
     }
 
     private void initData(){
-        //TODO ridimensionare imageView
         imageProfile.setOnClickListener(v -> {
             fetchImageFromGallery();
         });

@@ -123,13 +123,11 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         headers.put("Authorization", Providers.getAuthProvider().getAuthToken());
 
         //Setting listener
-        //TODO gestire onResponse e onErrorResponse
         MultipartRequest request = new MultipartRequest(String.format("%s/api/%s/%s", Constants.SERVER_HOST, URL, IMAGE), headers,
                 response -> {
                     requestListener.successResponse(response.toString());
                 },
-                error -> Log.d("test", new String(error.networkResponse.data)));
-
+                error -> RequestExceptionFactory.createExceptionFromError(error));
         //Creating image bitmap and convert it into bytes array
         Bitmap bmp = null;
         try {
