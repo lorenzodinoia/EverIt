@@ -105,6 +105,7 @@ public class DeliverOrderActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
         editTextValidationCode1 = findViewById(R.id.editTextValidationCode1);
         editTextValidationCode2 = findViewById(R.id.editTextValidationCode2);
         editTextValidationCode3 = findViewById(R.id.editTextValidationCode3);
@@ -114,14 +115,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
     }
 
     private void initData(){
-        textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
-        if (this.isNfcSupported()) {
-            textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc);
-        }
-        else {
-            textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
-        }
-
         editTextValidationCode1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

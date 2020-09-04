@@ -86,21 +86,16 @@ public class DeliverOrderActivity extends AppCompatActivity {
     private void initNFC() {
         if (isNfcSupported()) {
             if(this.nfcAdapter.isEnabled()) {
+                textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc);
                 this.enableForegroundDispatch(this, this.nfcAdapter);
             }
             else {
-                Toast.makeText(this, "NFC disabled on this device. Turn on to exchange code", Toast.LENGTH_SHORT).show();
-                this.openNFCSettings(); //TODO Chiedere all'utente prima di aprire le impostazioni
+                textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc_off_nfc);
             }
         }
         else {
-            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
+            textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
         }
-    }
-
-    private void openNFCSettings() {
-        Intent settingsIntent = new Intent(Settings.ACTION_NFC_SETTINGS);
-        startActivity(settingsIntent);
     }
 
     private void initUi(){
@@ -111,6 +106,7 @@ public class DeliverOrderActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
         editTextValidationCode1 = findViewById(R.id.editTextValidationCode1);
         editTextValidationCode2 = findViewById(R.id.editTextValidationCode2);
         editTextValidationCode3 = findViewById(R.id.editTextValidationCode3);
@@ -120,14 +116,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
     }
 
     private void initData(){
-        textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
-        if (this.isNfcSupported()) {
-            textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc);
-        }
-        else {
-            textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
-        }
-
         editTextValidationCode1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
