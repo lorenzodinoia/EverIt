@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -7,17 +8,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cart_details"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/cardOrderNotes"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,17 +42,18 @@
                 <View
                     android:id="@+id/divider"
                     android:layout_width="0dp"
-                    android:layout_height="2dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#c0c0c0"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/greyAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TextViewLabelOrderNotes" />
 
                 <EditText
                     android:id="@+id/editTextOrderNotes"
+                    style="@style/TextViewMediumValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -61,6 +62,7 @@
                     android:layout_marginBottom="4dp"
                     android:ems="10"
                     android:gravity="start|top"
+                    android:hint="@string/hint_order_notes"
                     android:inputType="textMultiLine"
                     android:maxLines="8"
                     android:minLines="1"
@@ -73,9 +75,9 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/materialCardView"
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -88,7 +90,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="249dp">
 
                 <TextView
                     android:id="@+id/TextViewLabelDeliveryNotes"
@@ -105,11 +107,11 @@
                 <View
                     android:id="@+id/divider2"
                     android:layout_width="0dp"
-                    android:layout_height="2dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#c0c0c0"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/greyAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TextViewLabelDeliveryNotes" />
@@ -117,6 +119,7 @@
 
                 <EditText
                     android:id="@+id/editTextDeliveryNotes"
+                    style="@style/TextViewMediumValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -125,6 +128,7 @@
                     android:layout_marginBottom="4dp"
                     android:ems="10"
                     android:gravity="start|top"
+                    android:hint="@string/hint_delivery_notes"
                     android:inputType="textMultiLine"
                     android:maxLines="8"
                     android:minLines="1"
@@ -136,8 +140,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.card.MaterialCardView>
-
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonNextOrder"
@@ -147,7 +150,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_bg"
             android:text="@string/Continue"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -164,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_bg"
             android:text="@string/Back"
             app:layout_constraintBottom_toBottomOf="parent"

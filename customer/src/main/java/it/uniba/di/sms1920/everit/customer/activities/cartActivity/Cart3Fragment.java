@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +26,6 @@ import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
-import it.uniba.di.sms1920.everit.customer.activities.orders.OrderDetailActivity;
-import it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
@@ -46,7 +43,7 @@ public class Cart3Fragment extends Fragment {
     private MaterialButton buttonFinishOrder;
     private MaterialButton buttonBack;
 
-    private RadioButton homeDelivery, customerPickup;
+    private RadioButton homeDelivery, takeAway;
 
     private List<String> deliveryTime = new ArrayList<>();
     private Spinner spinnerDeliveryTime;
@@ -72,8 +69,13 @@ public class Cart3Fragment extends Fragment {
             @Override
             public void successResponse(Collection<String> response) {
                 spinnerDeliveryTime = viewRoot.findViewById(R.id.spinnerDeliveryTime);
+
                 homeDelivery = viewRoot.findViewById(R.id.home_delivery);
-                customerPickup = viewRoot.findViewById(R.id.customer_pickup);
+                homeDelivery.setOnClickListener(v -> takeAway.setChecked(false));
+
+                takeAway = viewRoot.findViewById(R.id.takeAway);
+                takeAway.setOnClickListener( v -> homeDelivery.setChecked(false));
+
 
                 if(!response.isEmpty()) {
                     deliveryTime.clear();
@@ -103,7 +105,7 @@ public class Cart3Fragment extends Fragment {
                 buttonFinishOrder.setOnClickListener(v -> {
                     if(homeDelivery.isChecked()){
                         cart.getPartialOrder().setOrderType(Order.OrderType.HOME_DELIVERY);
-                    }else if(customerPickup.isChecked()) {
+                    }else if(takeAway.isChecked()) {
                         cart.getPartialOrder().setOrderType(Order.OrderType.TAKEAWAY);
                     }
 
