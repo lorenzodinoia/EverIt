@@ -14,7 +14,6 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -86,21 +85,16 @@ public class DeliverOrderActivity extends AppCompatActivity {
     private void initNFC() {
         if (isNfcSupported()) {
             if(this.nfcAdapter.isEnabled()) {
+                textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc);
                 this.enableForegroundDispatch(this, this.nfcAdapter);
             }
             else {
-                Toast.makeText(this, "NFC disabled on this device. Turn on to exchange code", Toast.LENGTH_SHORT).show();
-                this.openNFCSettings(); //TODO Chiedere all'utente prima di aprire le impostazioni
+                textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity_with_nfc_off_nfc);
             }
         }
         else {
-            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
+            textViewMessageDeliverOrder.setText(R.string.message_deliver_order_activity);
         }
-    }
-
-    private void openNFCSettings() {
-        Intent settingsIntent = new Intent(Settings.ACTION_NFC_SETTINGS);
-        startActivity(settingsIntent);
     }
 
     private void initUi(){
