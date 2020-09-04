@@ -95,7 +95,7 @@ public class MenuFragment extends Fragment implements CartConnector {
 
         this.buttonOrder.setOnClickListener(v -> {
             if(Providers.getAuthProvider().getUser() != null) {
-                if (!getCart().isEmpty()) { //TODO questo controllo può fallire
+                if (!getCart().isEmpty()) {
                     Activity parentActivity = getActivity();
                     if (parentActivity != null) {
                         Intent cartIntent = new Intent(getActivity(), CartActivity.class);
@@ -112,7 +112,6 @@ public class MenuFragment extends Fragment implements CartConnector {
                     Intent loginIntent = new Intent(parentActivity, LoginActivity.class);
                     loginIntent.putExtra(LoginActivity.INTENT_FLAG, 0);
                     startActivity(loginIntent);
-                    //parentActivity.finish();
                 }
             }
         });

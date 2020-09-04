@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -102,7 +103,7 @@ public class ProposalDetailFragment extends Fragment {
 
             MaterialButton positiveButton = dialog.findViewById(R.id.btnOk);
             positiveButton.setOnClickListener(v1 -> {
-                acceptProposal();
+                acceptProposal(dialog);
             });
 
             MaterialButton negativeButton = dialog.findViewById(R.id.btnCancel);
@@ -169,13 +170,15 @@ public class ProposalDetailFragment extends Fragment {
         this.textViewPickupTime.setText(remainingTimeString);
     }
 
-    private void acceptProposal() {
+    private void acceptProposal(Dialog dialog) {
         ProposalRequest proposalRequest = new ProposalRequest();
         proposalRequest.accept(this.proposal.getId(), new RequestListener<Boolean>() {
             @Override
             public void successResponse(Boolean response) {
+                dialog.show();
                 if (response) {
-                    getActivity().finish(); //TODO messaggio?
+                    Toast.makeText(getContext(), R.string.proposal_accepted, Toast.LENGTH_LONG).show();
+                    getActivity().finish();
                 }
             }
 

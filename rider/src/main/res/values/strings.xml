@@ -109,6 +109,7 @@
     <string name="message_deliver_order_activity">Insert validation code for order delivery</string>
     <string name="delivered">Delivered</string>
     <string name="wrong_validation_code">Wrong validation code</string>
+
 </resources>
 
 

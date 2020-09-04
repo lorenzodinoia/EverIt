@@ -9,8 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.Objects;
-
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Rider;
@@ -22,13 +20,10 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String INTENT_FLAG = "intent_flag";
-
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonLogin;
     private Button buttonGoToSignUp;
-    private boolean intent_flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if(savedInstanceState == null) {
-            if(getIntent().getExtras().containsKey(INTENT_FLAG)){
-                intent_flag = true;
-            }
             this.initComponents();
         }
     }
@@ -71,16 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         auth.login(new CredentialProvider.Credential(email, password), new RequestListener<Rider>() {
             @Override
             public void successResponse(Rider response) {
-                Intent intent;
-
-                if(intent_flag){
-                    //TODO modificare activity
-                    intent = new Intent(getApplicationContext(), BaseActivity.class);
-                }
-                else{
-                    intent = new Intent(getApplicationContext(), BaseActivity.class);
-                }
-
+                Intent intent = new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
                 finish();
             }

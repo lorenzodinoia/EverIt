@@ -2,7 +2,6 @@ package it.uniba.di.sms1920.everit.restaurateur.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,25 +22,17 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String INTENT_FLAG = "intent_flag";
-
     private Toolbar toolbar;
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
     private MaterialButton buttonLogin;
     private MaterialButton buttonGoToSignUp;
-    private boolean intent_flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         if(savedInstanceState == null) {
-            if(getIntent().getExtras() != null) {
-                if (getIntent().getExtras().containsKey(INTENT_FLAG)) {
-                    intent_flag = true;
-                }
-            }
             this.initComponents();
         }
     }
@@ -76,14 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void successResponse(Restaurateur response) {
                 Intent intent;
-                if(intent_flag){
-                    //TODO modificare activity
-                    intent = new Intent(getApplicationContext(), BaseActivity.class);
-                }
-                else{
-                    intent = new Intent(getApplicationContext(), BaseActivity.class);
-                }
-
+                intent = new Intent(getApplicationContext(), BaseActivity.class);
                 startActivity(intent);
                 finish();
             }
