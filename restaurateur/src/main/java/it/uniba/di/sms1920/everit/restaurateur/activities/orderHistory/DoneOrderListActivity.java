@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import it.uniba.di.sms1920.everit.restaurateur.R;
 
+import it.uniba.di.sms1920.everit.restaurateur.activities.review.ReviewListActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
@@ -44,7 +46,9 @@ public class DoneOrderListActivity extends AppCompatActivity {
     private boolean mTwoPane;
     public static final List<Order> orders = new ArrayList<>();
     private TextView textViewEmptyOrders;
-    private View recyclerView;
+    private RecyclerView recyclerView;
+    private DoneOrderRecyclerViewAdapter recyclerViewAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,39 +65,45 @@ public class DoneOrderListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        this.swipeRefreshLayout = findViewById(R.id.swipeContainer);
+        this.swipeRefreshLayout.setOnRefreshListener(this::loadData);
         textViewEmptyOrders = findViewById(R.id.textViewEmptyDataOrderHistory);
         recyclerView = findViewById(R.id.doneorder_list);
-        assert recyclerView != null;
+        setupRecyclerView();
+    }
 
+    private void loadData() {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.readDoneOrders(new RequestListener<Collection<Order>>() {
+            @Override
+            public void successResponse(Collection<Order> response) {
+                stopRefreshLayout();
+                orders.clear();
+                if(!response.isEmpty()) {
+                    textViewEmptyOrders.setVisibility(View.INVISIBLE);
+                    orders.addAll(response);
+                }
+                else {
+                    textViewEmptyOrders.setVisibility(View.VISIBLE);
+                    textViewEmptyOrders.setText(R.string.empty_order_history);
+                }
+                if (recyclerViewAdapter != null) {
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+            }
 
+            @Override
+            public void errorResponse(RequestException error) {
+                stopRefreshLayout();
+                promptErrorMessage(error.getMessage());
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        OrderRequest orderRequest = new OrderRequest();
-        orderRequest.readDoneOrders(new RequestListener<Collection<Order>>() {
-            @Override
-            public void successResponse(Collection<Order> response) {
-                orders.clear();
-                if(!response.isEmpty()){
-                    textViewEmptyOrders.setVisibility(View.INVISIBLE);
-                    orders.addAll(response);
-                }
-                else{
-                    textViewEmptyOrders.setVisibility(View.VISIBLE);
-                    textViewEmptyOrders.setText(R.string.empty_order_history);
-                }
-                setupRecyclerView((RecyclerView) recyclerView);
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
-
+        this.loadData();
     }
 
     public static Order getOrderById(long id) {
@@ -118,8 +128,15 @@ public class DoneOrderListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new DoneOrderRecyclerViewAdapter(this, orders, mTwoPane));
+    private void setupRecyclerView() {
+        this.recyclerViewAdapter = new DoneOrderRecyclerViewAdapter(this, orders, mTwoPane);
+        this.recyclerView.setAdapter(this.recyclerViewAdapter);
+    }
+
+    private void stopRefreshLayout() {
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public static class DoneOrderRecyclerViewAdapter extends RecyclerView.Adapter<DoneOrderRecyclerViewAdapter.ViewHolder> {
