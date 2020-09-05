@@ -66,8 +66,7 @@ public class OpeningDateTimeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 
         View viewRoot = inflater.inflate(R.layout.fragment_opening_date_time, parent, false);
 

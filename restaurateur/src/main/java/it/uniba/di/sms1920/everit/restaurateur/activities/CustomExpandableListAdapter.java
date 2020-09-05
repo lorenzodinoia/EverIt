@@ -73,13 +73,21 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
                 confirm.setOnClickListener(v1 -> {
-                    if(Utility.isValidProductName(newName.getText().toString(), newNameLayout, context)){
-                        if(Utility.isValidProductDescription(newDescription.getText().toString(), newDescriptionLayout, context)){
-                            if(Utility.isValidProductPrice(Float.parseFloat(newPrice.getText().toString()), newPriceLayout, context)){
+                    String name = newName.getText().toString();
+                    String description = null;
+                    float price = Float.parseFloat(newPrice.getText().toString());
+
+                    if(!newDescription.getText().toString().isEmpty()){
+                        description = newDescription.getText().toString();
+                    }
+
+                    if(Utility.isValidProductName(name, newNameLayout, context)){
+                        if(Utility.isValidProductDescription(description, newDescriptionLayout, context)){
+                            if(Utility.isValidProductPrice(price, newPriceLayout, context)){
                                 Product newProduct = new Product(
-                                        newName.getText().toString(),
-                                        Float.parseFloat(newPrice.getText().toString()),
-                                        newDescription.getText().toString(),
+                                        name,
+                                        price,
+                                        description,
                                         new ProductCategory(category.getId(), category.getName()),
                                         null
                                 );
@@ -131,14 +139,22 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 MaterialButton cancel = dialogModItem.findViewById(R.id.BtnCancel);
 
                 confirm.setOnClickListener(v1 -> {
-                    if(Utility.isValidProductName(newName.getText().toString(), newNameLayout, context)){
-                        if(Utility.isValidProductDescription(newDescription.getText().toString(), newDescriptionLayout, context)){
-                            if(Utility.isValidProductPrice(Float.parseFloat(newPrice.getText().toString()), newPriceLayout, context)){
+                    String name = newName.getText().toString();
+                    String description = null;
+                    float price = Float.parseFloat(newPrice.getText().toString());
+
+                    if(!newDescription.getText().toString().isEmpty()){
+                        description = newDescription.getText().toString();
+                    }
+
+                    if(Utility.isValidProductName(name, newNameLayout, context)){
+                        if(Utility.isValidProductDescription(description, newDescriptionLayout, context)){
+                            if(Utility.isValidProductPrice(price, newPriceLayout, context)){
                                 Product temp = new Product(
                                         product.getId(),
-                                        newName.getText().toString(),
-                                        Float.parseFloat(newPrice.getText().toString()),
-                                        newDescription.getText().toString(),
+                                        name,
+                                        price,
+                                        description,
                                         new ProductCategory(category.getId(), category.getName()),
                                         null);
 

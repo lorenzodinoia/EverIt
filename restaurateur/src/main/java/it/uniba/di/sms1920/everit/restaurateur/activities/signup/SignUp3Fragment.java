@@ -65,8 +65,7 @@ public class SignUp3Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up3, container, false);
 
         editTextEmailContainer = viewRoot.findViewById(R.id.editTextEmailContainerSignUp);

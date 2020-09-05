@@ -196,17 +196,16 @@ public final class Utility {
 
     }
 
-    public static boolean isValidProductDescription(String name, TextInputLayout layout, Context context){
-        if(name.length() > 2){
-            if(name.length()  <= 50){
-                return  true;
-            }else {
+    public static boolean isValidProductDescription(String name, TextInputLayout layout, Context context) {
+        if (name != null) {
+            if (name.length() <= 50) {
+                return true;
+            } else {
                 layout.setError(context.getString(R.string.error_value_long));
                 return false;
             }
-        }else {
-            layout.setError(context.getString(R.string.error_value_short));
-            return false;
+        } else {
+            return true;
         }
     }
 

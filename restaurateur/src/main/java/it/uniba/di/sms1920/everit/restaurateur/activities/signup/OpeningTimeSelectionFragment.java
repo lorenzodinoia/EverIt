@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.restaurateur.activities.signup;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -28,7 +30,6 @@ public class OpeningTimeSelectionFragment extends Fragment {
     private SignUpActivity signUpActivity;
     private OpeningDateTimeFragment openingDateTimeFragment;
     private Restaurateur.Builder restaurateurBuilder;
-    private TextView textViewErrorOpeningTimes;
     private MaterialButton btnNext;
     private MaterialButton btnBack;
 
@@ -50,11 +51,9 @@ public class OpeningTimeSelectionFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_opening_time_selection, container, false);
 
-        textViewErrorOpeningTimes = viewRoot.findViewById(R.id.textViewErrorOpeningTimes);
         btnBack = viewRoot.findViewById(R.id.buttonBackOpeningTime);
         btnNext = viewRoot.findViewById(R.id.btnNextOpeningTime);
 
@@ -73,7 +72,6 @@ public class OpeningTimeSelectionFragment extends Fragment {
             signUpActivity.getSupportFragmentManager().popBackStack();
         });
         btnNext.setOnClickListener(view -> {
-            textViewErrorOpeningTimes.setText("");
             boolean valid = false;
             for(OpeningDay day : restaurateurBuilder.getOpeningDays()){
                 if(day.getOpeningTimes().size() > 1){
@@ -91,8 +89,7 @@ public class OpeningTimeSelectionFragment extends Fragment {
                 fragmentTransaction1.replace(R.id.containerSignUp, signUp3Fragment).addToBackStack(null).commit();
             }
             else{
-                textViewErrorOpeningTimes.setText(R.string.error_not_selected_opening_time);
-                textViewErrorOpeningTimes.setTextColor(Color.parseColor("#ae0022"));
+                promptErrorMessage(getString(R.string.error_not_selected_opening_time));
             }
 
         });
@@ -113,15 +110,28 @@ public class OpeningTimeSelectionFragment extends Fragment {
         super.onDetach();
     }
 
-    /*@Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-    }*/
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(ARG_RESTAURATEUR, restaurateurBuilder);
+    }
+
+
+    private void promptErrorMessage(String message){
+        Dialog dialog = new Dialog(signUpActivity);
+        dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+        TextView title = dialog.findViewById(R.id.textViewTitle);
+        title.setText(it.uniba.di.sms1920.everit.utils.R.string.error);
+
+        TextView textViewMessage = dialog.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
+
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 }

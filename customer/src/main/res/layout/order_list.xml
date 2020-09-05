@@ -4,7 +4,9 @@
     android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <androidx.recyclerview.widget.RecyclerView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/order_list"
         android:name="it.uniba.di.sms1920.everit.customer.activitiesOrderListFragment"
@@ -16,4 +18,5 @@
         app:layoutManager="LinearLayoutManager"
         tools:context="it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity"
         tools:listitem="@layout/order_list_content" />
+
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -39,7 +39,7 @@
     <string name="pickup_address">Pickup address</string>
     <string name="deliver_address">Deliver address</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="label_proposal">Proposal</string>
     <string name="label_assigned_orders">Assigned orders</string>
     <string name="label_deliveries">Deliveries</string>
