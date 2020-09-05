@@ -94,8 +94,8 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
         }
         catch (JSONException e) {
             e.printStackTrace();
+            requestListener.errorResponse(new RequestException(null, ""));
             return;
-            //TODO Gestire eccezione
         }
 
         ArrayRequest request = new ArrayRequest(Request.Method.GET, serverUrl, jsonObject,
@@ -127,7 +127,7 @@ public final class RestaurateurRequest extends CRUDRequest<Restaurateur> impleme
                 response -> {
                     requestListener.successResponse(response.toString());
                 },
-                error -> RequestExceptionFactory.createExceptionFromError(error));
+                RequestExceptionFactory::createExceptionFromError);
         //Creating image bitmap and convert it into bytes array
         Bitmap bmp = null;
         try {
