@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.chip.Chip;
 import com.squareup.picasso.Picasso;
@@ -58,6 +59,8 @@ public class OrderListActivity extends AppCompatActivity {
 
     private TextView textViewEmptyOrders;
     private OrderRecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +95,16 @@ public class OrderListActivity extends AppCompatActivity {
             this.twoPaneMode = true;
         }
 
+        this.swipeRefreshLayout = findViewById(R.id.swipeContainer);
+        this.swipeRefreshLayout.setOnRefreshListener(this::loadData);
         this.textViewEmptyOrders = findViewById(R.id.textViewEmptyOrderHistoryCustomer);
-        View recyclerView = findViewById(R.id.order_list);
-        this.setupRecyclerView((RecyclerView) recyclerView);
+        this.recyclerView = findViewById(R.id.order_list);
+        this.setupRecyclerView();
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupRecyclerView() {
         this.recyclerViewAdapter = new OrderRecyclerViewAdapter(this, orderList, twoPaneMode);
-        recyclerView.setAdapter(this.recyclerViewAdapter);
+        this.recyclerView.setAdapter(this.recyclerViewAdapter);
     }
 
     private void loadData() {
@@ -107,6 +112,7 @@ public class OrderListActivity extends AppCompatActivity {
         orderRequest.readAll(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
+                stopRefreshLayout();
                 orderList.clear();
                 if(!response.isEmpty()) {
                     textViewEmptyOrders.setVisibility(View.INVISIBLE);
@@ -124,9 +130,16 @@ public class OrderListActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
+                stopRefreshLayout();
                 promptErrorMessage(error.getMessage());
             }
         });
+    }
+
+    private void stopRefreshLayout() {
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -136,8 +149,6 @@ public class OrderListActivity extends AppCompatActivity {
                 finish();
                 break;
             }
-
-
             case R.id.goTo_cart: {
                 if (Providers.getAuthProvider().getUser() != null) {
                     Intent cartIntent = new Intent(getApplicationContext(), CartActivity.class);
