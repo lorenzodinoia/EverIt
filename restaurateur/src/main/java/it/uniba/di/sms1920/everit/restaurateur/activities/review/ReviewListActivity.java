@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -39,7 +40,9 @@ public class ReviewListActivity extends AppCompatActivity {
     private boolean mTwoPane;
     public static final List<Review> reviewList = new ArrayList<>();
     private TextView textViewEmptyDataReviewRestaurateur;
-    private View recyclerView;
+    private RecyclerView recyclerView;
+    private ReviewRecyclerViewAdapter recyclerViewAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,38 +59,17 @@ public class ReviewListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        this.swipeRefreshLayout = findViewById(R.id.swipeContainer);
+        this.swipeRefreshLayout.setOnRefreshListener(this::loadData);
         textViewEmptyDataReviewRestaurateur = findViewById(R.id.textViewEmptyDataReviewRestaurateur);
         recyclerView = findViewById(R.id.review_list);
-        assert recyclerView != null;
-
+        setupRecyclerView();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        ReviewRequest reviewRequest = new ReviewRequest();
-        reviewRequest.readRestaurateurReviews(new RequestListener<Collection<Review>>() {
-            @Override
-            public void successResponse(Collection<Review> response) {
-                reviewList.clear();
-                if(!response.isEmpty()){
-                    textViewEmptyDataReviewRestaurateur.setVisibility(View.INVISIBLE);
-                    reviewList.addAll(response);
-                }
-                else{
-                    textViewEmptyDataReviewRestaurateur.setVisibility(View.VISIBLE);
-                    textViewEmptyDataReviewRestaurateur.setText(R.string.empty_review);
-                }
-
-                setupRecyclerView((RecyclerView) recyclerView);
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
+        this.loadData();
     }
 
     public static Review getReviewById(long id) {
@@ -103,10 +85,10 @@ public class ReviewListActivity extends AppCompatActivity {
         return review;
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new ReviewRecyclerViewAdapter(this, reviewList, mTwoPane));
+    private void setupRecyclerView() {
+        this.recyclerViewAdapter = new ReviewRecyclerViewAdapter(this, reviewList, mTwoPane);
+        this.recyclerView.setAdapter(this.recyclerViewAdapter);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -115,6 +97,40 @@ public class ReviewListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadData() {
+        ReviewRequest reviewRequest = new ReviewRequest();
+        reviewRequest.readRestaurateurReviews(new RequestListener<Collection<Review>>() {
+            @Override
+            public void successResponse(Collection<Review> response) {
+                stopRefreshLayout();
+                reviewList.clear();
+                if(!response.isEmpty()) {
+                    textViewEmptyDataReviewRestaurateur.setVisibility(View.INVISIBLE);
+                    reviewList.addAll(response);
+                }
+                else {
+                    textViewEmptyDataReviewRestaurateur.setVisibility(View.VISIBLE);
+                    textViewEmptyDataReviewRestaurateur.setText(R.string.empty_review);
+                }
+                if (recyclerViewAdapter != null) {
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void errorResponse(RequestException error) {
+                stopRefreshLayout();
+                promptErrorMessage(error.getMessage());
+            }
+        });
+    }
+
+    private void stopRefreshLayout() {
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public static class ReviewRecyclerViewAdapter
