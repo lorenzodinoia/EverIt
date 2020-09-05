@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.squareup.picasso.Picasso;
 
@@ -46,6 +47,8 @@ public class ReviewListActivity extends AppCompatActivity {
     private ReviewRecyclerViewAdapter recyclerViewAdapter;
     public final ArrayList<Review> reviewList = new ArrayList<>();
     private TextView textViewEmptyReview;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +93,9 @@ public class ReviewListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupRecyclerView() {
         this.recyclerViewAdapter = new ReviewRecyclerViewAdapter(this, reviewList, twoPaneMode);
-        recyclerView.setAdapter(this.recyclerViewAdapter);
+        this.recyclerView.setAdapter(this.recyclerViewAdapter);
     }
 
     private void initUi() {
@@ -112,9 +115,11 @@ public class ReviewListActivity extends AppCompatActivity {
             twoPaneMode = true;
         }
 
+        this.swipeRefreshLayout = findViewById(R.id.swipeContainer);
+        this.swipeRefreshLayout.setOnRefreshListener(this::loadData);
         this.textViewEmptyReview = findViewById(R.id.textViewEmptyReviewCustomer);
-        View recyclerView = findViewById(R.id.review_list);
-        this.setupRecyclerView((RecyclerView) recyclerView);
+        this.recyclerView = findViewById(R.id.review_list);
+        this.setupRecyclerView();
     }
 
     private void loadData() {
@@ -122,6 +127,7 @@ public class ReviewListActivity extends AppCompatActivity {
         reviewRequest.readCustomerReviews(new RequestListener<Collection<Review>>() {
             @Override
             public void successResponse(Collection<Review> response) {
+                stopRefreshLayout();
                 reviewList.clear();
                 if(!response.isEmpty()) {
                     textViewEmptyReview.setVisibility(View.INVISIBLE);
@@ -140,9 +146,16 @@ public class ReviewListActivity extends AppCompatActivity {
 
             @Override
             public void errorResponse(RequestException error) {
+                stopRefreshLayout();
                 promptErrorMessage(error.getMessage());
             }
         });
+    }
+
+    private void stopRefreshLayout() {
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private void promptErrorMessage(String message) {
