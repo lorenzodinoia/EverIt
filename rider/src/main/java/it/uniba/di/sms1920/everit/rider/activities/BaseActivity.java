@@ -43,7 +43,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             backgroundLocationService = IBackgroundLocationService.Stub.asInterface(service);
-
         }
 
         @Override
@@ -74,7 +73,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStop() {
         super.onStop();
-        this.unbindService(this.serviceConnection);
+        if (this.backgroundLocationService != null) {
+            this.unbindService(this.serviceConnection);
+        }
     }
 
     private void init() {

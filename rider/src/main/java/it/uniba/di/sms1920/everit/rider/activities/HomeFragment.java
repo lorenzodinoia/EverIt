@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPe
     @Override
     public void onStop() {
         super.onStop();
-        if (context != null) {
+        if ((context != null) && (this.backgroundLocationService != null)) {
             context.unbindService(this.serviceConnection);
         }
     }

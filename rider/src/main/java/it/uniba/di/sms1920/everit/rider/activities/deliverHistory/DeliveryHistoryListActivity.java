@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -40,9 +41,11 @@ import java.util.Objects;
 public class DeliveryHistoryListActivity extends AppCompatActivity {
 
     private TextView textViewEmptyDeliveredOrders;
-    private View recyclerView;
     private boolean mTwoPane;
     private List<Order> deliveryList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private DeliveryHistoryRecyclerViewAdapter recyclerViewAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,43 +63,56 @@ public class DeliveryHistoryListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
+        this.swipeRefreshLayout = findViewById(R.id.swipeContainer);
+        this.swipeRefreshLayout.setOnRefreshListener(this::loadData);
         textViewEmptyDeliveredOrders = findViewById(R.id.textViewEmptyDeliveredOrders);
         recyclerView = findViewById(R.id.deliveryhistory_list);
-        assert recyclerView != null;
-
+        setupRecyclerView();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        this.loadData();
+    }
 
+    private void setupRecyclerView() {
+        this.recyclerViewAdapter = new DeliveryHistoryRecyclerViewAdapter(this, deliveryList, mTwoPane);
+        this.recyclerView.setAdapter(this.recyclerViewAdapter);
+    }
+
+    private void loadData() {
         RiderRequest riderRequest = new RiderRequest();
         riderRequest.readDeliveredOrders(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
+                stopRefreshLayout();
                 deliveryList.clear();
-                if(response.isEmpty()){
+                if (response.isEmpty()) {
                     textViewEmptyDeliveredOrders.setVisibility(View.VISIBLE);
                     textViewEmptyDeliveredOrders.bringToFront();
                 }
-                else{
+                else {
+                    textViewEmptyDeliveredOrders.setVisibility(View.INVISIBLE);
                     deliveryList.addAll(response);
-                    setupRecyclerView((RecyclerView) recyclerView);
                 }
-
-                setupRecyclerView((RecyclerView) recyclerView);
+                if (recyclerViewAdapter != null) {
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void errorResponse(RequestException error) {
+                stopRefreshLayout();
                 promptErrorMessage(error.getMessage());
             }
         });
-
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new DeliveryHistoryRecyclerViewAdapter(this, deliveryList, mTwoPane));
+    private void stopRefreshLayout() {
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public static class DeliveryHistoryRecyclerViewAdapter extends RecyclerView.Adapter<DeliveryHistoryRecyclerViewAdapter.ViewHolder> {
