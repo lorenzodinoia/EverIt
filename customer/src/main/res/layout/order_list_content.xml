@@ -27,9 +27,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Nome Negozio"
                 app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewLabelOrderNumber"
+                style="@style/TextViewVerySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewRestaurateur"
+                android:text="@string/order_number_label"
+                android:textColor="@color/greyAccent"/>
+
 
             <TextView
                 android:id="@+id/textViewOrderNumber"
@@ -37,13 +50,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/greyAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewRestaurateur"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelOrderNumber"
+                app:layout_constraintVertical_bias="1.0" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipListCustomerOrders"
@@ -157,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="18dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@mipmap/icon" />

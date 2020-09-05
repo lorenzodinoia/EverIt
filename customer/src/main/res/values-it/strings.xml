@@ -150,4 +150,5 @@
     <string name="hint_delivery_notes">es: pagherò con una banconota da 50</string>
     <string name="description_home_delivery">Scegli l\'orario che preferisci, al resto ci penseremo noi. Buon appetito!</string>
     <string name="description_take_away">Il tuo ordine sarà pronto per l\'orario selezionato, dovrai solo passare a ritirarlo!</string>
+    <string name="order_number_label">Numero ordine</string>
 </resources>

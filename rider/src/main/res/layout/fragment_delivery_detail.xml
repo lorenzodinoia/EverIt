@@ -14,7 +14,6 @@
     tools:context=".activities.works.delivery.DeliveryDetailActivity">
 
 
-
     <LinearLayout
         android:id="@+id/linearLayoutCustomerName"
         android:layout_width="0dp"
@@ -45,14 +44,27 @@
 
     </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/textViewOrderNumberDeliverLabel"
+        style="@style/TextViewSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_order_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustomerName" />
+
+
     <TextView
         android:id="@+id/textViewOrderNumberDeliver"
         style="@style/TextViewSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewOrderNumberDeliverLabel"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustomerName" />
 
     <LinearLayout

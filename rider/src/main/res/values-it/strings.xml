@@ -46,7 +46,7 @@
     <string name="label_delivery_notes">Note per la consegna</string>
     <string name="pickup_button">Ritira l\'ordine</string>
     <string name="deliver_button">Consegna l\'ordine</string>
-    <string name="label_order_number">Ordine N°</string>
+    <string name="label_order_number">Numero ordine</string>
     <string name="order_withdrawn">Ordine ritirato</string>
     <string name="order_withdrawn_explanation">Ora puoi consegnare l\'ordine all\'indirizzo specificato</string>
 
