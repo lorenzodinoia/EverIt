@@ -47,36 +47,6 @@ public class WorksActivity extends AppCompatActivity {
 
         viewPager.setAdapter(deliveriesPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Fragment selectedTab = deliveriesPagerAdapter.getItem(tab.getPosition());
-                //TODO Verificare
-                /*if (selectedTab instanceof DataBinder) {
-                    ((DataBinder) selectedTab).refreshData();
-                }*/
-                /*
-                if (selectedTab instanceof ProposalsFragment) {
-                    ProposalsFragment fragment = (ProposalsFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
-                    fragment.loadData();
-                }
-                else if (selectedTab instanceof AssignedOrdersFragment) {
-                    AssignedOrdersFragment fragment = (AssignedOrdersFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
-                    fragment.loadData();
-                }
-                else {
-                    DeliveriesFragment fragment = (DeliveriesFragment) deliveriesPagerAdapter.getItem(tab.getPosition());
-                    fragment.loadData();
-                }
-                 */
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
-        });
     }
 
     @Override

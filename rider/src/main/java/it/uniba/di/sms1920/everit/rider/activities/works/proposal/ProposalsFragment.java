@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ public class ProposalsFragment extends Fragment {
     private ProposalRecyclerViewAdapter proposalRecyclerViewAdapter;
     private List<Proposal> proposalList = new ArrayList<>();
     private TextView textViewEmpty;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public ProposalsFragment() {
         // Required empty public constructor
@@ -61,6 +63,8 @@ public class ProposalsFragment extends Fragment {
     private void initUi(View view) {
         this.proposalRecyclerView = view.findViewById(R.id.proposal_list);
         this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
+        this.swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
+        this.swipeRefreshLayout.setOnRefreshListener(this::loadData);
         this.setupRecyclerView();
     }
 
@@ -74,6 +78,7 @@ public class ProposalsFragment extends Fragment {
         proposalRequest.readAll(new RequestListener<Collection<Proposal>>() {
             @Override
             public void successResponse(Collection<Proposal> response) {
+                stopRefreshLayout();
                 proposalList.clear();
                 proposalList.addAll(response);
                 if (proposalRecyclerViewAdapter == null) {
@@ -92,12 +97,19 @@ public class ProposalsFragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
+                stopRefreshLayout();
                 Context context = getContext();
                 if (context != null) {
                     Utility.showGenericMessage(context, error.getMessage());
                 }
             }
         });
+    }
+
+    private void stopRefreshLayout() {
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public static class ProposalRecyclerViewAdapter extends RecyclerView.Adapter<ProposalRecyclerViewAdapter.ViewHolder> {

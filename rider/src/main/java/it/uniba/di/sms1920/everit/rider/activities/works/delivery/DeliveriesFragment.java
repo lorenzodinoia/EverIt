@@ -1,6 +1,5 @@
 package it.uniba.di.sms1920.everit.rider.activities.works.delivery;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,12 +24,9 @@ import java.util.List;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
-import it.uniba.di.sms1920.everit.rider.activities.works.proposal.ProposalsFragment;
 import it.uniba.di.sms1920.everit.utils.Constants;
-import it.uniba.di.sms1920.everit.utils.DataBinder;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
-import it.uniba.di.sms1920.everit.utils.models.Proposal;
 import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
@@ -42,6 +37,7 @@ public class DeliveriesFragment extends Fragment {
     private DeliveryRecyclerViewAdapter deliveriesRecyclerViewAdapter;
     private List<Order> deliveryList = new ArrayList<>();
     private TextView textViewEmpty;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public DeliveriesFragment() {
         // Required empty public constructor
@@ -69,6 +65,8 @@ public class DeliveriesFragment extends Fragment {
     private void initComponents(View view) {
         this.deliveriesRecyclerView = view.findViewById(R.id.proposal_list);
         this.textViewEmpty = view.findViewById(R.id.textViewEmpty);
+        this.swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
+        this.swipeRefreshLayout.setOnRefreshListener(this::loadData);
         this.setupRecyclerView();
     }
 
@@ -77,40 +75,12 @@ public class DeliveriesFragment extends Fragment {
         this.deliveriesRecyclerView.setAdapter(this.deliveriesRecyclerViewAdapter);
     }
 
-    /*@Override
-    public void refreshData() {
+    public void loadData() {
         RiderRequest riderRequest = new RiderRequest();
         riderRequest.readDeliveries(new RequestListener<Collection<Order>>() {
             @Override
             public void successResponse(Collection<Order> response) {
-                deliveryList = new ArrayList<>(response);
-                if (deliveriesRecyclerViewAdapter == null) {
-                    setupRecyclerView();
-                }
-                else {
-                    deliveriesRecyclerViewAdapter.notifyDataSetChanged();
-                }
-                if (deliveryList.size() > 0) {
-                    textViewEmpty.setVisibility(View.INVISIBLE);
-                }
-                else {
-                    textViewEmpty.setVisibility(View.VISIBLE);
-                    textViewEmpty.setText(R.string.delivery_empty_placeholder);
-                }
-            }
-
-            @Override
-            public void errorResponse(RequestException error) {
-                promptErrorMessage(error.getMessage());
-            }
-        });
-    }*/
-
-    public void loadData(){
-        RiderRequest riderRequest = new RiderRequest();
-        riderRequest.readDeliveries(new RequestListener<Collection<Order>>() {
-            @Override
-            public void successResponse(Collection<Order> response) {
+                stopRefreshLayout();
                 deliveryList.clear();
                 deliveryList.addAll(response);
                 if (deliveriesRecyclerViewAdapter == null) {
@@ -130,12 +100,19 @@ public class DeliveriesFragment extends Fragment {
 
             @Override
             public void errorResponse(RequestException error) {
+                stopRefreshLayout();
                 Context context = getContext();
                 if (context != null) {
                     Utility.showGenericMessage(context, error.getMessage());
                 }
             }
         });
+    }
+
+    private void stopRefreshLayout() {
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public static class DeliveryRecyclerViewAdapter extends RecyclerView.Adapter<DeliveryRecyclerViewAdapter.ViewHolder> {

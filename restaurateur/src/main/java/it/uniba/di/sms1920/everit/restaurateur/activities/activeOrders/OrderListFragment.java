@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ public class OrderListFragment extends Fragment {
     private OrderRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView recyclerView;
     private TextView textViewEmptyData;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public OrderListFragment() {
         // Required empty public constructor
@@ -55,6 +57,7 @@ public class OrderListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setRetainInstance(true);
         Bundle arguments = getArguments();
         if ((arguments != null) && (arguments.containsKey(ARG_ORDER_TYPE))) {
             this.orderType = arguments.getInt(ARG_ORDER_TYPE);
@@ -86,6 +89,8 @@ public class OrderListFragment extends Fragment {
         if (view.findViewById(R.id.order_detail_container) != null) {
             this.twoPaneMode = true;
         }
+        this.swipeRefreshLayout = view.findViewById(R.id.swipeContainer);
+        this.swipeRefreshLayout.setOnRefreshListener(this::loadData);
         this.recyclerView = view.findViewById(R.id.order_list);
         this.textViewEmptyData = view.findViewById(R.id.textViewEmptyDataActiveOrders);
         this.setupRecyclerView();
@@ -102,11 +107,13 @@ public class OrderListFragment extends Fragment {
             orderRequest.readPendingOrders(new RequestListener<Collection<Order>>() {
                 @Override
                 public void successResponse(Collection<Order> response) {
+                    stopRefreshLayout();
                     setupData(response);
                 }
 
                 @Override
                 public void errorResponse(RequestException error) {
+                    stopRefreshLayout();
                     Context context = getContext();
                     if (context != null) {
                         Utility.showGenericMessage(context, error.getMessage());
@@ -119,10 +126,12 @@ public class OrderListFragment extends Fragment {
                 @Override
                 public void successResponse(Collection<Order> response) {
                     setupData(response);
+                    stopRefreshLayout();
                 }
 
                 @Override
                 public void errorResponse(RequestException error) {
+                    stopRefreshLayout();
                     Context context = getContext();
                     if (context != null) {
                         Utility.showGenericMessage(context, error.getMessage());
@@ -149,6 +158,12 @@ public class OrderListFragment extends Fragment {
         }
         if (this.recyclerViewAdapter != null) {
             this.recyclerViewAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void stopRefreshLayout() {
+        if (this.swipeRefreshLayout != null) {
+            this.swipeRefreshLayout.setRefreshing(false);
         }
     }
 
