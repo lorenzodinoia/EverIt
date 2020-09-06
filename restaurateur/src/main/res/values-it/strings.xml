@@ -76,7 +76,7 @@
 
     <string name="not_confirmed">Non confermato</string>
     <string name="to_do">Da preparare</string>
-    <string name="order_number_label">Numero ordine</string>
+    <string name="order_number_label">Numero ordine:</string>
     <string name="order_delivery_time_label">Orario consegna</string>
     <string name="delivery_cost_label">Costo consegna</string>
     <string name="subtotal_price_label">SubTotale</string>

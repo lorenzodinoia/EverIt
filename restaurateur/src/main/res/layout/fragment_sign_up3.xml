@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -87,12 +88,15 @@
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="32dp"
             android:background="#c0c0c0"
+            app:layout_constraintBottom_toTopOf="@+id/buttonSignUpAll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextConfirmPasswordContainerSignUp" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextConfirmPasswordContainerSignUp"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/buttonSignUpAll"
@@ -100,13 +104,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="50dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/btn_bg"
             android:text="@string/signup"
+            app:layout_constraintBottom_toTopOf="@+id/buttonBack2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/buttonBack2"
@@ -114,28 +118,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_bg"
             android:text="@string/back"
             app:layout_constraintBottom_toTopOf="@+id/textViewInfo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonSignUpAll"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textViewInfo"
             style="@style/TextMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/signup_part_4"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonBack2" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

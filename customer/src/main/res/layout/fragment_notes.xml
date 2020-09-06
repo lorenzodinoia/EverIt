@@ -6,12 +6,12 @@
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/cart_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/cardOrderNotes"
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -74,10 +74,10 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/materialCardView"
             android:layout_width="0dp"
             android:layout_height="250dp"
@@ -142,8 +142,8 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </ScrollView>

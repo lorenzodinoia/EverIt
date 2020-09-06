@@ -47,7 +47,7 @@
     <string name="label_delivery_notes">Delivery notes</string>
     <string name="pickup_button">Pickup the order</string>
     <string name="deliver_button">Deliver the order</string>
-    <string name="label_order_number">Order number</string>
+    <string name="label_order_number">Order number:</string>
     <string name="order_withdrawn">Order withdrawn</string>
     <string name="order_withdrawn_explanation">Now you can deliver the order to the specified address</string>
 

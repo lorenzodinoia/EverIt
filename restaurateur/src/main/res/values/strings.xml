@@ -58,7 +58,7 @@
 
     <string name="not_confirmed">Not confirmed</string>
     <string name="to_do">To do</string>
-    <string name="order_number_label">Order number</string>
+    <string name="order_number_label">Order number:</string>
     <string name="order_delivery_time_label">Delivery time</string>
     <string name="delivery_cost_label">Delivery cost</string>
     <string name="subtotal_price_label">SubTotal price</string>
