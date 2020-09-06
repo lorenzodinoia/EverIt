@@ -103,7 +103,12 @@ public class Cart {
     }
 
     public boolean isEmpty() {
-        return (this.partialOrder == null);
+        if (this.partialOrder == null) {
+            return true;
+        }
+        else {
+            return (this.partialOrder.getProducts().size() == 0);
+        }
     }
 
     public PartialOrder initPartialOrderFor(Restaurateur restaurateur, Address deliveryAddress) {
