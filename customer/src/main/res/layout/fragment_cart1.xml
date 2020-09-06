@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="@string/delivery_address"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -123,36 +123,33 @@
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
             android:text="@string/currency_type"
-            app:layout_constraintBottom_toTopOf="@+id/textViewSymbol2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view6"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <TextView
             android:id="@+id/textViewSymbol2"
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="32dp"
             android:text="@string/currency_type"
-            app:layout_constraintBottom_toTopOf="@+id/textViewSymbol3"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSymbol" />
 
         <TextView
             android:id="@+id/textViewSymbol3"
             style="@style/TextViewLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="32dp"
             android:text="@string/currency_type"
-            app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSymbol2" />
 
         <View
             android:id="@+id/view6"
@@ -172,14 +169,11 @@
             style="@style/TextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
             android:text="@string/sub_total"
-            app:layout_constraintBottom_toTopOf="@+id/LabelDeliveryCost"
             app:layout_constraintEnd_toStartOf="@+id/textViewSubTotal"
-            app:layout_constraintTop_toBottomOf="@+id/view6"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
 
         <TextView
@@ -187,58 +181,53 @@
             style="@style/TextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="36dp"
             android:text="@string/delivey_cost"
-            app:layout_constraintBottom_toTopOf="@+id/labelTotalPrice"
-            app:layout_constraintEnd_toStartOf="@+id/textViewDeliveryCost" />
+            app:layout_constraintEnd_toStartOf="@+id/textViewDeliveryCost"
+            app:layout_constraintTop_toBottomOf="@+id/LabelSubTotal" />
 
         <TextView
             android:id="@+id/labelTotalPrice"
             style="@style/TextViewLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="32dp"
             android:text="@string/total"
-            app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
-            app:layout_constraintEnd_toStartOf="@+id/textViewTotalPrice" />
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalPrice"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryCost" />
 
         <TextView
             android:id="@+id/textViewSubTotal"
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="16dp"
             android:text=""
-            app:layout_constraintBottom_toTopOf="@+id/textViewDeliveryCost"
             app:layout_constraintEnd_toStartOf="@+id/textViewSymbol"
-            app:layout_constraintTop_toBottomOf="@+id/view6"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <TextView
             android:id="@+id/textViewDeliveryCost"
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="32dp"
-            android:text=""
-            app:layout_constraintBottom_toTopOf="@+id/textViewTotalPrice"
-            app:layout_constraintEnd_toStartOf="@+id/textViewSymbol2" />
+            app:layout_constraintEnd_toStartOf="@+id/textViewSymbol2"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSubTotal" />
 
         <TextView
             android:id="@+id/textViewTotalPrice"
             style="@style/TextViewLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="32dp"
-            android:text=""
-            app:layout_constraintBottom_toTopOf="@+id/buttonContinueOrder"
-            app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3" />
+            app:layout_constraintEnd_toStartOf="@+id/textViewSymbol3"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryCost" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonEmptyOrder"
@@ -246,7 +235,7 @@
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/btn_bg"
@@ -255,7 +244,7 @@
             app:layout_constraintEnd_toStartOf="@+id/buttonContinueOrder"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:layout_constraintTop_toBottomOf="@id/labelTotalPrice"
             app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.button.MaterialButton
@@ -263,12 +252,15 @@
             style="@style/ButtonMain"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/btn_bg"
             android:text="@string/Continue"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTotalPrice"
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

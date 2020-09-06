@@ -34,7 +34,6 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
     private CartConnector cartConnector;
     private List<ProductCategory> expandableListDetail;
 
-    private Map<ProductCategory, Integer> localQuantityMap;
 
     public CustomExpandibleMenuAdapter(Context context, CartConnector cartConnector, List<ProductCategory> expandableListDetail) {
         this.context = context;
@@ -148,13 +147,11 @@ public class CustomExpandibleMenuAdapter extends BaseExpandableListAdapter {
 
 
     private void removeEmptyGroups(){
-
         for(ProductCategory it: new ArrayList<>(expandableListDetail)){
             if(it.getProducts().isEmpty()){
                 expandableListDetail.remove(it);
             }
         }
-
         notifyDataSetChanged();
     }
 }
