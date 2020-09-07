@@ -42,8 +42,8 @@ public final class RequestExceptionFactory {
                         throw new JSONException("No JSON");
                     }
                     JSONObject jsonResponse = new JSONObject(errorBody);
-                    if (jsonResponse.has(DEFAULT_MESSAGE_KEY)) {
-                        errorMessage = jsonResponse.getString(DEFAULT_MESSAGE_KEY);
+                        if (jsonResponse.has(DEFAULT_MESSAGE_KEY)) {
+                            errorMessage = jsonResponse.getString(DEFAULT_MESSAGE_KEY);
                     }
                 }
                 catch (Exception e) {
