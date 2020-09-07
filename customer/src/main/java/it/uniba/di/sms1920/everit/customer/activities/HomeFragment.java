@@ -35,6 +35,7 @@ public class HomeFragment extends Fragment {
 
     private void initComponent(View viewRoot){
         editTextSearch = viewRoot.findViewById(R.id.editTextSearch);
+        editTextSearch.requestFocus();
         buttonSearch = viewRoot.findViewById(R.id.btnSearch);
 
         buttonSearch.setOnClickListener(view -> {

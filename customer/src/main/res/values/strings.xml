@@ -108,7 +108,8 @@
     <string name="delivery_notes">Delivery notes</string>
     <string name="Back">Back</string>
     <string name="empty_cart_message">It looks like your cart is empty! You must select some products before proceeding!</string>
-    <string name="delivery_address">Delivery address:</string>
+    <string name="delivery_address_double_dots">Delivery address:</string>
+    <string name="delivery_address">Delivery address</string>
     <string name="sub_total">Sub-total:</string>
     <string name="total">Total</string>
     <string name="DeleteCart">Delete cart</string>

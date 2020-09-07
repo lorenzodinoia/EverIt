@@ -111,7 +111,7 @@ public class OrderDetailFragment extends Fragment {
         textViewOrderNumber.setText("#"+order.getId());
         if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
             textViewOrderType.setText(R.string.home_delivery);
-            labelDeliveryAddress.setText(R.string.delivery_address);
+            labelDeliveryAddress.setText(R.string.delivery_address_double_dots);
             textViewDeliveryAddress.setText(order.getDeliveryAddress().getFullAddress());
             labelDeliveryDate.setText(R.string.delivery_date_label);
         }

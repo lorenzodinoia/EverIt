@@ -42,7 +42,8 @@
     <string name="delivery_notes">Note sulla consegna</string>
     <string name="Back">Indietro</string>
     <string name="empty_cart_message">Sembra che il tuo carrello sia vuoto! Devi selezionare dei prodotti prima di poter procedere!</string>
-    <string name="delivery_address">Indirizzo di consegna:</string>
+    <string name="delivery_address_double_dots">Indirizzo di consegna:</string>
+    <string name="delivery_address">Indirizzo di consegna</string>
     <string name="sub_total">Sub-totale:</string>
     <string name="total">Totale</string>
 
