@@ -2,6 +2,7 @@ package it.uniba.di.sms1920.everit.customer.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.utils.Utility;
@@ -37,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText editTextPhoneNumber;
     private TextInputEditText editTextMail;
     private TextInputEditText editTextPassword;
-    private MaterialCardView cardViewHintRegex;
+    private CardView cardViewHintRegex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
