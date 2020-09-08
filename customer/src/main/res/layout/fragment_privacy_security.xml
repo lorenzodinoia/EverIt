@@ -8,6 +8,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutPrivacySecurity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -59,6 +60,36 @@
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewHintPasswordEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:animateLayoutChanges="true"
+            android:backgroundTint="@color/lightGreyAccent"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNewPasswordContainer">
+
+            <TextView
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Password regex format:\n * Min 8 car, max 16 char \n * fnsjdnfsdf"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.cardview.widget.CardView>
+
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -76,7 +107,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNewPasswordContainer" >
+            app:layout_constraintTop_toBottomOf="@+id/cardViewHintPasswordEdit" >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPasswordConfirm"

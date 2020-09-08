@@ -8,6 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -40,6 +43,9 @@ public class PrivacySecurityFragment extends Fragment {
     private static final String SAVED_CUSTOMER = "saved.customer";
 
     private ScrollView scrollViewPrivacySecurity;
+    private CardView cardViewHintPasswordEdit;
+    private ConstraintLayout constraintLayoutPrivacySecurity;
+    private ConstraintSet constraintSet = new ConstraintSet();
     private Customer customer;
     private AppCompatActivity parentActivity;
     private TextInputEditText editTextOldPassword;
@@ -102,7 +108,9 @@ public class PrivacySecurityFragment extends Fragment {
             }
         }
 
+        constraintLayoutPrivacySecurity = view.findViewById(R.id.constraintLayoutPrivacySecurity);
         scrollViewPrivacySecurity = view.findViewById(R.id.scrollViewPrivacySecurity);
+        cardViewHintPasswordEdit = view.findViewById(R.id.cardViewHintPasswordEdit);
 
         editTextOldPassword = view.findViewById(R.id.editTextOldPassword);
         editTextOldPasswordContainer = view.findViewById(R.id.editTextOldPasswordContainer);
@@ -116,7 +124,16 @@ public class PrivacySecurityFragment extends Fragment {
         editTextNewPasswordContainer = view.findViewById(R.id.editTextNewPasswordContainer);
         editTextNewPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus){
+                constraintSet.clone(constraintLayoutPrivacySecurity);
+                constraintSet.connect(R.id.editTextPasswordConfirm, ConstraintSet.TOP, R.id.cardViewHintPasswordEdit, ConstraintSet.BOTTOM, 30);
+                constraintSet.applyTo(constraintLayoutPrivacySecurity);
+                cardViewHintPasswordEdit.setVisibility(View.VISIBLE);
                 focusOnView(editTextNewPassword);
+            }
+            else{
+                cardViewHintPasswordEdit.setVisibility(View.GONE);
+                constraintSet.clone(constraintLayoutPrivacySecurity);
+                constraintSet.connect(R.id.editTextPasswordConfirm, ConstraintSet.TOP, R.id.editTextPassword, ConstraintSet.BOTTOM, 30);
             }
         });
 
