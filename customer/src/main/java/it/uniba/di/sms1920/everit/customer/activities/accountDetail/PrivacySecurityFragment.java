@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class PrivacySecurityFragment extends Fragment {
     public static final String ITEM = "item";
     private static final String SAVED_CUSTOMER = "saved.customer";
 
+    private ScrollView scrollViewPrivacySecurity;
     private Customer customer;
     private AppCompatActivity parentActivity;
     private TextInputEditText editTextOldPassword;
@@ -100,14 +102,31 @@ public class PrivacySecurityFragment extends Fragment {
             }
         }
 
+        scrollViewPrivacySecurity = view.findViewById(R.id.scrollViewPrivacySecurity);
+
         editTextOldPassword = view.findViewById(R.id.editTextOldPassword);
         editTextOldPasswordContainer = view.findViewById(R.id.editTextOldPasswordContainer);
+        editTextOldPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextOldPassword);
+            }
+        });
 
         editTextNewPassword = view.findViewById(R.id.editTextNewPassword);
         editTextNewPasswordContainer = view.findViewById(R.id.editTextNewPasswordContainer);
+        editTextNewPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextNewPassword);
+            }
+        });
 
         editTextPasswordConfirm = view.findViewById(R.id.editTextPasswordConfirm);
         editTextPasswordConfirmContainer = view.findViewById(R.id.editTextPasswordConfirmContainer);
+        editTextPasswordConfirm.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextPasswordConfirm);
+            }
+        });
 
         buttonChangePassword = view.findViewById(R.id.buttonChangePassword);
         buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
@@ -231,5 +250,9 @@ public class PrivacySecurityFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    private void focusOnView(View view){
+        scrollViewPrivacySecurity.post(() -> scrollViewPrivacySecurity.scrollTo(0, view.getBottom()));
     }
 }

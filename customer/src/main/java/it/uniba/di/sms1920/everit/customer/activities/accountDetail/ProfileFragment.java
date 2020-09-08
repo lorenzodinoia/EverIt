@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -38,6 +39,7 @@ public class ProfileFragment extends Fragment {
 
     private Customer customer;
 
+    private ScrollView scrollViewProfileFragment;
     private AppCompatActivity parentActivity;
     private TextInputEditText editTextName;
     private TextInputLayout editTextNameContainer;
@@ -105,17 +107,39 @@ public class ProfileFragment extends Fragment {
             }
         }
 
+        scrollViewProfileFragment = view.findViewById(R.id.scrollViewProfileFragment);
+
         editTextNameContainer = view.findViewById(R.id.editTextNameContainer);
         editTextName = view.findViewById(R.id.editTextName);
+        editTextName.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextName);
+            }
+        });
 
         editTextSurnameContainer = view.findViewById(R.id.editTextSurnameContainer);
         editTextSurname = view.findViewById(R.id.editTextSurname);
+        editTextSurname.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextSurname);
+            }
+        });
 
         editTextMailContainer = view.findViewById(R.id.editTextMailContainer);
         editTextMail =  view.findViewById(R.id.editTextMail);
+        editTextMail.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextMail);
+            }
+        });
 
         editTextPhoneContainer = view.findViewById(R.id.editTextPhoneContainer);
         editTextPhone= view.findViewById(R.id.editTextPhone);
+        editTextPhone.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextPhone);
+            }
+        });
 
         buttonEditConfirm = view.findViewById(R.id.buttonEditConfirm);
     }
@@ -239,6 +263,10 @@ public class ProfileFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    private void focusOnView(View view){
+        scrollViewProfileFragment.post(() -> scrollViewProfileFragment.scrollTo(0, view.getBottom()));
     }
 }
 
