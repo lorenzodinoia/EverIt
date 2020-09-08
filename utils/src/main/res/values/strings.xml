@@ -59,4 +59,5 @@
 
     <string name="validation_code_digit_placeholder" translatable="false">0</string>
 
+    <string name="password_regex_hint"></string>
 </resources>

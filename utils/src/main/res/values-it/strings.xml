@@ -50,5 +50,5 @@
     <string name="error_email">Formato email errato</string>
 
     <!-- <string name="firebase_notification_channel_name">Notifiche via server</string>-->
-
+    <string name="password_regex_hint"></string>
 </resources>

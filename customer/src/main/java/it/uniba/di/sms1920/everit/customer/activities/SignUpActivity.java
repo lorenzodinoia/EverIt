@@ -15,11 +15,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -35,6 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText editTextPhoneNumber;
     private TextInputEditText editTextMail;
     private TextInputEditText editTextPassword;
+    private MaterialCardView cardViewHintRegex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +69,15 @@ public class SignUpActivity extends AppCompatActivity {
         editTextMail =  findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextMail);
         TextInputLayout editTextMailContainer = findViewById(R.id.editTextMailContainer);
 
+        cardViewHintRegex = findViewById(R.id.cardViewHintPassword);
+
         editTextPassword = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPassword);
         TextInputLayout editTextPasswordContainer = findViewById(R.id.editTextPasswordContainer);
+        editTextPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                cardViewHintRegex.setVisibility(View.VISIBLE);
+            }
+        });
 
         editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
         TextInputLayout editTextPhoneContainer = findViewById(R.id.editTextPhoneContainer);
