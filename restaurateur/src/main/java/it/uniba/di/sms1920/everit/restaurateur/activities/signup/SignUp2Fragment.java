@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,6 +29,7 @@ public class SignUp2Fragment extends Fragment {
     private SignUpActivity signUpActivity;
     private Restaurateur.Builder restaurateurBuilder;
 
+    private ScrollView scrollViewSignUpFragment2;
     private TextInputEditText editTextMaxDeliveryPerTimeSlot;
     private TextInputLayout editTextMaxDeliveryPerTimeSlotContainer;
     private TextInputEditText editTextDeliveryCost;
@@ -52,12 +54,32 @@ public class SignUp2Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up2, parent, false);
 
+        scrollViewSignUpFragment2 = viewRoot.findViewById(R.id.scrollViewSignUpFragment2);
+
         editTextMaxDeliveryPerTimeSlotContainer = viewRoot.findViewById(R.id.editTextNumDeliveryPerTimeSlotContainer);
         editTextMaxDeliveryPerTimeSlot = viewRoot.findViewById(R.id.editTextNumDeliveryPerTimeSlot);
+        editTextMaxDeliveryPerTimeSlot.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextMaxDeliveryPerTimeSlot);
+            }
+        });
+
         editTextDeliveryCostContainer = viewRoot.findViewById(R.id.editTextDeliveryCostContainer);
         editTextDeliveryCost = viewRoot.findViewById(R.id.editTextDeliveryCost);
+        editTextDeliveryCost.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextDeliveryCost);
+            }
+        });
+
         editTextMinPriceContainer = viewRoot.findViewById(R.id.editTextMinPriceContainer);
         editTextMinPrice = viewRoot.findViewById(R.id.editTextMinPrice);
+        editTextMinPrice.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextMinPrice);
+            }
+        });
+
         btnBack = viewRoot.findViewById(R.id.buttonBack);
         btnContinue = viewRoot.findViewById(R.id.buttonContinue);
 
@@ -198,6 +220,10 @@ public class SignUp2Fragment extends Fragment {
         if (context instanceof SignUpActivity) {
             signUpActivity = (SignUpActivity) context;
         }
+    }
+
+    private void focusOnView(View view){
+        scrollViewSignUpFragment2.post(() -> scrollViewSignUpFragment2.scrollTo(0, view.getBottom()));
     }
 
 

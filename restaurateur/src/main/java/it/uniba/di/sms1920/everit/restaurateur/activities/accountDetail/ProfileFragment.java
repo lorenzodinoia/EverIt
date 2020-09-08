@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class ProfileFragment extends Fragment {
     private AccountDetailActivity mParent;
     private Restaurateur restaurateur;
 
+    private ScrollView scrollViewProfileInfo;
     private Spinner spinnerShopType;
     private SpinnerShopTypeAdapter spinnerShopTypeAdapter;
     private TextInputLayout editTextVATProfileContainer;
@@ -96,13 +98,39 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initUi(View view){
+        scrollViewProfileInfo = view.findViewById(R.id.scrollViewProfileInfo);
+
         spinnerShopType = view.findViewById(R.id.spinnerShopTypeProfile);
+        spinnerShopType.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(spinnerShopType);
+            }
+        });
+
         editTextVATProfileContainer = view.findViewById(R.id.editTextVATProfileContainer);
         editTextVATProfile = view.findViewById(R.id.editTextVATProfile);
+        editTextVATProfile.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextVATProfile);
+            }
+        });
+
         editTextPhoneNumberProfileContainer = view.findViewById(R.id.editTextPhoneNumberProfileContainer);
         editTextPhoneNumberProfile = view.findViewById(R.id.editTextPhoneNumberProfile);
+        editTextPhoneNumberProfile.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextPhoneNumberProfile);
+            }
+        });
+
         editTextAddressProfileContainer = view.findViewById(R.id.editTextAddressProfileContainer);
         editTextAddressProfile = view.findViewById(R.id.editTextAddressProfile);
+        editTextAddressProfile.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextAddressProfile);
+            }
+        });
+
         buttonEditConfirm = view.findViewById(R.id.buttonEditConfirm);
     }
 
@@ -273,5 +301,9 @@ public class ProfileFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(ARG_RESTAURATEUR, restaurateur);
+    }
+
+    private void focusOnView(View view){
+        scrollViewProfileInfo.post(() -> scrollViewProfileInfo.scrollTo(0, view.getBottom()));
     }
 }

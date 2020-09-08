@@ -4,12 +4,15 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,6 +30,9 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class SignUpActivity extends AppCompatActivity {
+
+    private ScrollView scrollViewSignUp;
+    private CardView cardViewHintPassword;
 
     private TextInputEditText editTextName;
     private TextInputEditText editTextSurname;
@@ -59,20 +65,52 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        editTextMail = findViewById(R.id.editTextMail);
+        scrollViewSignUp = findViewById(R.id.scrollViewSignUp);
+        cardViewHintPassword = findViewById(R.id.cardViewHintPassword);
+
         TextInputLayout editTextMailContainer = findViewById(R.id.editTextMailContainer);
+        editTextMail = findViewById(R.id.editTextMail);
+        editTextMail.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextMail);
+            }
+        });
 
-        editTextPassword = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPassword);
         TextInputLayout editTextPasswordContainer = findViewById(R.id.editTextPasswordContainer);
+        editTextPassword = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPassword);
+        editTextPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                cardViewHintPassword.setVisibility(View.VISIBLE);
+                focusOnView(editTextPassword);
+            }
+            else{
+                cardViewHintPassword.setVisibility(View.GONE);
+            }
+        });
 
-        editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
         TextInputLayout editTextPhoneContainer = findViewById(R.id.editTextPhoneContainer);
+        editTextPhoneNumber = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPhone);
+        editTextPhoneNumber.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextPhoneNumber);
+            }
+        });
 
-        editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
         TextInputLayout editTextNameContainer = findViewById(R.id.editTextNameContainer);
+        editTextName = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextName);
+        editTextName.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextName);
+            }
+        });
 
-        editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
         TextInputLayout editTextSurnameContainer = findViewById(R.id.editTextSurnameContainer);
+        editTextSurname = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextSurname);
+        editTextSurname.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextSurname);
+            }
+        });
 
         MaterialButton buttonLogin = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonLogin);
         buttonLogin.setOnClickListener(view -> launchLoginActivity());
@@ -145,6 +183,10 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void focusOnView(View view){
+        scrollViewSignUp.post(() -> scrollViewSignUp.scrollTo(0, view.getBottom()));
     }
 
 }

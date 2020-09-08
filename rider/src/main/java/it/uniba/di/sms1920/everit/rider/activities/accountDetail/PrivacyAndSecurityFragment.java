@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,9 @@ public class PrivacyAndSecurityFragment extends Fragment {
 
     private AccountDetailActivity mParent;
     private Rider rider;
+
+    private ScrollView scrollViewPrivacyAndSecurity;
+    private CardView cardViewHintPasswordPrivacyAndSecurity;
 
     private TextInputEditText editTextOldPassword;
     private TextInputLayout editTextOldPasswordContainer;
@@ -83,14 +88,36 @@ public class PrivacyAndSecurityFragment extends Fragment {
     }
 
     private void initUi(View view){
-        editTextOldPassword = view.findViewById(R.id.editTextOldPassword);
+        scrollViewPrivacyAndSecurity = view.findViewById(R.id.scrollViewPrivacyAndSecurity);
+        cardViewHintPasswordPrivacyAndSecurity = view.findViewById(R.id.cardViewHintPasswordPrivacyAndSecurity);
+
         editTextOldPasswordContainer = view.findViewById(R.id.editTextOldPasswordContainer);
+        editTextOldPassword = view.findViewById(R.id.editTextOldPassword);
+        editTextOldPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextOldPassword);
+            }
+        });
 
-        editTextNewPassword = view.findViewById(R.id.editTextNewPassword);
         editTextNewPasswordContainer = view.findViewById(R.id.editTextNewPasswordContainer);
+        editTextNewPassword = view.findViewById(R.id.editTextNewPassword);
+        editTextNewPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                cardViewHintPasswordPrivacyAndSecurity.setVisibility(View.VISIBLE);
+                focusOnView(editTextNewPassword);
+            }
+            else{
+                cardViewHintPasswordPrivacyAndSecurity.setVisibility(View.GONE);
+            }
+        });
 
-        editTextPasswordConfirm = view.findViewById(R.id.editTextPasswordConfirm);
         editTextPasswordConfirmContainer = view.findViewById(R.id.editTextPasswordConfirmContainer);
+        editTextPasswordConfirm = view.findViewById(R.id.editTextPasswordConfirm);
+        editTextPasswordConfirm.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextPasswordConfirm);
+            }
+        });
 
         buttonChangePassword = view.findViewById(R.id.buttonChangePassword);
         buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount);
@@ -230,5 +257,9 @@ public class PrivacyAndSecurityFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(AccountDetailActivity.ARG_RIDER, rider);
+    }
+
+    private void focusOnView(View view){
+        scrollViewPrivacyAndSecurity.post(() -> scrollViewPrivacyAndSecurity.scrollTo(0, view.getBottom()));
     }
 }

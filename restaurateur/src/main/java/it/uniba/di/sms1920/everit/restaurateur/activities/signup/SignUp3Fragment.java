@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -33,6 +37,9 @@ public class SignUp3Fragment extends Fragment {
 
     private SignUpActivity signUpActivity;
     private  Restaurateur.Builder restaurateurBuilder;
+
+    private ScrollView scrollViewSignUpFragment3;
+    private CardView cardViewHintPasswordSignUpFragment3;
 
     private TextInputLayout editTextEmailContainer;
     private TextInputEditText editTextEmail;
@@ -68,12 +75,37 @@ public class SignUp3Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_sign_up3, container, false);
 
+        scrollViewSignUpFragment3 = viewRoot.findViewById(R.id.scrollViewSignUpFragment3);
+        cardViewHintPasswordSignUpFragment3 = viewRoot.findViewById(R.id.cardViewHintPasswordSignUpFragment3);
+
         editTextEmailContainer = viewRoot.findViewById(R.id.editTextEmailContainerSignUp);
         editTextEmail = viewRoot.findViewById(R.id.editTextEmailSignUp);
+        editTextEmail.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextEmail);
+            }
+        });
+
         editTextPasswordContainer = viewRoot.findViewById(R.id.editTextPasswordContainerSignUp);
         editTextPassword = viewRoot.findViewById(R.id.editTextPasswordSignUp);
+        editTextPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                cardViewHintPasswordSignUpFragment3.setVisibility(View.VISIBLE);
+                focusOnView(editTextPassword);
+            }
+            else{
+                cardViewHintPasswordSignUpFragment3.setVisibility(View.GONE);
+            }
+        });
+
         editTextConfirmPasswordContainer = viewRoot.findViewById(R.id.editTextConfirmPasswordContainerSignUp);
         editTextConfirmPassword = viewRoot.findViewById(R.id.editTextConfirmPasswordSignUp);
+        editTextConfirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextConfirmPassword);
+            }
+        });
+
         btnBack = viewRoot.findViewById(R.id.buttonBack2);
         btnSignUp = viewRoot.findViewById(R.id.buttonSignUpAll);
 
@@ -177,4 +209,10 @@ public class SignUp3Fragment extends Fragment {
 
         outState.putParcelable(ARG_RESTAURATEUR, restaurateurBuilder);
     }
+
+
+    private void focusOnView(View view){
+        scrollViewSignUpFragment3.post(() -> scrollViewSignUpFragment3.scrollTo(0, view.getBottom()));
+    }
+
 }

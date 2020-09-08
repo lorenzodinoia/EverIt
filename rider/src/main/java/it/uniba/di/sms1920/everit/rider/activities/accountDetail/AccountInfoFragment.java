@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class AccountInfoFragment extends Fragment {
 
     private AccountDetailActivity mParent;
     private Rider rider;
+
+    private ScrollView scrollViewAccountInfo;
     private TextInputEditText editTextName;
     private TextInputLayout editTextNameContainer;
     private TextInputEditText editTextSurname;
@@ -169,14 +172,40 @@ public class AccountInfoFragment extends Fragment {
     }
 
     private void initUi(View viewRoot){
+        scrollViewAccountInfo = viewRoot.findViewById(R.id.scrollViewAccountInfo);
+
         editTextNameContainer = viewRoot.findViewById(R.id.editTextNameContainer);
         editTextName = viewRoot.findViewById(R.id.editTextName);
+        editTextName.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextName);
+            }
+        });
+
         editTextSurnameContainer = viewRoot.findViewById(R.id.editTextSurnameContainer);
         editTextSurname = viewRoot.findViewById(R.id.editTextSurname);
+        editTextSurname.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextSurname);
+            }
+        });
+
         editTextMailContainer = viewRoot.findViewById(R.id.editTextMailContainer);
         editTextMail = viewRoot.findViewById(R.id.editTextMail);
+        editTextMail.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextMail);
+            }
+        });
+
         editTextPhoneContainer = viewRoot.findViewById(R.id.editTextPhoneContainer);
         editTextPhone = viewRoot.findViewById(R.id.editTextPhone);
+        editTextPhone.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextPhone);
+            }
+        });
+
         buttonEditConfirm = viewRoot.findViewById(R.id.buttonEditConfirm);
     }
 
@@ -211,5 +240,9 @@ public class AccountInfoFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(AccountDetailActivity.ARG_RIDER, rider);
+    }
+
+    private void focusOnView(View view){
+        scrollViewAccountInfo.post(() -> scrollViewAccountInfo.scrollTo(0, view.getBottom()));
     }
 }

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class SignUp1Fragment extends Fragment {
     private SignUpActivity signUpActivity;
     private Restaurateur.Builder restaurateurBuilder;
 
+    private ScrollView scrollViewSignUpFragment1;
     private TextInputLayout editTextShopNameContainer;
     private TextInputEditText editTextShopName;
 
@@ -143,18 +145,43 @@ public class SignUp1Fragment extends Fragment {
     }
 
     private void initComponent(View viewRoot) {
+        scrollViewSignUpFragment1 = viewRoot.findViewById(R.id.scrollViewSignUpFragment1);
+
         editTextPhoneNumberContainer = viewRoot.findViewById(R.id.editTextPhoneNumberContainer);
         editTextPhoneNumber = viewRoot.findViewById(R.id.editTextPhoneNumber);
+        editTextPhoneNumber.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextPhoneNumber);
+            }
+        });
+
         editTextShopNameContainer = viewRoot.findViewById(R.id.editTextShopNameContainer);
         editTextShopName = viewRoot.findViewById(R.id.editTextShopName);
+        editTextShopName.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextShopName);
+            }
+        });
+
         editTextVATContainer = viewRoot.findViewById(R.id.editTextVATContainer);
         editTextVAT = viewRoot.findViewById(R.id.editTextVAT);
+        editTextVAT.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextVAT);
+            }
+        });
+
         editTextAddressContainer = viewRoot.findViewById(R.id.editTextAddressContainer);
         editTextAddress = viewRoot.findViewById(R.id.editTextAddress);
+        editTextAddress.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                focusOnView(editTextAddress);
+            }
+        });
+
         textViewEmptyShopType = viewRoot.findViewById(R.id.textViewEmptyShopType);
         btnNext = viewRoot.findViewById(R.id.btnNext);
         spinnerShopType = viewRoot.findViewById(R.id.spinnerShopType);
-
     }
 
     private void initData(){
@@ -303,5 +330,9 @@ public class SignUp1Fragment extends Fragment {
 
         shopTypes.remove(0);
         outState.putParcelableArrayList(ARG_SHOP_TYPES, shopTypes);
+    }
+
+    private void focusOnView(View view){
+        scrollViewSignUpFragment1.post(() -> scrollViewSignUpFragment1.scrollTo(0, view.getBottom()));
     }
 }
