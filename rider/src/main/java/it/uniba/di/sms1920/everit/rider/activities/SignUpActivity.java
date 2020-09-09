@@ -39,6 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText editTextPhoneNumber;
     private TextInputEditText editTextMail;
     private TextInputEditText editTextPassword;
+    private TextInputEditText editTextPasswordConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        /*
-        if(savedInstanceState == null) {
-            this.initComponents();
-        }
 
-         */
         this.initComponents();
     }
 
@@ -115,6 +111,14 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        TextInputLayout editTextPasswordConfirmContainer = findViewById(R.id.editTextPasswordConfirmContainer);
+        editTextPasswordConfirm = findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextPasswordConfirm);
+        editTextPasswordConfirm.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                focusOnView(editTextPasswordConfirm);
+            }
+        });
+
         MaterialButton buttonLogin = this.findViewById(it.uniba.di.sms1920.everit.utils.R.id.buttonLogin);
         buttonLogin.setOnClickListener(view -> launchLoginActivity());
 
@@ -125,31 +129,36 @@ public class SignUpActivity extends AppCompatActivity {
             String phone = editTextPhoneNumber.getText().toString();
             String email = editTextMail.getText().toString();
             String password = editTextPassword.getText().toString();
-
+            //TODO Sistemare sto if innestato
             if(Utility.isNameValid(name, editTextNameContainer, this)){
                 if(Utility.isSurnameValid(surname, editTextSurnameContainer, this)){
                     if(Utility.isPhoneValid(phone, editTextPhoneContainer, this)){
                         if(Utility.isEmailValid(email)) {
                             if(Utility.isPasswordValid(password)) {
-                                try {
-                                    Rider newRider = new Rider.RiderBuilder(name, surname, phone, email)
-                                            .setPassword(password)
-                                            .build();
-                                    RiderRequest customerRequest = new RiderRequest();
-                                    customerRequest.create(newRider, new RequestListener<Rider>() {
-                                        @Override
-                                        public void successResponse(Rider response) {
-                                            Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
-                                            launchLoginActivity();
-                                        }
+                                if(password.equals(editTextPasswordConfirm.getText().toString())) {
+                                    try {
+                                        Rider newRider = new Rider.RiderBuilder(name, surname, phone, email)
+                                                .setPassword(password)
+                                                .build();
+                                        RiderRequest customerRequest = new RiderRequest();
+                                        customerRequest.create(newRider, new RequestListener<Rider>() {
+                                            @Override
+                                            public void successResponse(Rider response) {
+                                                Toast.makeText(getApplicationContext(), R.string.account_created, Toast.LENGTH_LONG).show();
+                                                launchLoginActivity();
+                                            }
 
-                                        @Override
-                                        public void errorResponse(RequestException error) {
-                                            promptErrorMessage(error.getMessage());
-                                        }
-                                    });
-                                } catch (InvalidPropertiesFormatException e) {
-                                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                            @Override
+                                            public void errorResponse(RequestException error) {
+                                                promptErrorMessage(error.getMessage());
+                                            }
+                                        });
+                                    } catch (InvalidPropertiesFormatException e) {
+                                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                else {
+                                    editTextPasswordConfirmContainer.setError(getString(R.string.password_confirm_wrong));
                                 }
                             }else{
                                 editTextPasswordContainer.setError(getString(R.string.error_password));

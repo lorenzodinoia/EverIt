@@ -152,4 +152,5 @@
     <string name="description_home_delivery">Scegli l\'orario che preferisci, al resto ci penseremo noi. Buon appetito!</string>
     <string name="description_take_away">Il tuo ordine sarà pronto per l\'orario selezionato, dovrai solo passare a ritirarlo!</string>
     <string name="order_number_label">Numero ordine</string>
+    <string name="password_confirm_wrong">La conferma della password non corrisponde</string>
 </resources>

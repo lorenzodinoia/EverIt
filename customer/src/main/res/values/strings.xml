@@ -166,4 +166,5 @@
     <string name="description_home_delivery">Choose the time you prefer, we will take care of the rest. Enjoy!</string>
     <string name="description_take_away">Your order will be ready for the selected time, you just have to pick it up!</string>
     <string name="order_number_label">Order number</string>
+    <string name="password_confirm_wrong">Password confirm doesn\'t matches</string>
 </resources>

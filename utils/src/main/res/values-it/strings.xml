@@ -20,6 +20,7 @@
     <string name="confirm">Conferma</string>
     <string name="emailError">Email errata !</string>
     <string name="passwordError">Password errata !</string>
+    <string name="confirm_password">Conferma password</string>
 
     <string name="monday">Lunedi</string>
     <string name="tuesday">Martedi</string>
