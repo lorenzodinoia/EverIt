@@ -54,10 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        if(savedInstanceState == null){
-            this.initComponents();
-        }
-
+        this.initComponents();
     }
 
     @Override
@@ -68,10 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO dopo la rotazione non compare più la cardview
-
     private void initComponents() {
-
         scrollViewSignUp = findViewById(it.uniba.di.sms1920.everit.utils.R.id.scrollViewSignUp);
 
         editTextMail =  findViewById(it.uniba.di.sms1920.everit.utils.R.id.editTextMail);
@@ -197,11 +191,7 @@ public class SignUpActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
-
     private void focusOnView(View view){
         scrollViewSignUp.post(() -> scrollViewSignUp.scrollTo(0, view.getBottom()));
     }
-
-
 }

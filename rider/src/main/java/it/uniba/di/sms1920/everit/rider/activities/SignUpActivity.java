@@ -50,10 +50,13 @@ public class SignUpActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        /*
         if(savedInstanceState == null) {
             this.initComponents();
         }
+
+         */
+        this.initComponents();
     }
 
     @Override
