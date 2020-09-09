@@ -59,5 +59,10 @@
 
     <string name="validation_code_digit_placeholder" translatable="false">0</string>
 
-    <string name="password_regex_hint"></string>
+    <string name="password_regex_hint">Password must have at least:
+                                            \n\t-one uppercase letter
+                                            \n\t-one lowercase letter
+                                            \n\t-one digit
+                                            \n\t-one special character
+                                            \n\t-min 8 and max 16 characters</string>
 </resources>

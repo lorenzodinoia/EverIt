@@ -68,6 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //TODO dopo la rotazione non compare più la cardview
 
     private void initComponents() {
 

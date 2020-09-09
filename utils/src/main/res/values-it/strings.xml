@@ -49,6 +49,12 @@
 
     <string name="error_email">Formato email errato</string>
 
+    <!--TODO rimuovere?-->
     <!-- <string name="firebase_notification_channel_name">Notifiche via server</string>-->
-    <string name="password_regex_hint"></string>
+    <string name="password_regex_hint">La password deve avere almeno:
+                                            \n\t-una lettera maiuscola
+                                            \n\t-una lettera minuscola
+                                            \n\t-un numero
+                                            \n\t-un carattere speciale
+                                            \n\t-minimo 8 e massimo 16 caratteri</string>
 </resources>

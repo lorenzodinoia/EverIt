@@ -150,7 +150,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextPasswordContainer">
 
                 <TextView
-                    style="@style/TextViewSmall"
+                    style="@style/TextViewVerySmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
