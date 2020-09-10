@@ -70,7 +70,7 @@ public class RiderNotificationService extends FirebaseMessagingService {
         }
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, this.getApplicationContext().getString(R.string.notification_channel_id))
-                .setSmallIcon(it.uniba.di.sms1920.everit.utils.R.mipmap.icon_round)
+                .setSmallIcon(it.uniba.di.sms1920.everit.utils.R.mipmap.ic_rider_round)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
