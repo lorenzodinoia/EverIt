@@ -12,5 +12,6 @@
     <color name="colorDisabled">#AFAEAE</color>
     <color name="veryLightGreyAccent">#FAF7F7</color>
     <color name="blackValue">#000000</color>
+    <color name="colorIconAccent">#ffc106</color>
 
 </resources>
