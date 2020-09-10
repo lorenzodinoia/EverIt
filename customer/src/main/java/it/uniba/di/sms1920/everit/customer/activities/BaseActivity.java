@@ -53,7 +53,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerView = navigationView.inflateHeaderView(it.uniba.di.sms1920.everit.utils.R.layout.nav_view_header);
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_view_header);
 
         if(Providers.getAuthProvider().getUser() != null){
             navigationView.inflateMenu(R.menu.drawer_view);
