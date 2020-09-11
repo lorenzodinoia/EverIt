@@ -1,6 +1,7 @@
 package it.uniba.di.sms1920.everit.rider;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
 
 public class DeliverOrderActivity extends AppCompatActivity {
+    public static final int REQUEST_CODE = 0;
     public static final String ARG_ITEM = "item";
     private static final String SAVED_ORDER = "saved.order";
     public static final String MIME_TEXT_PLAIN = "text/plain";
@@ -214,6 +216,7 @@ public class DeliverOrderActivity extends AppCompatActivity {
             public void successResponse(Boolean response) {
                 if(response) {
                     Toast.makeText(DeliverOrderActivity.this, R.string.delivered, Toast.LENGTH_LONG).show();
+                    setResult(Activity.RESULT_OK);
                     finish();
                 }
                 else {

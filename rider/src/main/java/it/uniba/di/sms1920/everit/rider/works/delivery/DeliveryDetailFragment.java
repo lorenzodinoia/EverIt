@@ -1,10 +1,12 @@
 package it.uniba.di.sms1920.everit.rider.works.delivery;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -128,7 +130,7 @@ public class DeliveryDetailFragment extends Fragment {
         this.buttonOrderDelivery.setOnClickListener(v -> {
             Intent deliverOrderIntent = new Intent(getContext(), DeliverOrderActivity.class);
             deliverOrderIntent.putExtra(DeliverOrderActivity.ARG_ITEM, this.delivery);
-            startActivity(deliverOrderIntent);
+            startActivityForResult(deliverOrderIntent, DeliverOrderActivity.REQUEST_CODE);
         });
     }
 
@@ -136,5 +138,16 @@ public class DeliveryDetailFragment extends Fragment {
         Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
         startActivity(mapIntent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == DeliverOrderActivity.REQUEST_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                getActivity().finish();
+            }
+        }
     }
 }
