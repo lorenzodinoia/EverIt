@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -160,6 +161,7 @@ public class SignUp3Fragment extends Fragment {
                     @Override
                     public void successResponse(Restaurateur response) {
                         getActivity().finishAffinity();
+                        Toast.makeText(context, R.string.account_created, Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(context, LoginActivity.class);
                         startActivity(intent);
                     }

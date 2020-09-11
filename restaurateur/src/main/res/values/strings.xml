@@ -35,8 +35,8 @@
 
     <string name="opening_time">Opening</string>
     <string name="closing_time">Closing</string>
-    <string name="title_opening_time_selection">Select your opening time</string>
-    <string name="title_closing_time_selection">Select your closing time</string>
+    <string name="title_opening_time_selection">Select your opening times</string>
+    <string name="title_closing_time_selection">Select your closing times</string>
     <string name="error_opening_time">Select opening time</string>
     <string name="error_closing_time">Select closing time</string>
     <string name="error_time_equal">Times must be different</string>
@@ -146,7 +146,7 @@
     <string name="VATnumber">VAT number</string>
     <string name="shopType">Shop type</string>
     <string name="city">City</string>
-    <string name="addNewCat">Add new category</string>
+    <string name="addNewCat">New category</string>
     <string name="newCategoryName">New category name</string>
     <string name="newProductDescription">New description</string>
     <string name="newProductPrice">New price</string>

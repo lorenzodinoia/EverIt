@@ -20,7 +20,7 @@
     <string name="VATnumber">VAT number</string>
     <string name="shopType">Tipo attività</string>
     <string name="city">Città</string>
-    <string name="addNewCat">Aggiungi nuova categoria</string>
+    <string name="addNewCat">Nuova categoria</string>
     <string name="newCategoryName">Nome nuova categoria</string>
     <string name="confirm">Conferma</string>
     <string name="close">Chiudi</string>
@@ -55,8 +55,8 @@
 
     <string name="opening_time">Apertura</string>
     <string name="closing_time">Chiusura</string>
-    <string name="title_opening_time_selection">Seleziona il tuo orario di apertura</string>
-    <string name="title_closing_time_selection">Seleziona il tuo orario di chiusura</string>
+    <string name="title_opening_time_selection">Seleziona i tuoi orari di apertura</string>
+    <string name="title_closing_time_selection">Seleziona i tuoi orari di chiusura</string>
     <string name="error_opening_time">Seleziona orario di apertura</string>
     <string name="error_closing_time">Seleziona orario di chiusura</string>
     <string name="error_time_equal">Gli orari devono essere diversi</string>
@@ -153,7 +153,7 @@
 
     <string name="message_pickup_time_dialog">Indica al tuo rider tra quanti minuti sarà pronto il suo ordine</string>
     <string name="home_delivery">Consegna domicilio</string>
-    <string name="optional_field">Campo opzionale</string>
+    <string name="optional_field">*Campo opzionale</string>
     <string name="account_edited">Account modificato</string>
 
     <string name="delivered">Consegnato</string>
