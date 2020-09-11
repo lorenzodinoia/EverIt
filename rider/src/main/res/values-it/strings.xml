@@ -39,9 +39,9 @@
     <string name="pickup_address">Indirizzo di ritiro</string>
     <string name="deliver_address">Indrizzo di consegna</string>
 
-    <string name="label_proposal">proposte</string>
-    <string name="label_assigned_orders">assegnati</string>
-    <string name="label_deliveries">da consegnare</string>
+    <string name="label_proposal">Proposte</string>
+    <string name="label_assigned_orders">Assegnati</string>
+    <string name="label_deliveries">Da consegnare</string>
     <string name="activity_my_works">I miei lavori</string>
     <string name="label_delivery_notes">Note per la consegna</string>
     <string name="pickup_button">Ritira l\'ordine</string>
