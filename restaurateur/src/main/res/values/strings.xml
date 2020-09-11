@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">EverIt Restaurateur</string>
+    <string name="app_name_restaurateur" translatable="false">EverIt Restaurateur</string>
     <string name="next">Next</string>
     <string name="shop_name">Shop name</string>
     <string name="piva">VAT Number</string>
