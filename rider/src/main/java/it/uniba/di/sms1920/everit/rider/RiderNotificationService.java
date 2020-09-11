@@ -15,8 +15,6 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
 
-import it.uniba.di.sms1920.everit.rider.activities.BaseActivity;
-import it.uniba.di.sms1920.everit.rider.activities.LauncherActivity;
 import it.uniba.di.sms1920.everit.utils.NotificationServiceUtility;
 import it.uniba.di.sms1920.everit.utils.provider.FirebaseTokenProvider;
 import it.uniba.di.sms1920.everit.utils.provider.Providers;

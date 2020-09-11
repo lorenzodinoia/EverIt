@@ -6,7 +6,7 @@
     app:startDestination="@+id/homeFragment">
 
     <fragment android:id="@+id/homeFragment"
-        android:name="it.uniba.di.sms1920.everit.rider.activities.HomeFragment"
+        android:name="it.uniba.di.sms1920.everit.rider.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home"/>
 

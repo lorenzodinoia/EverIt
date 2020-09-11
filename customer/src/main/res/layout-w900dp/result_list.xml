@@ -10,7 +10,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".activities.results.ResultListActivity">
+    tools:context=".results.ResultListActivity">
 
     <!--
     This layout is a two-pane layout for the Results master/detail flow.
@@ -25,7 +25,7 @@
         android:layout_marginRight="8dp"
         android:background="@android:color/transparent"
         app:layoutManager="LinearLayoutManager"
-        tools:context="it.uniba.di.sms1920.everit.customer.activities.results.ResultListActivity"
+        tools:context=".results.ResultListActivity"
         tools:listitem="@layout/result_list_content" />
 
     <FrameLayout

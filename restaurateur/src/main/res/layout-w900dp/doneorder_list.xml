@@ -10,7 +10,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".activities.orderHistory.DoneOrderListActivity">
+    tools:context=".orderHistory.DoneOrderListActivity">
 
     <!--
     This layout is a two-pane layout for the DoneOrders master/detail flow.
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context="it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity"
+        tools:context=".orderHistory.DoneOrderListActivity"
         tools:listitem="@layout/doneorder_list_content" />
 
     <FrameLayout

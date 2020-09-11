@@ -9,7 +9,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".activities.signup.OpeningTimeSelectionFragment">
+    tools:context=".signup.OpeningTimeSelectionFragment">
 
     <TextView
         android:id="@+id/textViewHintOpeningTimeSelection"

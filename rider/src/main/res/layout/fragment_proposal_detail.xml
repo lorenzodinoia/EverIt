@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    tools:context=".activities.works.proposal.ProposalDetailFragment">
+    tools:context=".works.proposal.ProposalDetailFragment">
 
     <TextView
         android:id="@+id/textViewRestaurateurName"
@@ -65,7 +65,7 @@
             android:id="@+id/imageViewRestaurateurAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/colorAccent"
+            app:tint="@color/colorAccent"
             app:srcCompat="@drawable/ic_shop_40px" />
 
         <TextView
@@ -107,7 +107,7 @@
             android:id="@+id/imageViewRestaurateurPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/colorAccent"
+            app:tint="@color/colorAccent"
             app:srcCompat="@drawable/ic_phone_40px" />
 
         <TextView
@@ -149,7 +149,7 @@
             android:id="@+id/imageViewAddressDeliver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/colorAccent"
+            app:tint="@color/colorAccent"
             app:srcCompat="@drawable/ic_customer_40px" />
 
         <TextView
@@ -190,7 +190,7 @@
             android:id="@+id/imageViewPickupTimeProposal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/colorAccent"
+            app:tint="@color/colorAccent"
             app:srcCompat="@drawable/ic_time_40px" />
 
         <TextView
@@ -229,7 +229,7 @@
             android:id="@+id/imageViewOrderLate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/colorWarning"
+            app:tint="@color/colorWarning"
             app:srcCompat="@drawable/ic_alert_40px" />
 
         <TextView

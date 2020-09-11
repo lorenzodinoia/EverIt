@@ -32,7 +32,7 @@
             android:name="com.here.android.maps.license.key"
             android:value="LmdmwoQEimQ+s9XmA6qx7wqDICXf7fvJ10Foha/sQ+yVUZ5yj3mQUOv1CJyIMBx9n2/WOS5mVRgUf1paQyKLpSxMI1kX1Trb4eSh/20vmRwpiCdbdzg83RidUlwlFrY24Dc8hvZk2QbyVGGRjl7eNnq7BM7P28GmjQ87tCasgvy0ibsz+iNVD1aA+wlCiy8JfCDjduI2t+OQvzsR/VdpF9VwDBypF8hgMU9N30fo/+TNdUPWKfv1Zvc+ej4QTMdDuHp0ldVDuVH7kle/NOoR5qOLOtmKZ0QPSrqPW6fijSJJ+FtCuC5kGc15K7OSD9z4h4N1yQh+nVQtluh0RHXup3KuJVZpFNao6+M2aBwgt0FLnDAoPjZMc8lxBpueC1s+v59lYkQFYIY6pG0OHDqQCdjrH4+IJ05lB56dcQy3AKGSOhrJmvLXREdb7EdmrqudzWIZBk2FptmNc5B6ICholHkF2X2BmDHmH7qgUgSIn7ZwmSq0NtpyEqaXrMutH46MnGSVqAWhm+IP428Vpqs/cEEyQkyUX1vxZi5e4h63oAx5GSEW/0id+U2pbu3tMJkNa5zN951jRG2fxZAlCZBI/l5Pf3CTPX85blKl9Hh7MQeGHjNP6YOSRcrj1jYVX9Fjv0B5b5ZQlVeL5vUOwdR2yhhmU5wZ7cIORrI4BDr1Zac=" />
 
-        <activity android:name=".activities.DeliverOrderActivity"
+        <activity android:name=".DeliverOrderActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -41,41 +41,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.review.ReviewListActivity"
+            android:name=".review.ReviewListActivity"
             android:label="@string/title_review_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.review.ReviewDetailActivity"
+            android:name=".review.ReviewDetailActivity"
             android:label="@string/title_review_detail"
-            android:parentActivityName=".activities.review.ReviewListActivity"
+            android:parentActivityName=".review.ReviewListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.uniba.di.sms1920.everit.restaurateur.activities.review.ReviewListActivity" />
+                android:value=".review.ReviewListActivity" />
         </activity>
         <activity
-            android:name=".activities.accountDetail.AccountDetailActivity"
+            android:name=".accountDetail.AccountDetailActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.openingTime.OpeningDateTimeActivity"
+            android:name=".openingTime.OpeningDateTimeActivity"
             android:label="@string/title_activity_opening_date_time"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.orderHistory.DoneOrderListActivity"
+            android:name=".orderHistory.DoneOrderListActivity"
             android:label="@string/title_doneorder_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.orderHistory.DoneOrderDetailActivity"
+            android:name=".orderHistory.DoneOrderDetailActivity"
             android:label="@string/title_doneorder_detail"
-            android:parentActivityName=".activities.orderHistory.DoneOrderListActivity"
+            android:parentActivityName=".orderHistory.DoneOrderListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.uniba.di.sms1920.everit.restaurateur.activities.orderHistory.DoneOrderListActivity" />
+                android:value=".orderHistory.DoneOrderListActivity" />
         </activity>
         <activity
-            android:name=".activities.activeOrders.OrderDetailActivity"
+            android:name=".activeOrders.OrderDetailActivity"
             android:label="@string/title_order_detail"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -85,10 +85,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AddressChooserActivity"
+            android:name=".AddressChooserActivity"
             android:label="@string/title_address_chooser" />
         <activity
-            android:name=".activities.LauncherActivity"
+            android:name=".LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -98,16 +98,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.MenuActivity"
+            android:name=".MenuActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.BaseActivity"
+            android:name=".BaseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.signup.SignUpActivity"
+            android:name=".signup.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data

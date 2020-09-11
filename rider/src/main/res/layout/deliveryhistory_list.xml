@@ -15,7 +15,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".activities.deliverHistory.DeliveryHistoryListActivity"
+        tools:context=".deliverHistory.DeliveryHistoryListActivity"
         tools:listitem="@layout/deliveryhistory_list_content" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

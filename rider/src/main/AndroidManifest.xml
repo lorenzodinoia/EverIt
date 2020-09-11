@@ -23,29 +23,29 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activities.deliverHistory.DeliveryHistoryListActivity"
+            android:name=".deliverHistory.DeliveryHistoryListActivity"
             android:label="@string/title_deliveryhistory_list"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activities.deliverHistory.DeliveryHistoryDetailActivity"
+            android:name=".deliverHistory.DeliveryHistoryDetailActivity"
             android:label="@string/title_deliveryhistory_detail"
-            android:parentActivityName=".activities.deliverHistory.DeliveryHistoryListActivity"
+            android:parentActivityName=".deliverHistory.DeliveryHistoryListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.uniba.di.sms1920.everit.rider.activities.deliverHistory.DeliveryHistoryListActivity" />
+                android:value=".deliverHistory.DeliveryHistoryListActivity" />
         </activity>
         <activity
-            android:name=".activities.accountDetail.AccountDetailActivity"
+            android:name=".accountDetail.AccountDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.works.delivery.DeliveryDetailActivity"
+            android:name=".works.delivery.DeliveryDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.works.assignedOrder.AssignedOrderDetailActivity"
+            android:name=".works.assignedOrder.AssignedOrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.works.proposal.ProposalDetailActivity"
+            android:name=".works.proposal.ProposalDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="everit.rider.proposal.detail" />
@@ -54,7 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.works.WorksActivity"
+            android:name=".works.WorksActivity"
             android:label="@string/activity_my_works"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -65,7 +65,7 @@
             android:process=":locationUpdatesService" />
 
         <activity
-            android:name=".activities.LauncherActivity"
+            android:name=".LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -75,16 +75,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.BaseActivity"
+            android:name=".BaseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.DeliverOrderActivity"
+            android:name=".DeliverOrderActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
 

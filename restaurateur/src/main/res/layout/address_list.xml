@@ -10,5 +10,5 @@
     android:layout_marginRight="8dp"
     android:background="@android:color/transparent"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".activities.AddressChooserActivity"
+    tools:context=".AddressChooserActivity"
     tools:listitem="@layout/address_list_content" />

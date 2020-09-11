@@ -16,7 +16,7 @@
         android:layout_marginRight="4dp"
         android:background="@android:color/transparent"
         app:layoutManager="LinearLayoutManager"
-        tools:context="it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity"
+        tools:context=".orders.OrderListActivity"
         tools:listitem="@layout/order_list_content" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

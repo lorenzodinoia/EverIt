@@ -29,7 +29,6 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
-import it.uniba.di.sms1920.everit.rider.activities.BaseActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.request.core.ObjectRequest;
 

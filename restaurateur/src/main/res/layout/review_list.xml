@@ -15,7 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".activities.review.ReviewListActivity"
+        tools:context=".review.ReviewListActivity"
         tools:listitem="@layout/review_list_content" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

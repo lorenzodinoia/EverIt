@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/greyAccent"
     android:backgroundTint="@color/greyAccent"
-    tools:context="it.uniba.di.sms1920.everit.customer.activities.orders.OrderListActivity">
+    tools:context=".orders.OrderListActivity">
 
 
     <include layout="@layout/toolbar_default"/>
