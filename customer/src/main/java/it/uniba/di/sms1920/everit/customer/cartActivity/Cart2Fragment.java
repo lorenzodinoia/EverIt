@@ -22,7 +22,7 @@ public class Cart2Fragment extends Fragment  {
     private Cart cart;
     private CartActivity mParent;
     private MaterialButton buttonNext, buttonBack;
-    private EditText editTextOrderNotes, editTextDeliveryNotes;
+    private EditText editTextOrderNotes;
 
 
     public Cart2Fragment() {
@@ -47,19 +47,16 @@ public class Cart2Fragment extends Fragment  {
 
     private void initComponent(View viewRoot){
         editTextOrderNotes = viewRoot.findViewById(R.id.editTextOrderNotes);
-        editTextDeliveryNotes = viewRoot.findViewById(R.id.editTextDeliveryNotes);
 
         buttonBack =  viewRoot.findViewById(R.id.buttonBackOrder);
         buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
         buttonNext = viewRoot.findViewById(R.id.buttonNextOrder);
         buttonNext.setOnClickListener(v -> {
-            if(Utility.isValidOrderNote(editTextOrderNotes.getText().toString(), editTextOrderNotes, getContext())){
-                if(Utility.isValidDeliveryNote(editTextDeliveryNotes.getText().toString(), editTextDeliveryNotes, getContext())){
-                    Cart3Fragment fragment3 = new Cart3Fragment();
-                    FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.containerCartFragment, fragment3).addToBackStack(null).commit();
-                }
+            if(Utility.isValidOrderNote(editTextOrderNotes.getText().toString(), editTextOrderNotes, mParent)){
+                Cart3Fragment fragment3 = new Cart3Fragment();
+                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.containerCartFragment, fragment3).addToBackStack(null).commit();
             }
 
         });
@@ -67,12 +64,10 @@ public class Cart2Fragment extends Fragment  {
 
     private void setupComponent(){
         editTextOrderNotes.setText(cart.getPartialOrder().getOrderNotes());
-        editTextDeliveryNotes.setText(cart.getPartialOrder().getDeliveryNotes());
     }
 
     @Override
     public void onPause() {
-        cart.getPartialOrder().setDeliveryNotes(editTextDeliveryNotes.getText().toString());
         cart.getPartialOrder().setOrderNotes(editTextOrderNotes.getText().toString());
         super.onPause();
     }

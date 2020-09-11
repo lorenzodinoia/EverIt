@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -213,6 +214,45 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayoutDeliveryCost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutPickupTimeProposal">
+
+        <ImageView
+            android:id="@+id/imageViewMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_money_40px" />
+
+        <TextView
+            android:id="@+id/textViewLabelDeliveryCost"
+            style="@style/TextViewSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/delivery_cost" />
+
+        <TextView
+            android:id="@+id/textViewDeliveryCost"
+            style="@style/TextViewMediumValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/linearLayoutOrderLate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -220,10 +260,10 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutPickupTimeProposal">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDeliveryCost">
 
         <ImageView
             android:id="@+id/imageViewOrderLate"
@@ -257,7 +297,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutPickupTimeProposal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutOrderLate"
         app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.button.MaterialButton

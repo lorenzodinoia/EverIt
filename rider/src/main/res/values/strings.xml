@@ -41,8 +41,8 @@
 
 
     <string name="label_proposal">Proposal</string>
-    <string name="label_assigned_orders">Assigned orders</string>
-    <string name="label_deliveries">Deliveries</string>
+    <string name="label_assigned_orders">Assigned</string>
+    <string name="label_deliveries">To deliver</string>
     <string name="activity_my_works">My works</string>
     <string name="label_delivery_notes">Delivery notes</string>
     <string name="pickup_button">Pickup the order</string>
@@ -110,6 +110,7 @@
     <string name="delivered">Delivered</string>
     <string name="wrong_validation_code">Wrong validation code</string>
     <string name="password_confirm_wrong">Password confirm doesn\'t matches</string>
+    <string name="delivery_cost">Delivery cost: </string>
 </resources>
 
 

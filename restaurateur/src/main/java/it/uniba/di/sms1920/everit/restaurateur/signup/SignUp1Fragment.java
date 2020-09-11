@@ -109,6 +109,13 @@ public class SignUp1Fragment extends Fragment {
         super.onStart();
         Log.d("test", "onStart");
         if(!shopTypes.isEmpty()){
+            if(shopTypes.get(0).getId() != -1){
+                ArrayList<ShopType> tempShopTypes = new ArrayList<>(shopTypes);
+                shopTypes.clear();
+                ShopType first = new ShopType(-1, getString(R.string.default_shop_type));
+                shopTypes.add(first);
+                shopTypes.addAll(tempShopTypes);
+            }
             setSpinner();
             initData();
         }
@@ -197,7 +204,7 @@ public class SignUp1Fragment extends Fragment {
                 editTextPhoneNumber.setText(restaurateurBuilder.getPhoneNumber());
             }
             if (restaurateurBuilder.getShopType() != null) {
-                spinnerShopType.setSelection((int) restaurateurBuilder.getShopType().getId());
+                spinnerShopType.setSelection((int) restaurateurBuilder.getShopType().getId(), true);
             }
         }
 

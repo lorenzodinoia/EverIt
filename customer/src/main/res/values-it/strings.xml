@@ -74,7 +74,7 @@
     <string name="delivey_cost">Costo consegna:</string>
     <string name="gps_permission_explanation">L\'app ha bisogno di accedere alla tua posizione per migliorare la ricerca dei ristoranti nelle tue vicinanze</string>
     <string name="message_no_gps_permission">L\'app non può accedere alla tua posizione attuale</string>
-    <string name="DeleteCart">Cancella carrello</string>
+    <string name="DeleteCart">Elimina</string>
     <string name="hint_spinner_delivery">Scegli l\'orario di consegna</string>
     <string name="home_delivery">Consegna a domicilio</string>
     <string name="menu">Menù</string>

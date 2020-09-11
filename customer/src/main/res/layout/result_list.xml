@@ -7,8 +7,6 @@
     android:name="it.uniba.di.sms1920.everit.customer.activities.ResultListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".results.ResultListActivity"
     tools:listitem="@layout/result_list_content" />
