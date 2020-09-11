@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
 import it.uniba.di.sms1920.everit.utils.request.OrderRequest;
@@ -42,6 +45,9 @@ public class Cart3Fragment extends Fragment {
 
     private MaterialButton buttonFinishOrder;
     private MaterialButton buttonBack;
+
+    private CardView cardViewDeliveryNotes;
+    private EditText editTextDeliveryNotes;
 
     private RadioButton homeDelivery, takeAway;
 
@@ -69,12 +75,25 @@ public class Cart3Fragment extends Fragment {
             @Override
             public void successResponse(Collection<String> response) {
                 spinnerDeliveryTime = viewRoot.findViewById(R.id.spinnerDeliveryTime);
+                cardViewDeliveryNotes = viewRoot.findViewById(R.id.cardViewDeliveryNotes);
+                editTextDeliveryNotes = viewRoot.findViewById(R.id.editTextDeliveryNotes);
+
+                if(cart.getPartialOrder().getDeliveryNotes() != null){
+                    editTextDeliveryNotes.setText(cart.getPartialOrder().getDeliveryNotes());
+                }
 
                 homeDelivery = viewRoot.findViewById(R.id.home_delivery);
-                homeDelivery.setOnClickListener(v -> takeAway.setChecked(false));
+                homeDelivery.setOnClickListener(v -> {
+                    takeAway.setChecked(false);
+                    cardViewDeliveryNotes.setVisibility(View.VISIBLE);
+                });
 
                 takeAway = viewRoot.findViewById(R.id.takeAway);
-                takeAway.setOnClickListener( v -> homeDelivery.setChecked(false));
+                takeAway.setOnClickListener( v -> {
+                    homeDelivery.setChecked(false);
+                    cardViewDeliveryNotes.setVisibility(View.GONE);
+                });
+
 
 
                 if(!response.isEmpty()) {
@@ -104,7 +123,11 @@ public class Cart3Fragment extends Fragment {
                 buttonFinishOrder = viewRoot.findViewById(R.id.buttonFinishOrder);
                 buttonFinishOrder.setOnClickListener(v -> {
                     if(homeDelivery.isChecked()){
-                        cart.getPartialOrder().setOrderType(Order.OrderType.HOME_DELIVERY);
+                        if(Utility.isValidOrderNote(editTextDeliveryNotes.getText().toString(), editTextDeliveryNotes, mParent)) {
+                            cart.getPartialOrder().setDeliveryNotes(editTextDeliveryNotes.getText().toString());
+                            cart.getPartialOrder().setOrderType(Order.OrderType.HOME_DELIVERY);
+                        }
+
                     }else if(takeAway.isChecked()) {
                         cart.getPartialOrder().setOrderType(Order.OrderType.TAKEAWAY);
                     }
@@ -145,6 +168,12 @@ public class Cart3Fragment extends Fragment {
 
 
         return viewRoot;
+    }
+
+    @Override
+    public void onPause() {
+        //cart.getPartialOrder().setDeliveryNotes(editTextDeliveryNotes.getText().toString());
+        super.onPause();
     }
 
 

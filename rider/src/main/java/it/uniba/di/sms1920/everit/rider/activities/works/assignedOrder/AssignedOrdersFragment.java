@@ -176,6 +176,7 @@ public class AssignedOrdersFragment extends Fragment{
                     holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
                     holder.textViewPickupAddress.setText(item.getRestaurateur().getAddress().getFullAddress());
                     holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
+                    holder.textViewDeliveryCost.setText(String.valueOf(item.getRestaurateur().getDeliveryCost()));
                     holder.itemView.setTag(item);
                     holder.itemView.setOnClickListener(this.onClickListener);
                 }
@@ -194,6 +195,7 @@ public class AssignedOrdersFragment extends Fragment{
             final TextView textViewRestaurateur;
             final TextView textViewPickupAddress;
             final TextView textViewDeliveryAddress;
+            final TextView textViewDeliveryCost;
 
             public ViewHolder(@NonNull View view) {
                 super(view);
@@ -203,6 +205,7 @@ public class AssignedOrdersFragment extends Fragment{
                 textViewRestaurateur = view.findViewById(R.id.textViewRestaurateur);
                 textViewDeliveryAddress = view.findViewById(R.id.textViewAddressToDeliver);
                 textViewPickupAddress = view.findViewById(R.id.textViewAddressToPickup);
+                textViewDeliveryCost = view.findViewById(R.id.textViewDeliveryCost);
             }
         }
     }

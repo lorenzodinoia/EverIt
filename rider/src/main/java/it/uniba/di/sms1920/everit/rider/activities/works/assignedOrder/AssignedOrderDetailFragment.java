@@ -42,6 +42,7 @@ public class AssignedOrderDetailFragment extends Fragment {
     private MaterialButton buttonPickup, buttonRefuse;
     private LinearLayout linearLayoutRestaurateurAddress,  linearLayoutRestaurateurPhoneNumber, linearLayoutAddressDeliver, linearLayoutOrderLate;
     private TextView textViewOrderNumber, textViewPickupTime, textViewRestaurateurName, textViewRestaurateurPhone, textViewRestaurateurAddress, textViewDeliverAddress;
+    private TextView textViewDeliveryCost;
     private Activity parentActivity;
 
     private IBackgroundLocationService backgroundLocationService;
@@ -127,6 +128,8 @@ public class AssignedOrderDetailFragment extends Fragment {
 
         this.linearLayoutOrderLate = view.findViewById(R.id.linearLayoutOrderLate);
 
+        this.textViewDeliveryCost = view.findViewById(R.id.textViewDeliveryCost);
+
         this.buttonPickup = view.findViewById(R.id.buttonAccept);
         this.buttonPickup.setText(R.string.pickup_button);
         this.buttonPickup.setOnClickListener(v -> {
@@ -201,8 +204,9 @@ public class AssignedOrderDetailFragment extends Fragment {
         });
         this.textViewDeliverAddress.setText(assignedOrder.getDeliveryAddress().getFullAddress());
 
-
         this.textViewPickupTime.setText(remainingTimeString);
+
+        this.textViewDeliveryCost.setText(String.valueOf(assignedOrder.getRestaurateur().getDeliveryCost()));
     }
 
     private void promptErrorMessage(String message){

@@ -211,9 +211,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         textViewMessage.setText(message);
 
         Button btnOk = dialog.findViewById(R.id.btnOk);
-        btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
-        });
+        btnOk.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }

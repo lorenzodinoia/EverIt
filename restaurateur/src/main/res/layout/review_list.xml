@@ -12,8 +12,6 @@
         android:name="it.uniba.di.sms1920.everit.restaurateur.activities.review.ReviewListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".activities.review.ReviewListActivity"
         tools:listitem="@layout/review_list_content" />

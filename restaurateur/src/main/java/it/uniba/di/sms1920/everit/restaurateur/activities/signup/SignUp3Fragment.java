@@ -161,6 +161,7 @@ public class SignUp3Fragment extends Fragment {
                 restaurateurRequest.create(newRestaurateur, new RequestListener<Restaurateur>() {
                     @Override
                     public void successResponse(Restaurateur response) {
+                        getActivity().finishAffinity();
                         Intent intent = new Intent(context, LoginActivity.class);
                         startActivity(intent);
                     }

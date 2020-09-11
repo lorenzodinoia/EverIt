@@ -47,7 +47,7 @@ public class CartActivity extends AppCompatActivity {
             Cart1Fragment cart1Fragment = new Cart1Fragment();
             cart1Fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.containerCartFragment, cart1Fragment).addToBackStack(null).commit();
+            fragmentTransaction.replace(R.id.containerCartFragment, cart1Fragment).addToBackStack(null).commit();
         }
     }
 

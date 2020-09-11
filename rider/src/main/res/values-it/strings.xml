@@ -39,9 +39,9 @@
     <string name="pickup_address">Indirizzo di ritiro</string>
     <string name="deliver_address">Indrizzo di consegna</string>
 
-    <string name="label_proposal">Proposte</string>
-    <string name="label_assigned_orders">Ordini assegnati</string>
-    <string name="label_deliveries">Consegne</string>
+    <string name="label_proposal">proposte</string>
+    <string name="label_assigned_orders">assegnati</string>
+    <string name="label_deliveries">da consegnare</string>
     <string name="activity_my_works">I miei lavori</string>
     <string name="label_delivery_notes">Note per la consegna</string>
     <string name="pickup_button">Ritira l\'ordine</string>
@@ -103,4 +103,5 @@
     <string name="delivered">Consegnato</string>
     <string name="wrong_validation_code">Codice conferma errato</string>
     <string name="password_confirm_wrong">La conferma della password non corrisponde</string>
+    <string name="delivery_cost">Costo consegna: </string>
 </resources>

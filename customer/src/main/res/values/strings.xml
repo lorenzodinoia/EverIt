@@ -156,6 +156,7 @@
     <string name="code_sent_successfully">Code sent successfully</string>
     <string name="nfc_not_supported">Nfc is not supported on this device</string>
 
+
     <string name="show_on_map">Show on map</string>
     <string name="call_shop">Call this shop</string>
     <string name="current_state">Current state:</string>

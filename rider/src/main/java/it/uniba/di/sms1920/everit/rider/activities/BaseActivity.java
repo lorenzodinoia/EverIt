@@ -173,7 +173,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             }
 
         }
-        item.setChecked(true);
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
