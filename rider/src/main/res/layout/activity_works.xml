@@ -7,22 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".activities.works.WorksActivity">
 
-    <include layout="@layout/toolbar_default"/>
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:tabIconTint="@color/whiteAccent"
-        app:tabIndicatorColor="@color/colorAccent"
-        android:layout_marginTop="56dp"
-        app:tabIndicatorHeight="5dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/whiteAccent"
-        app:tabTextAppearance="@style/TextViewSmall"
-        app:tabTextColor="@color/whiteAccent"/>
+        android:theme="@style/AppTheme.AppBarOverlay">
 
+        <include layout="@layout/toolbar_default"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:tabIconTint="@color/whiteAccent"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorHeight="5dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/whiteAccent"
+            app:tabTextAppearance="@style/TextViewSmall"
+            app:tabTextColor="@color/whiteAccent"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
