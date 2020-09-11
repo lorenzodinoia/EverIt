@@ -23,12 +23,15 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.threeten.bp.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.cart.Cart;
+import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.CustomerRequest;
@@ -106,6 +109,16 @@ public class Cart3Fragment extends Fragment {
                     spinnerDeliveryTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            /*String time = spinnerDeliveryTimeAdapter.getItem(position);
+                            if(time != null) {
+                                String test = time.substring(0, 2);
+                                test.trim();
+                                if (!time.substring(0, 2).contains(":")) {
+                                    String tempString = new String(time);
+                                    time = "0"+tempString;
+                                }
+                            }
+                            openingTimeSelected = time;*/
                             openingTimeSelected = spinnerDeliveryTimeAdapter.getItem(position);
                         }
 
