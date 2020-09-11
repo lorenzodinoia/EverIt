@@ -112,7 +112,19 @@ public class SignUp2Fragment extends Fragment {
 
             }
         });
-        editTextDeliveryCost.addTextChangedListener(new TextWatcher() {
+
+        //TODO da terminare
+        
+        editTextDeliveryCost.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                TextInputEditText editText = v.findViewById(R.id.editTextDeliveryCost);
+                if(editText.getText().toString().trim().length() > 0){
+                    restaurateurBuilder.setDeliveryCost(Float.parseFloat(editText.getText().toString()));
+                }
+            }
+        });
+
+        /*editTextDeliveryCost.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -129,7 +141,8 @@ public class SignUp2Fragment extends Fragment {
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        });*/
+
         editTextMinPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
