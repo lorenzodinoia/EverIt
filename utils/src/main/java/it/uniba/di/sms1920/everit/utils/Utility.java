@@ -116,7 +116,7 @@ public final class Utility {
 
 
     public static boolean isDeliveryCostValid(float price, TextInputLayout layout, Context context){
-        if(price >= 0){
+        if(price >= 1){
             if(price  <= 1000){
                 return  true;
             }else {

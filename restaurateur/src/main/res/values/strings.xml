@@ -24,12 +24,12 @@
     <string name="error_VAT_number">VAT number length is 11 digits</string>
     <string name="error_address">Select an address</string>
 
-    <string name="num_max_delivery_per_time_slot">Nun max delivery per time slot</string>
+    <string name="num_max_delivery_per_time_slot">Num max order per time slot</string>
     <string name="delivery_cost">Delivery cost*</string>
     <string name="min_price">Min price*</string>
     <string name="back">Back</string>
     <string name="error_num_delivery_time_slot">Num max delivery greater than 0</string>
-    <string name="error_delivery_cost">Delivery cost between 0 and 999</string>
+    <string name="error_delivery_cost">Delivery cost between 1 and 999</string>
     <string name="error_min_price">Min price between 0 and 999</string>
     <string name="error_description">Description max 250 chars</string>
 
@@ -171,4 +171,7 @@
 
     <string name="notification_channel_id" translatable="false">FirebaseNotifications-RestaurateurChannel</string>
     <string name="notification_channel_name">Server notifications</string>
+
+    <string name="hint_num_max_delivery_time_per_slot">Define how much orders you could handle each 30 minutes </string>
+    <string name="hint_delivery_cost">Default value is 1. Min delivery cost value is 1</string>
 </resources>

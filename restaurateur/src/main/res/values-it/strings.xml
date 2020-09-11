@@ -44,7 +44,7 @@
     <string name="error_VAT_number">Lunghezza partita iva 11 cifre</string>
     <string name="error_address">Seleziona un indirizzo</string>
 
-    <string name="num_max_delivery_per_time_slot">Num max consegne per fascia oraria</string>
+    <string name="num_max_delivery_per_time_slot">Num max ordini per fascia oraria</string>
     <string name="delivery_cost">Costo consegna*</string>
     <string name="min_price">Spesa minima*</string>
     <string name="back">Indietro</string>
@@ -166,4 +166,7 @@
     <string name="message_deliver_order_activity">Inserisci il codice di consegna dell\'ordine</string>
 
     <string name="message_password_changed">La password è stata cambiata correttamente</string>
+
+    <string name="hint_num_max_delivery_time_per_slot">Indica quanti ordini puoi evadere ogni 30 minuti</string>
+    <string name="hint_delivery_cost">Il valore di default è 1. Il costo minimo di consegna è 1</string>
 </resources>
