@@ -111,6 +111,14 @@
     <string name="wrong_validation_code">Wrong validation code</string>
     <string name="password_confirm_wrong">Password confirm doesn\'t matches</string>
     <string name="delivery_cost">Delivery cost: </string>
+
+    <string name="title_activity_account">My account</string>
+    <string name="title_activity_delivery_detail">Delivery detail</string>
+    <string name="title_activity_order_detail">Order detail</string>
+    <string name="title_activity_proposal_detail">Proposal detail</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_signup">Sign up</string>
+    <string name="title_activity_deliver_order">Deliver order</string>
 </resources>
 
 

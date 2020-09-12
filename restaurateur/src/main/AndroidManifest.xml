@@ -33,6 +33,7 @@
             android:value="LmdmwoQEimQ+s9XmA6qx7wqDICXf7fvJ10Foha/sQ+yVUZ5yj3mQUOv1CJyIMBx9n2/WOS5mVRgUf1paQyKLpSxMI1kX1Trb4eSh/20vmRwpiCdbdzg83RidUlwlFrY24Dc8hvZk2QbyVGGRjl7eNnq7BM7P28GmjQ87tCasgvy0ibsz+iNVD1aA+wlCiy8JfCDjduI2t+OQvzsR/VdpF9VwDBypF8hgMU9N30fo/+TNdUPWKfv1Zvc+ej4QTMdDuHp0ldVDuVH7kle/NOoR5qOLOtmKZ0QPSrqPW6fijSJJ+FtCuC5kGc15K7OSD9z4h4N1yQh+nVQtluh0RHXup3KuJVZpFNao6+M2aBwgt0FLnDAoPjZMc8lxBpueC1s+v59lYkQFYIY6pG0OHDqQCdjrH4+IJ05lB56dcQy3AKGSOhrJmvLXREdb7EdmrqudzWIZBk2FptmNc5B6ICholHkF2X2BmDHmH7qgUgSIn7ZwmSq0NtpyEqaXrMutH46MnGSVqAWhm+IP428Vpqs/cEEyQkyUX1vxZi5e4h63oAx5GSEW/0id+U2pbu3tMJkNa5zN951jRG2fxZAlCZBI/l5Pf3CTPX85blKl9Hh7MQeGHjNP6YOSRcrj1jYVX9Fjv0B5b5ZQlVeL5vUOwdR2yhhmU5wZ7cIORrI4BDr1Zac=" />
 
         <activity android:name=".DeliverOrderActivity"
+            android:label="@string/title_activity_devliver_order"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -99,15 +100,18 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MenuActivity"
+            android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BaseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".signup.SignUpActivity"
+            android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data

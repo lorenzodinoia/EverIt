@@ -173,6 +173,8 @@ public class DeliveriesFragment extends Fragment {
                     holder.textViewLabelPickupAddress.setVisibility(View.GONE);
                     holder.textViewPickupAddress.setVisibility(View.GONE);
                     holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
+                    holder.textViewDeliveryCost.setText(item.getRestaurateur().getDeliveryCost() + parentFragment.getActivity().getString(R.string.currency_type));
+
                     if (item.isLate()) {
                         holder.chipOrderLate.setVisibility(View.VISIBLE);
                     }
@@ -195,6 +197,7 @@ public class DeliveriesFragment extends Fragment {
             final TextView textViewPickupAddress;
             final TextView textViewLabelPickupAddress;
             final TextView textViewDeliveryAddress;
+            final TextView textViewDeliveryCost;
 
             public ViewHolder(@NonNull View view) {
                 super(view);
@@ -205,6 +208,7 @@ public class DeliveriesFragment extends Fragment {
                 textViewDeliveryAddress = view.findViewById(R.id.textViewAddressToDeliver);
                 textViewPickupAddress = view.findViewById(R.id.textViewAddressToPickup);
                 textViewLabelPickupAddress = view.findViewById(R.id.labelAddressToPickup);
+                textViewDeliveryCost = view.findViewById(R.id.textViewDeliveryCost);
             }
         }
     }

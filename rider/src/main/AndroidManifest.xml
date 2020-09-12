@@ -37,15 +37,19 @@
         </activity>
         <activity
             android:name=".accountDetail.AccountDetailActivity"
+            android:label="@string/title_activity_account"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".works.delivery.DeliveryDetailActivity"
+            android:label="@string/title_activity_delivery_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".works.assignedOrder.AssignedOrderDetailActivity"
+            android:label="@string/title_activity_order_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".works.proposal.ProposalDetailActivity"
+            android:label="@string/title_activity_proposal_detail"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="everit.rider.proposal.detail" />
@@ -76,15 +80,18 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BaseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SignUpActivity"
+            android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DeliverOrderActivity"
+            android:label="@string/title_activity_deliver_order"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
 

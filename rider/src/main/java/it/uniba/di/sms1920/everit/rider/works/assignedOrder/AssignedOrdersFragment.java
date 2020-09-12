@@ -176,7 +176,7 @@ public class AssignedOrdersFragment extends Fragment{
                     holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
                     holder.textViewPickupAddress.setText(item.getRestaurateur().getAddress().getFullAddress());
                     holder.textViewDeliveryAddress.setText(item.getDeliveryAddress().getFullAddress());
-                    holder.textViewDeliveryCost.setText(String.valueOf(item.getRestaurateur().getDeliveryCost()));
+                    holder.textViewDeliveryCost.setText(item.getRestaurateur().getDeliveryCost() + parentFragment.getActivity().getString(R.string.currency_type));
                     holder.itemView.setTag(item);
                     holder.itemView.setOnClickListener(this.onClickListener);
                 }

@@ -49,7 +49,7 @@
     <string name="error_value_notValid">This value is not valid</string>
     <string name="error_valueDeliveryCost_max">The delivery cost can have up to 3 digits</string>
     <string name="error_valueMinPrice_max">This value can have up to 3 digits</string>
-    <string name="currency_type">$</string>
+    <string name="currency_type">€</string>
 
     <string name="error">Error</string>
     <string name="error_orderNotes_maxChar">Maximum number of characters is 250</string>

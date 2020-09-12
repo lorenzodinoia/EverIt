@@ -124,41 +124,12 @@ public class SignUp2Fragment extends Fragment {
             }
         });
 
-        /*editTextDeliveryCost.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.equals("")) {
-                    restaurateurBuilder.setDeliveryCost(Float.parseFloat(s.toString()));
+        editTextMinPrice.setOnFocusChangeListener((v, hasFocus) -> {
+            if(!hasFocus){
+                TextInputEditText editText = v.findViewById((R.id.editTextMinPrice));
+                if(editText.getText().toString().trim().length() > 0){
+                    restaurateurBuilder.setMinPrice(Float.parseFloat(editText.getText().toString()));
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-
-        editTextMinPrice.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.equals("")) {
-                    restaurateurBuilder.setMinPrice(Float.parseFloat(s.toString()));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
