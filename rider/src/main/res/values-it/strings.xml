@@ -104,4 +104,12 @@
     <string name="wrong_validation_code">Codice conferma errato</string>
     <string name="password_confirm_wrong">La conferma della password non corrisponde</string>
     <string name="delivery_cost">Costo consegna: </string>
+
+    <string name="title_activity_account">Il mio profilo</string>
+    <string name="title_activity_delivery_detail">Dettaglio consegna</string>
+    <string name="title_activity_order_detail">Dettaglio ordine</string>
+    <string name="title_activity_proposal_detail">Dettaglio proposta</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_signup">Registrazione</string>
+    <string name="title_activity_deliver_order">Consegna ordine</string>
 </resources>

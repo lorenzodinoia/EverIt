@@ -25,13 +25,16 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".nfc.OrderReceiverActivity"
+            android:label="@string/title_activity_order_receiver"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".accountDetail.AccountDetailActivity"
+            android:label="@string/title_activity_account"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".cartActivity.CartActivity"
+            android:label="@string/title_activity_cart"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -66,6 +69,7 @@
         </activity>
         <activity
             android:name=".SignUpActivity"
+            android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LauncherActivity"
@@ -82,12 +86,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".orders.OrderListActivity"
+            android:label="@string/title_activity_orders"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".orders.OrderDetailActivity"
+            android:label="@string/title_activity_order_detail"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="everit.customer.order.detail" />
