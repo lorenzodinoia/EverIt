@@ -114,7 +114,7 @@
     <string name="total">Total</string>
     <string name="DeleteCart">Delete cart</string>
     <string name="hint_spinner_delivery">Choose the delivery time</string>
-    <string name="takeaway" translatable="false">Takeaway</string>
+    <string name="takeaway" translatable="false">Take away</string>
     <string name="menu">Menù</string>
     <string name="review_hint">Write your review here</string>
     <string name="make_review">Write a review</string>

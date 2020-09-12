@@ -19,7 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -297,8 +299,14 @@ public class OrderListActivity extends AppCompatActivity {
                 else if (orderStatus.equals(Order.Status.DELIVERED)) {
                     holder.textViewOrderStatus.setText(R.string.delivered);
                 }
+
+
+
                 holder.itemView.setTag(item);
                 holder.itemView.setOnClickListener(itemOnClickListener);
+
+
+
             }
         }
 
