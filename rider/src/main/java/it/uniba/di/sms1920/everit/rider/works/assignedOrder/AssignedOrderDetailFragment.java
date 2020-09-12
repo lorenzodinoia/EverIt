@@ -142,7 +142,24 @@ public class AssignedOrderDetailFragment extends Fragment {
                         riderRequest.pickupOrder(this.assignedOrder.getId(), latitude, longitude, new RequestListener<Boolean>() {
                             @Override
                             public void successResponse(Boolean response) {
-                                //TODO usare dialog custom
+                                //TODO controllare
+                                Dialog dialog = new Dialog(parentActivity);
+                                dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
+
+                                TextView title = dialog.findViewById(R.id.textViewTitle);
+                                title.setText(R.string.order_withdrawn);
+
+                                TextView message = dialog.findViewById(R.id.textViewMessage);
+                                message.setText(R.string.order_withdrawn_explanation);
+
+                                MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+                                btnOk.setOnClickListener(v1 -> {
+                                    dialog.dismiss();
+                                    getActivity().finish();
+                                });
+
+                                dialog.show();
+                                /**
                                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
                                 dialogBuilder.setTitle(R.string.order_withdrawn)
                                         .setMessage(R.string.order_withdrawn_explanation)
@@ -151,6 +168,7 @@ public class AssignedOrderDetailFragment extends Fragment {
                                             getActivity().finish();
                                         })
                                         .show();
+                                 */
                             }
 
                             @Override
@@ -224,7 +242,7 @@ public class AssignedOrderDetailFragment extends Fragment {
 
         Button btnOk = dialog.findViewById(R.id.btnOk);
         btnOk.setOnClickListener(v ->{
-            dialog.dismiss();
+                dialog.dismiss();
         });
 
         dialog.show();
