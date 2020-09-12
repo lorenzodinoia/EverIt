@@ -2,11 +2,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardListSingleOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -38,10 +40,10 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageViewRestaurateur"
                 android:text="@string/order_number_label"
-                android:textColor="@color/greyAccent"/>
+                android:textColor="@color/greyAccent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewRestaurateur" />
 
 
             <TextView
@@ -63,26 +65,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:clickable="false"
                 android:focusable="false"
                 app:chipEndPadding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/chipStatusOrder"
+                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName"
                 app:textEndPadding="2dp"
-                app:textStartPadding="2dp"
-                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
-                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
+                app:textStartPadding="2dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipStatusOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 android:clickable="false"
                 android:focusable="false"
                 app:chipEndPadding="4dp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewRestaurateur"
+                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName"
                 app:textEndPadding="2dp"
-                app:textStartPadding="2dp"
-                app:layout_constraintStart_toEndOf="@+id/chipListCustomerOrders"
-                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName" />
+                app:textStartPadding="2dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipOrderLate"
@@ -95,11 +100,11 @@
                 android:visibility="gone"
                 app:chipBackgroundColor="@color/colorWarning"
                 app:chipEndPadding="4dp"
-                app:textEndPadding="2dp"
-                app:textStartPadding="2dp"
                 app:chipIcon="@drawable/ic_exclamation_12px"
                 app:layout_constraintStart_toEndOf="@+id/chipStatusOrder"
-                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName"/>
+                app:layout_constraintTop_toBottomOf="@+id/textViewActivityName"
+                app:textEndPadding="2dp"
+                app:textStartPadding="2dp" />
 
 
             <TextView
@@ -146,11 +151,11 @@
                 style="@style/TextViewVerySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/order_date_label"
                 app:layout_constraintStart_toEndOf="@id/imageViewRestaurateur"
-                app:layout_constraintTop_toBottomOf="@id/chipListCustomerOrders"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="12dp"/>
+                app:layout_constraintTop_toBottomOf="@id/chipListCustomerOrders" />
 
             <TextView
                 android:id="@+id/textViewOrderDate"

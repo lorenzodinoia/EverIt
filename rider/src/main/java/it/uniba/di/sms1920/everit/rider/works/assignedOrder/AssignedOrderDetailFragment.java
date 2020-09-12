@@ -174,9 +174,11 @@ public class AssignedOrderDetailFragment extends Fragment {
 
         if(assignedOrder.isLate()){
             linearLayoutOrderLate.setVisibility(View.VISIBLE);
-            remainingTimeString = String.format("%s: %s (%s)", getString(R.string.pickup_at), this.assignedOrder.getPickupTimeAsString(), getString(R.string.pickup_late));
+            remainingTimeString = String.format("%s (%s)", this.assignedOrder.getPickupTimeAsString(), getString(R.string.pickup_late));
+            //remainingTimeString = String.format("%s: %s (%s)", getString(R.string.pickup_at), this.assignedOrder.getPickupTimeAsString(), getString(R.string.pickup_late));
         }else{
-            remainingTimeString = getString(R.string.pickup_at)+": "+this.assignedOrder.getPickupTimeAsString();
+            remainingTimeString = this.assignedOrder.getPickupTimeAsString();
+           // remainingTimeString = getString(R.string.pickup_at)+": "+this.assignedOrder.getPickupTimeAsString();
         }
 
 

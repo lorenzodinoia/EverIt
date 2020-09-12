@@ -6,7 +6,7 @@
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cart_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -78,17 +78,18 @@
 
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/materialCardView"
-            android:layout_width="0dp"
+            android:id="@+id/deliverOrderNotes"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardOrderNotes">
+            app:layout_constraintTop_toBottomOf="@id/cardOrderNotes"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -127,13 +128,13 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:clickable="false"
                     android:ems="10"
+                    android:focusable="false"
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
                     android:maxLines="8"
                     android:minLines="1"
-                    android:clickable="false"
-                    android:focusable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -144,6 +145,6 @@
 
         </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
