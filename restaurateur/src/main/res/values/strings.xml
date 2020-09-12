@@ -163,7 +163,7 @@
     <string name="title_orders">Orders</string>
     <string name="title_doneorder_list">DoneOrders</string>
     <string name="title_doneorder_detail">DoneOrder Detail</string>
-    <string name="title_activity_opening_date_time">OpeningDateTimeActivity</string>
+    <string name="title_activity_opening_date_time">Opening times</string>
     <string name="wrong_value_error">This value is not valid</string>
     <string name="You_will_delete">"You are going to delete "</string>
     <string name="are_you_sure">are you sure ?</string>
@@ -174,4 +174,10 @@
 
     <string name="hint_num_max_delivery_time_per_slot">Define how much orders you could handle each 30 minutes </string>
     <string name="hint_delivery_cost">Default value is 1. Min delivery cost value is 1</string>
+
+    <string name="title_activity_menu">My menu</string>
+    <string name="title_activity_orders">My orders</string>
+    <string name="title_activity_signup">Sign up</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_devliver_order">Deliver order</string>
 </resources>

@@ -99,7 +99,7 @@
     <string name="title_doneorder_list">Ordini evasi</string>
     <string name="title_doneorder_detail">DoneOrder Detail</string>
 
-    <string name="title_activity_opening_date_time">OpeningDateTimeActivity</string>
+    <string name="title_activity_opening_date_time">Orari di apertura</string>
 
     <string name="empty_order_not_confirmed">Nessun ordine da confermare</string>
     <string name="empty_order_to_do">Nessun ordine da evadere</string>
@@ -169,4 +169,10 @@
 
     <string name="hint_num_max_delivery_time_per_slot">Indica quanti ordini puoi evadere ogni 30 minuti</string>
     <string name="hint_delivery_cost">Il valore di default è 1. Il costo minimo di consegna è 1</string>
+
+    <string name="title_activity_menu">Il mio menu</string>
+    <string name="title_activity_orders">I miei ordini</string>
+    <string name="title_activity_signup">Registrazione</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_devliver_order">Consegna ordine</string>
 </resources>
