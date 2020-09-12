@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.rider.works.proposal;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -154,7 +155,7 @@ public class ProposalsFragment extends Fragment {
             if (!proposalList.isEmpty()) {
                 Proposal item = this.proposalList.get(position);
                 if(item !=null) {
-                    holder.textViewOrderNumber.setText(String.format(Locale.getDefault(), "#%d", item.getId()));
+                    holder.textViewOrderNumber.setText(String.format(Locale.getDefault(), "#%d", item.getOrder().getId()));
                     if (item.getRestaurateur().getImagePath() != null) {
                         String imageUrl = String.format("%s/images/%s", Constants.SERVER_HOST, item.getRestaurateur().getImagePath());
                         Picasso.get()
@@ -169,6 +170,8 @@ public class ProposalsFragment extends Fragment {
                     holder.textViewRestaurateur.setText(item.getRestaurateur().getShopName());
                     holder.textViewPickupAddress.setText(item.getRestaurateurAddress());
                     holder.textViewDeliveryAddress.setText(item.getDeliveryAddress());
+                    holder.textViewDeliveryCost.setText(item.getRestaurateur().getDeliveryCost() + parentFragment.getActivity().getString(R.string.currency_type));
+
                     holder.itemView.setTag(item);
                     holder.itemView.setOnClickListener(this.onClickListener);
                 }
@@ -186,6 +189,7 @@ public class ProposalsFragment extends Fragment {
             final TextView textViewRestaurateur;
             final TextView textViewPickupAddress;
             final TextView textViewDeliveryAddress;
+            final TextView textViewDeliveryCost;
 
             public ViewHolder(@NonNull View view) {
                 super(view);
@@ -194,6 +198,7 @@ public class ProposalsFragment extends Fragment {
                 textViewRestaurateur = view.findViewById(R.id.textViewRestaurateur);
                 textViewDeliveryAddress = view.findViewById(R.id.textViewAddressToDeliver);
                 textViewPickupAddress = view.findViewById(R.id.textViewAddressToPickup);
+                textViewDeliveryCost = view.findViewById(R.id.textViewDeliveryCost);
             }
         }
     }

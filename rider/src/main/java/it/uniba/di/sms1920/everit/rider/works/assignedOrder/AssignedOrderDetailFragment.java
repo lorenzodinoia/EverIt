@@ -142,6 +142,7 @@ public class AssignedOrderDetailFragment extends Fragment {
                         riderRequest.pickupOrder(this.assignedOrder.getId(), latitude, longitude, new RequestListener<Boolean>() {
                             @Override
                             public void successResponse(Boolean response) {
+                                //TODO usare dialog custom
                                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
                                 dialogBuilder.setTitle(R.string.order_withdrawn)
                                         .setMessage(R.string.order_withdrawn_explanation)
