@@ -70,6 +70,7 @@
     <string name="in_preparation">In preparazione</string>
     <string name="delivering">In Consegna</string>
     <string name="delivered">Consegnato</string>
+    <string name="refused">Rifiutato</string>
     <string name="minimum_purchase">Spesa minima:</string>
     <string name="delivey_cost">Costo consegna:</string>
     <string name="gps_permission_explanation">L\'app ha bisogno di accedere alla tua posizione per migliorare la ricerca dei ristoranti nelle tue vicinanze</string>

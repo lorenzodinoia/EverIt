@@ -164,6 +164,9 @@ public class OrderDetailFragment extends Fragment {
         else if (orderStatus.equals(Order.Status.DELIVERED)) {
             textViewOrderStatus.setText(R.string.delivered);
         }
+        else if (orderStatus.equals(Order.Status.REFUSED)){
+            textViewOrderStatus.setText(R.string.refused);
+        }
 
         textViewSubTotal.setText(Float.toString(order.getTotalCost()));
         float deliveryCost = order.getRestaurateur().getDeliveryCost();

@@ -60,8 +60,8 @@ public class OrderDetailFragment extends Fragment {
     private TextView textViewSubTotalOrderPrice;
     private TextView textViewOrderTotalPrice;
 
-    private MaterialButton confirmButton;
-    private MaterialButton searchRider;
+    private MaterialButton btnConfirmButton;
+    private MaterialButton btnLate;
 
     private String timePicker;
 
@@ -117,12 +117,14 @@ public class OrderDetailFragment extends Fragment {
         textViewOrderDeliveryPrice = view.findViewById(R.id.textViewDeliveryCost);
         textViewSubTotalOrderPrice = view.findViewById(R.id.textViewSubTotal);
         textViewOrderTotalPrice = view.findViewById(R.id.textViewTotalPrice);
-        confirmButton = view.findViewById(R.id.btnConfirmOrder);
-        searchRider = view.findViewById(R.id.btnSearchRider);
+        btnConfirmButton = view.findViewById(R.id.btnConfirmOrder);
+        btnLate = view.findViewById(R.id.btnLate);
     }
 
     private void initData() {
-        this.setUpButton();
+        this.setUpButtons();
+
+        //TODO rimuovere card order notes se non è presente
 
         labelOrderType.setText(R.string.order_type);
         if (order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
@@ -150,114 +152,40 @@ public class OrderDetailFragment extends Fragment {
         setupRecyclerView(recyclerView);
     }
 
-    private void setUpButton() {
-        if (this.order.getStatus() == Order.Status.ORDERED) {
-            confirmButton.setVisibility(View.VISIBLE);
-            confirmButton.setOnClickListener(v -> {
-                OrderRequest orderRequest = new OrderRequest();
-                if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
-                    orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
-                        @Override
-                        public void successResponse(Order response) {
-                            parentActivity.finish();
-                        }
+    private void setUpButtons(){
+        switch(order.getStatus()){
+            case ORDERED:
+                setUpButtonConfirmOrder();
+                setUpButtonRefuseOrder();
+                break;
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            promptErrorMessage(error.getMessage());
-                        }
-                    });
-                }
-                else {
-                    orderRequest.markAsInProgress(order.getId(), new RequestListener<Order>() {
-                        @Override
-                        public void successResponse(Order response) {
-                            parentActivity.finish();
-                        }
+            case CONFIRMED:
+                btnLate.setVisibility(View.GONE);
+                setUpButtonSearchRider();
+                break;
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            promptErrorMessage(error.getMessage());
-                        }
-                    });
-                }
-            });
+            case IN_PROGRESS:
+                setUpButtonLate();
+                setUpButtonInProgress();
+                break;
 
-            searchRider.setVisibility(View.GONE);
+            default:
+                setUpButtonLate();
+                setUpButtonDeliverOrder();
+                break;
         }
-        else {
-            if (order.isLate()) {
-                disableConfirmButton();
-            }
-            else {
-                confirmButton.setFocusable(true);
-                confirmButton.setClickable(true);
-                confirmButton.setVisibility(View.VISIBLE);
-                confirmButton.setText(R.string.late_button);
-                confirmButton.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.colorWarning));
-                confirmButton.setOnClickListener(v -> {
-                    OrderRequest orderRequest = new OrderRequest();
-                    orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
-                        @Override
-                        public void successResponse(Order response) {
-                            order.setLate(true);
-                            disableConfirmButton();
-                        }
+    }
 
-                        @Override
-                        public void errorResponse(RequestException error) {
-                            promptErrorMessage(error.getMessage());
-                        }
-                    });
-                });
-            }
-
-            if(order.getStatus().equals(Order.Status.CONFIRMED)) {
-                searchRider.setText(R.string.search_rider);
-                ProposalRequest proposalRequest = new ProposalRequest();
-                proposalRequest.checkProposalsState(order.getId(), new RequestListener<Boolean>() {
+    private void setUpButtonConfirmOrder(){
+        btnConfirmButton.setVisibility(View.VISIBLE);
+        btnConfirmButton.setText(R.string.confirm_order_button);
+        btnConfirmButton.setOnClickListener(v -> {
+            OrderRequest orderRequest = new OrderRequest();
+            if(order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
+                orderRequest.markAsConfirmed(order.getId(), new RequestListener<Order>() {
                     @Override
-                    public void successResponse(Boolean response) {
-                        if(response){
-                            disableSearchRiderButton();
-                        }
-                        else{
-                            searchRider.setOnClickListener(v -> {
-                                OrderRequest orderRequest = new OrderRequest();
-                                Dialog dialog = new Dialog(parentActivity);
-                                dialog.setContentView(R.layout.dialog_set_pickup_time);
-                                TextView textViewLabel = dialog.findViewById(R.id.textViewLabelPickupTimeSelection);
-                                textViewLabel.setText(R.string.message_pickup_time_dialog);
-
-                                NumberPicker numberPicker = dialog.findViewById(R.id.numberPicker);
-                                numberPicker.setMinValue(10);
-                                numberPicker.setMaxValue(60);
-
-                                MaterialButton buttonDismiss = dialog.findViewById(R.id.buttonDismiss);
-                                buttonDismiss.setOnClickListener(v1 -> dialog.dismiss());
-                                MaterialButton buttonConfirm = dialog.findViewById(R.id.buttonConfirmPickupTime);
-                                buttonConfirm.setOnClickListener(v1 -> {
-                                    LocalTime actualLocalTime = LocalTime.now();
-                                    LocalTime pickupLocalTime = actualLocalTime.plusMinutes(numberPicker.getValue());
-                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
-                                    timePicker = pickupLocalTime.format(formatter);
-                                    orderRequest.searchRider(order.getId(), timePicker, new RequestListener<String>() {
-                                        @Override
-                                        public void successResponse(String response) {
-                                            dialog.dismiss();
-                                            disableSearchRiderButton();
-                                        }
-
-                                        @Override
-                                        public void errorResponse(RequestException error) {
-                                            dialog.dismiss();
-                                            promptErrorMessage(error.getMessage());
-                                        }
-                                    });
-                                });
-                                dialog.show();
-                            });
-                        }
+                    public void successResponse(Order response) {
+                        parentActivity.finish();
                     }
 
                     @Override
@@ -265,59 +193,168 @@ public class OrderDetailFragment extends Fragment {
                         promptErrorMessage(error.getMessage());
                     }
                 });
-
             }
-            else if (order.getStatus().equals(Order.Status.IN_PROGRESS)) {
-                if (order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
-                    searchRider.setVisibility(View.GONE);
-                }
-                else {
-                    searchRider.setText(R.string.order_ready);
-                    searchRider.setOnClickListener(v -> {
-                        OrderRequest orderRequest = new OrderRequest();
-                        orderRequest.markAsReady(order.getId(), new RequestListener<Order>() {
-                            @Override
-                            public void successResponse(Order response) {
-                                confirmButton.setVisibility(View.GONE);
-                                setButtonDeliverOrder();
-                            }
+            else {
+                orderRequest.markAsInProgress(order.getId(), new RequestListener<Order>() {
+                    @Override
+                    public void successResponse(Order response) {
+                        parentActivity.finish();
+                    }
 
-                            @Override
-                            public void errorResponse(RequestException error) {
-                                promptErrorMessage(error.getMessage());
-                            }
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
+            }
+        });
+    }
+
+    private void setUpButtonRefuseOrder(){
+        btnLate.setVisibility(View.VISIBLE);
+        btnLate.setText(R.string.refuse_order_button);
+        btnLate.setOnClickListener(v -> {
+            OrderRequest orderRequest = new OrderRequest();
+            orderRequest.markAsRefused(order.getId(), new RequestListener<Order>() {
+                @Override
+                public void successResponse(Order response) {
+                    parentActivity.finish();
+                }
+
+                @Override
+                public void errorResponse(RequestException error) {
+                    promptErrorMessage(error.getMessage());
+                }
+            });
+        });
+    }
+
+    private void setUpButtonSearchRider(){
+        btnConfirmButton.setText(R.string.search_rider);
+        ProposalRequest proposalRequest = new ProposalRequest();
+        proposalRequest.checkProposalsState(order.getId(), new RequestListener<Boolean>() {
+            @Override
+            public void successResponse(Boolean response) {
+                if(response){
+                    disableSearchRiderButton();
+                }
+                else{
+                    btnConfirmButton.setOnClickListener(v -> {
+                        OrderRequest orderRequest = new OrderRequest();
+                        Dialog dialog = new Dialog(parentActivity);
+                        dialog.setContentView(R.layout.dialog_set_pickup_time);
+                        TextView textViewLabel = dialog.findViewById(R.id.textViewLabelPickupTimeSelection);
+                        textViewLabel.setText(R.string.message_pickup_time_dialog);
+
+                        NumberPicker numberPicker = dialog.findViewById(R.id.numberPicker);
+                        numberPicker.setMinValue(10);
+                        numberPicker.setMaxValue(60);
+
+                        MaterialButton buttonDismiss = dialog.findViewById(R.id.buttonDismiss);
+                        buttonDismiss.setOnClickListener(v1 -> dialog.dismiss());
+                        MaterialButton buttonConfirm = dialog.findViewById(R.id.buttonConfirmPickupTime);
+                        buttonConfirm.setOnClickListener(v1 -> {
+                            LocalTime actualLocalTime = LocalTime.now();
+                            LocalTime pickupLocalTime = actualLocalTime.plusMinutes(numberPicker.getValue());
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
+                            timePicker = pickupLocalTime.format(formatter);
+                            orderRequest.searchRider(order.getId(), timePicker, new RequestListener<String>() {
+                                @Override
+                                public void successResponse(String response) {
+                                    dialog.dismiss();
+                                    disableSearchRiderButton();
+                                }
+
+                                @Override
+                                public void errorResponse(RequestException error) {
+                                    dialog.dismiss();
+                                    promptErrorMessage(error.getMessage());
+                                }
+                            });
                         });
+                        dialog.show();
                     });
                 }
             }
-            else {
-                confirmButton.setVisibility(View.GONE);
-                setButtonDeliverOrder();
+
+            @Override
+            public void errorResponse(RequestException error) {
+                promptErrorMessage(error.getMessage());
             }
-        }
+        });
     }
 
     private void disableSearchRiderButton() {
-        searchRider.setFocusable(false);
-        searchRider.setClickable(false);
-        searchRider.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
+        btnConfirmButton.setFocusable(false);
+        btnConfirmButton.setClickable(false);
+        btnConfirmButton.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
     }
 
-    private void setButtonDeliverOrder() {
-        searchRider.setText(R.string.deliver_order);
-        searchRider.setOnClickListener(v -> {
+    private void setUpButtonInProgress(){
+        if (order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)) {
+            btnConfirmButton.setVisibility(View.GONE);
+        }
+        else {
+            btnConfirmButton.setText(R.string.order_ready);
+            btnConfirmButton.setOnClickListener(v -> {
+                OrderRequest orderRequest = new OrderRequest();
+                orderRequest.markAsReady(order.getId(), new RequestListener<Order>() {
+                    @Override
+                    public void successResponse(Order response) {
+                        btnConfirmButton.setVisibility(View.GONE);
+                        setUpButtonDeliverOrder();
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
+            });
+        }
+    }
+
+    private void setUpButtonLate(){
+        btnLate.setVisibility(View.VISIBLE);
+        btnLate.setText(R.string.late_button);
+        if(order.isLate()){
+            btnLate.setFocusable(false);
+            btnLate.setClickable(false);
+            btnLate.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
+        }
+        else{
+            btnLate.setFocusable(true);
+            btnLate.setClickable(true);
+            btnLate.setOnClickListener(v -> {
+                OrderRequest orderRequest = new OrderRequest();
+                orderRequest.markAsLate(order.getId(), new RequestListener<Order>() {
+                    @Override
+                    public void successResponse(Order response) {
+                        order.setLate(true);
+                        btnLate.setFocusable(false);
+                        btnLate.setClickable(false);
+                        btnLate.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
+            });
+        }
+
+    }
+
+    private void setUpButtonDeliverOrder() {
+        btnConfirmButton.setVisibility(View.VISIBLE);
+        btnConfirmButton.setText(R.string.deliver_order);
+        btnConfirmButton.setOnClickListener(v -> {
             Intent intent = new Intent(parentActivity, DeliverOrderActivity.class);
             intent.putExtra(DeliverOrderActivity.ARG_ITEM, order);
             startActivityForResult(intent, DeliverOrderActivity.REQUEST_CODE);
 
         });
-    }
-
-    private void disableConfirmButton() {
-        confirmButton.setText(R.string.late_button);
-        confirmButton.setFocusable(false);
-        confirmButton.setClickable(false);
-        confirmButton.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {

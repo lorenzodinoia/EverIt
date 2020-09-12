@@ -14,7 +14,7 @@ import it.uniba.di.sms1920.everit.utils.Constants;
 
 public class Order extends Model {
     public enum Status {
-        ORDERED, CONFIRMED, IN_PROGRESS, DELIVERING, READY, DELIVERED
+        ORDERED, CONFIRMED, IN_PROGRESS, DELIVERING, READY, DELIVERED, REFUSED
     }
 
     public enum OrderType {

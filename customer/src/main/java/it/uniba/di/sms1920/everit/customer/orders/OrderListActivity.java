@@ -253,6 +253,8 @@ public class OrderListActivity extends AppCompatActivity {
                     case DELIVERED:
                         holder.chipStatusOrder.setText(R.string.delivered);
                         break;
+                    case REFUSED:
+                        holder.chipStatusOrder.setText(R.string.refused);
                 }
 
                 if(item.isLate()){

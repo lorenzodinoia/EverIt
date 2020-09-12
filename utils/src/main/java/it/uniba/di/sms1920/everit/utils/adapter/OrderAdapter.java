@@ -115,6 +115,9 @@ public class OrderAdapter implements JsonSerializer<Order>, JsonDeserializer<Ord
             case 5:
                 newStatus = Order.Status.DELIVERED;
                 break;
+            case 6:
+                newStatus = Order.Status.REFUSED;
+                break;
         }
 
         Order.OrderType newOrderType = null;

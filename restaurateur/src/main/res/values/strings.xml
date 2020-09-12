@@ -66,6 +66,7 @@
     <string name="order_notes_label">Order notes</string>
     <string name="order_products_label">Products</string>
     <string name="confirm_order_button">Confirm order</string>
+    <string name="refuse_order_button">Refuse order</string>
     <string name="late_button">Late</string>
 
     <string name="date_time_opening">DateTime opening</string>

@@ -127,6 +127,24 @@ public final class OrderRequest extends CRUDRequest<Order> implements CRUD<Order
         }
     }
 
+    public void markAsRefused(long orderId, RequestListener<Order> requestListener) {
+        Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
+        try {
+            ObjectRequest request = new ObjectRequest(Request.Method.POST, String.format("%s/api/%s%s/%d/markAsRefused", Constants.SERVER_HOST, RESTAURATEUR, ORDER, orderId), null,
+                    response -> {
+                        Order data = adapter.fromJSON(response, Order.class);
+                        requestListener.successResponse(data);
+                    },
+                    error -> {
+                        requestListener.errorResponse(RequestExceptionFactory.createExceptionFromError(error));
+                    }, Providers.getAuthProvider().getAuthToken());
+
+            Providers.getRequestProvider().addToQueue(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void markAsLate(long orderId, RequestListener<Order> requestListener){
         Adapter<Order> adapter = AdapterProvider.getAdapterFor(Order.class);
         try {

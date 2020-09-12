@@ -101,7 +101,7 @@
                 app:chipBackgroundColor="@color/colorWarning"
                 app:chipEndPadding="4dp"
                 app:chipIcon="@drawable/ic_exclamation_12px"
-                app:layout_constraintStart_toEndOf="@+id/chipStatusOrder"
+                app:layout_constraintStart_toEndOf="@+id/chipListCustomerOrders"
                 app:layout_constraintTop_toBottomOf="@+id/textViewActivityName"
                 app:textEndPadding="2dp"
                 app:textStartPadding="2dp" />
