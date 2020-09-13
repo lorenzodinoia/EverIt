@@ -165,8 +165,8 @@
     <string name="title_order_list">Orders</string>
     <string name="title_order_detail">Order Detail</string>
     <string name="title_orders">Orders</string>
-    <string name="title_doneorder_list">DoneOrders</string>
-    <string name="title_doneorder_detail">DoneOrder Detail</string>
+    <string name="title_doneorder_list">Done orders</string>
+    <string name="title_doneorder_detail">Done order detail</string>
     <string name="title_activity_opening_date_time">Opening times</string>
     <string name="wrong_value_error">This value is not valid</string>
     <string name="You_will_delete">"You are going to delete "</string>

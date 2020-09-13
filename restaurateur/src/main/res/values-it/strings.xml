@@ -100,7 +100,7 @@
     <string name="title_orders">Orders</string>
 
     <string name="title_doneorder_list">Ordini evasi</string>
-    <string name="title_doneorder_detail">DoneOrder Detail</string>
+    <string name="title_doneorder_detail">Dettaglio ordine evaso</string>
 
     <string name="title_activity_opening_date_time">Orari di apertura</string>
 
