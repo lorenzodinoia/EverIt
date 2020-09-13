@@ -5,6 +5,7 @@ import com.android.volley.Request;
 import org.json.JSONObject;
 
 import java.util.Collection;
+import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.utils.Constants;
 import it.uniba.di.sms1920.everit.utils.adapter.Adapter;
@@ -47,7 +48,7 @@ public class OpeningTimeRequest extends CRUDRequest<OpeningTime> implements CRUD
 
     @Override
     public void delete(long id, RequestListener<Boolean> RequestListener) {
-        super.delete(Providers.getAuthProvider().getUser().getId(), RESTAURATEUR+OPENING_TIMES+"/"+id, RequestListener, true);
+        super.delete(Providers.getAuthProvider().getUser().getId(), String.format(Locale.getDefault(), "%s%s/%d", RESTAURATEUR, OPENING_TIMES, id), RequestListener, true);
     }
 
     public void createOpeningTime(long idDay, OpeningTime model, RequestListener<OpeningTime> requestListener){
