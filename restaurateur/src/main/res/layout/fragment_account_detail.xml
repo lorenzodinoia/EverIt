@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
-                    android:src="@drawable/ic_privacy_and_security_24px" />
+                    android:src="@drawable/ic_order_settings" />
 
                 <TextView
                     style="@style/TextViewSmall"
