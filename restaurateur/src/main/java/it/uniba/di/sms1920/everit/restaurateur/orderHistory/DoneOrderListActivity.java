@@ -82,6 +82,7 @@ public class DoneOrderListActivity extends AppCompatActivity {
                     orders.addAll(response);
                 }
                 else {
+                    textViewEmptyOrders.bringToFront();
                     textViewEmptyOrders.setVisibility(View.VISIBLE);
                     textViewEmptyOrders.setText(R.string.empty_order_history);
                 }

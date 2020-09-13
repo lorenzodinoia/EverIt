@@ -144,23 +144,10 @@ public final class Utility {
         }
     }
 
-    //TODO rimuovere???
-    public static boolean isDescriptionValid(String description){
-
-        return description.length() <= 250;
-    }
-
     public static boolean isMaxDeliveryTimeSlot(int maxDeliveryTimeSlot){
 
         return maxDeliveryTimeSlot > 0;
     }
-
-
-    public static boolean isValidQuantity(int quantity){
-
-        return quantity > 0 && quantity <= 999;
-    }
-
 
 
     /** Products and Categories controls */
@@ -232,16 +219,6 @@ public final class Utility {
             return true;
         }else {
             editText.setError(context.getString(R.string.error_orderNotes_maxChar));
-            return false;
-        }
-
-    }
-
-    public static boolean isValidDeliveryNote(String notes, EditText editText, Context context){
-        if(notes.length() <=  250){
-            return true;
-        }else {
-            editText.setError(context.getString(R.string.error_deliveryNotes_maxChar));
             return false;
         }
 

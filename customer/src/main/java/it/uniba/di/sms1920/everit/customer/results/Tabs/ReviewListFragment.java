@@ -152,6 +152,7 @@ public class ReviewListFragment extends Fragment {
             textViewRatingNumber.setText(String.format("%d/5", reviewsAverage));
         }
         else {
+            textViewPlaceholder.bringToFront();
             textViewPlaceholder.setVisibility(View.VISIBLE);
             textViewPlaceholder.setText(R.string.no_reviews);
             textViewRatingNumber.setVisibility(View.INVISIBLE);

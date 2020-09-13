@@ -93,6 +93,7 @@ public class AssignedOrdersFragment extends Fragment{
                     textViewEmpty.setVisibility(View.INVISIBLE);
                 }
                 else {
+                    textViewEmpty.bringToFront();
                     textViewEmpty.setVisibility(View.VISIBLE);
                     textViewEmpty.setText(R.string.assigned_order_empty_placeholder);
                 }

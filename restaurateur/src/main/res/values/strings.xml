@@ -104,7 +104,7 @@
     <string name="title_review_list">Reviews</string>
     <string name="title_review_detail">Review Detail</string>
 
-    <string name="empty_review">No review</string>
+    <string name="empty_review">No reviews</string>
 
     <string name="message_confirm_deleteAccount">Are you sure you want to delete the account? All data will be deleted</string>
     <string name="message_confirm_deleteCategory">This category and all its products will be deleted. Are you sure?</string>
