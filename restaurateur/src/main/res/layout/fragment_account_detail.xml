@@ -102,13 +102,13 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
                 android:background="#c0c0c0"
-                app:layout_constraintBottom_toTopOf="@id/linearLayoutChangePassword"
+                app:layout_constraintBottom_toTopOf="@id/linearLayoutChangeOrderSettings"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linearLayoutAccountInfo" />
 
             <LinearLayout
-                android:id="@+id/linearLayoutChangePassword"
+                android:id="@+id/linearLayoutChangeOrderSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -130,12 +130,54 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:text="@string/privacy_and_security" />
+                    android:text="@string/order_settings" />
 
             </LinearLayout>
 
             <View
                 android:id="@+id/viewSettings3"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="16dp"
+                android:background="#c0c0c0"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayoutChangePassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayoutChangeOrderSettings"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:padding="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewSettings3">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/ic_privacy_and_security_24px" />
+
+                <TextView
+                    style="@style/TextViewSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="@string/privacy_and_security" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewSettings4"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
                 android:layout_marginStart="5dp"

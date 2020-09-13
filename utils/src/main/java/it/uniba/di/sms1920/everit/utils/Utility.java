@@ -144,6 +144,7 @@ public final class Utility {
         }
     }
 
+    //TODO rimuovere???
     public static boolean isDescriptionValid(String description){
 
         return description.length() <= 250;

@@ -39,6 +39,7 @@ public class AccountDetailFragment extends Fragment {
     private final String ARG_RESTAURATEUR = "restaurateur_account_detail_fragment";
     private LinearLayout linearLayoutAccountInfo;
     private LinearLayout linearLayoutChangePassword;
+    private LinearLayout linearLayoutChangeOrderSettings;
     private TextView textViewShopName;
     private TextView textViewEmail;
 
@@ -86,6 +87,7 @@ public class AccountDetailFragment extends Fragment {
         textViewEmail = view.findViewById(R.id.textViewEmailProfile);
         linearLayoutAccountInfo = view.findViewById(R.id.linearLayoutAccountInfo);
         linearLayoutChangePassword = view.findViewById(R.id.linearLayoutChangePassword);
+        linearLayoutChangeOrderSettings = view.findViewById(R.id.linearLayoutChangeOrderSettings);
     }
 
     private void initData(){
@@ -194,6 +196,13 @@ public class AccountDetailFragment extends Fragment {
             FragmentManager fragmentManager = mParent.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.containerSettings, privacyAndSecurityFragment).addToBackStack(null).commit();
+        });
+
+        linearLayoutChangeOrderSettings.setOnClickListener(v -> {
+            OrderSettingsFragment orderSettingsFragment = new OrderSettingsFragment();
+            FragmentManager fragmentManager = mParent.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.containerSettings, orderSettingsFragment).addToBackStack(null).commit();
         });
     }
 

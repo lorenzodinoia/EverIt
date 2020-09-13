@@ -25,8 +25,10 @@
     <string name="error_address">Select an address</string>
 
     <string name="num_max_delivery_per_time_slot">Num max order per time slot</string>
-    <string name="delivery_cost">Delivery cost*</string>
-    <string name="min_price">Min price*</string>
+    <string name="delivery_cost_optional">Delivery cost*</string>
+    <string name="delivery_cost">Delivery cost</string>
+    <string name="min_price_optional">Min price*</string>
+    <string name="min_price">Min price</string>
     <string name="back">Back</string>
     <string name="error_num_delivery_time_slot">Num max delivery greater than 0</string>
     <string name="error_delivery_cost">Delivery cost between 1 and 999</string>
@@ -82,6 +84,7 @@
     <string name="account_info">Account Info</string>
     <string name="privacy_and_security">Privacy and Security</string>
     <string name="change_password">Change Password</string>
+    <string name="order_settings">Order Settings</string>
 
     <string name="account_detail">Account Detail</string>
     <string name="edit">Edit</string>
@@ -181,4 +184,5 @@
     <string name="title_activity_signup">Sign up</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_devliver_order">Deliver order</string>
+
 </resources>
