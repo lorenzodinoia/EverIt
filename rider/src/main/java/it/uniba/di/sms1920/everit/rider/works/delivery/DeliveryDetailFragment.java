@@ -117,7 +117,7 @@ public class DeliveryDetailFragment extends Fragment {
 
         this.textViewRestaurateurName.setText(this.delivery.getRestaurateur().getShopName());
 
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Constants.DATETIME_FORMAT);
         this.textViewEstimatedDeliveryTime.setText(timeFormatter.format(this.delivery.getEstimatedDeliveryTime()));
 
 

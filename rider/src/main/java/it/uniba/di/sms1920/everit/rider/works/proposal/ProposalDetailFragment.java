@@ -34,7 +34,7 @@ public class ProposalDetailFragment extends Fragment {
     private Proposal proposal;
     private MaterialButton buttonAccept, buttonRefuse;
     private LinearLayout linearLayoutRestaurateurAddress,  linearLayoutRestaurateurPhoneNumber, linearLayoutAddressDeliver;
-    private TextView textViewOrderNumber, textViewPickupTime, textViewRestaurateurName, textViewRestaurateurPhone, textViewRestaurateurAddress, textViewDeliverAddress;
+    private TextView textViewOrderNumber, textViewPickupTime, textViewRestaurateurName, textViewRestaurateurPhone, textViewRestaurateurAddress, textViewDeliverAddress, textViewDeliveryCost;
 
     public ProposalDetailFragment() {
         // Required empty public constructor
@@ -90,6 +90,8 @@ public class ProposalDetailFragment extends Fragment {
         this.textViewDeliverAddress = view.findViewById(R.id.textViewDeliverAddress);
 
         this.textViewPickupTime = view.findViewById(R.id.textViewPickupTimeProposal);
+
+        this.textViewDeliveryCost = view.findViewById(R.id.textViewDeliveryCost);
 
         this.buttonAccept = view.findViewById(R.id.buttonAccept);
         buttonAccept.setOnClickListener(v -> {
@@ -168,6 +170,8 @@ public class ProposalDetailFragment extends Fragment {
 
 
         this.textViewPickupTime.setText(remainingTimeString);
+
+        this.textViewDeliveryCost.setText(Float.toString(proposal.getRestaurateur().getDeliveryCost()) + getString(R.string.currency_type));
     }
 
     private void acceptProposal(Dialog dialog) {
