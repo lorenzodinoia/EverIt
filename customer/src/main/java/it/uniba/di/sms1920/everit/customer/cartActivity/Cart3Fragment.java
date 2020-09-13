@@ -135,6 +135,8 @@ public class Cart3Fragment extends Fragment {
 
                 buttonFinishOrder = viewRoot.findViewById(R.id.buttonFinishOrder);
                 buttonFinishOrder.setOnClickListener(v -> {
+                    buttonFinishOrder.setEnabled(false);
+
                     if(homeDelivery.isChecked()){
                         if(Utility.isValidOrderNote(editTextDeliveryNotes.getText().toString(), editTextDeliveryNotes, mParent)) {
                             cart.getPartialOrder().setDeliveryNotes(editTextDeliveryNotes.getText().toString());
@@ -174,6 +176,7 @@ public class Cart3Fragment extends Fragment {
 
              @Override
              public void errorResponse(RequestException error) {
+                 buttonFinishOrder.setEnabled(true);
                  promptErrorMessage(error.getMessage());
              }
 
