@@ -227,7 +227,7 @@ public class AssignedOrderDetailFragment extends Fragment {
 
         this.textViewPickupTime.setText(remainingTimeString);
 
-        this.textViewDeliveryCost.setText(String.valueOf(assignedOrder.getRestaurateur().getDeliveryCost()));
+        this.textViewDeliveryCost.setText(String.valueOf(assignedOrder.getRestaurateur().getDeliveryCost()) + getString(R.string.currency_type));
     }
 
     private void promptErrorMessage(String message){
