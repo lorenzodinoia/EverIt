@@ -214,18 +214,36 @@ public class OrderDetailFragment extends Fragment {
         btnLate.setVisibility(View.VISIBLE);
         btnLate.setText(R.string.refuse_order_button);
         btnLate.setOnClickListener(v -> {
-            OrderRequest orderRequest = new OrderRequest();
-            orderRequest.markAsRefused(order.getId(), new RequestListener<Order>() {
-                @Override
-                public void successResponse(Order response) {
-                    parentActivity.finish();
-                }
+            Dialog dialog = new Dialog(parentActivity);
+            dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_y_n);
 
-                @Override
-                public void errorResponse(RequestException error) {
-                    promptErrorMessage(error.getMessage());
-                }
+            TextView title = dialog.findViewById(R.id.textViewTitle);
+            title.setText(R.string.refuse_order_button);
+
+            TextView message = dialog.findViewById(R.id.textViewMessage);
+            message.setText(R.string.message_refuse_order);
+
+            MaterialButton btnOk = dialog.findViewById(R.id.btnOk);
+            btnOk.setOnClickListener(v1 -> {
+
+                OrderRequest orderRequest = new OrderRequest();
+                orderRequest.markAsRefused(order.getId(), new RequestListener<Order>() {
+                    @Override
+                    public void successResponse(Order response) {
+                        parentActivity.finish();
+                    }
+
+                    @Override
+                    public void errorResponse(RequestException error) {
+                        promptErrorMessage(error.getMessage());
+                    }
+                });
             });
+
+            MaterialButton btnCancel = dialog.findViewById(R.id.btnCancel);
+            btnCancel.setOnClickListener(v1 -> dialog.dismiss());
+
+            dialog.show();
         });
     }
 

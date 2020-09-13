@@ -300,6 +300,11 @@ public class OrderListActivity extends AppCompatActivity {
                 }
                 else if (orderStatus.equals(Order.Status.DELIVERED)) {
                     holder.textViewOrderStatus.setText(R.string.delivered);
+                    holder.cardListSingleOrder.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
+                }
+                else if(orderStatus.equals(Order.Status.REFUSED)){
+                    holder.textViewOrderStatus.setText(R.string.refused);
+                    holder.cardListSingleOrder.setBackgroundColor(ContextCompat.getColor(parentActivity, R.color.lightGreyAccent));
                 }
 
 
@@ -327,6 +332,7 @@ public class OrderListActivity extends AppCompatActivity {
             final TextView textViewDeliveryDate;
             final TextView textViewOrderStatus;
             final ImageView imageViewRestaurateur;
+            final CardView cardListSingleOrder;
 
             ViewHolder(View view) {
                 super(view);
@@ -339,6 +345,8 @@ public class OrderListActivity extends AppCompatActivity {
                 textViewDeliveryDate = view.findViewById(R.id.textViewOrderDate);
                 textViewOrderStatus = view.findViewById(R.id.textViewOrderStatus);
                 imageViewRestaurateur = view.findViewById(R.id.imageViewRestaurateur);
+                cardListSingleOrder = view.findViewById(R.id.cardListSingleOrder);
+
             }
         }
     }
