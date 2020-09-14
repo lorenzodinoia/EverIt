@@ -112,8 +112,6 @@ public class SignUp2Fragment extends Fragment {
 
             }
         });
-
-        //TODO da terminare
         
         editTextDeliveryCost.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus){

@@ -148,6 +148,7 @@ public class OrderListFragment extends Fragment {
             this.orderList.addAll(orders);
         }
         else {
+            this.textViewEmptyData.bringToFront();
             this.textViewEmptyData.setVisibility(View.VISIBLE);
             if (this.orderType == ORDER_TYPE_NOT_CONFIRMED) {
                 this.textViewEmptyData.setText(R.string.empty_order_not_confirmed);

@@ -143,7 +143,6 @@ public class AssignedOrderDetailFragment extends Fragment {
                         riderRequest.pickupOrder(this.assignedOrder.getId(), latitude, longitude, new RequestListener<Boolean>() {
                             @Override
                             public void successResponse(Boolean response) {
-                                //TODO controllare
                                 Dialog dialog = new Dialog(parentActivity);
                                 dialog.setContentView(it.uniba.di.sms1920.everit.utils.R.layout.dialog_message_ok);
 
@@ -160,16 +159,6 @@ public class AssignedOrderDetailFragment extends Fragment {
                                 });
 
                                 dialog.show();
-                                /**
-                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-                                dialogBuilder.setTitle(R.string.order_withdrawn)
-                                        .setMessage(R.string.order_withdrawn_explanation)
-                                        .setPositiveButton(R.string.ok_default, (dialog, which) -> {
-                                            dialog.dismiss();
-                                            getActivity().finish();
-                                        })
-                                        .show();
-                                 */
                             }
 
                             @Override

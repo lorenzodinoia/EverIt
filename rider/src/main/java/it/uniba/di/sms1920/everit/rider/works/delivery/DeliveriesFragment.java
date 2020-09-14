@@ -93,6 +93,7 @@ public class DeliveriesFragment extends Fragment {
                     textViewEmpty.setVisibility(View.INVISIBLE);
                 }
                 else {
+                    textViewEmpty.bringToFront();
                     textViewEmpty.setVisibility(View.VISIBLE);
                     textViewEmpty.setText(R.string.delivery_empty_placeholder);
                 }

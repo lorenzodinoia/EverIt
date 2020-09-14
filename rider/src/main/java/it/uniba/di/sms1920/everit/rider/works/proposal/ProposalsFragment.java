@@ -1,6 +1,5 @@
 package it.uniba.di.sms1920.everit.rider.works.proposal;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -92,6 +91,7 @@ public class ProposalsFragment extends Fragment {
                     textViewEmpty.setVisibility(View.INVISIBLE);
                 }
                 else {
+                    textViewEmpty.bringToFront();
                     textViewEmpty.setVisibility(View.VISIBLE);
                 }
             }

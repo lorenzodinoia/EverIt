@@ -299,7 +299,6 @@ public class DeliverOrderActivity extends AppCompatActivity {
             filters[0].addDataType(MIME_TEXT_PLAIN);
         }
         catch (IntentFilter.MalformedMimeTypeException e){
-            //TODO gestire exception
             throw new RuntimeException("Check mime type");
         }
 
