@@ -2,6 +2,8 @@ package it.uniba.di.sms1920.everit.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public final class Utility {
@@ -288,5 +291,13 @@ public final class Utility {
         });
 
         dialog.show();
+    }
+
+    public static void showLocationOnMap(Context context, double latitude, double longitude, String locationName) {
+        String uri = String.format(Locale.US, "geo:0,0?q=%f,%f(%s)", latitude, longitude, locationName);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        if ((context != null) && (mapIntent.resolveActivity(context.getPackageManager()) != null)) {
+            context.startActivity(mapIntent);
+        }
     }
 }

@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.customer.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Restaurateur;
 
 public class InfoFragment extends Fragment {
@@ -97,8 +98,8 @@ public class InfoFragment extends Fragment {
         layoutCall.setOnClickListener(v -> callShop());
         buttonCall.setOnClickListener(v -> callShop());
 
-        layoutAddress.setOnClickListener(v -> startMap(restaurateur.getAddress().getLongitude(), restaurateur.getAddress().getLatitude(), restaurateur.getShopName()));
-        buttonMap.setOnClickListener(v -> startMap(restaurateur.getAddress().getLongitude(), restaurateur.getAddress().getLatitude(), restaurateur.getShopName()));
+        layoutAddress.setOnClickListener(v -> Utility.showLocationOnMap(getContext(), restaurateur.getAddress().getLatitude(), restaurateur.getAddress().getLongitude(), restaurateur.getShopName()));
+        buttonMap.setOnClickListener(v -> Utility.showLocationOnMap(getContext(), restaurateur.getAddress().getLatitude(), restaurateur.getAddress().getLongitude(), restaurateur.getShopName()));
 
         if (restaurateur.isOpen()) {
             imageViewOpenClosed.setImageResource(it.uniba.di.sms1920.everit.utils.R.drawable.ic_open_40px);
@@ -108,19 +109,11 @@ public class InfoFragment extends Fragment {
             imageViewOpenClosed.setImageResource(it.uniba.di.sms1920.everit.utils.R.drawable.ic_close_40px);
             textViewOpenClosed.setText(getString(R.string.closed_shop));
         }
-
     }
 
     private void callShop(){
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + restaurateur.getPhoneNumber()));
         startActivity(intent);
-    }
-
-
-    private void startMap(double latitude, double longitude, String nameLocation){
-        Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
-        startActivity(mapIntent);
     }
 }

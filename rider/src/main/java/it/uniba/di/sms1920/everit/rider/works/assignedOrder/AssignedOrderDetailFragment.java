@@ -28,6 +28,7 @@ import java.util.Locale;
 import it.uniba.di.sms1920.everit.rider.BackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.IBackgroundLocationService;
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 import it.uniba.di.sms1920.everit.utils.request.RiderRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -205,7 +206,7 @@ public class AssignedOrderDetailFragment extends Fragment {
         this.textViewOrderNumber.setText("#"+assignedOrder.getId());
 
         this.linearLayoutRestaurateurAddress.setOnClickListener(v -> {
-            startMap(assignedOrder.getRestaurateur().getAddress().getLatitude(),
+            Utility.showLocationOnMap(getContext(), assignedOrder.getRestaurateur().getAddress().getLatitude(),
                     assignedOrder.getRestaurateur().getAddress().getLongitude(),
                     assignedOrder.getRestaurateur().getShopName());
         });
@@ -219,7 +220,7 @@ public class AssignedOrderDetailFragment extends Fragment {
         this.textViewRestaurateurPhone.setText(assignedOrder.getRestaurateur().getPhoneNumber());
 
         this.linearLayoutAddressDeliver.setOnClickListener(v -> {
-            startMap(assignedOrder.getDeliveryAddress().getLatitude(),
+            Utility.showLocationOnMap(getContext(), assignedOrder.getDeliveryAddress().getLatitude(),
                     assignedOrder.getDeliveryAddress().getLongitude(),
                     "");
         });
@@ -227,7 +228,7 @@ public class AssignedOrderDetailFragment extends Fragment {
 
         this.textViewPickupTime.setText(remainingTimeString);
 
-        this.textViewDeliveryCost.setText(String.valueOf(assignedOrder.getRestaurateur().getDeliveryCost()) + getString(R.string.currency_type));
+        this.textViewDeliveryCost.setText(String.format(Locale.getDefault(), "\u20AC %.1f", assignedOrder.getRestaurateur().getDeliveryCost()));
     }
 
     private void promptErrorMessage(String message){
@@ -246,11 +247,5 @@ public class AssignedOrderDetailFragment extends Fragment {
         });
 
         dialog.show();
-    }
-
-    private void startMap(double latitude, double longitude, String nameLocation) {
-        Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
-        startActivity(mapIntent);
     }
 }

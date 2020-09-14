@@ -21,6 +21,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.Locale;
 
 import it.uniba.di.sms1920.everit.rider.R;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Proposal;
 import it.uniba.di.sms1920.everit.utils.request.ProposalRequest;
 import it.uniba.di.sms1920.everit.utils.request.core.RequestException;
@@ -148,7 +149,7 @@ public class ProposalDetailFragment extends Fragment {
         this.textViewOrderNumber.setText("#"+proposal.getOrder().getId());
 
         this.linearLayoutRestaurateurAddress.setOnClickListener(v -> {
-            startMap(proposal.getRestaurateur().getAddress().getLatitude(),
+            Utility.showLocationOnMap(getContext(), proposal.getRestaurateur().getAddress().getLatitude(),
                     proposal.getRestaurateur().getAddress().getLongitude(),
                     proposal.getRestaurateur().getShopName());
         });
@@ -162,7 +163,7 @@ public class ProposalDetailFragment extends Fragment {
         this.textViewRestaurateurPhone.setText(proposal.getRestaurateur().getPhoneNumber());
 
         this.linearLayoutAddressDeliver.setOnClickListener(v -> {
-            startMap(proposal.getOrder().getDeliveryAddress().getLatitude(),
+            Utility.showLocationOnMap(getContext(), proposal.getOrder().getDeliveryAddress().getLatitude(),
                     proposal.getOrder().getDeliveryAddress().getLongitude(),
                     "");
         });
@@ -171,7 +172,7 @@ public class ProposalDetailFragment extends Fragment {
 
         this.textViewPickupTime.setText(remainingTimeString);
 
-        this.textViewDeliveryCost.setText(Float.toString(proposal.getRestaurateur().getDeliveryCost()) + getString(R.string.currency_type));
+        this.textViewDeliveryCost.setText(String.format(Locale.getDefault(), "\u20AC %.1f", proposal.getRestaurateur().getDeliveryCost()));
     }
 
     private void acceptProposal(Dialog dialog) {
@@ -208,12 +209,6 @@ public class ProposalDetailFragment extends Fragment {
                 promptErrorMessage(error.getMessage());
             }
         });
-    }
-
-    private void startMap(double latitude, double longitude, String nameLocation){
-        Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
-        startActivity(mapIntent);
     }
 
     private void promptErrorMessage(String message) {

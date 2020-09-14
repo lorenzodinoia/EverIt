@@ -65,7 +65,7 @@
 
     <string name="error_not_selected_opening_time">Inserisci almeno un orario di apertura</string>
 
-    <string name="confirm_password">Confirm Password</string>
+    <string name="confirm_password">Conferma password</string>
     <string name="error_email">Formato email errato</string>
     <string name="error_match_password">Le due password non coincidono</string>
 

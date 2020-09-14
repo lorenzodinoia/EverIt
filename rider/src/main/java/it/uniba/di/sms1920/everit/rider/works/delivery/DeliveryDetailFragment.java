@@ -24,6 +24,7 @@ import java.util.Locale;
 import it.uniba.di.sms1920.everit.rider.R;
 import it.uniba.di.sms1920.everit.rider.DeliverOrderActivity;
 import it.uniba.di.sms1920.everit.utils.Constants;
+import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
 
 public class DeliveryDetailFragment extends Fragment {
@@ -34,7 +35,7 @@ public class DeliveryDetailFragment extends Fragment {
     private Order delivery;
     private TextView textViewCustomer, textViewOrderNumber, textViewCustomerAddress, textViewCustomerPhone, textViewRestaurateurName,
             textViewEstimatedDeliveryTime, textViewDeliveryNotes;
-    private LinearLayout linearLayoutCustomerAddress, linearLayoutCustomerPhone;
+    private LinearLayout linearLayoutCustomerAddress, linearLayoutCustomerPhone, linearLayoutRestaurateurName;
     private CardView cardViewDeliveryNotes;
     private MaterialButton buttonOrderDelivery;
 
@@ -95,17 +96,17 @@ public class DeliveryDetailFragment extends Fragment {
         this.textViewDeliveryNotes = view.findViewById(R.id.textViewDeliveryNotes);
 
         this.buttonOrderDelivery = view.findViewById(R.id.buttonOrderDelivery);
+
+        this.linearLayoutRestaurateurName = view.findViewById(R.id.layoutRestaurateurName);
     }
 
     private void initData() {
         this.textViewCustomer.setText(delivery.getCustomer().getFullName());
         this.textViewOrderNumber.setText(String.format(Locale.getDefault(), "#%d", this.delivery.getId()));
 
-        this.linearLayoutCustomerAddress.setOnClickListener(v -> {
-            startMap(delivery.getDeliveryAddress().getLatitude(),
-                    delivery.getDeliveryAddress().getLongitude(),
-                    "");
-        });
+        this.linearLayoutCustomerAddress.setOnClickListener(v -> Utility.showLocationOnMap(getContext(), delivery.getDeliveryAddress().getLatitude(),
+                delivery.getDeliveryAddress().getLongitude(),
+                delivery.getRestaurateur().getShopName()));
         this.textViewCustomerAddress.setText(this.delivery.getDeliveryAddress().getFullAddress());
 
         this.linearLayoutCustomerPhone.setOnClickListener(v -> {
@@ -132,12 +133,11 @@ public class DeliveryDetailFragment extends Fragment {
             deliverOrderIntent.putExtra(DeliverOrderActivity.ARG_ITEM, this.delivery);
             startActivityForResult(deliverOrderIntent, DeliverOrderActivity.REQUEST_CODE);
         });
-    }
 
-    private void startMap(double latitude, double longitude, String nameLocation) {
-        Uri mapsUri = Uri.parse(String.format(Locale.getDefault(),"http://maps.google.com/maps?q=loc:%f,%f (%s)", latitude, longitude, nameLocation));
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapsUri);
-        startActivity(mapIntent);
+        this.linearLayoutRestaurateurName.setOnClickListener(v -> Utility.showLocationOnMap(getContext(),
+                delivery.getRestaurateur().getAddress().getLatitude(),
+                delivery.getRestaurateur().getAddress().getLongitude(),
+                delivery.getRestaurateur().getShopName()));
     }
 
     @Override
@@ -145,7 +145,7 @@ public class DeliveryDetailFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == DeliverOrderActivity.REQUEST_CODE){
-            if(resultCode == Activity.RESULT_OK){
+            if(resultCode == Activity.RESULT_OK) {
                 getActivity().finish();
             }
         }
