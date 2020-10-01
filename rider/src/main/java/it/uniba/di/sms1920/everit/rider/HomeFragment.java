@@ -1,5 +1,6 @@
 package it.uniba.di.sms1920.everit.rider;
 
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,8 +17,11 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -37,6 +41,9 @@ public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPe
     private IBackgroundLocationService backgroundLocationService;
     private ToggleButton buttonService;
     private boolean shouldShowExplanationForLocation = false;
+
+    private View content;
+    private ImageView gray, white;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -184,8 +191,17 @@ public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPe
     }
 
     private void initComponent(View viewRoot) {
+        this.content = viewRoot.findViewById(R.id.content);
+
+        this.gray = viewRoot.findViewById(R.id.gray);
+        this.white = viewRoot.findViewById(R.id.white);
+
         this.buttonService = viewRoot.findViewById(R.id.toggleButtonLocationService);
         this.buttonService.setOnCheckedChangeListener(this.buttonServiceCheckChangedListener);
+
+        this.buttonService.setOnClickListener(v -> {
+            animFeedback();
+        });
 
         Intent serviceIntent = new Intent(getContext(), BackgroundLocationService.class);
         this.context.bindService(serviceIntent, this.serviceConnection, 0);
@@ -241,5 +257,21 @@ public class HomeFragment extends Fragment implements ActivityCompat.OnRequestPe
 
             this.context.startService(serviceIntent);
         }
+    }
+
+
+    private void animFeedback(){
+        int whiteX = white.getWidth() / 2;
+        int whiteY = white.getHeight() / 2;
+        float whiteFull = (float) Math.hypot(whiteX, whiteY);
+
+        int[] location = new int[2];
+        buttonService.getLocationOnScreen(location);
+        int locY = location[1];
+
+        Animator anim2 = ViewAnimationUtils.createCircularReveal(white, whiteX, locY, 0, whiteFull);
+        anim2.setDuration(300);
+        anim2.start();
+
     }
 }
