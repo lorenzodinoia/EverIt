@@ -143,8 +143,8 @@
 
     <string name="send_code">Send code</string>
 
-    <string name="message_nfc_sender_activity_with_no_nfc">Communicate this code upon delivery to complete the procedure</string>
-    <string name="message_nfc_sender_activity">Communicate this code upon delivery to complete the procedure. It is also possible to exchange code via NFC</string>
+    <string name="order_validation_code_hint">Communicate this code upon delivery to complete the procedure</string>
+    <string name="order_validation_code_hint_nfc">Communicate this code upon delivery to complete the procedure. It is also possible to exchange code via NFC</string>
     <string name="message_nfc_sender_with_activation_request_nfc">Communicate this code upon delivery to complete the procedure. It is also possible to exchange code via NFC but first turn it on</string>
 
     <string name="code_sent_successfully">Code sent successfully</string>
@@ -170,4 +170,6 @@
     <string name="title_activity_cart">Cart</string>
     <string name="title_activity_account">My account</string>
     <string name="title_activity_order_receiver">Receive order</string>
+    <string name="order_number_label_short">Order #</string>
+    <string name="order_validation_code_label">Delivery code</string>
 </resources>

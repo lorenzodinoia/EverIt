@@ -1,8 +1,10 @@
 package it.uniba.di.sms1920.everit.customer.orders;
 
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import java.util.Objects;
 
 import it.uniba.di.sms1920.everit.customer.R;
 import it.uniba.di.sms1920.everit.customer.BaseActivity;
+import it.uniba.di.sms1920.everit.customer.nfc.NfcManager;
 import it.uniba.di.sms1920.everit.customer.orders.tab.OrderTabManagerFragment;
 import it.uniba.di.sms1920.everit.utils.Utility;
 import it.uniba.di.sms1920.everit.utils.models.Order;
@@ -26,9 +29,12 @@ import it.uniba.di.sms1920.everit.utils.request.core.RequestListener;
  * item details are presented side-by-side with a list of items
  * in a {@link OrderListActivity}.
  */
-public class OrderDetailActivity extends AppCompatActivity {
+public class OrderDetailActivity extends AppCompatActivity implements NfcManager.NfcActivity {
     public static final String ARG_ITEM_ID = "item_id";
     private static final String SAVED_ORDER = "saved.order";
+
+    private NfcAdapter nfcAdapter;
+    private NfcManager nfcManager;
 
     private long orderId;
     private Order order;
@@ -55,6 +61,8 @@ public class OrderDetailActivity extends AppCompatActivity {
                 }
             }
         }
+
+        this.initNFC();
     }
 
     @Override
@@ -111,5 +119,46 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isNfcSupported() {
+        if (this.nfcAdapter != null) {
+            return true;
+        }
+        else {
+            this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            return this.nfcAdapter != null;
+        }
+    }
+
+    public boolean isNfcEnabled() {
+        return (this.nfcAdapter != null && this.nfcAdapter.isEnabled());
+    }
+
+    private void initNFC() {
+        if(!isNfcSupported()) {
+            //textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_activity_with_no_nfc);
+        }
+        else {
+            if (this.nfcAdapter.isEnabled()) {
+                this.nfcManager = new NfcManager(this);
+                this.nfcAdapter.setOnNdefPushCompleteCallback(nfcManager, this);
+                this.nfcAdapter.setNdefPushMessageCallback(nfcManager, this);
+                //textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_activity);
+            }
+            else {
+                //textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_with_activation_request_nfc);
+            }
+        }
+    }
+
+    @Override
+    public String getPayload() {
+        return this.order.getValidationCode();
+    }
+
+    @Override
+    public void signalResult() {
+        Toast.makeText(this, R.string.code_sent_successfully,Toast.LENGTH_LONG).show();
     }
 }

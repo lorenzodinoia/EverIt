@@ -11,54 +11,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textViewLabelOrderNumber"
-            style="@style/TextViewSmall"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayoutRestaurateur"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/order_number"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textViewOrderNumber"
-            style="@style/TextViewMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/textViewLabelOrderType"
-            app:layout_constraintHorizontal_bias="0.0"
+            <TextView
+                android:id="@+id/textViewRestaurateurName"
+                style="@style/TextViewLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/textViewOrderNumber"
+                style="@style/TextViewMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="#c0c0c0"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewLabelOrderNumber" />
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutRestaurateur" />
 
         <TextView
             android:id="@+id/textViewLabelOrderType"
             style="@style/TextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:text="@string/order_type"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/textViewLabelOrderNumber"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <TextView
             android:id="@+id/textViewOrderType"
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textViewLabelOrderType"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="Take away"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewLabelOrderType" />
 
         <TextView
@@ -91,10 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
             android:text="22/22/2020"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textViewOrderDateTime"
             app:layout_constraintTop_toBottomOf="@+id/labelDeliveryDate" />
 
@@ -105,10 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
             android:text="@string/delivery_date_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textViewOrderDateTime"
             app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryAddress"
             app:layout_goneMarginStart="8dp" />
@@ -140,20 +142,20 @@
             style="@style/TextViewSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="8dp"
             android:text="@string/order_status_label"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewOrderDateTime" />
+            app:layout_constraintStart_toEndOf="@+id/textViewOrderType"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <TextView
             android:id="@+id/textViewOrderStatus"
             style="@style/TextViewMediumValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="In consegna"
+            app:layout_constraintStart_toStartOf="@+id/labelOrderStatus"
             app:layout_constraintTop_toBottomOf="@+id/labelOrderStatus" />
 
 
@@ -183,6 +185,45 @@
             app:layout_constraintStart_toEndOf="@id/chipLate"
             app:layout_constraintTop_toBottomOf="@+id/labelOrderStatus" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewValidationCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrderDateTime">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="4dp">
+                <TextView
+                    android:id="@+id/labelValidationCode"
+                    style="@style/TextViewSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_validation_code_label" />
+                <TextView
+                    android:id="@+id/textViewValidationCode"
+                    style="@style/TextViewLarge"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/labelValidationCodeHint"
+                    style="@style/TextViewSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_validation_code_hint" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView
             android:id="@+id/labelProduct"
             style="@style/TextViewSmall"
@@ -194,7 +235,7 @@
             android:text="@string/your_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewOrderStatus" />
+            app:layout_constraintTop_toBottomOf="@+id/cardViewValidationCode" />
 
         <View
             android:id="@+id/view3"
@@ -364,7 +405,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelTotalPrice"
             app:layout_constraintVertical_bias="1.0" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

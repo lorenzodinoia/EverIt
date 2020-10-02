@@ -88,14 +88,14 @@ public class OrderReceiverActivity extends AppCompatActivity implements NfcManag
 
     private void initNFC() {
         if(!isNfcSupported()) {
-            textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_activity_with_no_nfc);
+            textViewMessageDeliverOrder.setText(R.string.order_validation_code_hint);
         }
         else {
             if (this.nfcAdapter.isEnabled()) {
                 this.nfcManager = new NfcManager(this);
                 this.nfcAdapter.setOnNdefPushCompleteCallback(nfcManager, this);
                 this.nfcAdapter.setNdefPushMessageCallback(nfcManager, this);
-                textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_activity);
+                textViewMessageDeliverOrder.setText(R.string.order_validation_code_hint_nfc);
             }
             else {
                 textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_with_activation_request_nfc);
@@ -112,7 +112,7 @@ public class OrderReceiverActivity extends AppCompatActivity implements NfcManag
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         textViewMessageDeliverOrder = findViewById(R.id.textViewMessageDeliverOrder);
-        textViewMessageDeliverOrder.setText(R.string.message_nfc_sender_activity);
+        textViewMessageDeliverOrder.setText(R.string.order_validation_code_hint_nfc);
 
         editTextValidationCode1 = findViewById(R.id.editTextValidationCode1);
         editTextValidationCode1.setEnabled(false);

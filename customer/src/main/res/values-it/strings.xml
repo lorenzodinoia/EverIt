@@ -136,8 +136,8 @@
 
     <string name="send_code">Invia codice</string>
 
-    <string name="message_nfc_sender_activity_with_no_nfc">Comunica questo codice al momento della consegna</string>
-    <string name="message_nfc_sender_activity">Comunica questo codice al momento della consegna. E\' possibile scambiare il codice anche via NFC</string>
+    <string name="order_validation_code_hint">Comunica questo codice al momento della consegna</string>
+    <string name="order_validation_code_hint_nfc">Comunica questo codice al momento della consegna. E\' possibile scambiare il codice anche via NFC</string>
     <string name="message_nfc_sender_with_activation_request_nfc">Comunica questo codice al momento della consegna. E\' possibile scambiare il codice anche via NFC ma prima attivalo</string>
 
     <string name="code_sent_successfully">Codice inviato con successo</string>
@@ -153,6 +153,7 @@
     <string name="description_home_delivery">Scegli l\'orario che preferisci, al resto ci penseremo noi. Buon appetito!</string>
     <string name="description_take_away">Il tuo ordine sarà pronto per l\'orario selezionato, dovrai solo passare a ritirarlo!</string>
     <string name="order_number_label">Numero ordine</string>
+    <string name="order_number_label_short">Ordine #</string>
     <string name="password_confirm_wrong">La conferma della password non corrisponde</string>
 
     <string name="title_activity_orders">I miei ordini</string>
@@ -162,4 +163,5 @@
     <string name="title_activity_cart">Carrello</string>
     <string name="title_activity_account">Il mio profilo</string>
     <string name="title_activity_order_receiver">Ricevi ordine</string>
+    <string name="order_validation_code_label">Codice di consegna</string>
 </resources>
