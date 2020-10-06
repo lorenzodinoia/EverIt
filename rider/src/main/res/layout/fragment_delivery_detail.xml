@@ -174,7 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="6dp"
-            android:text="@string/shop_address" />
+            android:text="@string/shop_name" />
 
         <TextView
             android:id="@+id/textViewRestaurateurName"

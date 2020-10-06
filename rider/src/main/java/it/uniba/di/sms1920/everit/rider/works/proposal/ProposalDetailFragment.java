@@ -141,10 +141,6 @@ public class ProposalDetailFragment extends Fragment {
     }
 
     private void initData() {
-        String remainingTimeString;
-
-        remainingTimeString = getString(R.string.pickup_at)+": "+this.proposal.getPickupTimeAsString();
-
         this.textViewRestaurateurName.setText(proposal.getRestaurateur().getShopName());
         this.textViewOrderNumber.setText("#"+proposal.getOrder().getId());
 
@@ -170,9 +166,9 @@ public class ProposalDetailFragment extends Fragment {
         this.textViewDeliverAddress.setText(proposal.getDeliveryAddress());
 
 
-        this.textViewPickupTime.setText(remainingTimeString);
+        this.textViewPickupTime.setText(proposal.getPickupTimeAsString());
 
-        this.textViewDeliveryCost.setText(String.format(Locale.getDefault(), "\u20AC %.1f", proposal.getRestaurateur().getDeliveryCost()));
+        this.textViewDeliveryCost.setText(String.format(Locale.getDefault(), "%.1f \u20AC", proposal.getRestaurateur().getDeliveryCost()));
     }
 
     private void acceptProposal(Dialog dialog) {
