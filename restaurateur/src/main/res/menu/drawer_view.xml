@@ -6,6 +6,10 @@
     <group android:checkableBehavior="single"
         android:id="@+id/section_home">
         <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_order_list_12px"
+            android:title="@string/home" />
+        <item
             android:id="@+id/order_history"
             android:icon="@drawable/ic_order_list_12px"
             android:title="@string/order_history" />

@@ -85,6 +85,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.home:{
+                Intent intent = new Intent(this.getApplicationContext(), BaseActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.order_history:{
                 Intent intent = new Intent(this.getApplicationContext(), DoneOrderListActivity.class);
                 startActivity(intent);
