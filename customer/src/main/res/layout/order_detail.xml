@@ -11,29 +11,90 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/linearLayoutRestaurateur"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/textViewRestaurateurName"
+            style="@style/TextViewLarge"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:gravity="center"
+            android:text="fsdfsdfsdfsdfsd"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textViewRestaurateurName"
-                style="@style/TextViewLarge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
+        <TextView
+            android:id="@+id/textViewOrderNumber"
+            style="@style/TextViewMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="gdfdfgfdgsdgff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewRestaurateurName" />
 
-            <TextView
-                android:id="@+id/textViewOrderNumber"
-                style="@style/TextViewMedium"
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewValidationCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrderNumber">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/labelValidationCode"
+                    style="@style/TextViewSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/order_validation_code_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewValidationCode"
+                    style="@style/TextViewLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="689542"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/labelValidationCode" />
+
+                <TextView
+                    android:id="@+id/labelValidationCodeHint"
+                    style="@style/TextViewSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/order_validation_code_hint"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewValidationCode" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
 
         <View
             android:id="@+id/view5"
@@ -45,7 +106,7 @@
             android:background="#c0c0c0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutRestaurateur" />
+            app:layout_constraintTop_toBottomOf="@id/cardViewValidationCode" />
 
         <TextView
             android:id="@+id/textViewLabelOrderType"
@@ -137,6 +198,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryAddress" />
 
+
         <TextView
             android:id="@+id/labelOrderStatus"
             style="@style/TextViewSmall"
@@ -185,44 +247,6 @@
             app:layout_constraintStart_toEndOf="@id/chipLate"
             app:layout_constraintTop_toBottomOf="@+id/labelOrderStatus" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardViewValidationCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="gone"
-            app:cardElevation="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewOrderDateTime">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="4dp">
-                <TextView
-                    android:id="@+id/labelValidationCode"
-                    style="@style/TextViewSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/order_validation_code_label" />
-                <TextView
-                    android:id="@+id/textViewValidationCode"
-                    style="@style/TextViewLarge"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/labelValidationCodeHint"
-                    style="@style/TextViewSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/order_validation_code_hint" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/labelProduct"
@@ -235,7 +259,7 @@
             android:text="@string/your_products"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewValidationCode" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewDeliveryDateTime" />
 
         <View
             android:id="@+id/view3"
