@@ -10,6 +10,7 @@ import com.google.android.material.button.MaterialButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,6 +60,7 @@ public class OrderDetailFragment extends Fragment {
     private TextView textViewOrderDeliveryPrice;
     private TextView textViewSubTotalOrderPrice;
     private TextView textViewOrderTotalPrice;
+    private CardView cardViewOrderNotes;
 
     private MaterialButton btnConfirmButton;
     private MaterialButton btnLate;
@@ -119,12 +121,11 @@ public class OrderDetailFragment extends Fragment {
         textViewOrderTotalPrice = view.findViewById(R.id.textViewTotalPrice);
         btnConfirmButton = view.findViewById(R.id.btnConfirmOrder);
         btnLate = view.findViewById(R.id.btnLate);
+        cardViewOrderNotes = view.findViewById(R.id.cardViewOrderNotes);
     }
 
     private void initData() {
         this.setUpButtons();
-
-        //TODO rimuovere card order notes se non è presente
 
         labelOrderType.setText(R.string.order_type);
         if (order.getOrderType().equals(Order.OrderType.HOME_DELIVERY)){
@@ -150,6 +151,13 @@ public class OrderDetailFragment extends Fragment {
         textViewOrderDeliveryPrice.setText(Float.toString(deliveryCost));
         textViewOrderTotalPrice.setText(Float.toString(order.getTotalCost() + deliveryCost));
         setupRecyclerView(recyclerView);
+
+        if ((order.getOrderNotes() != null) && (order.getOrderNotes().length() > 0)) {
+            cardViewOrderNotes.setVisibility(View.VISIBLE);
+        }
+        else {
+            cardViewOrderNotes.setVisibility(View.GONE);
+        }
     }
 
     private void setUpButtons(){
