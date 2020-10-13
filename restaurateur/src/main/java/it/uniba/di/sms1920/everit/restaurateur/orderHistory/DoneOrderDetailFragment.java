@@ -3,6 +3,7 @@ package it.uniba.di.sms1920.everit.restaurateur.orderHistory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class DoneOrderDetailFragment extends Fragment {
     private TextView textViewOrderDeliveryPrice;
     private TextView textViewSubTotalOrderPrice;
     private TextView textViewOrderTotalPrice;
+    private CardView cardViewOrderNotes;
 
 
     public DoneOrderDetailFragment() {
@@ -73,6 +75,7 @@ public class DoneOrderDetailFragment extends Fragment {
             textViewOrderDeliveryPrice = rootView.findViewById(R.id.textViewSubTotal);
             textViewSubTotalOrderPrice = rootView.findViewById(R.id.textViewDeliveryCost);
             textViewOrderTotalPrice = rootView.findViewById(R.id.textViewTotalPrice);
+            cardViewOrderNotes = rootView.findViewById(R.id.cardViewOrderNotes);
         }
 
         return rootView;
@@ -108,6 +111,13 @@ public class DoneOrderDetailFragment extends Fragment {
             textViewOrderTotalPrice.setText(Float.toString(mItem.getTotalCost() + deliveryCost));
 
             setupRecyclerView(recyclerView);
+
+            if ((mItem.getOrderNotes() != null) && (mItem.getOrderNotes().length() > 0)) {
+                cardViewOrderNotes.setVisibility(View.VISIBLE);
+            }
+            else {
+                cardViewOrderNotes.setVisibility(View.GONE);
+            }
         }
     }
 
